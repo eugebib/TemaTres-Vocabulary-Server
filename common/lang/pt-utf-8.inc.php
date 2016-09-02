@@ -42,6 +42,7 @@ define("LABEL_Agregar","Adicionar");
 define("LABEL_editT","Editar termo ");
 define("LABEL_EditorTermino","Editor de termo");
 define("LABEL_Termino","Termo");
+define("LABEL_CrearTermino","Adicionar novo/s termo/s");
 define("LABEL_NotaAlcance","Nota de escopo");
 define("LABEL_AgregarT","Novo termo subordinado");
 define("LABEL_AgregarTG","Subordinar %s a um termo superior");

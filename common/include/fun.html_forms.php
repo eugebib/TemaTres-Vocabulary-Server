@@ -298,7 +298,7 @@ function HTMLformEditTerms($taskterm,$ARRAYtermino="0"){
 		<fieldset>
 		<legend>'.$nombre_pantalla.'</legend>
 		<div class="form-group form-group-chk">
-		<label for="'.FORM_LABEL_termino .'" accesskey="t">'.LABEL_Termino.'</label>
+		<label for="'.FORM_LABEL_termino .'" accesskey="t">'.LABEL_CrearTermino.'</label>
 		'.$extra_button.'
 		<textarea class="form-control" type="text" required autofocus rows="2" cols="60" name="'.FORM_LABEL_termino.'" id="addTerms">'.$vista_titulo_tema.'</textarea>';
 	$rows.=$help_rows;
@@ -1451,7 +1451,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
 function HTMLformConfigValues($array_vocabulario){
 
 	GLOBAL $arrayCFGs;
- 
+
 	$sql=SQLconfigValues();
 	$NEWarrayCFGs=array();
 	while ($array=$sql->FetchRow()){
@@ -1492,7 +1492,7 @@ function HTMLformConfigValues($array_vocabulario){
 
 			foreach ($ARRAYnoteType as $noteType => $noteData) {
 				//exclude private notes
-				$flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";	
+				$flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
 				$noteOption.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
 				};
 
@@ -1515,7 +1515,7 @@ function HTMLformConfigValues($array_vocabulario){
 
 			foreach ($ARRAYnoteType as $noteType => $noteData) {
 				//exclude private notes
-				$flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";	
+				$flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
 				$_GLOSS_NOTESOptions.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
 				};
 
@@ -1523,7 +1523,7 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
 			$rows.=	$_GLOSS_NOTESOptions;
-			$rows.='</select>';			
+			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
 			$rows.='</div>';
 			break;
@@ -2236,7 +2236,7 @@ function HTMLformExportGlossary(){
 							<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 							</div>
 					</div>';
-	$rows.='<div class="col-sm-12 panel panel-default"><div class="panel-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';					
+	$rows.='<div class="col-sm-12 panel panel-default"><div class="panel-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';
 	$rows.='				</div>
 					</div>
 			</div>
@@ -2364,14 +2364,14 @@ if($params["makeAutoGloss"]==1){
 	SQLnoteshtml2chars();
 
 	$sql=SQLreportTerminosPreferidos();
-	
+
 	$i_replace=0;
-	
+
 	while($result=$sql->FetchRow()){
 		$search_string=' '.$result["tema"].' ';
 		$replace_string=' [['.$result["tema"].']] ';
-		
-			$sql2=SQLbulkGlossNote($search_string,$replace_string,$search_string,$params["note4gloss"],$result["id"]);	
+
+			$sql2=SQLbulkGlossNote($search_string,$replace_string,$search_string,$params["note4gloss"],$result["id"]);
 
 			if($sql2["cant"]>0){
 				$i_replace=++$i_replace;
@@ -2391,7 +2391,7 @@ if($params["makeAutoGloss"]==1){
 		$rowsResult.='<thead><tr>';
 		$rowsResult.='<th>'.ucfirst(LABEL_Termino).'</th><th>'.ucfirst(MSG_notesAffected).'</th></tr></thead><tbody>';
 		$rowsResult.=$rowsLog;
-		$rowsResult.='</tbody></table></div></div>';	
+		$rowsResult.='</tbody></table></div></div>';
 	}
 }
 
@@ -2399,7 +2399,7 @@ if($params["makeAutoGloss"]==1){
 
 	foreach ($ARRAYnoteType as $noteType => $noteData) {
 				//exclude private notes
-		$flagSelected=($params["note4gloss"]==$noteData["value_code"]) ? 'SELECTED':"";	
+		$flagSelected=($params["note4gloss"]==$noteData["value_code"]) ? 'SELECTED':"";
 		$_GLOSS_NOTESOptions.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
 		};
 
@@ -2414,7 +2414,7 @@ if($params["makeAutoGloss"]==1){
 	$rows.=$rowsResult;
 
 	$rows.=' <div class="col-lg-7">
-<div class="col-sm-12  alert alert-info"><div class="panel-body">'.ucfirst(MSG__autoGlossInfo).'</div></div>	
+<div class="col-sm-12  alert alert-info"><div class="panel-body">'.ucfirst(MSG__autoGlossInfo).'</div></div>
 	        <div class="panel panel-default">
 	            <div class="panel-body form-horizontal">';
 	$rows.='          <div class="form-group">';
@@ -2428,14 +2428,14 @@ if($params["makeAutoGloss"]==1){
 	                </div>
 	            </div>';
 	/*$rows.='<div class="form-group">
-				<input type="checkbox" name="replaceType" id="replaceType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1,$params["replaceType"],'checked').'  /> 
+				<input type="checkbox" name="replaceType" id="replaceType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1,$params["replaceType"],'checked').'  />
 					<div class="col-sm-4">
 					<label for="replaceType">'.ucfirst(LABEL_esFraseExacta).'</label>
 					<span class="help-block">'.ucfirst(LABEL_replaceBinary).'</span>
 					</div>
 			</div>';
-	*/		
-	$rows.='<div class="col-sm-12  alert alert-danger"><div class="panel-body">'.ucfirst(MSG__autoGlossDanger).'</div></div>';	
+	*/
+	$rows.='<div class="col-sm-12  alert alert-danger"><div class="panel-body">'.ucfirst(MSG__autoGlossDanger).'</div></div>';
 
 
 
@@ -2446,7 +2446,7 @@ if($params["makeAutoGloss"]==1){
 							<input type="hidden" id="doAdmin" name="doAdmin" value="glossConfig"/>
 							</div>
 					</div>';
-				
+
 	$rows.='				</div>
 					</div>
 			</div>
@@ -2455,6 +2455,6 @@ if($params["makeAutoGloss"]==1){
 		$rows.='<input type="hidden"  name="task" id="task" value="exportGlossary"/>';
 		$rows.='</form>';
 
-	return $rows;	
+	return $rows;
 }
 ?>
