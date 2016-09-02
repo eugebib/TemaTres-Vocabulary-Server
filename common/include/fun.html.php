@@ -14,7 +14,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 function resultaBusca($texto,$tipo=""){
 
 	GLOBAL $CFG;
-	
+
 	$texto=XSSprevent(html2txt($texto));
 
 
@@ -1277,7 +1277,7 @@ function HTMLtopTerms($letra=""){
 	GLOBAL $CFG;
 
 	$_TOP_TERMS_BROWSER=(in_array($CFG["_TOP_TERMS_BROWSER"], array(1,0))) ? $CFG["_TOP_TERMS_BROWSER"] : 0;
-	
+
 	$rows.='<div class="clearer-top"></div>';
 
 	//$_TOP_TERMS_BROWSER=1;
@@ -1293,7 +1293,7 @@ function HTMLtopTerms($letra=""){
 				$rows.='</h2>' ;
 				$rows.=HTMLverTE($array["id"],1,0);
 			};
-			
+
 	}else{
 		$rows.='<div id="treeTerm" data-url="suggest.php?node=TT"></div>';
 	}
@@ -2039,6 +2039,8 @@ function HTMLheader($metadata){
     <link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
     <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
+    <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%7COpen+Sans%7CSyncopate%7CSource+Sans+Pro:400,400italic">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -2141,7 +2143,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
  $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>';
 
- if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')	 
+ if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
  	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
 
 $rows.='<script type="text/javascript">
@@ -2149,12 +2151,12 @@ $rows.='<script type="text/javascript">
 	  	$(".dropdown-submenu > a").submenupicker();
 
 	  	$(".termDefinition").popover();
-		$("#popoverOption").popover({ trigger: "hover"});	
+		$("#popoverOption").popover({ trigger: "hover"});
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
 //scritp to export form
-if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){	  
+if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){
 $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
@@ -2172,13 +2174,13 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					});
 					});//]]>
 			</script>';
-};			
+};
 return $rows;
 }
 
 // specific note types for contextual term definition
 function TXTtermDefinition($array,$noteType=array("DF","NA","SN")){
-	
+
 if(count($array["notas"])==0) return;
 
 for($iNota=0; $iNota<(count($array["notas"])); ++$iNota){
@@ -2229,7 +2231,7 @@ if(strlen($CFG["HEADER_EXTRA"]["LINK_IMG"])>0){
 		$url_logo='<img src="'.$CFG["HEADER_EXTRA"]["LINK_IMG"].'" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
 	}
 
-	///make link 
+	///make link
 	if(strlen($CFG["HEADER_EXTRA"]["LINK_URL"])>0){
 		$url_logo='<a href="'.$CFG["HEADER_EXTRA"]["LINK_URL"].'" title="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">'.$url_logo.'</a>';
 	}
