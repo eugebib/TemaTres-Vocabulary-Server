@@ -14,7 +14,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 function resultaBusca($texto,$tipo=""){
 
 	GLOBAL $CFG;
-	
+
 	$texto=XSSprevent(html2txt($texto));
 
 
@@ -192,7 +192,7 @@ function doContextoTermino($idTema,$i_profundidad){
 
 		//editor de relaciones
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-			$td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+			$td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			$row_NT.=' <li  id="t'.$datosNT[id_tema].'">'.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ';
 
 			//Editor de código
@@ -218,7 +218,7 @@ function doContextoTermino($idTema,$i_profundidad){
 	while($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()){
 
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-			$td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+			$td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			$classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
 		}else{
 			$td_delete='';
@@ -1277,7 +1277,7 @@ function HTMLtopTerms($letra=""){
 	GLOBAL $CFG;
 
 	$_TOP_TERMS_BROWSER=(in_array($CFG["_TOP_TERMS_BROWSER"], array(1,0))) ? $CFG["_TOP_TERMS_BROWSER"] : 0;
-	
+
 	$rows.='<div class="clearer-top"></div>';
 
 	//$_TOP_TERMS_BROWSER=1;
@@ -1293,7 +1293,7 @@ function HTMLtopTerms($letra=""){
 				$rows.='</h2>' ;
 				$rows.=HTMLverTE($array["id"],1,0);
 			};
-			
+
 	}else{
 		$rows.='<div id="treeTerm" data-url="suggest.php?node=TT"></div>';
 	}
@@ -1531,7 +1531,7 @@ function HTMLtargetTerms($tema_id)
 		{
 			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 			{
-				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 				$checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>';
 
 				$ttermManageLink=' '.$delLink.' '.$checkLink.'  ';
@@ -1566,7 +1566,7 @@ function HTMLURI4term($tema_id)
 		{
 			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 			{
-				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array[uri_id].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array[uri_id].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			}
 			$rows.='<li>'.$delLink.' '.ucfirst($array["uri_value"]).' <a href="'.$array["uri"].'" target="_blank" title="'.ucfirst($array[uri_value]).'">'.$array["uri"].'</a>';
 			$rows.='</li>';
@@ -1864,7 +1864,7 @@ function paginate_links( $args = '' ) {
 
 			//Is admin and have descendant terms
 			if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) && ($arrayCantRelaciones["cantNT"]>0)){
-				$body.='<dt>'.ucfirst(LABEL_export).' <span class="glyphicon icon-download-alt"></span></dt>';
+				$body.='<dt>'.ucfirst(LABEL_export).' <span class="glyphicon glyphicon icon--download-alt"></span></dt>';
 				$body.='<dd>';
 				$body.='<ul class="list-inline" id="enlaces_xml">';
 				$body.='        <li><a target="_blank" title="'.MENU_ListaAbc.'"  href="'.URL_BASE.'xml.php?dis=termAlpha&amp;term_id='.$arrayTerm["tema_id"].'"><span class="glyphicon glyphicon-list"></span> '.ucfirst(MENU_ListaAbc).'</a></li>';
@@ -2141,7 +2141,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
  $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>';
 
- if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')	 
+ if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
  	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
 
 $rows.='<script type="text/javascript">
@@ -2149,12 +2149,12 @@ $rows.='<script type="text/javascript">
 	  	$(".dropdown-submenu > a").submenupicker();
 
 	  	$(".termDefinition").popover();
-		$("#popoverOption").popover({ trigger: "hover"});	
+		$("#popoverOption").popover({ trigger: "hover"});
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
 //scritp to export form
-if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){	  
+if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){
 $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
@@ -2172,13 +2172,13 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					});
 					});//]]>
 			</script>';
-};			
+};
 return $rows;
 }
 
 // specific note types for contextual term definition
 function TXTtermDefinition($array,$noteType=array("DF","NA","SN")){
-	
+
 if(count($array["notas"])==0) return;
 
 for($iNota=0; $iNota<(count($array["notas"])); ++$iNota){
@@ -2229,7 +2229,7 @@ if(strlen($CFG["HEADER_EXTRA"]["LINK_IMG"])>0){
 		$url_logo='<img src="'.$CFG["HEADER_EXTRA"]["LINK_IMG"].'" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
 	}
 
-	///make link 
+	///make link
 	if(strlen($CFG["HEADER_EXTRA"]["LINK_URL"])>0){
 		$url_logo='<a href="'.$CFG["HEADER_EXTRA"]["LINK_URL"].'" title="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">'.$url_logo.'</a>';
 	}
