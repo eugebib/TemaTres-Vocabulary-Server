@@ -2039,6 +2039,8 @@ function HTMLheader($metadata){
     <link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
     <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
+    <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%7COpen+Sans%7CSyncopate%7CSource+Sans+Pro:400,400italic">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

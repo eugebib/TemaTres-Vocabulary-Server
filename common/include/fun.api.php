@@ -218,7 +218,7 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
 			$result["result"]["term"]["date_create"]=$array["cuando"];
 
-			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;			
+			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 		}
 		return $result;
 	}
@@ -241,7 +241,7 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
 			$result["result"]["term"]["date_create"]=$array["cuando"];
 			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
-			
+
 		}
 		return $result;
 	}
@@ -451,6 +451,7 @@ class XMLvocabularyServices {
 				"term_id"=>$array[id_definitivo],
 				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
 				"isMetaTerm"=>$array["isMetaTerm"],
+				"relation_code"=>$array["rr_code"],
 				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
 				"index"=>$array[indice],
 				"order" => $i
@@ -524,7 +525,7 @@ class XMLvocabularyServices {
 				if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 			}
 				return $result;
-			
+
 			}else{
 				$result["result"]= array();
 			}
