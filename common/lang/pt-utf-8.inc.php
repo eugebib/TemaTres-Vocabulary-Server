@@ -196,11 +196,11 @@ define("LABEL_export","exportação");
 define("FORM_LABEL_format_export","selecione esquema XML");
 /* v 1.0 */
 define("LABEL_fecha_creacion","criado");
-define("NB_acronimo","BN");
-define("NH_acronimo","HN");
-define("NA_acronimo","SN");
-define("NP_acronimo","PN");
-define("NC_acronimo","CN");
+define("NB_acronimo","NB");
+define("NH_acronimo","NH");
+define("NA_acronimo","NE");
+define("NP_acronimo","NP");
+define("NC_acronimo","NC");
 define("LABEL_Candidato","termo candidato");
 define("LABEL_Aceptado","termo aceito");
 define("LABEL_Rechazado","termo não aceito");
@@ -387,8 +387,8 @@ v1.6
 define('LABEL_Prev','anteriores');
 define('LABEL_Next','seguintes');
 define('LABEL_PageNum','página de resultados número ');
-define('LABEL_selectMapMethod','Selecione  o método de mapeamento terminológico');
-define('LABEL_string2search','expressão de busca');
+define('LABEL_selectMapMethod','Selecione o método de mapeamento terminológico');
+define('LABEL_string2search','expressão de busca (digite o termo na lingua do vocabulário de referência)');
 define('LABEL_reverseMappign','mapeamento reverso');
 define('LABEL_warningMassiverem','Você vai excluir esses dados em lote! Isto é IRREVERSÍVEL!');
 define('LABEL_target_terms','termos mapeados a partir de vocabulários externos');
@@ -519,6 +519,6 @@ define('LABEL_opt_show_rando_term','presentar términos con nota:');
 define('MSG_helpNoteEditor','Puede vincular términos utilizando corchetes dobles. Ej: Sólo el [[amor]] salvará el mundo');
 define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marcados con corchetes dobles: [[glosario]]');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
-define('LABEL_references','referencias');
+define('LABEL_references','referências');
 define('LABEL_printData','data de impressão');
 ?>

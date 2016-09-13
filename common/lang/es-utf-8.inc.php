@@ -389,7 +389,7 @@ define('LABEL_Prev','previos');
 define('LABEL_Next','siguientes');
 define('LABEL_PageNum','página de resultados número ');
 define('LABEL_selectMapMethod','Seleccione método de mapeo terminológico');
-define('LABEL_string2search','expresión de búsqueda');
+define('LABEL_string2search','expresión de búsqueda (ingrese el término en el idioma del vocabulario de referencia)');
 define('LABEL_reverseMappign','mapeo reverso');
 define('LABEL_warningMassiverem','Usted va a eliminar masivamente datos ¡Estas acciones son IRREVERSIBLES!');
 define('LABEL_target_terms','términos mapeados desde vocabularios externos');
