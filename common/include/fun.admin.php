@@ -1475,6 +1475,8 @@ GLOBAL $MONTHS;
 
 $sql=SQLlistTermsfromUser($user_id,$ord);
 
+$rows.='<div class="flex"><dt>'.mb_strtoupper(LABEL_auditoria, 'UTF-8').'</dt>';
+$rows.='<dd style="padding:0px;">';
 $rows.='<div class="table-responsive"> ';
 $rows.='<table class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
 
@@ -1493,7 +1495,7 @@ $rows.='</tbody>';
 
 $rows.='<thead>';
 $rows.='<tr>';
-$rows.='<th class="izq" colspan="3"><a href="sobre.php">'.ucfirst(LABEL_auditoria).'</a> &middot; <a href="admin.php?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.</th>';
+$rows.='<th class="izq" colspan="3"><a href="admin.php?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.<a href="sobre.php" class="pull-right">'.ucfirst(LABEL_auditoria).'</a></th>';
 $rows.='</tr>';
 
 $rows.='<tr>';
@@ -1510,7 +1512,7 @@ $rows.='<td>'.SQLcount($sql).'</td>';
 $rows.='</tr>';
 $rows.='</tfoot>';
 
-$rows.='</table> </div>       ';
+$rows.='</table></div></dd></div>';
 return $rows;
 };
 

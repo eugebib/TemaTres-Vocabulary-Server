@@ -294,11 +294,10 @@ function HTMLformEditTerms($taskterm,$ARRAYtermino="0"){
 	};
 	$rows.='<div class="container" id="bodyText">';
 	$rows.='<div class="row">';
-	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>
-		<h3>'.LABEL_EditorTermino .'</h3>';
+	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
 	$rows.='<form class="form-horizontal col-xs-12 col-md-8" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
 		<fieldset>
-		<legend>'.$nombre_pantalla.'</legend>
+		<h3>'.$nombre_pantalla.'</h3>
 		<div class="form-group form-group-chk">
 		<label for="'.FORM_LABEL_termino .'" accesskey="t">'.LABEL_CrearTermino.'</label>
 		'.$extra_button.'

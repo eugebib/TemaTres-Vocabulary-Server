@@ -957,14 +957,11 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 function doBrowseTermsByDate(){
 	GLOBAL $MONTHS;
 	$sql=SQLtermsByDate();
-	$rows.='<div class="table-responsive"> ';
-	$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
+	$rows.='<div class="flex"><dt>'.mb_strtoupper(LABEL_auditoria).'</dt>';
+	$rows.='<dd style="padding:0px;">';
+	$rows.='<table style="margin:0px;" id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
 
 	$rows.='<thead>';
-
-	$rows.='<tr>';
-	$rows.='<th colspan="3" class="titulo_tabla">'.ucfirst(LABEL_auditoria).'</th>';
-	$rows.='</tr>';
 
 	$rows.='<tr>';
 	$rows.='<th>'.ucfirst(LABEL_ano).'</th>';
@@ -994,7 +991,7 @@ function doBrowseTermsByDate(){
 	$rows.='</tfoot>';
 
 	$rows.='</table>        ';
-	$rows.='</div>        ';
+	$rows.='</dd></div>';
 	return $rows;
 };
 

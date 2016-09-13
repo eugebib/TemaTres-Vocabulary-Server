@@ -64,6 +64,7 @@ define("LABEL_Fecha","Fecha de creación");
 define("LABEL_Keywords","Palabras clave");
 define("LABEL_TipoLenguaje","Tipo de lenguaje");
 define("LABEL_Cobertura","Cobertura");
+define("LABEL_Derechos","Licencia");
 define("LABEL_Terminos","términos");
 define("LABEL_RelTerminos","relaciones entre términos");
 define("LABEL_TerminosUP","términos equivalentes");
@@ -534,4 +535,5 @@ define('LABEL_generateAutoGlossary','generación de auto-glosario');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
+define('LABEL_Info','Información sobre este vocabulario');
 ?>

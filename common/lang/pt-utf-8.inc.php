@@ -59,11 +59,12 @@ define("LABEL_EditarNota","editar nota");
 define("LABEL_Autor","Autor");
 define("LABEL_URI","URI");
 define("LABEL_Version","Criado por");
-define("LABEL_Idioma","Idioma");
+define("LABEL_Idioma","Língua");
 define("LABEL_Fecha","Data de criação");
 define("LABEL_Keywords","Palavras chave");
 define("LABEL_TipoLenguaje","Tipo de linguagem");
 define("LABEL_Cobertura","Cobertura");
+define("LABEL_Derechos","Licença");
 define("LABEL_Terminos","termos");
 define("LABEL_RelTerminos","relacões entre termos");
 define("LABEL_TerminosUP","termos não preferidos");
@@ -523,4 +524,5 @@ define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marca
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referências');
 define('LABEL_printData','data de impressão');
+define('LABEL_Info','Informações sobre este vocabulário');
 ?>
