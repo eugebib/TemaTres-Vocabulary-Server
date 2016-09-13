@@ -141,8 +141,10 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 	}
 }
 		if($cant_result>0){
-			$rows_busca.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
 			$rows_busca.='<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >';
+			$rows_busca.='<div class="flex">
+			    <input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"><button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>
+			    </div>';
 			$rows_busca.='<div class="table-responsive"> ';
 			$rows_busca.='<table class="table table-striped table-bordered table-condensed table-hover"">';
 			$rows_busca.='<thead>
