@@ -13,9 +13,10 @@ define("UP_acronimo","UP");
 define("TR_termino","Término relacionado");
 define("TE_termino","Término específico");
 define("TG_termino","Término general");
-define("UP_termino","Usados por");
+define("TT_termino","Término tope");
+define("UP_termino","Usado por");
 /* v 9.5 */
-define("USE_termino","USE");
+define("USE_termino","Use");
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Sobre","Sobre...");
@@ -44,6 +45,7 @@ define("LABEL_Agregar","Agregar");
 define("LABEL_editT","Modificar término ");
 define("LABEL_EditorTermino","Editor de término");
 define("LABEL_Termino","Término");
+define("LABEL_Metatermino","Metatérmino");
 define("LABEL_CrearTermino","Agregar nuevo/s término/s");
 define("LABEL_NotaAlcance","Nota de alcance");
 define("LABEL_AgregarT","Alta de término");
@@ -418,7 +420,7 @@ define('LABEL_user_lost_password','¿Has perdido tu contraseña?');
 ## v1.7
 define('LABEL_includeMetaTerm','Incluir meta-términos');
 define('NOTE_isMetaTerm','Es un meta-término.');
-define('NOTE_isMetaTermNote','Un meta-término es un término que NO debe utilizarse para indización. Es un término que describe otros términos. Ej: Términos guía, Facetas, Categorías, etc.');
+define('NOTE_isMetaTermNote','Un meta-término es un término que NO debe utilizarse para la indización. Es un término que describe otros términos. Ej: Términos guía, Facetas, Categorías, etc.');
 define('LABEL_turnOffMetaTerm','no es un meta-término');
 define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');
@@ -434,7 +436,7 @@ define('MSG__dateUpdatedEndpoint','Fecha de última actualización del punto de 
 define('LABEL__ENABLE_SPARQL','Deberá actualizar el punto de consulta: Menú Administración -> Mantenimiento de la base de datos -> Actualizar punto de consulta SPARQL.');
 define('MSG__disable_endpoint','El punto de consulta SPARQL se encuentra deshabilitado.');
 define('MSG__need2setup_endpoint','El punto de consulta SPARQL se necesita ser actualizado. Contacte al administrador');
-define('LABEL_SPARQLEndpoint','SPARQL endpoint');
+define('LABEL_SPARQLEndpoint','Punto de consulta SPARQL');
 define('LABEL_AgregarRTexist','asociar un término asociado existente con ');
 define('MENU_selectExistTerm','seleccionar término existente');
 define("TT_terminos","Términos tope");

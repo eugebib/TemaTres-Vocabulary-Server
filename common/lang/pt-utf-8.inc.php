@@ -13,9 +13,10 @@ define("UP_acronimo","UP");
 define("TR_termino","Termo relacionado");
 define("TE_termino","Termo específico");
 define("TG_termino","Termo geral");
+define("TT_termino","Termo superior");
 define("UP_termino","Usado para");
 /* v 9.5 */
-define("USE_termino","USE");
+define("USE_termino","Use");
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Sobre","Sobre...");
@@ -44,6 +45,7 @@ define("LABEL_Agregar","Adicionar");
 define("LABEL_editT","Editar termo ");
 define("LABEL_EditorTermino","Editor de termo");
 define("LABEL_Termino","Termo");
+define("LABEL_Metatermino","Meta-termo");
 define("LABEL_CrearTermino","Adicionar novo/s termo/s");
 define("LABEL_NotaAlcance","Nota de escopo");
 define("LABEL_AgregarT","Novo termo subordinado");
@@ -448,7 +450,7 @@ define('LABEL_addMapLink','add mapping between vocabularies');
 define('LABEL_addExactLink','add reference link');
 define('LABEL_addSourceNote','add source note');
 ## v1.82
-define('LABEL_FORM_mappedTermReport','Relaciones entre vocabularios');
+define('LABEL_FORM_mappedTermReport','Relações entre vocabulários');
 define('LABEL_eliminar','Eliminar');
 ##v.2
 define('MSG_termsNoDeleted','términos no fueron eliminados');

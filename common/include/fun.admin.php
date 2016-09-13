@@ -3766,7 +3766,7 @@ function SQLfixDobleChar4Notes($notesType,$char,$charX2){
 }
 
 
-//replace HTML entities 2 chars in notes 
+//replace HTML entities 2 chars in notes
 function SQLnoteshtml2chars(){
 
 	GLOBAL $DBCFG;
@@ -3905,11 +3905,11 @@ return sendFile("$txt","$filname");
 };
 
 
-//print alphabetic version on PDF 
+//print alphabetic version on PDF
 function do_pdfAlpha($params=array()){
 
-//update stats	
-doLastModified(); 
+//update stats
+doLastModified();
 //Load config values
 loadConfigValues(1);
 
@@ -3932,16 +3932,16 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 	if(ctype_digit($datosAlfabetico[0])){
 		$ARRAYletras["0-9"].=$datosAlfabetico[0];
 		}else{
-		$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];	
-		} 
+		$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];
+		}
 	}
 	foreach ($ARRAYletras as $key => $value) {
 		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value,$params);
 	}
 
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.pdf';
-	
-$pdf->Output('D',$filname);
+
+$pdf->Output('I',$filname);
 
 
 }
