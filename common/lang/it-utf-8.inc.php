@@ -248,7 +248,7 @@ $idiomas_disponibles = array(
      "it"  => array("italiano","", "it"),
      "nl"  => array("nederlands","", "nl"),
      "pl"  => array("polski","", "pl"),
-     "pt"  => array("portugüés","", "pt"),
+     "pt"  => array("portugués","", "pt"),
      "ru"  => array("Pусский","", "ru")
     );
 /* v 1.1 */
