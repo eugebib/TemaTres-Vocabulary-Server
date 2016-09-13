@@ -650,8 +650,8 @@ return SQL("select","if(uf.tema_id is not null,0,if(bt.tema_id is not null,1,if(
 	uf.tema_id as uf_tema_id,uf.code as uf_code,uf.tema as uf_tema,uf.isMetaTerm as uf_isMetaTerm,
 nt.tema_id as nt_tema_id,nt.code as nt_code,nt.tema as nt_tema,nt.isMetaTerm as nt_isMetaTerm,
 bt.tema_id as bt_tema_id,bt.code as bt_code,bt.tema as bt_tema,bt.isMetaTerm as bt_isMetaTerm,
-rt.tema_id as rt_tema_id,rt.code as rt_code,rt.tema as rt_tema,rt.isMetaTerm as rt_isMetaTerm,
-r.* 
+rt.tema_id as rt_tema_id,rt.code as rt_code,rt.tema as rt_tema,trr.value_id as rr_code,rt.isMetaTerm as rt_isMetaTerm,
+r.*
 from $DBCFG[DBprefix]tabla_rel as r
 left join $DBCFG[DBprefix]tema as uf on uf.tema_id=r.id_mayor and r.t_relacion=4 and r.id_menor=$tema_id
 left join $DBCFG[DBprefix]tema as nt on nt.tema_id=r.id_menor and r.t_relacion=3 and r.id_mayor=$tema_id
@@ -2398,7 +2398,7 @@ function SQLreCreateTermIndex()
 	$sql=SQL("update"," $DBCFG[DBprefix]tema set cuando=now() where cuando='0000-00-00' ");
 
 	$sqlNotes=SQL("select","n.id,n.nota from $DBCFG[DBprefix]notas n ");
-	
+
 
 	while($arrayNotes=$sqlNotes->FetchRow()){
 		$noteNormal=html_entity_decode($arrayNotes["nota"]);
@@ -3689,7 +3689,7 @@ function SQLrandomTerms($note_type=""){
 			relaciones.id is null
 			and tema.tesauro_id=c.id
 			and c.id=1
-			and tema.estado_id='13' 
+			and tema.estado_id='13'
 			$where
 			group by tema.tema_id
 			order by rand()
@@ -3711,7 +3711,7 @@ function ARRAYnoteTypes($excludeTypeNotes=array()){
 			$arrayNoteType["$array[value_code]"]["tipo_nota"].=$array["tipo_nota"];
 			$arrayNoteType["$array[value_code]"]["cant"].=$array["cant"];
 		    }
-  		};		
+  		};
   	return $arrayNoteType;
 }
 
@@ -3728,12 +3728,12 @@ function SQLtermsInternalMapped($tema_id,$tesauro_id="")
 	return SQL("select","c.titulo,c.idioma,t.tema_id,t.tema,t.cuando,t.cuando_final,t.isMetaTerm,
 		r.t_relacion,
 		v.value_code
-	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]tabla_rel r	
+	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]tabla_rel r
 	where
 	r.t_relacion in (5,6,7)
 	and t.tema_id=r.id_mayor
 	and t.tesauro_id=c.id
-	and v.value_id=r.t_relacion	
+	and v.value_id=r.t_relacion
 	and r.id_menor=$tema_id
 	order by c.titulo,lower(t.tema)");
 }
