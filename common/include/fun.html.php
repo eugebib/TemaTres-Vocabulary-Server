@@ -2056,7 +2056,7 @@ function HTMLheader($metadata){
 
 function HTMLnavHeader(){
 
-GLOBAL $CFG;
+GLOBAL $CFG, $DBCFG;
 
 if((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) $_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"]=HTMLextraDataHeader($CFG);
 
@@ -2084,8 +2084,14 @@ $rows.='<nav class="navbar navbar-inverse" role="navigation">
       <ul class="nav navbar-nav navbar-right">
         <li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
 
-        <li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>
-      </ul>
+        <li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>';
+        if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+        	if ($DBCFG["help"]) {
+            	$rows.= '<li><a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">?</a></li>';
+            }
+            $rows.= '<li><a title="'.MENU_PedirAyuda.'" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope"></span></a></li>';
+        }
+      $rows.='</ul>
       <ul class="nav navbar-nav navbar-left">';
 
 				//hay sesion de usuario

@@ -19,6 +19,8 @@ define("USE_termino","USE");
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Sobre","Sobre...");
+define("MENU_Ayuda","Guia");
+define("MENU_PedirAyuda","Obter ajuda");
 define("MENU_Inicio","Início");
 define("MENU_MiCuenta","Minha conta");
 define("MENU_Usuarios","Usuários");
