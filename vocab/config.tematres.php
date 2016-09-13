@@ -2,19 +2,19 @@
 if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
 /*
  *      config.tematres.php
- *      
+ *
  *      Copyright 2011 diego ferreyra <diego@r020.com.ar>
- *      
+ *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation; either version 2 of the License, or
  *      (at your option) any later version.
- *      
+ *
  *      This program is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
  *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *      GNU General Public License for more details.
- *      
+ *
  *      You should have received a copy of the GNU General Public License
  *      along with this program; if not, write to the Free Software
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -24,7 +24,7 @@ if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
 include('db.tematres.php');
 if($DBCFG["debugMode"]=='1'){
 	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);	
+	error_reporting(E_ALL);
 }else{
 	ini_set('display_errors',false);
 }
@@ -47,7 +47,7 @@ $CFG["DFT_TESA"] ='1';
 //Config Sites availables for URL search
 $CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
 
-//List of alias code for hidden non prefered terms 
+//List of alias code for hidden non prefered terms
 $CFG["HIDDEN_EQ"] =array("MS","SP","H");
 
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
@@ -83,7 +83,7 @@ define('CFG_SIMPLE_WEB_SERVICE',$_SESSION[$_SESSION["CFGURL"]]["CFG_SIMPLE_WEB_S
 //Number of terms display by status view
 define('CFG_NUM_SHOW_TERMSxSTATUS',$_SESSION[$_SESSION["CFGURL"]]["CFG_NUM_SHOW_TERMSxSTATUS"]);
 
-// 	Minimum characters for search operations / número mínimo de caracteres para operaciones de búsqueda 
+// 	Minimum characters for search operations / número mínimo de caracteres para operaciones de búsqueda
 define('CFG_MIN_SEARCH_SIZE',$_SESSION[$_SESSION["CFGURL"]]["CFG_MIN_SEARCH_SIZE"]);
 
 // 	Include or not meta terms in defaults search operations
@@ -99,26 +99,8 @@ define('CFG_SUGGESTxWORD',$_SESSION[$_SESSION["CFGURL"]]["CFG_SUGGESTxWORD"]);
 $CFG["_TOP_TERMS_BROWSER"] ='0';
 
 
-/* Config here to publish image and fixed link in header:
-
-	URL_IMG= URL for the image. 
-	URL_LINK= link for the image (optional)
-
- Example
- $CFG["HEADER_EXTRA"] =array(
- 	"LINK_IMG"=>'http://vocabularyserver.com/img/tematres-logo.gif',
-	"LINK_URL"=>'http://vocabularyserver.com/',
-	"LINK_TITLE"=>'TemaTres: open source way to manage formal representations of knowledge'
-	);
- */
-$CFG["HEADER_EXTRA"] =array(
-	"LINK_IMG"=>'',
-	"LINK_URL"=>'',
-	"LINK_TITLE"=>''
-);
-
 /*  In almost cases, you don't need to touch nothing here!!
- *  Web path to the directory where are located  
+ *  Web path to the directory where are located
  */
 
 if ( !defined('T3_WEBPATH') )
