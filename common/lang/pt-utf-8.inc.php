@@ -444,8 +444,8 @@ define("TT_terminos","Termos superiores");
 define('MSG__warningDeleteTerm','El término <i>%s</i> será <strong>ELIMINADO</strong>.');
 define('MSG__warningDeleteTerm2row','Se eliminarán <strong>todas</strong> sus notas y relaciones terminológicas. Esta acción es irreversible.');
 ## v1.8
-define('LABEL__getForRecomendation','get for recommendations');
-define('LABEL__getForRecomendationFor','get for recommendations to');
+define('LABEL__getForRecomendation','procurar recomendações');
+define('LABEL__getForRecomendationFor','procurar recomendações para ');
 define('FORM_LABEL__contactMail','contact mail');
 define('LABEL_addMapLink','add mapping between vocabularies');
 define('LABEL_addExactLink','add reference link');
