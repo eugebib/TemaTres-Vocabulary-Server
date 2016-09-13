@@ -447,6 +447,8 @@ function br2nl($text)
 // convert html to text
 function html2txt($html){
     //$ret = strtr($html, array_flip(get_html_translation_table(HTML_ENTITIES)));
+    $html = str_replace('&lt;', '«', $html);
+    $html = str_replace('&gt;', '»', $html);
     $ret = strtr($html, array_flip(get_html_translation_table()));
     $ret = strip_tags(br2nl($ret));
     $ret = str_replace ( array ('[[',']]' ), array ('',''), $ret );
@@ -457,6 +459,8 @@ function html2txt($html){
 	$config->set('HTML.Allowed', '');
 	$purifier = new HTMLPurifier($config);
 	$txt = $purifier->purify($ret);
+  $txt = str_replace('«', '<', $txt);
+  $txt = str_replace('»', '>', $txt);
 
     return $txt;
 }
