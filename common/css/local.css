@@ -131,3 +131,7 @@ fieldset .btn {
         margin-bottom: 10px;
     }
 }
+
+#notas {
+    word-wrap: break-word;
+}
