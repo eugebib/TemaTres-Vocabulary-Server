@@ -40,10 +40,12 @@ $metadata=do_meta_tag();
                 <dt><?php echo mb_strtoupper(LABEL_Idioma, 'UTF-8');?></dt>
                 <dd><?php echo $_SESSION[CFGIdioma];?></dd>
             </div>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(FORM_LABEL__contactMail, 'UTF-8');?></dt>
-                <dd><?php echo $ARRAYmailContact["value"];?></dd>
-            </div>
+            <?php if ($ARRAYmailContact["value"]) : ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(FORM_LABEL__contactMail, 'UTF-8');?></dt>
+                    <dd><?php echo $ARRAYmailContact["value"];?></dd>
+                </div>
+            <?php endif; ?>
             <div class="flex">
                 <dt><?php echo mb_strtoupper(LABEL_Fecha, 'UTF-8');?></dt>
                 <dd><?php echo $fecha_crea[dia].'/'.$fecha_crea[mes].'/'.$fecha_crea[ano];?></dd>
@@ -52,33 +54,41 @@ $metadata=do_meta_tag();
                 <dt><?php echo mb_strtoupper(LABEL_lastChangeDate, 'UTF-8');?></dt>
                 <dd><?php echo $fecha_mod[dia].'/'.$fecha_mod[mes].'/'.$fecha_mod[ano];;?>
             </div>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_Keywords, 'UTF-8');?></dt>
-                <dd><?php echo $_SESSION[CFGKeywords];?></dd>
-            </div>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_TipoLenguaje, 'UTF-8');?></dt>
-                <dd><?php echo $_SESSION[CFGTipo];?></dd>
-            </div>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_Cobertura, 'UTF-8');?></dt>
-                <dd><?php echo $_SESSION[CFGCobertura];?></dd>
-            </div>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_Derechos, 'UTF-8');?></dt>
-                <dd><?php echo $_SESSION[CFGDerechos];?></dd>
-            </div>
-            <?php if (CFG_ENABLE_SPARQL==1): ?>
-            <div class="flex">
-                <dt><?= mb_strtoupper(LABEL_SPARQLEndpoint);?></dt>
-                <dd><a href="<?= URL_BASE;?>sparql.php" title="<?= LABEL_SPARQLEndpoint;?>"><?= $_SESSION["CFGURL"];?>sparql.php</a></dd>
-            </div>
+            <?php if ($_SESSION[CFGKeywords]) : ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(LABEL_Keywords, 'UTF-8');?></dt>
+                    <dd><?php echo $_SESSION[CFGKeywords];?></dd>
+                </div>
             <?php endif; ?>
-            <?php if (CFG_SIMPLE_WEB_SERVICE == 1): ?>
-            <div class="flex">
-                <dt>API</dt>
-                <dd><a href="<?= URL_BASE;?>services.php" title="API"><?= $_SESSION["CFGURL"];?>services.php</a></dd>
-            </div>
+            <?php if ($_SESSION[CFGTipo]) : ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(LABEL_TipoLenguaje, 'UTF-8');?></dt>
+                    <dd><?php echo $_SESSION[CFGTipo];?></dd>
+                </div>
+            <?php endif; ?>
+            <?php if ($_SESSION[CFGCobertura]) : ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(LABEL_Cobertura, 'UTF-8');?></dt>
+                    <dd><?php echo $_SESSION[CFGCobertura];?></dd>
+                </div>
+            <?php endif; ?>
+            <?php if ($_SESSION[CFGCobertura]) : ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(LABEL_Derechos, 'UTF-8');?></dt>
+                    <dd><?php echo $_SESSION[CFGDerechos];?></dd>
+                </div>
+            <?php endif; ?>
+            <?php if (CFG_ENABLE_SPARQL==1) : ?>
+                <div class="flex">
+                    <dt><?= mb_strtoupper(LABEL_SPARQLEndpoint);?></dt>
+                    <dd><a href="<?= URL_BASE;?>sparql.php" title="<?= LABEL_SPARQLEndpoint;?>"><?= $_SESSION["CFGURL"];?>sparql.php</a></dd>
+                </div>
+            <?php endif; ?>
+            <?php if (CFG_SIMPLE_WEB_SERVICE == 1) : ?>
+                <div class="flex">
+                    <dt>API</dt>
+                    <dd><a href="<?= URL_BASE;?>services.php" title="API"><?= $_SESSION["CFGURL"];?>services.php</a></dd>
+                </div>
             <?php endif; ?>
             <div class="flex">
                 <dt><?= mb_strtoupper(LABEL_Terminos, 'UTF-8');?></dt>
@@ -91,31 +101,35 @@ $metadata=do_meta_tag();
                 </dd>
             </div>
         	<?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_candidato] > 0): ?>
-            <div class="flex">
-            	<dt><?= mb_strtoupper(LABEL_Candidatos, 'UTF-8');?></dt>
-                <dd><a href="'.URL_BASE.'index.php?estado_id=12"><?= $resumen[cant_candidato];?></a></dd>
-            </div>
+                <div class="flex">
+                	<dt><?= mb_strtoupper(LABEL_Candidatos, 'UTF-8');?></dt>
+                    <dd><a href="'.URL_BASE.'index.php?estado_id=12"><?= $resumen[cant_candidato];?></a></dd>
+                </div>
             <?php endif;?>
             <?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_rechazado] > 0): ?>
-		    <div class="flex">
-                <dt><?= mb_strtoupper(LABEL_Rechazados, 'UTF-8');?></dt>
-                <dd><a href="'.URL_BASE.'index.php?estado_id=14"><?= $resumen[cant_rechazado];?></a></dd>
-            </div>
+    		    <div class="flex">
+                    <dt><?= mb_strtoupper(LABEL_Rechazados, 'UTF-8');?></dt>
+                    <dd><a href="'.URL_BASE.'index.php?estado_id=14"><?= $resumen[cant_rechazado];?></a></dd>
+                </div>
             <?php endif;?>
             <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1): ?>
-            <div class="flex">
-                <dt><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8');?></dt>
-                <dd style="padding: 0px;"><?= HTMLdeepStats();?></dd>
-            </div>
+                <div class="flex">
+                    <dt><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8');?></dt>
+                    <dd style="padding: 0px;"><?= HTMLdeepStats();?></dd>
+                </div>
             <?php endif; ?>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_RelTerminos, 'UTF-8');?></dt>
-                <dd><?php echo $resumen[cant_rel];?></dd>
-            </div>
-            <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_TerminosUP, 'UTF-8');?></dt>
-                <dd><?php echo $resumen[cant_up];?></dd>
-            </div>
+            <?php if($resumen[cant_rel] > 0): ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(LABEL_RelTerminos, 'UTF-8');?></dt>
+                    <dd><?php echo $resumen[cant_rel];?></dd>
+                </div>
+            <?php endif; ?>
+            <?php if($resumen[cant_up] > 0): ?>
+                <div class="flex">
+                    <dt><?php echo mb_strtoupper(LABEL_TerminosUP, 'UTF-8');?></dt>
+                    <dd><?php echo $resumen[cant_up];?></dd>
+                </div>
+            <?php endif; ?>
             <?php
             if (is_array($resumen["cant_notas"])) {
                 $sqlNoteType=SQLcantNotas();
