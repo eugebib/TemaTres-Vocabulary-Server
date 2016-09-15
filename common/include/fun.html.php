@@ -2086,7 +2086,7 @@ $rows.='<nav class="navbar navbar-inverse" role="navigation">
         	if ($DBCFG["help"]) {
             	$rows.= '<li><a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">?</a></li>';
             }
-            $rows.= '<li><a title="'.MENU_PedirAyuda.'" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope"></span></a></li>';
+            $rows.= '<li><a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope"></span></a></li>';
         }
       $rows.='</ul>
       <ul class="nav navbar-nav navbar-left">';

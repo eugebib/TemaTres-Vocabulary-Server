@@ -21,7 +21,6 @@ define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Sobre","Sobre...");
 define("MENU_Ayuda","Manual");
-define("MENU_PedirAyuda","Escribí a Vocabularios en Educación Argentina");
 define("MENU_Inicio","Inicio");
 define("MENU_MiCuenta","Mi cuenta");
 define("MENU_Usuarios","Usuarios");
