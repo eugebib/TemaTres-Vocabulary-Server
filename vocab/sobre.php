@@ -65,7 +65,7 @@ $metadata=do_meta_tag();
                 <dd><?php echo $_SESSION[CFGCobertura];?></dd>
             </div>
             <div class="flex">
-                <dt><?php echo mb_strtoupper(LABEL_Derechos);?></dt>
+                <dt><?php echo mb_strtoupper(LABEL_Derechos, 'UTF-8');?></dt>
                 <dd><?php echo $_SESSION[CFGDerechos];?></dd>
             </div>
             <?php if (CFG_ENABLE_SPARQL==1): ?>
