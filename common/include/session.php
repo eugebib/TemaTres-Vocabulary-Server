@@ -31,6 +31,7 @@ if(!is_object($SQL_CFG_LC)){
 }
 
 $CFG_LC=$SQL_CFG_LC->FetchRow();
+$derechos=$SQL_derechos->FetchRow();
 
 $_SESSION["id_tesa"]      =$CFG_LC[0];
 $_SESSION["CFGTitulo"]    =$CFG_LC[1];
