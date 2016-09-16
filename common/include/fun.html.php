@@ -757,7 +757,7 @@ function HTMLNotasTermino($array){
 					$body.='<div class="footnote">'.$array["notas"][$iNota]["cuando_nota"].'</div>';
 					$body.='</dd>';
 				}else{
-					$body.='<dt>'.$tipoNota.$label_lang_nota.'</dt><dd> '.wiki2html($array["notas"][$iNota]["nota"]).'</dd>';
+					$body.='<dt>'.$tipoNota.$label_lang_nota.'</dt><dd> '.wiki2link($array["notas"][$iNota]["nota"]).'</dd>';
 				}
 
 				$body.='</dl>';;
