@@ -72,7 +72,7 @@ $metadata=do_meta_tag();
                     <dd><?php echo $_SESSION[CFGCobertura];?></dd>
                 </div>
             <?php endif; ?>
-            <?php if ($_SESSION[CFGCobertura]) : ?>
+            <?php if ($_SESSION[CFGDerechos]) : ?>
                 <div class="flex">
                     <dt><?php echo mb_strtoupper(LABEL_Derechos, 'UTF-8');?></dt>
                     <dd><?php echo $_SESSION[CFGDerechos];?></dd>
