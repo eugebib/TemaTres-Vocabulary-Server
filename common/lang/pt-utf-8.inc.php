@@ -54,6 +54,7 @@ define("LABEL_AgregarUP","Novo termo não preferido para ");
 define("LABEL_AgregarTR","Novo termo relacionado com ");
 define("LABEL_EliminarTE","Excluir termo");
 define("LABEL_Detalle","detalhes");
+define("LABEL_VerDetalles","ver detalhes do termo");
 define("LABEL_EditarNota","editar nota");
 define("LABEL_Autor","Autor");
 define("LABEL_URI","URI");

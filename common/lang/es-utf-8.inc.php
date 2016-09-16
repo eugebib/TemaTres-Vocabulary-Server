@@ -54,6 +54,7 @@ define("LABEL_AgregarUP","Alta de un término equivalente para ");
 define("LABEL_AgregarTR","Alta de término relacionado con ");
 define("LABEL_EliminarTE","Eliminar término");
 define("LABEL_Detalle","detalles");
+define("LABEL_VerDetalles","ver detalles del término");
 define("LABEL_EditarNota","editar nota");
 define("LABEL_Autor","Autor");
 define("LABEL_URI","URI");

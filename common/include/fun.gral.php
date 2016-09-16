@@ -518,25 +518,25 @@ function wiki2link($wikitext)
 //Create link and tooltip for given string
 function string2gloss($string,$toSee,$noteTypes=array("NA")){
 
-	$sqlTerm=SQLbuscaExacta(html2txt($string));
-	$arrayTerm=$sqlTerm->FetchRow();
+	$sqlTerm   = SQLbuscaExacta(html2txt($string));
+	$arrayTerm = $sqlTerm->FetchRow();
 
-	$sqlNotes=SQLdatosTerminoNotas($arrayTerm["tema_id"],$noteTypes);
-	if(SQLcount($sqlNotes)>0){
-		while($arrayNote=$sqlNotes->FetchRow()){
-			$description.=$arrayNote["nota"].' ';
-			}
+  if (!$arrayTerm) {
+    return ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? '<a href="'.URL_BASE.'?taskterm=addTerm&tema=0" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.ucfirst(LABEL_CrearTermino).'">'.$toSee.'</a>' : $toSee;
+  }
 
-		$text=html2txt($description);
-	}else{
-			$text=ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"];
-	}
+  $sqlNotes = SQLdatosTerminoNotas($arrayTerm["tema_id"],$noteTypes);
 
-    if($arrayTerm["tema_id"]){
-        return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
-    }else{
-        return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
-    }
+  if (SQLcount($sqlNotes) == 0) {
+    $text = ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? 'no hay nota' : ucfirst(LABEL_VerDetalles);
+    return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
+  }
+
+  while ($arrayNote=$sqlNotes->FetchRow()) {
+    $description.=$arrayNote["nota"].' ';
+  }
+  $text = html2txt($description);
+  return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
 }
 
 /*
