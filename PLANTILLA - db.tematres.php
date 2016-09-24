@@ -31,7 +31,7 @@ $DBCFG["DBdriver"] ="mysqli";
 $DBCFG["Server"]      = "localhost";
 
 //  Nombre de la base de datos Database name
-$DBCFG["DBName"]     = "test";
+$DBCFG["DBName"]     = "tematres";
 
 //  Nombre de usuario - login
 $DBCFG["DBLogin"]    = "root";
@@ -40,13 +40,13 @@ $DBCFG["DBLogin"]    = "root";
 $DBCFG["DBPass"] = "";
 
 //  Prefijo para tablas # Prefix for tables
-$DBCFG["DBprefix"] = "lc_";
+$DBCFG["DBprefix"] = "bnm__tes_";
 
 
 $DBCFG["DBcharset"] ="utf8";
 
 //  modo debug = 1 // debug mode = 1
-$DBCFG["debugMode"] = "0";
+$DBCFG["debugMode"] = "1";
 
 //  enlace a documentación de ayuda
 $DBCFG["help"] = "http://help.com";
