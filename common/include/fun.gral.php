@@ -451,6 +451,12 @@ function html2txt($html){
     $html = str_replace('&gt;', '»', $html);
     $ret = strtr($html, array_flip(get_html_translation_table()));
     $ret = strip_tags(br2nl($ret));
+
+    while(strpos($ret,"|") && strpos($ret,"]]")) {
+      $link = substr($ret, strpos($ret, "|"), (strpos($ret, "]]", strpos($ret, "|"))-strpos($ret, "|")));
+      $ret = str_replace($link, "]]", $ret);
+    }
+
     $ret = str_replace ( array ('[[',']]' ), array ('',''), $ret );
 
     require_once 'htmlpurifier/HTMLPurifier.auto.php';
