@@ -452,14 +452,13 @@ function html2txt($html){
     $ret = strtr($html, array_flip(get_html_translation_table()));
     $ret = strip_tags(br2nl($ret));
 
-    while(strpos($ret,"[[") && strpos($ret,"]]")) {
-      $link = str_replace(array("[[", "]]"), "", substr($ret, strpos($ret, "[["), (strpos($ret, "]]")-strpos($ret, "[["))));
-      if(strpos($link, "|")) {
-        list($toSee,$string) = explode("|", $link);
-        $ret = str_replace("|".$string, "", $ret);
-      }
-      $ret = str_replace ( array ('[[',']]' ), array ('',''), $ret );
+    while(strpos($ret,"[[") && strpos($ret,"|") && strpos($ret,"]]")) {
+      $link = substr($ret, strpos($ret, "[["), (strpos($ret, "]]")-strpos($ret, "[[")));
+      list($toSee,$string) = explode("|", $link);
+      $ret = str_replace($link, $toSee, $ret);
     }
+
+    $ret = str_replace ( array ('[[',']]' ), array ('',''), $ret );
 
     require_once 'htmlpurifier/HTMLPurifier.auto.php';
 
