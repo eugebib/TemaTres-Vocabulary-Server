@@ -77,11 +77,21 @@ $CFG["HEADER_EXTRA"] =array(
  */
 if ( !defined('T3_ABSPATH') )
 	/** Use this for version of PHP < 5.3 */
-	define('T3_ABSPATH', dirname(__FILE__) . '/../');
+	//define('T3_ABSPATH', dirname(__FILE__) . '/../');
 
 	/** Use this for version of PHP >= 5.3	*/
-	//~ define('T3_ABSPATH', dirname(__DIR__) . '/');
+	define('T3_ABSPATH', dirname(__DIR__) . '/');
 
-	/** Use to define specific local path for common/include directory */
-	//~ define('T3_ABSPATH', '/home/my_name/tematres/');
+    define('local_path', T3_ABSPATH . basename(dirname(__FILE__)) . '/');
+    /** Use to define specific local path for common/include directory */
+    //~ define('T3_ABSPATH', '/home/my_name/tematres/');
+
+function dd($data)
+{
+    echo '<pre>';
+    var_dump($data);
+    echo '</pre>';
+    die();
+}
+
 ?>

@@ -199,12 +199,12 @@ function PrintCover($params=array()){
     if (file_exists(T3_ABSPATH.'common/images/cabecera.png')) {
         $this->Image(T3_ABSPATH.'common/images/cabecera.png',null,null,190);
     } else {
-        $this->Image(URL_BASE.'cabecera.png',null,null,190);
+        $this->Image(local_path . 'cabecera.png',null,null,190);
     }
     $this->Ln(40);
 
-    $this->SetFont('opensans','B',28);
-    $this->MultiCell(0,12,latin1($_SESSION["CFGTitulo"]),0,'C');
+    $this->SetFont('opensans','B',36);
+    $this->MultiCell(0,16,latin1($_SESSION["CFGTitulo"]),0,'C');
     $this->Ln(5);
     $this->SetFont('opensans','',15);
     $this->MultiCell(0,8,latin1($_SESSION["CFGAutor"]),0,'C');
@@ -212,42 +212,37 @@ function PrintCover($params=array()){
     if(strlen($ARRAYmailContact["value"])>0) {
         $this->MultiCell(0,8,latin1($ARRAYmailContact["value"]),0,'C');
     }
-
-    $y=$this->GetY();
-    $this->Ln(20);
-
-    $this->SetFont('opensans','L',12);
-    $this->SetY($y+20);
-    $this->Ln(5);
-    if(strlen($_SESSION["CFGCobertura"])>0)    $this->MultiCell(0,8,latin1(html2txt($_SESSION["CFGCobertura"])),0,'J');
-    $this->Ln(5);
-    if(strlen($_SESSION["CFGContributor"])>0)    $this->MultiCell(0,8,latin1(LABEL_Contributor.': '.$_SESSION["CFGContributor"]),0,'L');
-    //if(strlen($_SESSION["CFGPublisher"])>0)    $this->MultiCell(0,8,latin1(LABEL_Publisher.': '.$_SESSION["CFGPublisher"]),0,'L');
-    $this->Ln(5);
-    if(strlen($_SESSION["CFGRights"])>0)    $this->MultiCell(0,8,latin1(LABEL_Rights.': '.$_SESSION["CFGRights"]),0,'L');
-    $this->Ln(5);
-    $site_link=$this->WriteHTML('URL: <a href="'.URL_BASE.'">'.URL_BASE.'</a>');
-    $this->MultiCell(0,8,$site_link,0,'L');
-    $this->SetFont('opensans','L',12);
-
-    //are enable SPARQL
-    if(CFG_ENABLE_SPARQL==1)        {
-
-          $sparql_link=$this->WriteHTML(LABEL_SPARQLEndpoint.': <a href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.URL_BASE.'sparql.php</a>');
-          $this->MultiCell(0,8,$sparql_link,0,'L');
+    if (file_exists(local_path . 'footer.png')) {
+        $this->SetY(235);
+        $this->Image(local_path . 'footer.png',null,null,190);
     }
 
-
-    /*$this->SetFont('OpenSans','',8);
-    $title_link='<a href="'.URL_BASE.'" title="'.$title.'">'.URL_BASE.'</a>';
-    $link=$this->WriteHTML($title_link);
-    $this->Cell(0,10,$link,'0',0,'L');
-    */
-
-    $this->SetY($y+20);
     $this->AddPage();
-    $this->SetFont('opensans','B',12);
 
+    $this->SetFont('opensans','L',12);
+    if (strlen($_SESSION["CFGCobertura"])>0) {
+        $this->MultiCell(0,8,latin1(html2txt($_SESSION["CFGCobertura"])),1,'J');
+        $this->Ln(5);
+    }
+    if (strlen($_SESSION["CFGContributor"])>0) {
+        $this->MultiCell(0,8,latin1(LABEL_Contributor.': '.$_SESSION["CFGContributor"]),0,'L');
+        $this->Ln(5);
+    }
+    if (strlen($_SESSION["CFGRights"])>0) {
+        $this->MultiCell(0,8,latin1(LABEL_Rights.': '.$_SESSION["CFGRights"]),0,'L');
+        $this->Ln(5);
+    }
+    $site_link = $this->WriteHTML('URL: <a href="'.URL_BASE.'">'.URL_BASE.'</a>');
+    $this->MultiCell(0,8,$site_link,0,'L');
+    $this->Ln(5);
+    $this->SetFont('opensans','L',12);
+    if (CFG_ENABLE_SPARQL==1) {
+        $sparql_link=$this->WriteHTML(LABEL_SPARQLEndpoint.': <a href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.URL_BASE.'sparql.php</a>');
+        $this->MultiCell(0,8,$sparql_link,0,'L');
+    }
+
+    $this->Ln(20);
+    $this->SetFont('opensans','B',12);
     $this->MultiCell(0,8,latin1(ucfirst(LABEL_references).':'),0,'L');
     $y=$this->GetY();
     $this->Line(10,$y,200,$y);
