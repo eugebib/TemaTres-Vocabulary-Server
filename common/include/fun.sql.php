@@ -178,6 +178,7 @@ function SQLbuscaSimple($texto){
 	$sql=SQLo("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
+	tema.code,
 	tema.estado_id,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido,
@@ -195,7 +196,7 @@ function SQLbuscaSimple($texto){
 	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
-	tema.tema like ?
+	(tema.tema like ? or tema.code like ?)
 	$where
 	group by id_definitivo
 	order by rank desc,lower(tema.tema)",array($texto,"%$texto%"));
