@@ -196,8 +196,9 @@ function SQLbuscaSimple($texto){
 	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
-	(tema.tema like ? or tema.code like ?)
-	$where
+	(tema.tema like ?
+	or tema.code like '%$texto%'
+	$where)
 	group by id_definitivo
 	order by rank desc,lower(tema.tema)",array($texto,"%$texto%"));
 
