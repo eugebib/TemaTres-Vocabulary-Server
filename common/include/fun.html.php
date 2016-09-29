@@ -408,7 +408,7 @@ function HTMLbodyTermino($array){
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
 		$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
 	}	else	{
-		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
+		$body.=' <h1 class="estado_termino'.$array["estado_id"].'"><strong>'.$array["code"].'</strong>   '.$array["titTema"].'</h1>';
 	}
 	//div oculto para eliminar término
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])	{
