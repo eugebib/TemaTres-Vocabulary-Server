@@ -397,12 +397,18 @@ function HTMLbodyTermino($array){
 		}
 	};
 
-	$row_miga.='<ol class="breadcrumb"><li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'<li>'.$array["titTema"].'</li></ol>';
+	$row_miga.='<ol class="breadcrumb"><li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'</ol>';
 
 	$body='<div class="container" id="bodyText">';
 
 	//MENSAJE DE ERROR
 	$body.=$MSG_ERROR_RELACION;
+
+	#Div miga de pan
+	$body.='<div id="breadScrumb">';
+	$body.=$row_miga;
+	$body.='</div>';
+	# fin Div miga de pan
 
 	if($array["isMetaTerm"]==1)	{
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
@@ -416,11 +422,6 @@ function HTMLbodyTermino($array){
 	}
 
 
-	#Div miga de pan
-	$body.='<div id="breadScrumb">';
-	$body.=$row_miga;
-	$body.='</div>';
-	# fin Div miga de pan
 	$cantNotas=count($array["notas"]);
 	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
 
@@ -449,9 +450,9 @@ function HTMLbodyTermino($array){
 	$body.='<div style="display:flex;">';
 	$body.=HTMLshowCode($array);
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
-		$body.='<h3 class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></h3> ' ;
+		$body.='<h3 class="term" id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></h3> ' ;
 	} else{
-		$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
+		$body.='<h3 class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
 	}
 	$body.='</div>';
 
@@ -463,10 +464,10 @@ function HTMLbodyTermino($array){
 		$body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["UP"].'</div>';
 	}
-	if($HTMLterminos["cantRelaciones"]["cantTG"]>0) {
-		$body.='<h4>'.ucfirst(LABEL_broatherTerms).'</h4>';
-		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TG"].'</div>';
-	}
+	// if($HTMLterminos["cantRelaciones"]["cantTG"]>0) {
+	// 	$body.='<h4>'.ucfirst(LABEL_broatherTerms).'</h4>';
+	// 	$body.='<div>'.$HTMLterminos["HTMLterminos"]["TG"].'</div>';
+	// }
 	//display terms relations
 	$body.=$HTMLterminos["HTMLterminos"]["USE"];
 
@@ -1392,7 +1393,7 @@ function HTMLterminosLetra($letra)
 				switch($datosLetra[t_relacion]){
 					//UF
 					case '4':
-					$leyendaConector=USE_termino;
+					$leyendaConector=strtolower(USE_termino);
 					break;
 					//Tipo relacion término equivalente parcialmente
 					case '5':
@@ -1412,14 +1413,14 @@ function HTMLterminosLetra($letra)
 					break;
 				}
 
-				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[tema_id].'&amp;/'.string2url($datosLetra[tema]).'">'.$datosLetra[tema].'</a></em> '.$leyendaConector.' <strong>'.$datosLetra["code"].'</strong>  <a title="'.LABEL_verDetalle.$datosLetra[tema].'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[termino_preferido].'</a></li>'."\r\n" ;
+				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[tema_id].'&amp;/'.string2url($datosLetra[tema]).'">'.$datosLetra[tema].'</a></em>   <strong>'.$leyendaConector.'</strong>   <a title="'.LABEL_verDetalle.$datosLetra[tema].'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[termino_preferido].'</a>  &#8594;  <strong>'.$datosLetra["codeP"].'</strong></li>'."\r\n" ;
 			}
 			else
 			{
 				$styleClassLink= ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
 				$styleClassLinkMetaTerm= ($datosLetra["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
-				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a></li>'."\r\n" ;
+				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a>  &#8594;  <strong>'.$datosLetra["code"].'</strong></li>'."\r\n" ;
 			}
 		};
 		$terminosLetra.='   </ol>';
