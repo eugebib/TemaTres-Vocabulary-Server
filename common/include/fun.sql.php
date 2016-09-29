@@ -1082,10 +1082,12 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema) ,lower(nt_tema)
 	$sql=SQL("select","if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
+	tema.code,
 	tema.estado_id,
 	tema.isMetaTerm,
 	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido
+	temasPreferidos.tema as termino_preferido,
+	temasPreferidos.code as codeP
 	from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
