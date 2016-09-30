@@ -182,6 +182,7 @@ function SQLbuscaSimple($texto){
 	tema.estado_id,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido,
+	temasPreferidos.code as codeP,
 	tema.isMetaTerm,
 	if(?=tema.tema,1,0) as rank,
 	i.indice,
