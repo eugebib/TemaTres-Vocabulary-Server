@@ -99,7 +99,7 @@ function resultaBusca($texto,$tipo=""){
 				{
 					$row_result.= '<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a></li>'."\r\n" ;
 				}else{
-					$row_result.= '<li><em><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["tema_id"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a></em>   <strong>'.$leyendaConector.'</strong>   <a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a>  &#8594;  <strong>'.$resulta_busca["codeP"].'</strong></li>'."\r\n" ;
+					$row_result.= '<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["tema"].'</a>   &#8594;  <strong>'.$resulta_busca["codeP"].'</strong></li>'."\r\n" ;
 				}
 
 			}
@@ -1413,7 +1413,7 @@ function HTMLterminosLetra($letra)
 					break;
 				}
 
-				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[tema_id].'&amp;/'.string2url($datosLetra[tema]).'">'.$datosLetra[tema].'</a></em>   <strong>'.$leyendaConector.'</strong>   <a title="'.LABEL_verDetalle.$datosLetra[tema].'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[termino_preferido].'</a>  &#8594;  <strong>'.$datosLetra["codeP"].'</strong></li>'."\r\n" ;
+				$terminosLetra.='<li><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[tema].'</a>   &#8594;   <strong>'.$datosLetra["codeP"].'</strong></li>'."\r\n" ;
 			}
 			else
 			{
