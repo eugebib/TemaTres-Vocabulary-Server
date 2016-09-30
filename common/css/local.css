@@ -135,3 +135,16 @@ fieldset .btn {
 #notas {
     word-wrap: break-word;
 }
+
+.editable_term,
+form.editable {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.editable_term h3,
+.editable_term textarea,
+.editable_term input {
+    flex-grow: 1;
+}

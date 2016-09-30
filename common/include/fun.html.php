@@ -446,16 +446,16 @@ function HTMLbodyTermino($array){
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
 
 		//el termino //span editable
+	$body.='<div class="editable_term">';
+	$body.=HTMLshowCode($array);
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
 		$body.='<h3 class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></h3> ' ;
 	} else{
 		$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
 	}
+	$body.='</div>';
 
 
-
-
-	$body.=HTMLshowCode($array);
 
 	if($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>';
