@@ -142,3 +142,9 @@ fieldset .btn {
 .tab-pane h4 {
     margin-top: 20px;
 }
+
+#listaLetras li:not(:last-child),
+.tab-pane li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
