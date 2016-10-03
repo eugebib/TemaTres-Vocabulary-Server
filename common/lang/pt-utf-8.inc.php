@@ -121,7 +121,7 @@ define("FORM_LABEL_Terminos","termos");
 define("FORM_LABEL_RelTerminos","relações entre termos");
 define("FORM_LABEL_TerminosUP","termos não preferidos");
 define("FORM_LABEL_Guardar","Salvar");
-define("LABEL_verDetalle","mostrar detalhes de ");
+define("LABEL_verDetalle","mostrar detalhes de");
 define("LABEL_verTerminosLetra","mostrar termos iniciados com ");
 define("LABEL_NB","Nota bibliográfica");
 define("LABEL_NH","Nota histórica");
