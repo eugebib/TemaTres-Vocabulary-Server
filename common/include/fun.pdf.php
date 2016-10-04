@@ -589,7 +589,7 @@ if($arrayTerm["t_relacion"]){    //is altTerm
             if($arrayRelaciones["nt_tema"]){
                 if ($arrayRelaciones["nt_isMetaTerm"]) $this->SetTextColor(108,101,101);
                 $this->SetFont('','');
-                $this->MultiCell(80,5,latin1(TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]),0,L);
+                $this->MultiCell(80,5,latin1(TE_acronimo/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["nt_tema"]),0,L);
                 }
             if($arrayRelaciones["t_relacion"]==2){
             if($arrayRelaciones["rt_tema"]){
