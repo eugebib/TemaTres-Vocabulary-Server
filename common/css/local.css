@@ -153,3 +153,7 @@ form.editable {
     flex-grow: 1;
 }
 
+.baja {
+    color: red;
+    font-weight: bolder;
+}
