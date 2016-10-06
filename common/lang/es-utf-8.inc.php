@@ -426,7 +426,7 @@ define('LABEL_turnOffMetaTerm','no es un meta-término');
 define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
-define('LABEL_relatedTerms','términos relacionados');
+define('LABEL_relatedTerms','Números relacionados');
 define('LABEL_nonPreferedTerms','términos no preferidos');
 define('LABEL_update1_6x1_7','Actualizar (1.6 -> 2.2)');
 define('LABEL_include_data','incluir');
