@@ -464,6 +464,7 @@ define('LABEL_altTerms','términos alternativos');
 define('LABEL_narrowerTerms','términos específicos');
 define('LABEL_results','resultados');
 define('LABEL_showFreeTerms','lista de términos libres');
+define('LABEL_showNBTTerms','términos sin relaciones jerárquicas');
 define('LABEL_helpSearchFreeTerms','Sólo se buscarán términos libres.');
 define('LABEL_broatherTerms','términos genéricos');
 define('LABEL_type2filter','tipee para filtrar términos');
