@@ -3908,7 +3908,8 @@ return sendFile("$txt","$filname");
 
 
 //print alphabetic version on PDF
-function do_pdfAlpha($params=array()){
+function do_pdfAlpha($params=array()) {
+    GLOBAL $CFG;
 
 //update stats
 doLastModified();
@@ -3926,6 +3927,10 @@ $pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
 $pdf->SetCreator($_SESSION["CFGVersion"]);
 
 $pdf->PrintCover($params);
+
+if ($CFG["intro"]) {
+	$pdf->PrintIntro();
+}
 
 $sqlMenuAlfabetico=SQLlistaABC();
 

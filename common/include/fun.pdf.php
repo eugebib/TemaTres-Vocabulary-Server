@@ -326,6 +326,18 @@ function PrintCover($params=array()){
     $this->y0 = $this->GetY();
 }
 
+function PrintIntro(){
+
+    GLOBAL $CFG;
+
+    $this->AddPage();
+    $this->SetFont('opensans','B',20);
+    $this->MultiCell(0,20,latin1('Introducción'),0,'L');
+    $this->Ln(15);
+    $this->SetFont('opensans','',12);
+    $this->MultiCell(0,8,latin1($CFG["intro"]),0,'J');
+
+}
 
 function ChapterBodyOld($sql_data,$params=array()){
 
