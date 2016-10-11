@@ -205,6 +205,13 @@ function PrintCover($params=array()){
 
     $this->SetFont('opensans','B',36);
     $this->MultiCell(0,16,latin1($_SESSION["CFGTitulo"]),0,'C');
+
+    if ($params["hasTopTerm"]>0) {
+        $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
+        $this->SetFont('opensans','B',30);
+        $this->MultiCell(0,16,latin1($topTerm['tema']),0,'C');
+    }
+
     $this->Ln(5);
     $this->SetFont('opensans','',15);
     $this->MultiCell(0,8,latin1($_SESSION["CFGAutor"]),0,'C');
