@@ -140,3 +140,11 @@ form.editable {
 .editable_term input {
     flex-grow: 1;
 }
+
+li {
+    padding-bottom: 5px;
+}
+
+li a:last-child {
+    padding-left: 10px;
+}
