@@ -128,11 +128,27 @@ fieldset .btn {
     word-wrap: break-word;
 }
 
+.breadcrumb>li+li:before {
+    color: black;
+    content: " | ";
+}
+
+.nav-tabs>li {
+    padding-bottom: 0px;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover {
+    background-color: #ddd;
+}
+
 .editable_term,
 form.editable {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
 .editable_term h3,
@@ -164,10 +180,10 @@ form.editable {
     content: "   (metatérmino)";
 }
 
-li {
+#theTerm li {
     padding-bottom: 5px;
 }
 
-li a:last-child {
+#theTerm li a:last-child {
     padding-left: 10px;
 }
