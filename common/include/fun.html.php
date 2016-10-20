@@ -404,6 +404,12 @@ function HTMLbodyTermino($array){
 	//MENSAJE DE ERROR
 	$body.=$MSG_ERROR_RELACION;
 
+	#Div miga de pan
+	$body.='<div id="breadScrumb">';
+	$body.=$row_miga;
+	$body.='</div>';
+	# fin Div miga de pan
+
 	if($array["isMetaTerm"]==1)	{
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
 		//$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
@@ -416,11 +422,6 @@ function HTMLbodyTermino($array){
 	}
 
 
-	#Div miga de pan
-	$body.='<div id="breadScrumb">';
-	$body.=$row_miga;
-	$body.='</div>';
-	# fin Div miga de pan
 	$cantNotas=count($array["notas"]);
 	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
 

@@ -141,6 +141,14 @@ form.editable {
     flex-grow: 1;
 }
 
+.breadcrumb {
+    background-color: #ddd;
+}
+
+#bodyText h1 {
+    margin-bottom: 15px;
+}
+
 #bodyText h1.metaTerm {
     background: #fff8bf 13px 50% no-repeat;
     border: 2px solid #ffd324;
