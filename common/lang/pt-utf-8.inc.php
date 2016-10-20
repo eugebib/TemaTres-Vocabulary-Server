@@ -44,6 +44,7 @@ define("LABEL_Agregar","Adicionar");
 define("LABEL_editT","Editar termo ");
 define("LABEL_EditorTermino","Editor de termo");
 define("LABEL_Termino","Termo");
+define("LABEL_Relaciones","Relacãos");
 define("LABEL_Metatermino","Meta-termo");
 define("LABEL_CrearTermino","Adicionar novo/s termo/s");
 define("LABEL_NotaAlcance","Nota de escopo");
