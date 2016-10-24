@@ -184,6 +184,6 @@ form.editable {
     padding-bottom: 5px;
 }
 
-#theTerm li a:last-child {
+#theTerm li a:nth-child(4) {
     padding-left: 10px;
 }
