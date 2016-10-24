@@ -119,10 +119,11 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 
 		case 'termAlpha':
 		header('Content-Type: text/plain');
-		echo TXTalphaList4term($_GET["term_id"],array("includeNote"=>array(),
-																									"includeCreatedDate"=>'0',
-																									"includeTopTerm"=>'0',
-																									"includeModDate"=>'0'));
+		echo TXTalphaList4term($_GET["term_id"],array(
+			"includeNote"=>array(),
+			"includeCreatedDate"=>'0',
+			"includeTopTerm"=>'0',
+			"includeModDate"=>'0'));
 		break;
 
 		case 'termTree':
@@ -144,7 +145,7 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 					  "includeNote"=>$_GET["includeNote"],
 					  "includeCreatedDate"=>$_GET["includeCreatedDate"],
 					  "includeTopTerm"=>$_GET["includeTopTerm"],
-					  "includeModDate"=>$_GET["includeModDate"]);		
+					  "includeModDate"=>$_GET["includeModDate"]);
 		echo do_pdfAlpha($params);
 		break;
 
