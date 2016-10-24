@@ -122,7 +122,7 @@ define("FORM_LABEL_Terminos","términos");
 define("FORM_LABEL_RelTerminos","relaciones entre términos");
 define("FORM_LABEL_TerminosUP","términos equivalentes");
 define("FORM_LABEL_Guardar","Guardar");
-define("LABEL_verDetalle","ver detalles de");
+define("LABEL_verDetalle","ver detalles de ");
 define("LABEL_verTerminosLetra","ver términos iniciados con ");
 define("LABEL_NB","Nota bibliográfica");
 define("LABEL_NH","Nota histórica");
