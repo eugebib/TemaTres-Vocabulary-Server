@@ -113,13 +113,17 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 		break;
 		default: '';
 	}
-	if(in_array($_GET["showTerms"],array('free','nt','tt'))){
+	if(in_array($_GET["showTerms"],array('free','nt','tt','NBT'))){
 		if($_GET["showTerms"]=="free")	{
 			$sql_busca=SQLverTerminosLibres();
 			$cant_result=SQLcount($sql_busca);
 			$search_leyenda='<h3>'.$cant_result.' '.LABEL_terminosLibres.'</h3>'."\n\r";
 		}//seleccionar SQL adecuado a la operacion
-
+		if($_GET["showTerms"]=="NBT")	{
+			$sql_busca=SQLtermsNoBT(1);
+			$cant_result=SQLcount($sql_busca);
+			$search_leyenda='<h3>'.$cant_result.' '.LABEL_terminosLibres.'</h3>'."\n\r";
+		}//seleccionar SQL adecuado a la operacion
 		if(($_GET["showTerms"]=='tt') && 	(in_array($taskterm,array('addBT','addFreeNT')))){
 			$sql_busca=SQLverTopTerm();
 			$cant_result=SQLcount($sql_busca);
@@ -220,7 +224,8 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 	<legend>'.$nombre_pantalla.'</legend>
 	<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>
 	<button type="submit" class="btn btn-primary">'.LABEL_Buscar.'</button>
-	 <button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=free\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>';
+	<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_showNBTTerms).'</button>
+	<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=free\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>';
 	if(in_array($taskterm,array('addBT','addFreeNT'))){
 		$rows.=' <button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=tt\'"/>'.ucfirst(LABEL_TTTerms).'</button>';
 	}
@@ -230,7 +235,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 	</form>';
 	//if(in_array($taskterm, array("addFreeUF","addFreeNT"))) 		$rows.='<p class="text-warning">'.LABEL_helpSearchFreeTerms.'</p>';
 	$rows.='</fieldset>';
-	$rows.=$search_leyenda;
+	//$rows.=$search_leyenda;
 	$rows.=$rows_busca;
 	$rows.='   </div>';
 	return $rows;

@@ -127,6 +127,7 @@ fieldset .btn {
 #notas {
     word-wrap: break-word;
 }
+
 #bodyText h1 {
     margin: 25px 0;
 }
@@ -140,11 +141,27 @@ fieldset .btn {
     margin-bottom: 10px;
 }
 
+.breadcrumb>li+li:before {
+    color: black;
+    content: " | ";
+}
+
+.nav-tabs>li {
+    padding-bottom: 0px;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover {
+    background-color: #ddd;
+}
+
 .editable_term,
 form.editable {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
 .editable_term h3,
@@ -156,4 +173,35 @@ form.editable {
 .baja {
     color: red;
     font-weight: bolder;
+}
+
+.breadcrumb {
+    background-color: #ddd;
+}
+
+#bodyText h1 {
+    margin-bottom: 15px;
+}
+
+#bodyText h1.metaTerm {
+    background: #fff8bf 13px 50% no-repeat;
+    border: 2px solid #ffd324;
+    color: #eb830c;
+    padding: 5px 11px 5px 20px;
+}
+
+#bodyText h1.metaTerm::before {
+    content: "";
+}
+
+#bodyText h1.metaTerm::after {
+    content: "   (metatérmino)";
+}
+
+#theTerm li {
+    padding-bottom: 5px;
+}
+
+#theTerm li a:last-child {
+    padding-left: 10px;
 }

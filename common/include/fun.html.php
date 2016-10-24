@@ -413,7 +413,7 @@ function HTMLbodyTermino($array){
 
 	if($array["isMetaTerm"]==1)	{
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
-		$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
+		//$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
 	}	else	{
 		$body.=' <h1 class="estado_termino'.$array["estado_id"].'"><strong>'.$array["code"].'</strong>   '.$array["titTema"].'</h1>';
 	}
@@ -424,7 +424,7 @@ function HTMLbodyTermino($array){
 
 
 	$cantNotas=count($array["notas"]);
-	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
+	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Relaciones).'</a></li>';
 
 	if($cantNotas>0) {
 		$body.='<li><a href="#notesTerm" id="labelNotes" data-toggle="tab">'.ucfirst(LABEL_notes).' <span class="badge">'.$cantNotas.'</span></a></li>';

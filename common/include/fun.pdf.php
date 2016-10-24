@@ -205,6 +205,13 @@ function PrintCover($params=array()){
 
     $this->SetFont('opensans','B',36);
     $this->MultiCell(0,16,latin1($_SESSION["CFGTitulo"]),0,'C');
+
+    if ($params["hasTopTerm"]>0) {
+        $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
+        $this->SetFont('opensans','B',30);
+        $this->MultiCell(0,16,latin1($topTerm['tema']),0,'C');
+    }
+
     $this->Ln(5);
     $this->SetFont('opensans','',15);
     $this->MultiCell(0,8,latin1($_SESSION["CFGAutor"]),0,'C');
@@ -319,6 +326,18 @@ function PrintCover($params=array()){
     $this->y0 = $this->GetY();
 }
 
+function PrintIntro(){
+
+    GLOBAL $CFG;
+
+    $this->AddPage();
+    $this->SetFont('opensans','B',20);
+    $this->MultiCell(0,20,latin1('Introducción'),0,'L');
+    $this->Ln(15);
+    $this->SetFont('opensans','',12);
+    $this->MultiCell(0,8,latin1($CFG["intro"]),0,'J');
+
+}
 
 function ChapterBodyOld($sql_data,$params=array()){
 
@@ -589,7 +608,7 @@ if($arrayTerm["t_relacion"]){    //is altTerm
             if($arrayRelaciones["nt_tema"]){
                 if ($arrayRelaciones["nt_isMetaTerm"]) $this->SetTextColor(108,101,101);
                 $this->SetFont('','');
-                $this->MultiCell(80,5,latin1(TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]),0,L);
+                $this->MultiCell(80,5,latin1(TE_acronimo/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["nt_tema"]),0,L);
                 }
             if($arrayRelaciones["t_relacion"]==2){
             if($arrayRelaciones["rt_tema"]){

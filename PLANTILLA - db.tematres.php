@@ -72,6 +72,8 @@ $CFG["HEADER_EXTRA"] =array(
     "LINK_TITLE"=>''
 );
 
+//$CFG["intro"] = '';
+
 /*  In almost cases, you don't need to touch nothing here!!
  *  Absolute path to the directory where are located /common/include.
  */
