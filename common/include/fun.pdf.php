@@ -449,7 +449,7 @@ if($arrayTerm["t_relacion"]){    //is altTerm
                     if ($arrayRelaciones["isMetaTerm"]) $this->SetTextColor(108,101,101);
                     $this->SetFont('','');
                     $this->MultiCell(80,5,latin1($acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["tema"]),0,L);
-
+                    $this->SetTextColor(0,0,0);
             }
         }
     }
@@ -462,6 +462,7 @@ if($arrayTerm["t_relacion"]){    //is altTerm
 
         if ($arrayTE["isMetaTerm"]) $this->SetTextColor(108,101,101);
         $this->MultiCell(80,5,TE_acronimo.$arrayTE[rr_code].': '.latin1($arrayTE["tema"]),0,L);
+        $this->SetTextColor(0,0,0);
         };
     }
 
@@ -603,18 +604,21 @@ if($arrayTerm["t_relacion"]){    //is altTerm
                 if ($arrayRelaciones["bt_isMetaTerm"]) $this->SetTextColor(108,101,101);
                 $this->SetFont('','');
                 $this->MultiCell(80,5,latin1(TG_acronimo/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["bt_tema"]),0,L);
+                $this->SetTextColor(0,0,0);
                 }
             }
             if($arrayRelaciones["nt_tema"]){
                 if ($arrayRelaciones["nt_isMetaTerm"]) $this->SetTextColor(108,101,101);
                 $this->SetFont('','');
                 $this->MultiCell(80,5,latin1(TE_acronimo/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["nt_tema"]),0,L);
+                $this->SetTextColor(0,0,0);
                 }
             if($arrayRelaciones["t_relacion"]==2){
             if($arrayRelaciones["rt_tema"]){
                 if ($arrayRelaciones["rt_isMetaTerm"]) $this->SetTextColor(108,101,101);
                 $this->SetFont('','');
                 $this->MultiCell(80,5,latin1(TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]),0,L);
+                $this->SetTextColor(0,0,0);
                 }
             }
     }
