@@ -1018,6 +1018,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema) ,lower(nt_tema)
 	$sql=SQL("select","if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
+	tema.code,
 	tema.cuando,
 	tema.cuando_final,
 	tema.estado_id,
