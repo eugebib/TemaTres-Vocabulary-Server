@@ -259,7 +259,8 @@ function SQLstartWith($texto){
 
 	$texto=trim($texto);
 
-	$texto=(CFG_SUGGESTxWORD==1) ? secure_data("[[:<:]]$texto","ADOsql") : secure_data("$texto%","ADOsql")  ;
+	$texto=(CFG_SUGGESTxWORD==1) ? secure_data("[[:<:]]$texto","ADOsql") : secure_data("$texto%","ADOsql");
+	$texto=str_replace(array('a','e','i','o','u'),array('[a|á]','[e|é]','[i|í]','[o|ó]','[u|ú]'),$texto);
 
 	$codUP=UP_acronimo;
 
