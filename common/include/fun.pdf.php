@@ -260,25 +260,20 @@ function PrintCover($params=array()){
     if($params["includeTopTerm"]) $this->MultiCell(0,6,latin1('TT: '.TT_termino),0,'L');
     $this->MultiCell(0,6,latin1(TG_acronimo.':  '.TG_termino),0,'L');
     $this->MultiCell(0,6,latin1(TE_acronimo.':  '.TE_termino),0,'L');
-
-    $sqlTypeRelations=SQLtypeRelations(3,0,true);
-    while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()){
-        if($arrayTypeRelations["cant"]>0){
-
-        $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
-
-        }
-    }
-
     $this->MultiCell(0,6,latin1(UP_acronimo.':  '.UP_termino),0,'L');
     $this->MultiCell(0,6,latin1(USE_termino.':  '.USE_termino),0,'L');
 
     $sqlTypeRelations=SQLtypeRelations(4,0,true);
     while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()){
+        if (($arrayTypeRelations["cant"]>0) && (!in_array($arrayTypeRelations["rr_code"],$CFG["HIDDEN_EQ"]))){
+            $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
+        }
+    }
+
+    $sqlTypeRelations=SQLtypeRelations(3,0,true);
+    while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()){
         if(($arrayTypeRelations["cant"]>0) && (!in_array($arrayTypeRelations["rr_code"],$CFG["HIDDEN_EQ"]))){
-
-        $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
-
+            $this->MultiCell(0,4,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].': '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
         }
     }
 

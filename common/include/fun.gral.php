@@ -820,30 +820,32 @@ return $DB;
 }
 
 
-function SQL($todo,$sql){
+function SQL($todo,$sql) {
 
-GLOBAL $DB;
+    GLOBAL $DB;
 
-$sql=$todo.' '.$sql;
+    $sql = $todo.' '.$sql;
+    $rs  = $DB->Execute($sql);
 
-$rs = $DB->Execute($sql);
+    echo $DB->ErrorMsg();
 
-if (!$rs) return array("error"=>$DB->ErrorMsg());
+    if (!$rs) {
+        return array("error"=>$DB->ErrorMsg());
+    }
 
-	switch($todo){
+    switch ($todo) {
 		case 'insert':
-		return array("cant"=>$DB->Insert_ID());
+            return array("cant"=>$DB->Insert_ID());
 		break;
-
 		case 'update':
-		return array("cant"=>$DB->Affected_Rows());
+            return array("cant"=>$DB->Affected_Rows());
 		break;
-
 		default:
-		return $rs;
-		}
-};
+            return $rs;
+        break;
+	}
 
+}
 
 function SQLo($todo,$sql,$array){
 

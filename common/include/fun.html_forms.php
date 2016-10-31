@@ -1366,88 +1366,87 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 }
 
 
-function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
-	$LabelEE=id_EQ.'#'.LABEL_termino_equivalente;
-	$LabelIE=id_EQ_PARCIAL.'#'.LABEL_termino_parcial_equivalente;
-	$LabelNE=id_EQ_NO.'#'.LABEL_termino_no_equivalente;
-	$sql=SQLdatosVocabulario();
+function HTMLformAltaEquivalenciaTermino($ARRAYTermino) {
+	$LabelEE = id_EQ.'#'.LABEL_termino_equivalente;
+	$LabelIE = id_EQ_PARCIAL.'#'.LABEL_termino_parcial_equivalente;
+	$LabelNE = id_EQ_NO.'#'.LABEL_termino_no_equivalente;
+	$sql     = SQLdatosVocabulario();
+
 	//SEND_KEY to prevent duplicated
 	session_start();
-	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$rows='<div class="container" id="bodyText">';
+	$_SESSION['SEND_KEY'] = md5(uniqid(rand(), true));
+	$rows ='<div class="container" id="bodyText">';
 	$rows.='<script type="text/javascript">$("#form-tvocab").validate({});</script>';
-		$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-		if(SQLcount($sql)=='1'){
-			//No hay vocabularios de referencia, solo vocabulario principal
-			$rows.=HTMLalertNoTargetVocabularyPivotModel();
-		} else {
-			//Hay vobularios de referencia
-			$array_vocabularios=array();
-			while($array=$sql->FetchRow())
-			{
-				if($array[vocabulario_id]!=='1')
-				{
-					//vocabularios que no sean el vocabulario principal
-					array_push($array_vocabularios,$array[vocabulario_id].'#'.$array[titulo]);
-				}
-			};
-			$rows.='<form class="" role="form"  name="alta_eqt" id="alta_eqt" action="index.php" method="post">';
-			$rows.='	<div class="row">
-			    <div class="col-sm-12">
-			        <legend>'.ucfirst(LABEL_relacion_vocabulario).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</legend>
-			    </div>
-			    <!-- panel  -->
-			    <div class="col-lg-7">
-			        <div class="panel panel-default">
-			            <div class="panel-body form-horizontal">
-			            <div class="form-group">
-			            <label for="'.ref_vocabulario_id.'" accesskey="v" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
-			                <div class="col-sm-9">
-			                    <select class="form-control" id="ref_vocabulario_id" name="ref_vocabulario_id">
-			                    '.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
-			                    </select>
-			                </div>
-			            </div>
-			                <div class="form-group">
-			                    <label class="col-sm-3 control-label" for="'.FORM_LABEL_termino.'" accesskey="t">'.ucfirst(LABEL_Termino).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control" required name="'.FORM_LABEL_termino.'" id="'.FORM_LABEL_termino.'"/>
-			                    </div>
-			                </div>
-											<div class="form-group">
-					            <label for="tipo_equivalencia" accesskey="q" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_tipo_equivalencia).'</label>
-					                <div class="col-sm-9">
-					                    <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia">
-					                    '.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"),"").'
-					                    </select>
-					                </div>
-					            </div>
-			                <div class="form-group">
-			                    <div class="col-sm-12 text-right">
-			                     <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
-			                      <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYTermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div> <!-- / panel  -->';
-			$rows.='<input type="hidden"  name="id_termino_eq" value="'.$ARRAYTermino["idTema"].'" />';
-			$rows.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
-			$rows.='</form>';
-
-			$rows.='<script id="tvocab_script" type="text/javascript">
-			$(document).ready(function() {
-				var validator = $("#alta_eqt").validate({
-					rules: {\''.FORM_LABEL_termino.'\':  {required: true},
-				},
-				debug: true,
-				errorElement: "label",
-				submitHandler: function(form) {
-					form.submit();
-				}
-			});
-		});
-		</script>	';
+	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
+	if (SQLcount($sql)=='1') {
+		//No hay vocabularios de referencia, solo vocabulario principal
+		$rows.=HTMLalertNoTargetVocabularyPivotModel();
+	} else {
+		//Hay vobularios de referencia
+		$array_vocabularios = array();
+		while ($array=$sql->FetchRow()) {
+			if($array[vocabulario_id]!=='1') {
+				//vocabularios que no sean el vocabulario principal
+				array_push($array_vocabularios,$array[vocabulario_id].'#'.$array[titulo]);
+			}
+		}
+		$rows.='<form class="" role="form"  name="alta_eqt" id="alta_eqt" action="index.php" method="post">';
+		$rows.='	<div class="row">
+		    <div class="col-sm-12">
+		        <legend>'.ucfirst(LABEL_relacion_vocabulario).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</legend>
+		    </div>
+		    <!-- panel  -->
+		    <div class="col-lg-7">
+		        <div class="panel panel-default">
+		            <div class="panel-body form-horizontal">
+		            <div class="form-group">
+		            <label for="'.ref_vocabulario_id.'" accesskey="v" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
+		                <div class="col-sm-9">
+		                    <select class="form-control" id="ref_vocabulario_id" name="ref_vocabulario_id">
+		                    '.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
+		                    </select>
+		                </div>
+		            </div>
+		                <div class="form-group">
+		                    <label class="col-sm-3 control-label" for="'.FORM_LABEL_termino.'" accesskey="t">'.ucfirst(LABEL_Termino).'</label>
+		                    <div class="col-sm-9">
+		                        <input type="text" class="form-control" required name="'.FORM_LABEL_termino.'" id="'.FORM_LABEL_termino.'"/>
+		                    </div>
+		                </div>
+										<div class="form-group">
+				            <label for="tipo_equivalencia" accesskey="q" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_tipo_equivalencia).'</label>
+				                <div class="col-sm-9">
+				                    <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia">
+				                    '.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"),"").'
+				                    </select>
+				                </div>
+				            </div>
+		                <div class="form-group">
+		                    <div class="col-sm-12 text-right">
+		                     <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
+		                      <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYTermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div> <!-- / panel  -->';
+		$rows.='<input type="hidden"  name="id_termino_eq" value="'.$ARRAYTermino["idTema"].'" />';
+		$rows.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
+		$rows.='</form>';
+		$rows.='<script id="tvocab_script" type="text/javascript">
+					$(document).ready(function() {
+						var validator = $("#alta_eqt").validate({
+							rules: {
+								\''.FORM_LABEL_termino.'\':  {required: true},
+							},
+							debug: true,
+							errorElement: "label",
+							submitHandler: function(form) {
+								form.submit();
+							}
+						});
+					});
+				</script>';
 	}
 	$rows.='</div>';
 	return $rows;
