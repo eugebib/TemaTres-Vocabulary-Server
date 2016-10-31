@@ -828,6 +828,8 @@ $sql=$todo.' '.$sql;
 
 $rs = $DB->Execute($sql);
 
+echo $DB->ErrorMsg();
+
 if (!$rs) return array("error"=>$DB->ErrorMsg());
 
 	switch($todo){
