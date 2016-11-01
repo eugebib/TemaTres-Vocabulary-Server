@@ -19,6 +19,14 @@ ini_set('session.cookie_httponly', 1);
 // Session ID cannot be passed through URLs
 ini_set('session.use_only_cookies', 1);
 
+ini_set('session.save_path',dirname(__DIR__) . '/sessions/');
+
+// server should keep session data for AT LEAST 6 hours
+ini_set('session.gc_maxlifetime', 21600);
+
+// each client should remember their session id for EXACTLY 6 hours
+session_set_cookie_params(21600);
+
 // Uses a secure connection (HTTPS) if possible
 //ini_set('session.cookie_secure', 1);
 session_start();
