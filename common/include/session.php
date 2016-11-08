@@ -21,11 +21,12 @@ ini_set('session.use_only_cookies', 1);
 
 ini_set('session.save_path',dirname(__DIR__) . '/sessions/');
 
-// server should keep session data for AT LEAST 6 hours
-ini_set('session.gc_maxlifetime', 21600);
+// server should keep session data for AT LEAST 4 hours
+ini_set('session.gc_maxlifetime', 14400);
 
-// each client should remember their session id for EXACTLY 6 hours
-session_set_cookie_params(21600);
+// borrar archivos de sesion
+ini_set('session.gc_probability', 20);
+ini_set('session.gc_divisor', 100);
 
 // Uses a secure connection (HTTPS) if possible
 //ini_set('session.cookie_secure', 1);
