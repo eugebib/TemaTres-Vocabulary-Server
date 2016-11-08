@@ -3955,7 +3955,12 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value,$params);
 	}
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.pdf';
+	if ($params["hasTopTerm"]>0) {
+	    $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
+	    $topTerm = $topTerm['tema'];
+	}
+
+$filname=string2url($_SESSION[CFGTitulo].'-'.$topTerm.'-'.MENU_ListaAbc).'.pdf';
 
 $pdf->Output('I',$filname);
 
