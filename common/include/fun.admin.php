@@ -2376,22 +2376,22 @@ while($arrayTema=$sql->FetchRow()){
 				}
 			};
 	}
-	
+
 
 	//Relaciones
-    #Fetch data about associated terms (BT,RT,UF)    
+    #Fetch data about associated terms (BT,RT,UF)
     //Relaciones
     $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
 
     $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        
+
         $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
-        
+
         if($arrayRelaciones["t_relacion"]==4){
-            # is UF and not hidden UF                
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
 				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
@@ -2468,17 +2468,17 @@ function txt4term($tema_id,$params=array())
 			}
 		};
 
-    #Fetch data about associated terms (BT,RT,UF)    
+    #Fetch data about associated terms (BT,RT,UF)
     //Relaciones
     $sqlRelaciones=SQLdirectTerms($arrayTema["tema_id"]);
 
     $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        
+
         if($arrayRelaciones["t_relacion"]==4){
-            # is UF and not hidden UF                
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
 				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
@@ -3838,17 +3838,17 @@ while($arrayTema=$sql->FetchRow()){
 			};
 
 
-    #Fetch data about associated terms (BT,RT,UF)    
+    #Fetch data about associated terms (BT,RT,UF)
     //Relaciones
     $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
 
     $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        
+
         if($arrayRelaciones["t_relacion"]==4){
-            # is UF and not hidden UF                
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
 				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
@@ -3960,7 +3960,7 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 	    $topTerm = $topTerm['tema'];
 	}
 
-$filname=string2url($_SESSION[CFGTitulo].'-'.$topTerm.'-'.MENU_ListaAbc).'.pdf';
+$filname=string2url($_SESSION[CFGTitulo].'-'.$topTerm.'-'.MENU_Abc).'.pdf';
 
 $pdf->Output('I',$filname);
 

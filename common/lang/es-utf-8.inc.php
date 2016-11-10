@@ -19,6 +19,7 @@ define("UP_termino","Usado por");
 define("USE_termino","Use");
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
+define("MENU_Abc","alfabético");
 define("MENU_Sobre","Sobre...");
 define("MENU_Ayuda","Manual");
 define("MENU_Inicio","Inicio");
