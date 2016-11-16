@@ -190,9 +190,9 @@ function SQLbuscaSimple($texto){
 	v.value_code as rr_code
 	from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+	and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
