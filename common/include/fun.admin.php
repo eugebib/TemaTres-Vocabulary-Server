@@ -3960,7 +3960,7 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 	    $topTerm = $topTerm['tema'];
 	}
 
-$filname=string2url($_SESSION[CFGTitulo].'-'.$topTerm.'-'.MENU_Abc).'.pdf';
+$filname=string2url($_SESSION[CFGTitulo].'-'.MENU_Abc.'-'.$topTerm).'.pdf';
 
 $pdf->Output('I',$filname);
 

@@ -234,7 +234,7 @@ class URLify {
 	/**
 	 * Filters a string, e.g., "Petty theft" to "petty-theft"
 	 */
-	public static function filter ($text, $length = 70, $language = "", $file_name = false, $use_remove_list = true) {
+	public static function filter ($text, $length = 80, $language = "", $file_name = false, $use_remove_list = true) {
 		$text = self::downcode ($text,$language);
 
         if ($use_remove_list) {
