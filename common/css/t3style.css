@@ -531,3 +531,7 @@ display: inline;
     }
 
 }
+
+.breadcrumb:not(last) {
+  margin-bottom: 5px;
+}

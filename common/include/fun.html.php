@@ -375,6 +375,36 @@ function HTMLbodyTermino($array){
 	GLOBAL $MSG_ERROR_RELACION;
 	GLOBAL $CFG;
 
+	//breadcrumb
+	$BT = SQLverTerminoRelaciones($array["idTema"]);
+	while ($bc = $BT->FetchRow()) {
+		if ($bc[t_relacion] == 3) {
+			$miga[] = $bc[tema_id];
+		}
+	}
+	if (count($miga) > 0) {
+		foreach ($miga as $bt) {
+			$menu_miga = '';
+			$sql = SQLarbolTema($bt);
+			if (SQLcount($sql) > 0) {
+				while ($bc = $sql->FetchRow()) {
+					if ($bc["tema_id"] != $bt) {
+						$menu_miga.='<li><a title="'.LABEL_verDetalle.$bc[tema].'" href="'.URL_BASE.'index.php?tema='.$bc["tema_id"].'&amp;/'.string2url($bc["tema"]).'" >'.$bc["tema"].'</a></li>';
+					}
+				}
+			} else {
+				$term = ARRAYverTerminoBasico($bt);
+				$menu_miga.='<li><a title="'.LABEL_verDetalle.$term[tema].'" href="'.URL_BASE.'index.php?tema='.$term["tema_id"].'&amp;/'.string2url($term["tema"]).'" >'.$term["tema"].'</a></li>';
+			}
+			$row_miga.='
+				<ol class="breadcrumb">
+					<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>' .
+					$menu_miga . '
+					<li>' . $array["titTema"] . '</li>
+				</ol>';
+		}
+	};
+
 	$sqlMiga=SQLarbolTema($array["idTema"]);
 
 	$cantBT=SQLcount($sqlMiga);
@@ -385,19 +415,6 @@ function HTMLbodyTermino($array){
 
 	$fecha_crea=do_fecha($array["cuando"]);
 	$fecha_estado=do_fecha($array["cuando_estado"]);
-
-
-	//Si tiene padres
-	if($cantBT>0){
-		while($arrayMiga=$sqlMiga->FetchRow()){
-
-			if($arrayMiga["tema_id"]!==$array["idTema"]){
-				$menu_miga.='<li><a title="'.LABEL_verDetalle.$arrayMiga["tema"].'" href="'.URL_BASE.'index.php?tema='.$arrayMiga["tema_id"].'&amp;/'.string2url($arrayMiga["tema"]).'" >'.$arrayMiga["tema"].'</a></li>';
-			}
-		}
-	};
-
-	$row_miga.='<ol class="breadcrumb"><li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'<li>'.$array["titTema"].'</li></ol>';
 
 	$body='<div class="container" id="bodyText">';
 
