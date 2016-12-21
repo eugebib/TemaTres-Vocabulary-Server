@@ -388,9 +388,7 @@ function HTMLbodyTermino($array){
 			$sql = SQLarbolTema($bt);
 			if (SQLcount($sql) > 0) {
 				while ($bc = $sql->FetchRow()) {
-					if ($bc["tema_id"] != $bt) {
-						$menu_miga.='<li><a title="'.LABEL_verDetalle.$bc[tema].'" href="'.URL_BASE.'index.php?tema='.$bc["tema_id"].'&amp;/'.string2url($bc["tema"]).'" >'.$bc["tema"].'</a></li>';
-					}
+					$menu_miga.='<li><a title="'.LABEL_verDetalle.$bc[tema].'" href="'.URL_BASE.'index.php?tema='.$bc["tema_id"].'&amp;/'.string2url($bc["tema"]).'" >'.$bc["tema"].'</a></li>';
 				}
 			} else {
 				$term = ARRAYverTerminoBasico($bt);
