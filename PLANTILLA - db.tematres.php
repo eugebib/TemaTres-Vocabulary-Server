@@ -66,8 +66,7 @@ define('CFG_HASH_PASS','0');
     "LINK_TITLE"=>'TemaTres: open source way to manage formal representations of knowledge'
     );
  */
-$CFG["HEADER_EXTRA"] =array(
-    "LINK_IMG"=>'',
+$CFG["HEADER_EXTRA"] = array(
     "LINK_URL"=>'',
     "LINK_TITLE"=>''
 );

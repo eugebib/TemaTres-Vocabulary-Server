@@ -1806,6 +1806,49 @@ $rows=$thead.$rows;
 return $rows;
 };
 
+function HTMLaddImages() {
+	$message = '';
+	if (isset($_GET['upload_code'])) {
+		$class = 'error';
+		switch ($_GET['upload_code']) {
+			case '0':
+				$message = 'Archivo subido';
+				$class = 'success';
+				break;
+			case '1':
+				$message = 'No se seleccionó una imagen';
+				break;
+			case '2':
+				$message = 'Subir una imagen PNG';
+				break;
+			case '3':
+				$message = 'Tamaño máximo: 1 MB';
+				break;
+			case '4':
+				$message = 'Medidas incorrectas';
+				break;
+		}
+	}
+
+	$rows.='
+	<h3>'.ucfirst(LABEL_AddImages).' </h3>
+	<p class=' . $class .'>' . $message . '</p>
+	<div class="upload">
+		<form class="upload" action="upload.php?img=logo" method="post" enctype="multipart/form-data">
+				<p>Logo (máx. 100 x 50 px)</p>
+				<input type="file" name="image" id="image" />
+				<input type="submit" value="Upload Image" name="submit" />
+		</form>
+		<form class="upload" action="upload.php?img=cabecera" method="post" enctype="multipart/form-data">
+			<p>Encabezamiento PDF (máx. 1265 x 246 px)</p>
+			<input type="file" name="image" id="image" />
+			<input type="submit" value="Upload Image" name="submit" />
+		</form>
+	</div>';
+
+	return $rows;
+}
+
 
 //
 // Exportaciones totales del vocabularios

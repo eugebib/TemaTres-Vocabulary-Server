@@ -367,6 +367,7 @@ define('LABEL_relationSubTypeLabel',"relation sub-type label");
 define('LABEL_optative',"optional");
 define('FORM_JS_confirmDeleteTypeRelation','delete this relation sub-type?');
 define("LABEL_URItypeEditor","link type editor");
+define("LABEL_AddImages","adicionar imagens");
 define("LABEL_URIEditor","manage links associated to the term");
 define("LABEL_URItypeDelete","delete link type");
 define('LABEL_URItype',"link type");

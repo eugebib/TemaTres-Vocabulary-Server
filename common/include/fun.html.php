@@ -2071,7 +2071,9 @@ function HTMLnavHeader(){
 
 GLOBAL $CFG, $DBCFG;
 
-if((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) $_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"]=HTMLextraDataHeader($CFG);
+if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
+	$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
+}
 
 // here img
 $rows.='<div class="container">
@@ -2240,21 +2242,12 @@ $rows.='</div>';
 if($iNota>0) return $rows;
 }
 
-
 //redact extra link and image for header
-function HTMLextraDataHeader($CFG){
-
-//Check if there are data
-if(strlen($CFG["HEADER_EXTRA"]["LINK_IMG"])>0){
-	if(URL_exists($CFG["HEADER_EXTRA"]["LINK_IMG"])){
-		$url_logo='<img src="'.$CFG["HEADER_EXTRA"]["LINK_IMG"].'" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
+function HTMLextraDataHeader($CFG)
+{
+	if (strlen($CFG["HEADER_EXTRA"]["LINK_URL"]) > 0) {
+		return '<a href="'.$CFG["HEADER_EXTRA"]["LINK_URL"].'" title="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'"><img src="logo.png" height="50px"></a>';
 	}
 
-	///make link
-	if(strlen($CFG["HEADER_EXTRA"]["LINK_URL"])>0){
-		$url_logo='<a href="'.$CFG["HEADER_EXTRA"]["LINK_URL"].'" title="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">'.$url_logo.'</a>';
-	}
+	return '<img src="logo.png" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
 }
-return $url_logo;
-}
-?>
