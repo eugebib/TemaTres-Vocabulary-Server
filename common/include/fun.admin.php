@@ -1840,7 +1840,7 @@ function HTMLaddImages() {
 				<input type="submit" value="Upload Image" name="submit" />
 		</form>
 		<form class="upload" action="upload.php?img=cabecera" method="post" enctype="multipart/form-data">
-			<p>Encabezamiento PDF (máx. 1265 x 246 px)</p>
+			<p>Cabecera PDF (máx. 1265 x 246 px)</p>
 			<input type="file" name="image" id="image" />
 			<input type="submit" value="Upload Image" name="submit" />
 		</form>

@@ -2067,71 +2067,72 @@ function HTMLheader($metadata){
 
 
 
-function HTMLnavHeader(){
+function HTMLnavHeader() {
 
-GLOBAL $CFG, $DBCFG;
+	GLOBAL  $CFG,
+			$DBCFG;
 
-if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
-	$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
-}
+	if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
+		$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
+	}
 
-// here img
-$rows.='<div class="container">
-  <div class="header">
-      <h1><a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a></h1>
-      '.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
- </div>
-</div>';
+	$rows.='
+		<div class="container">
+	  		<div class="header">
+	      		<h1>
+	      			<a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a>
+	      		</h1>
+	      		'.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
+	 		</div>
+		</div>
+		<nav class="navbar navbar-inverse" role="navigation">
+	  		<div class="container">
+	    		<div class="navbar-header">
+	      			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+	        			<span class="icon-bar"></span>
+	      			</button>
+	      			<a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home"></span><span class="sr-only">'.MENU_Inicio.'</span>
+					</a>
+	    		</div>
+	    		<div class="navbar-collapse collapse" id="navbar-collapsible">
+	      			<ul class="nav navbar-nav navbar-right">
+	        			<li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+				        <li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>';
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+	    if ($DBCFG["help"]) {
+	        $rows.= '	<li><a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">?</a></li>';
+	    }
+	    $rows.= '		<li><a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope"></span><span class="sr-only">'.FORM_LABEL__contactMail.'</span></a></li>';
+	}
+	$rows.='		</ul>
+	      			<ul class="nav navbar-nav navbar-left">';
 
+	//hay sesion de usuario
+	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	  	$rows.= HTMLmainMenu();
+	} else {
+	 	$rows.='		<li><a href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a></li>';
+	};
 
-$rows.='<nav class="navbar navbar-inverse" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-collapsible">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+	$rows.='		</ul>
+	      			<form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
+				        <div class="form-group" style="display:inline;">
+			          		<div class="fill col2">
+				            	<input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search">
+				            	<button type="submit" class="btn btn-default">
+				              		<span class="glyphicon glyphicon-search"></span><span class="sr-only">'.LABEL_Buscar.'</span>
+				            	</button>
+				          	</div>
+				        </div>
+	      			</form>
+	    		</div>
+			</div>
+		</nav>';
 
-        <li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>';
-        if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
-        	if ($DBCFG["help"]) {
-            	$rows.= '<li><a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">?</a></li>';
-            }
-            $rows.= '<li><a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope"></span></a></li>';
-        }
-      $rows.='</ul>
-      <ul class="nav navbar-nav navbar-left">';
-
-				//hay sesion de usuario
-        if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
-  			$rows.=HTMLmainMenu();
-        }else{//no hay session de usuario
-
- 			$rows.='<li><a href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a></li>';
-        };
-
-  $rows.='</ul>
-      <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
-        <div class="form-group" style="display:inline;">
-          <div class="fill col2">
-            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search">
-            <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
-          </div>
-        </div>
-      </form>
-    </div>
-
-  </div>
-</nav>';
-
-return $rows;
+	return $rows;
 }
 
 

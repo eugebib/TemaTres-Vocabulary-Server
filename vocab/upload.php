@@ -6,7 +6,7 @@
             $height = 50;
             break;
 
-        case 'header':
+        case 'cabecera':
             $width = 1265;
             $height = 246;
             break;
