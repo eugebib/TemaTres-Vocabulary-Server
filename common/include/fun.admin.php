@@ -1577,7 +1577,7 @@ function HTMLlistaVocabularios(){
 $sql=SQLdatosVocabulario();
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_lcConfig).' &middot; <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+$rows.='<h3>'.ucfirst(LABEL_lcConfig).' &middot; <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_principal).'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_principal).'</a></h3>';
 
 $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
 $rows.='<thead>';
@@ -1625,7 +1625,7 @@ $sql=SQLtargetVocabulary("0");
 
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_lcConfig).' &middot; <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
+$rows.='<h3>'.ucfirst(FORM_LABEL_nombre_vocabularios).' &middot; <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
 
 $rows.='<thead>';
@@ -1835,14 +1835,14 @@ function HTMLaddImages() {
 	<p class=' . $class .'>' . $message . '</p>
 	<div class="upload">
 		<form class="upload" action="upload.php?img=logo" method="post" enctype="multipart/form-data">
-				<p>Logo (máx. 100 x 50 px)</p>
-				<input type="file" name="image" id="image" />
-				<input type="submit" value="Upload Image" name="submit" />
+			<p>' . LABEL_AddLogo . '</p>
+			<input type="file" name="image" id="image" />
+			<input type="submit" value="' . ucfirst(LABEL_AddImages) . '" name="submit" />
 		</form>
 		<form class="upload" action="upload.php?img=cabecera" method="post" enctype="multipart/form-data">
-			<p>Cabecera PDF (máx. 1265 x 246 px)</p>
+			<p>' . LABEL_AddHeadingPDF . '</p>
 			<input type="file" name="image" id="image" />
-			<input type="submit" value="Upload Image" name="submit" />
+			<input type="submit" value="' . ucfirst(LABEL_AddImages) . '" name="submit" />
 		</form>
 	</div>';
 
@@ -3039,7 +3039,7 @@ function HTMLformUserNotes(){
 	$rows.='<tr>';
 	$rows.=' <th>'.ucfirst(LABEL_tipoNota).'</th>';
 	$rows.= '<th>'.ucfirst(alias).':</th>';
-	$rows.= '<th>'.ucfirst(orden).'</th>';
+	$rows.= '<th>'.ucfirst(LABEL_Orden).'</th>';
 	$rows.= '<th></th>';
 	$rows.= '</tr>';
 
