@@ -2032,6 +2032,7 @@ function HTMLheader($metadata){
  $rows='   <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex, nofollow">
     <link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
