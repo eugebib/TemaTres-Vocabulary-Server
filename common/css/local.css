@@ -205,3 +205,16 @@ form.editable {
 #theTerm li a:last-child {
     padding-left: 10px;
 }
+
+div.upload {
+    margin-top: 20px;
+}
+
+form.upload {
+    display: flex;
+}
+
+.upload>* {
+    flex-grow: 1;
+    flex-basis: 0;
+}

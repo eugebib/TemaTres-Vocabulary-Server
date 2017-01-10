@@ -196,10 +196,10 @@ function PrintCover($params=array()){
 
     $this->AddPage();
 
-    if (file_exists(T3_ABSPATH.'common/images/cabecera.png')) {
-        $this->Image(T3_ABSPATH.'common/images/cabecera.png',null,null,190);
-    } else {
+    if (file_exists(local_path . 'cabecera.png')) {
         $this->Image(local_path . 'cabecera.png',null,null,190);
+    } else {
+        $this->Image(T3_ABSPATH.'common/images/cabecera.png',null,null,190);
     }
     $this->Ln(40);
 

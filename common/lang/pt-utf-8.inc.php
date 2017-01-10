@@ -373,6 +373,7 @@ define('LABEL_relationSubTypeLabel',"legenda do tipo de relação");
 define('LABEL_optative',"opcional");
 define('FORM_JS_confirmDeleteTypeRelation','Confirma que quer excluir este tipo de relação?');
 define("LABEL_URItypeEditor","editor de tipos de links");
+define("LABEL_AddImages","adicionar imagens");
 define("LABEL_URIEditor","Gerenciar links relacionados ao termo");
 define("LABEL_URItypeDelete","excluir tipo de link");
 define('LABEL_URItype',"tipo de link");

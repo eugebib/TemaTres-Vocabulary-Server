@@ -105,6 +105,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 	if(($_GET["vocabulario_id"]=='list')||(count($_GET)<1)){
 		echo HTMLlistaVocabularios();
 		echo HTMLlistaTargetVocabularios();
+        echo HTMLaddImages();
 		echo HTMLformUserNotes();
 		echo HTMLformUserRelations();
 		echo HTMLformURIdefinition();
