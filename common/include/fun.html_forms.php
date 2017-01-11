@@ -81,7 +81,7 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm=""){
 	$rows.='  <fieldset>	<legend>'.$nombre_pantalla.'</legend>';
 	$rows.='<div class="well">'.ucfirst(LABEL_associateFreeTerms).' ('.$cantFreeTerms.'): '.$HTMLfreeTerms.'. <p class="bg-warning">'.ucfirst(MSG_associateFreeTerms).'</p></div>';
 	$rows.='<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>
-	<button type="submit" class="btn btn-primary">'.LABEL_Buscar.'</button>
+	<button type="submit" class="btn btn-primary">'.ucfirst(LABEL_Buscar).'</button>
 	 <button type="button" class="btn btn-default" onClick="location.href=\'index.php?verT=L\'">'.ucfirst(LABEL_Cancelar).'</button>';
 	$rows.=$freeTermsHiddenTag;
 	$rows.='</form>';
@@ -97,7 +97,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 	$link_term=HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
 	switch ($taskterm){
 		case 'addRT':
-		$nombre_pantalla=ucfirst(LABEL_AgregarRTexist).$link_term;
+		$nombre_pantalla = ucfirst(LABEL_AgregarRTexist) . ' ' . $link_term;
 		break;
 		case 'addBT':
 		$nombre_pantalla=sprintf(LABEL_AgregarTG,$link_term);
@@ -223,8 +223,8 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 	$rows.='  <fieldset>
 	<legend>'.$nombre_pantalla.'</legend>
 	<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>
-	<button type="submit" class="btn btn-primary">'.LABEL_Buscar.'</button>
-	<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_showNBTTerms).'</button>
+	<button type="submit" class="btn btn-primary">'.ucfirst(LABEL_Buscar).'</button>
+	<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_termsNoBT).'</button>
 	<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=free\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>';
 	if(in_array($taskterm,array('addBT','addFreeNT'))){
 		$rows.=' <button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=tt\'"/>'.ucfirst(LABEL_TTTerms).'</button>';
@@ -597,7 +597,7 @@ function HTMLformAdvancedSearch($array){
 		$rows.='</select>';
 		$rows.='</div>';
 	}
-	$rows.='<div class="form-group"><label class="label_ln control-label" for="xstring" accesskey="s">'.ucfirst(LABEL_BuscaTermino).'</label>';
+	$rows.='<div class="form-group"><label class="label_ln control-label" for="xstring" accesskey="s">'.ucfirst(LABEL_Buscar).'</label>';
 	$rows.='<input name="xstring" class="input_ln form-control" required type="search" id="xstring" size="25" maxlength="50" value="'.$array["xstring"].'"/>';
 	$rows.='	<div class="checkbox-inline" ><label class="btn btn-default" for="isExactMatch" accesskey="f">';
 	$rows.='	<input name="isExactMatch" type="checkbox" id="isExactMatch" value="1" '.do_check('1',$_GET["isExactMatch"],"checked").'/>'.ucfirst(LABEL_esFraseExacta).'</label>';

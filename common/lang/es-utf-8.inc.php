@@ -323,7 +323,7 @@ define('LABEL_TargetTerm',"término externo (mapeo terminológico)");
 define('LABEL_TargetTerms',"términos externos (mapeo terminológico)");
 define('LABEL_seleccionar','seleccionar');
 define('LABEL_poliBT','más de un término genérico');
-define('LABEL_FORM_simpleReport','Reportes');
+define('LABEL_FORM_simpleReport','reportes');
 define('LABEL_FORM_advancedReport','Reportes avanzados');
 define('LABEL_FORM_nullValue','no importa');
 define('LABEL_FORM_haveNoteType','tienen nota de tipo');
@@ -345,7 +345,7 @@ define('IMPORT_skos_form_label','Archivo Skos-Core');
 v1.4
 */
 define('LABEL_termsxNTterms','Términos según cantidad de términos específicos');
-define('LABEL_termsNoBT','Términos sin relaciones jerárquicas');
+define('LABEL_termsNoBT','términos sin relaciones jerárquicas');
 define('MSG_noTermsNoBT','No hay términos sin relaciones jerárquicas');
 define('LABEL_termsXcantWords','Términos según cantidad de palabras');
 define('LABEL__USE_CODE','permitir código identificador único por término');
@@ -472,7 +472,6 @@ define('LABEL_altTerms','términos alternativos');
 define('LABEL_narrowerTerms','términos específicos');
 define('LABEL_results','resultados');
 define('LABEL_showFreeTerms','lista de términos libres');
-define('LABEL_showNBTTerms','términos sin relaciones jerárquicas');
 define('LABEL_helpSearchFreeTerms','Sólo se buscarán términos libres.');
 define('LABEL_broatherTerms','términos genéricos');
 define('LABEL_type2filter','tipee para filtrar términos');
@@ -545,4 +544,3 @@ define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
 define('LABEL_Info','Información sobre este vocabulario');
-?>

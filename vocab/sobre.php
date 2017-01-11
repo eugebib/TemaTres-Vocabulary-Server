@@ -95,7 +95,7 @@ $metadata=do_meta_tag();
                 <dd>
                     <?= $resumen[cant_total]; ?>
                     <?= '<a class="label label-info pull-right" href="'.URL_BASE.'index.php?s=n" title="'.mb_strtoupper(LABEL_showNewsTerm, 'UTF-8').'">
-                            <span class="glyphicon glyphicon-fire"></span>' .
+                            <span class="glyphicon glyphicon-fire"></span> ' .
                             mb_strtoupper(LABEL_showNewsTerm, 'UTF-8').'
                         </a>'; ?>
                 </dd>

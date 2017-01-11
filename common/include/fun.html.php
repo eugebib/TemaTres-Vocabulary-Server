@@ -576,7 +576,7 @@ function HTMLmainMenu(){
 
 
 	//User menu
-	$row.='<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>';
+	$row.='<li><a title="'.ucfirst(LABEL_FORM_simpleReport).'" href="'.URL_BASE.'index.php?mod=csv">'.ucfirst(LABEL_FORM_simpleReport).'</a></li>';
 	$row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>';
 	$row.='<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>';
 
