@@ -511,7 +511,7 @@ function HTMLmainMenu() {
 	$row = '
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
-			<ul class="dropdown-menu dropdown-menu-right">
+			<ul class="dropdown-menu dropdown-menu-change">
 				<li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
 				<li class="dropdown dropdown-submenu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a>
@@ -523,12 +523,20 @@ function HTMLmainMenu() {
 						<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>
 					</ul>
 				</li>
-				<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>';
+				<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>
+			</ul>
+		</div>
+		<a class="link" title="'.ucfirst(MENU_AgregarT).'" href="'.URL_BASE.'index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a>';
 
-	/* Admin menu */
+	return $row;
+};
+
+function HTMLAdminMenu() {
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
-		$row.=' <li role="presentation" class="divider"></li>
-				<li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#"><strong>' . LABEL_Admin . '</strong></a></li>
+		$row.='
+		<div class="dropdown">
+			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Admin).'</a>
+			<ul class="dropdown-menu dropdown-menu-right">
 				<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>
 				<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>
 				<li class="dropdown dropdown-submenu">
@@ -558,17 +566,13 @@ function HTMLmainMenu() {
 							</ul>
 						</li>
 					</ul>
-				</li>';
+				</li>
+			</ul>
+		</div>';
 	}
 
-	$row.='</ul>
-		</div>
-		<a class="link" title="'.ucfirst(MENU_AgregarT).'" href="'.URL_BASE.'index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a>';
-
 	return $row;
-};
-
-
+}
 
 
 #
@@ -2050,7 +2054,6 @@ function HTMLnavHeader() {
 	}
 
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
-	    $mainMenu = HTMLmainMenu();
 	    $miCuenta = '<div class="dropdown">
 					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">
@@ -2092,9 +2095,10 @@ function HTMLnavHeader() {
 			</div>
 			<div class="section section-left">' .
 				$busqAvanzada .
-				$mainMenu . '
+				HTMLmainMenu() . '
 			</div>
 			<div class="section section-right">
+				' . HTMLAdminMenu() . '
 				<div class="dropdown">
 					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">Sobre este vocabulario *</a>
 					<ul class="dropdown-menu dropdown-menu-right">

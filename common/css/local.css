@@ -29,8 +29,6 @@ html * {
     text-decoration: none;
 }
 
-/* aca nuevo */
-
 .navbar {
     background: #193848;
     border: 0;
@@ -168,9 +166,12 @@ html * {
     .navbar .link-hidden {
         display: none;
     }
-}
 
-/* hasta aca */
+    .dropdown-menu-change {
+        right: 0;
+        left: auto;
+    }
+}
 
 .navbar-inverse {
     background-color: #193848;
