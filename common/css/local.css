@@ -3,6 +3,14 @@ html * {
     box-sizing: border-box;
 }
 
+body {
+    background-color: #f9f9f9;
+}
+
+#wrap {
+    margin-bottom: 0px;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -359,6 +367,7 @@ form.upload {
 footer {
     padding-top: 60px;
     font-size: 16px;
+    background-color: white;
 }
 
 footer a {
