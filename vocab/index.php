@@ -33,7 +33,6 @@
 		<div id="wrap" class="container">
 			<?php require_once(T3_ABSPATH . 'common/include/inc.inicio.php'); ?>
 		</div>
-		<div class="push"></div>
 		<?php echo footer(); ?>
 		<?php echo HTMLjsInclude();?>
     </body>
