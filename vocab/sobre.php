@@ -192,6 +192,11 @@ $metadata=do_meta_tag();
 	</div>
 
 		  </div>
-<?php echo HTMLjsInclude();?>
+        <?php echo HTMLjsInclude();?>
+        <script>
+            $(".toggle").on("click", function() {
+                $(".toggle").parent().parent().toggleClass('active');
+            });
+        </script>
     </body>
 </html>

@@ -127,6 +127,11 @@
 		  	</div>
 		</div>
 		<?php echo HTMLjsInclude();?>
+	    <script>
+		    $(".toggle").on("click", function() {
+		      	$(".toggle").parent().parent().toggleClass('active');
+		    });
+		</script>
     </body>
 </html>
 

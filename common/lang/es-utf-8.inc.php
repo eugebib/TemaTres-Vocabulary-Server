@@ -20,7 +20,9 @@ define("USE_termino","Use");
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Sobre","Sobre...");
+define("MENU_Stats","Estadísticas");
 define("MENU_Ayuda","Manual");
+define("MENU_Contact","Asistencia técnica");
 define("MENU_Inicio","Inicio");
 define("MENU_MiCuenta","Mi cuenta");
 define("MENU_Usuarios","Usuarios");
@@ -275,7 +277,7 @@ $install_message[306] = 'Instalación completa, <a href="index.php">comience a u
 /* v 1.1 */
 define('MSG_ERROR_CODE',"código duplicado");
 define('LABEL_CODE',"código");
-define('LABEL_Ver',"ver");
+define('LABEL_Ver',"listados");
 define('LABEL_OpcionesTermino',"término");
 define('LABEL_CambiarEstado',"cambiar estado");
 define('LABEL_ClickEditar',"click para editar...");
