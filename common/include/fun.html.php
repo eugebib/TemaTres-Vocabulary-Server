@@ -508,7 +508,8 @@ function HTMLbodyTermino($array){
 
 function HTMLmainMenu() {
 
-	$row = '
+	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+		$row = '
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
 			<ul class="dropdown-menu dropdown-menu-change">
@@ -523,10 +524,11 @@ function HTMLmainMenu() {
 						<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>
 					</ul>
 				</li>
-				<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>
+				<li><a title="' . ucfirst(LABEL_FORM_simpleReport) . '" href="'.URL_BASE.'index.php?mod=csv">' . ucfirst(LABEL_FORM_simpleReport) . '</a></li>
 			</ul>
 		</div>
 		<a class="link" title="'.ucfirst(MENU_AgregarT).'" href="'.URL_BASE.'index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a>';
+	}
 
 	return $row;
 };
@@ -535,36 +537,31 @@ function HTMLAdminMenu() {
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
 		$row.='
 		<div class="dropdown">
-			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Admin).'</a>
+			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="sr-only">'.ucfirst(LABEL_Admin).'</span></a>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>
 				<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>
+				<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>
+				<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>
+				<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>
 				<li class="dropdown dropdown-submenu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Más *</a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
 					<ul class="dropdown-menu">
-						<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>
-						<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>
-						<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>
-						<li class="dropdown dropdown-submenu">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
-							<ul class="dropdown-menu">
-								<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';
+						<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';
 		//Enable or not SPARQL endpoint
 		if (CFG_ENABLE_SPARQL==1) {
-			$row.= '<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>';
+			$row.= '	<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>';
 		}
 
-		$row.='					<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>
-								<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>
-								<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>
-								<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>
-								<li><a title="'.ucfirst(LABEL_update1_5x1_6).'" href="admin.php?doAdmin=updte1_5x1_6">'.ucfirst(LABEL_update1_5x1_6).'</a></li>
-								<li><a title="'.ucfirst(LABEL_update1_4x1_5).'" href="admin.php?doAdmin=updte1_4x1_5">'.ucfirst(LABEL_update1_4x1_5).'</a></li>
-								<li><a title="'.ucfirst(LABEL_update1_3x1_4).'" href="admin.php?doAdmin=updte1_3x1_4">'.ucfirst(LABEL_update1_3x1_4).'</a></li>
-								<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>
-								<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>
-							</ul>
-						</li>
+		$row.='			<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>
+						<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>
+						<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_5x1_6).'" href="admin.php?doAdmin=updte1_5x1_6">'.ucfirst(LABEL_update1_5x1_6).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_4x1_5).'" href="admin.php?doAdmin=updte1_4x1_5">'.ucfirst(LABEL_update1_4x1_5).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_3x1_4).'" href="admin.php?doAdmin=updte1_3x1_4">'.ucfirst(LABEL_update1_3x1_4).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -2085,7 +2082,7 @@ function HTMLnavHeader() {
         </div>
 
         <nav class="navbar container-fluid">
-			<a class="link link-hidden" title="Inicio" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home"></span><span class="sr-only">Inicio</span></a>
+			<a class="link link-hidden" title="Inicio" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><span class="sr-only">Inicio</span></a>
 			<div class="search">
 				<a href="#" class="toggle"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
 				<form class="brand" method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php">
@@ -2098,17 +2095,17 @@ function HTMLnavHeader() {
 				HTMLmainMenu() . '
 			</div>
 			<div class="section section-right">
-				' . HTMLAdminMenu() . '
 				<div class="dropdown">
-					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">Sobre este vocabulario *</a>
+					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">' . ucfirst(MENU_Sobre) . '</a>
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">Estadísticas *</a></li>
-						<li><a title="Ultimos *" href="'.URL_BASE.'index.php?s=n">Ultimas modificaciones</a></li>
+						<li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">' . ucfirst(MENU_Stats) . '</a></li>
+						<li><a title="Ultimos *" href="'.URL_BASE.'index.php?s=n">' . ucfirst(LABEL_newsTerm) . '</a></li>
 						' . $sparql .
 						$api . '
 					</ul>
-				</div>
-				' . $miCuenta . '
+				</div>'
+				. HTMLAdminMenu()
+				. $miCuenta . '
 			</div>
         </nav>';
 

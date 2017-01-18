@@ -30,7 +30,7 @@ html * {
 }
 
 .navbar {
-    background: #193848;
+    background-color: #193848;
     border: 0;
     border-radius: 0;
     display: flex;
@@ -48,7 +48,6 @@ html * {
 .navbar .link {
     display: block;
     width: 100%;
-    text-align: center;
     padding: 1em;
     text-decoration: none;
     color: white;
@@ -66,12 +65,6 @@ html * {
     align-items: stretch;
     border-right: 10px solid #193848;
     border-left: 10px solid #193848;
-}
-
-.navbar .brand {
-    @media (min-width: 48em) {
-        align-self: left
-    }
 }
 
 .navbar .brand input,
@@ -101,29 +94,23 @@ html * {
     height: 100%;
 }
 
-@media (min-width: 48em) {
+@media (min-width: 50em) {
     .navbar {
-        justify-content: space-between;
         flex-flow: row;
     }
 
     .navbar .section {
         display: flex;
-        flex: 1;
-    }
-
-    .navbar .section-left {
-        justify-content: flex-start;
     }
 
     .navbar .section-right {
+        flex-grow: 1;
         justify-content: flex-end;
     }
 
     .navbar .link {
         width: auto;
     }
-
 
     .navbar .toggle {
         display: none;
@@ -132,7 +119,7 @@ html * {
 
 .navbar > div {
     display: none;
-    @media (min-width: 48em) {
+    @media (min-width: 50em) {
         display: flex;
     }
 }
@@ -141,7 +128,25 @@ html * {
     display: flex;
 }
 
-@media (max-width: 48em) {
+.navbar .dropdown-menu {
+    padding: 5px 10px;
+    border-radius: 0;
+    border: 1px solid rgba(25, 56, 72, .5)
+}
+
+.navbar .dropdown-menu li a {
+    padding: 5px 0px;
+}
+
+.navbar .dropdown-menu .dropdown a {
+    padding: 5px 10px 5px 0px;
+}
+
+.navbar .dropdown-menu-right .dropdown a {
+    padding: 5px 0px 5px 10px;
+}
+
+@media (max-width: 49.94em) {
     .navbar.active .toggle {
         background: seagreen;
         color: white;
@@ -157,10 +162,6 @@ html * {
 
     .navbar > div.search {
         display: flex;
-    }
-
-    .navbar .link {
-        text-align: left;
     }
 
     .navbar .link-hidden {
