@@ -57,54 +57,55 @@ foreach ($CFG["ISO639-1"] as $langs) {
 $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];
 ?>
 <div class="container" id="bodyText">
-<a class="topOfPage" href="<?php echo URL_BASE;?>index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
-<h3><?php echo LABEL_EditorNota ;?></h3>
-<form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
-	<div class="row">
-    <div class="col-sm-12">
-        <legend> <?php echo LABEL_EditorNotaTermino.' <a href="index.php?tema='.$metadata["arraydata"]["tema_id"].'">'.$metadata["arraydata"]["titTema"].'</a>';?></legend>
-    </div>
-    <!-- panel  -->
-
-    <div class="col-lg-7">
-        <div class="panel panel-default">
-            <div class="panel-body form-horizontal">
-
-            <div class="form-group">
-            <label for="<?php echo LABEL_tipoNota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_tipoNota);?></label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota;?>">
-                      <?php echo doSelectForm($arrayNoteType,$arrayNota["tipo_nota"]);?>
-                    </select>
-                </div>
+    <a class="topOfPage" href="<?php echo URL_BASE;?>index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
+    <h3><?php echo LABEL_EditorNota ;?></h3>
+    <form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
+    	<div class="row">
+            <div class="col-sm-12">
+                <legend> <?php echo LABEL_EditorNotaTermino.' <a href="index.php?tema='.$metadata["arraydata"]["tema_id"].'">'.$metadata["arraydata"]["titTema"].'</a>';?></legend>
             </div>
-            <div class="form-group">
-            <label for="<?php echo FORM_LABEL_Idioma;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_Idioma);?></label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="<?php echo FORM_LABEL_Idioma;?>" name="<?php echo FORM_LABEL_Idioma;?>">
-                      <?php echo doSelectForm($arrayLang,$arrayNota["lang_nota"]);?>
-                    </select>
-                </div>
-            </div>
-                <div class="form-group">
-                    <label for="<?php echo LABEL_nota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_nota);?></label>
+            <!-- panel  -->
 
-                    <div class="col-sm-9">
-                    <span class="help-block"><?php echo MSG_helpNoteEditor;?></span>
-                      <textarea style="width:100%" cols="60" name="<?php echo FORM_LABEL_nota;?>" rows="15" id="<?php echo LABEL_nota;?>"><?php echo $arrayNota["nota"];?></textarea>
+            <div class="col-lg-7">
+                <div class="panel panel-default">
+                    <div class="panel-body form-horizontal">
+
+                        <div class="form-group">
+                            <label for="<?php echo LABEL_tipoNota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_tipoNota);?></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota;?>">
+                                  <?php echo doSelectForm($arrayNoteType,$arrayNota["tipo_nota"]);?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="<?php echo FORM_LABEL_Idioma;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_Idioma);?></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="<?php echo FORM_LABEL_Idioma;?>" name="<?php echo FORM_LABEL_Idioma;?>">
+                                  <?php echo doSelectForm($arrayLang,$arrayNota["lang_nota"]);?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="<?php echo LABEL_nota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_nota);?></label>
+
+                            <div class="col-sm-9">
+                                <span class="help-block"><?php echo MSG_helpNoteEditor;?></span>
+                                <textarea style="width:100%" cols="60" name="<?php echo FORM_LABEL_nota;?>" rows="15" id="<?php echo LABEL_nota;?>"><?php echo $arrayNota["nota"];?></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" role="group" >
+                            <div class="col-sm-12 text-right">
+                                <div class="btn-group">
+                                    <?php echo $buttons;?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group" role="group" >
-                    <div class="col-sm-12 text-right">
-                      <div class="btn-group">
-                      <?php echo $buttons;?>
-                      </div>
-                    </div>
-                </div>
-            </div>
+            </div> <!-- / panel  -->
+            <?php echo $hidden;?>
         </div>
-    </div> <!-- / panel  -->
-<?php echo $hidden;?>
-</form>
+    </form>
 
 </div>

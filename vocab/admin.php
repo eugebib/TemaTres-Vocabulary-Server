@@ -197,7 +197,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 	}
 ?>
 
-</div><!-- /.container -->
+</div></div><!-- /.container -->
 
 <?php echo footer(); ?>
 

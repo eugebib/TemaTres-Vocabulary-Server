@@ -1,14 +1,18 @@
 html * {
-    font-family: 'Open Sans', 'Sans Serif';
     box-sizing: border-box;
 }
 
 body {
+    font-family: 'Roboto', 'Open Sans', sans-serif;
     background-color: #f9f9f9;
 }
 
 #wrap {
     margin-bottom: 40px;
+}
+
+#wrap a {
+    color: #193848;
 }
 
 .header {
@@ -235,6 +239,10 @@ fieldset .btn {
     font-size: 14px;
 }
 
+.sobre {
+    border-bottom: 0;
+}
+
 .sobre h1 {
     margin-bottom: 30px;
 }
@@ -252,7 +260,7 @@ fieldset .btn {
 
 .sobre dt {
     width: 30%;
-    background-color: white;
+    background-color: transparent;
     color: #36657d;
     text-align: right;
 }
@@ -384,8 +392,8 @@ footer {
 }
 
 footer a {
-    font-weight: bold;
-    color: #2fbaf9;
+    font-weight: 500;
+    color: #0695d6;
 }
 
 footer img {
@@ -394,6 +402,10 @@ footer img {
 
 footer .leaf form {
     text-align: left;
+}
+
+footer p.text-muted {
+    font-weight: 300;
 }
 
 #arg-footer {
