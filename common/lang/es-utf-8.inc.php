@@ -377,6 +377,7 @@ define('LABEL_optative',"opcional");
 define('FORM_JS_confirmDeleteTypeRelation','¿Realmente quiere eliminar este tipo de relación?');
 define("LABEL_URItypeEditor","editor de tipos de enlaces");
 define("LABEL_AddImages","agregar imágenes");
+define("LABEL_UploadImage","subir imagen");
 define("LABEL_URIEditor","Gestionar enlaces relacionados al término");
 define("LABEL_URItypeDelete","eliminar tipo de enlace");
 define('LABEL_URItype',"tipo de enlace");

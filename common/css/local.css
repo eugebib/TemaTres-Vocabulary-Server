@@ -431,6 +431,7 @@ footer p.text-muted {
 
 #arg-footer img {
     height: 40px;
+    margin: 0;
 }
 
 .glyphicon-fw {
