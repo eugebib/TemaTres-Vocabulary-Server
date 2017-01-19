@@ -1837,12 +1837,12 @@ function HTMLaddImages() {
 		<form class="upload" action="upload.php?img=logo" method="post" enctype="multipart/form-data">
 			<p>' . LABEL_AddLogo . '</p>
 			<input type="file" name="image" id="image" />
-			<input type="submit" value="' . ucfirst(LABEL_AddImages) . '" name="submit" />
+			<input type="submit" value="' . ucfirst(LABEL_UploadImage) . '" name="submit" />
 		</form>
 		<form class="upload" action="upload.php?img=cabecera" method="post" enctype="multipart/form-data">
 			<p>' . LABEL_AddHeadingPDF . '</p>
 			<input type="file" name="image" id="image" />
-			<input type="submit" value="' . ucfirst(LABEL_AddImages) . '" name="submit" />
+			<input type="submit" value="' . ucfirst(LABEL_UploadImage) . '" name="submit" />
 		</form>
 	</div>';
 

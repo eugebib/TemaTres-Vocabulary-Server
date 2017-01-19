@@ -204,3 +204,7 @@ form.upload {
     flex-grow: 1;
     flex-basis: 0;
 }
+
+#listaLetras li {
+    line-height: 35px;
+}
