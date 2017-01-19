@@ -105,6 +105,7 @@ $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : 
         </div>
     </div> <!-- / panel  -->
 <?php echo $hidden;?>
+</div>
 </form>
 
 </div>

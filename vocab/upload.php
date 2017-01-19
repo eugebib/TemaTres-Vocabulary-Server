@@ -2,14 +2,14 @@
 
     switch ($_GET['img']) {
         case 'logo':
-            $width = 100;
-            $height = 50;
-            break;
+            $width = 200;
+            $height = 100;
+        break;
 
         case 'cabecera':
             $width = 1265;
             $height = 246;
-            break;
+        break;
     }
 
     if ( ! $_FILES['image']['name'] || empty($_FILES['image']['name'])) {

@@ -1,5 +1,18 @@
 html * {
-    font-family: 'Open Sans', 'Sans Serif';
+    font-family: 'Roboto', 'Open Sans', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9f9f9;
+}
+
+#wrap {
+    margin-bottom: 40px;
+}
+
+#wrap a {
+    color: #193848;
 }
 
 .header {
@@ -28,18 +41,166 @@ html * {
     text-decoration: none;
 }
 
-.navbar-inverse {
+.navbar {
     background-color: #193848;
-    border-radius: 0px;
+    border: 0;
+    border-radius: 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: column;
 }
 
-.navbar-inverse .navbar-brand,
-.navbar-inverse .navbar-nav>li>a {
+.navbar .toggle {
+    display: inline-block;
+    color:  white;
+    padding: 1em;
+    vertical-align: middle;
+}
+
+.navbar .link {
+    display: block;
+    width: 100%;
+    padding: 1em;
+    text-decoration: none;
     color: white;
 }
 
-.navbar-form button {
-    color: #193848;
+.navbar .brand {
+    display: inline-block;
+    width: inherit;
+    height: 50px;
+    text-align: left;
+    padding: 0;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: stretch;
+    border-right: 10px solid #193848;
+    border-left: 10px solid #193848;
+}
+
+.navbar .brand input,
+.navbar .brand button {
+    background-color: darkcyan;
+    border: 0;
+    padding: 1em;
+    border-radius: 0;
+    outline: 0;
+    color: white;
+}
+
+.navbar .link:hover,
+.navbar .link:active,
+.navbar .brand:hover,
+.navbar .brand:active {
+    background: darkcyan;
+}
+
+.navbar .dropdown,
+.navbar .dropdown:visited,
+.navbar .dropdown:hover {
+    color:  white;
+}
+
+.link-dropdown {
+    height: 100%;
+}
+
+@media (min-width: 816px) {
+    .navbar {
+        flex-flow: row;
+    }
+
+    .navbar .section {
+        display: flex;
+    }
+
+    .navbar .section-right {
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+
+    .navbar .link {
+        width: auto;
+    }
+
+    .navbar .toggle {
+        display: none;
+    }
+
+    .navbar .dropdown-menu-right .dropdown a.dropdown-toggle {
+        padding-left: 10px;
+    }
+}
+
+.navbar > div {
+    display: none;
+    @media (min-width: 816px) {
+        display: flex;
+    }
+}
+
+.navbar > div.search {
+    display: flex;
+}
+
+.navbar .dropdown-menu {
+    padding: 5px 10px;
+    border-radius: 0;
+    border: 1px solid rgba(25, 56, 72, .5)
+}
+
+.navbar .dropdown-menu li a {
+    padding: 5px 0px;
+}
+
+.navbar .dropdown-menu .dropdown a {
+    padding: 5px 10px 5px 0px;
+}
+
+.navbar .dropdown-menu-right .dropdown a {
+    padding: 5px 0px 5px 0px;
+}
+
+@media (max-width: 815px) {
+    .navbar.active .toggle {
+        background: seagreen;
+        color: white;
+    }
+
+    .navbar.active div {
+        display: block;
+    }
+
+    .navbar.active div.section-left {
+        margin-top: 10px;
+    }
+
+    .navbar > div.search {
+        display: flex;
+    }
+
+    .navbar .link-hidden {
+        display: none;
+    }
+
+    .dropdown-menu-change {
+        right: 0;
+        left: auto;
+    }
+}
+
+.navbar .dropdown-menu-right .dropdown a {
+    padding: 5px 10px 5px 0px;
+}
+
+.navbar .dropdown-menu>.dropdown-submenu>.dropdown-menu>li> a {
+    padding-left: 0px;
+}
+
+.navbar-inverse {
+    background-color: #193848;
+    border-radius: 0px;
 }
 
 .nav-tabs > li > a {
@@ -77,6 +238,10 @@ fieldset .btn {
     font-size: 14px;
 }
 
+.sobre {
+    border-bottom: 0px;
+}
+
 .sobre h1 {
     margin-bottom: 30px;
 }
@@ -94,7 +259,7 @@ fieldset .btn {
 
 .sobre dt {
     width: 30%;
-    background-color: white;
+    background-color: transparent;
     color: #36657d;
     text-align: right;
 }
@@ -207,4 +372,57 @@ form.upload {
 
 #listaLetras li {
     line-height: 35px;
+}
+
+footer {
+    padding-top: 60px;
+    font-size: 16px;
+    background-color: white;
+}
+
+footer a {
+    font-weight: 500;
+    color: #0695d6;
+}
+
+footer img {
+    margin-bottom: 20px;
+}
+
+footer .leaf form {
+    text-align: left;
+}
+
+footer p.text-muted {
+    font-weight: 300;
+}
+
+#arg-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background: #FFF;
+    padding:  15px;
+    color: #767676;
+    font-size: 14px;
+    text-align: center;
+    font-family: "Roboto", "Arial", "Helvetica";
+    border-top: 1px solid #EEE;
+}
+
+#arg-footer strong {
+    font-weight: bold;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+#arg-footer img {
+    height: 40px;
+}
+
+.glyphicon-fw {
+    width: 2.5em;
+    text-align: center;
 }

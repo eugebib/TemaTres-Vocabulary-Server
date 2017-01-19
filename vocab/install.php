@@ -659,5 +659,15 @@ function HTMLformInstall($lang_install)
 		<span class="footerCol2"><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></span>
     	</div>
 	</div>
-    </body>
+
+		<script>
+
+		    $(".toggle").on("click", function() {
+
+		        $(".toggle").parent().parent().toggleClass('active');
+
+		    });
+
+		</script>
+	</body>
 </html>

@@ -156,7 +156,7 @@ function resultaBusca($texto,$tipo=""){
 		$body.=HTMLsugerirTermino($texto);
 	};// fin de if result
 
-	$body.='</div>'; //container;
+	$body.='</div></div>'; //container;
 	return $body;
 };
 
@@ -522,81 +522,70 @@ function HTMLbodyTermino($array){
 
 
 
-function HTMLmainMenu(){
+function HTMLmainMenu() {
 
-	$row.='<ul class="nav navbar-nav navbar-right">';
-	$row.='<li class="dropdown">
-	<a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>';
-
-	$row.='<ul class="dropdown-menu">';
-	/*
-	* Admin menu
-	*/
-	if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
-		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>';
-		$row.='<ul class="dropdown-menu">';
-		$row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>';
-		$row.='<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>';
-		$row.='<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>';
-		$row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
-
-		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
-		<ul class="dropdown-menu">';
-		$row.='<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';
-
-		//Enable or not SPARQL endpoint
-		$row.=(CFG_ENABLE_SPARQL==1) ? '<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>' :'';
-
-		$row.='<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>';
-		$row.='<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>';
-		$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_update1_5x1_6).'" href="admin.php?doAdmin=updte1_5x1_6">'.ucfirst(LABEL_update1_5x1_6).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_update1_4x1_5).'" href="admin.php?doAdmin=updte1_4x1_5">'.ucfirst(LABEL_update1_4x1_5).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_update1_3x1_4).'" href="admin.php?doAdmin=updte1_3x1_4">'.ucfirst(LABEL_update1_3x1_4).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>';
-		$row.='<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>';
-
-		$row.='</ul></li>';
-
-		$row.='</ul></li>';
+	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+		$row = '
+		<div class="dropdown">
+			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
+			<ul class="dropdown-menu dropdown-menu-change">
+				<li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+				<li class="dropdown dropdown-submenu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a>
+					<ul class="dropdown-menu">
+						<li><a title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>
+						<li><a title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>
+						<li><a title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>
+						<li><a title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>
+						<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>
+					</ul>
+				</li>
+				<li><a title="' . ucfirst(LABEL_FORM_simpleReport) . '" href="'.URL_BASE.'index.php?mod=csv">' . ucfirst(LABEL_FORM_simpleReport) . '</a></li>
+			</ul>
+		</div>
+		<a class="link" title="'.ucfirst(MENU_AgregarT).'" href="'.URL_BASE.'index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a>';
 	}
-	/*
-	Menu ver
-	*/
-	$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a><ul class="dropdown-menu">';
-
-	$row.='<li><a title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>';
-	$row.='<li><a title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>';
-	$row.='<li><a title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>';
-	$row.='<li><a title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>';
-	$row.='<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>';
-	$row.='</ul></li>';
-
-
-	//User menu
-	$row.='<li><a title="'.ucfirst(LABEL_FORM_simpleReport).'" href="'.URL_BASE.'index.php?mod=csv">'.ucfirst(LABEL_FORM_simpleReport).'</a></li>';
-	$row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>';
-	$row.='<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>';
-
-	$row.='   </ul>';
-	$row.='</li>';
-
-	$row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="'.URL_BASE.'index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
-
-
-	$row.='</ul>';
-
-
 
 	return $row;
-
-
 };
 
+function HTMLAdminMenu() {
 
+	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
+		$row.='
+		<div class="dropdown">
+			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="sr-only">'.ucfirst(LABEL_Admin).'</span></a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>
+				<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>
+				<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>
+				<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>
+				<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>
+				<li class="dropdown dropdown-submenu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
+					<ul class="dropdown-menu">
+						<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';
+		//Enable or not SPARQL endpoint
+		if (CFG_ENABLE_SPARQL==1) {
+			$row.= '	<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>';
+		}
+		$row.='			<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>
+						<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>
+						<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_5x1_6).'" href="admin.php?doAdmin=updte1_5x1_6">'.ucfirst(LABEL_update1_5x1_6).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_4x1_5).'" href="admin.php?doAdmin=updte1_4x1_5">'.ucfirst(LABEL_update1_4x1_5).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_3x1_4).'" href="admin.php?doAdmin=updte1_3x1_4">'.ucfirst(LABEL_update1_3x1_4).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>
+						<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>';
+	}
 
+	return $row;
+}
 
 #
 # term menu options
@@ -2053,7 +2042,8 @@ function HTMLheader($metadata){
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
     <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
     <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%7COpen+Sans%7CSyncopate%7CSource+Sans+Pro:400,400italic">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -2073,69 +2063,66 @@ function HTMLnavHeader() {
 			$DBCFG;
 
 	if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
-		$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
+    	$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
 	}
 
-	$rows.='
-		<div class="container">
-	  		<div class="header">
-	      		<h1>
-	      			<a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a>
-	      		</h1>
-	      		'.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
-	 		</div>
-		</div>
-		<nav class="navbar navbar-inverse" role="navigation">
-	  		<div class="container">
-	    		<div class="navbar-header">
-	      			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
-				        <span class="sr-only">Toggle navigation</span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-	        			<span class="icon-bar"></span>
-	      			</button>
-	      			<a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home"></span><span class="sr-only">'.MENU_Inicio.'</span>
-					</a>
-	    		</div>
-	    		<div class="navbar-collapse collapse" id="navbar-collapsible">
-	      			<ul class="nav navbar-nav navbar-right">
-	        			<li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
-				        <li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>';
-	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
-	    if ($DBCFG["help"]) {
-	        $rows.= '	<li><a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">?</a></li>';
-	    }
-	    $rows.= '		<li><a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope"></span><span class="sr-only">'.FORM_LABEL__contactMail.'</span></a></li>';
-	}
-	$rows.='		</ul>
-	      			<ul class="nav navbar-nav navbar-left">';
-
-	//hay sesion de usuario
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
-	  	$rows.= HTMLmainMenu();
+	    $miCuenta = '<div class="dropdown">
+					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>
+						<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>
+					</ul>
+				</div>';
 	} else {
-	 	$rows.='		<li><a href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a></li>';
-	};
-
-	$rows.='		</ul>
-	      			<form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
-				        <div class="form-group" style="display:inline;">
-			          		<div class="fill col2">
-				            	<input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search">
-				            	<button type="submit" class="btn btn-default">
-				              		<span class="glyphicon glyphicon-search"></span><span class="sr-only">'.LABEL_Buscar.'</span>
-				            	</button>
-				          	</div>
-				        </div>
-	      			</form>
-	    		</div>
+	    $miCuenta ='<a class="link" href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a>';
+	    $busqAvanzada = '<a class="link" title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a>';
+	}
+	if (CFG_ENABLE_SPARQL == 1) {
+		$sparql = '<li><a title="'.LABEL_SPARQLEndpoint.'" href="'.URL_BASE.'sparql.php">'.LABEL_SPARQLEndpoint.'</a></li>';
+	}
+	if (CFG_SIMPLE_WEB_SERVICE == 1) {
+		$api = '<li><a href="'.URL_BASE.'services.php" title="API">API</a>';
+	}
+    $rows.='
+        <div class="container">
+            <div class="header">
+                <h1>
+                   	<a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a>
+              	</h1>
+                '.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
+            </div>
+        </div>
+        <nav class="navbar container-fluid">
+			<a class="link link-hidden" title="Inicio" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><span class="sr-only">Inicio</span></a>
+			<div class="search">
+				<a href="#" class="toggle"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+				<form class="brand" method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php">
+					<input id="query" name="'.FORM_LABEL_buscar.'" type="search">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"><span class="sr-only">'.LABEL_Buscar.'</span></span></button>
+				</form>
 			</div>
-		</nav>';
+			<div class="section section-left">' .
+				$busqAvanzada .
+				HTMLmainMenu() . '
+			</div>
+			<div class="section section-right">
+				<div class="dropdown">
+					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">' . ucfirst(MENU_Sobre) . '</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">' . ucfirst(MENU_Stats) . '</a></li>
+						<li><a title="Ultimos *" href="'.URL_BASE.'index.php?s=n">' . ucfirst(LABEL_newsTerm) . '</a></li>
+						' . $sparql .
+						$api . '
+					</ul>
+				</div>'
+				. HTMLAdminMenu()
+				. $miCuenta . '
+			</div>
+        </nav>';
 
-	return $rows;
+    return $rows;
 }
-
-
 
 function HTMLjsInclude(){
 
@@ -2251,4 +2238,49 @@ function HTMLextraDataHeader($CFG)
 	}
 
 	return '<img src="logo.png" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
+}
+
+function footer() {
+
+	global $DBCFG;
+
+	$lang = doMenuLang($metadata["arraydata"]["tema_id"]);
+	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	    $contact = '
+	    	<li class="first leaf">
+				<a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope glyphicon-fw"></span>Asistencia técnica *</a>
+			</li>';
+		if ($DBCFG["help"]) {
+		    $help = '
+		    <li class="leaf">
+				<a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank"><span class="glyphicon glyphicon-question-sign glyphicon-fw"></span>'.MENU_Ayuda.'</span></a>
+			</li>';
+		}
+	}
+	$rows = '
+	<footer role="contentinfo" class="main-footer">
+	    <nav role="navigation" class="container">
+	        <div class="row">
+	            <div class="col-sm-6 col-md-6>
+	                <a href="http://www.bnm.me.gov.ar/" title="Biblioteca Nacional de Maestros" target="_blank"><img src="../common/images/bndm.png" alt="Biblioteca Nacional de Maestros" height="70" class="image-responsive"></a>
+	                <p class="text-muted small">Vocabularios en educación argentina está distribuido bajo una <span><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" title="Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional">Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional</a></span></p>
+	            </div>
+	            <div class="col-sm-5 col-sm-offset-1 col-md-3 col-md-offset-3">
+	                <ul class="menu nav">
+	                	' . $contact .
+	                	$help .
+	                	$lang . '
+                    </ul>
+	            </div>
+	        </div>
+	    </nav>
+	    <div id="arg-footer">
+	        <span><strong>Vocabularios en educación argentina</strong> es un sitio web oficial del <strong>Gobierno Argentino</strong></span>
+	        <a href="http://www.argentina.gob.ar"  title="Argentina.gob.ar" target="_blank">
+	            <img src="data:image/png;base64,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" alt="Argentina.gob.ar" title="Argentina.gob.ar" height="40">
+	        </a>
+	    </div>
+	</footer>';
+
+	return $rows;
 }

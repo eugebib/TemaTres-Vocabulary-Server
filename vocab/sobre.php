@@ -165,33 +165,15 @@ $metadata=do_meta_tag();
         </dl>
     </div>
 
-<!-- ###### Footer ###### -->
-<div id="footer" class="footer">
-      <div class="container">
-        <div class="row">
-          <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">
-            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  width="42" alt="TemaTres"/></a>
-            <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">TemaTres</a>
-<p class="navbar-text pull-left">
-        <?php
-        //are enable SPARQL
-        if(CFG_ENABLE_SPARQL==1)        {
-          echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-        }
+        <?php echo footer(); ?>
 
-        if(CFG_SIMPLE_WEB_SERVICE==1)       {
-          echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
-        }
-
-          echo '  <a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-          echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
-        ?>
-      </p>
-        <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
-    	</div>
-	</div>
-
-		  </div>
-<?php echo HTMLjsInclude();?>
     </body>
+
+    <?php echo HTMLjsInclude();?>
+    <script>
+        $(".toggle").on("click", function() {
+            $(".toggle").parent().parent().toggleClass('active');
+        });
+    </script>
+
 </html>
