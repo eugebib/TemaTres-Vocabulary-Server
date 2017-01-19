@@ -16,7 +16,7 @@ define("TG_termino","Termo geral");
 define("TT_termino","Termo superior");
 define("UP_termino","Usado para");
 /* v 9.5 */
-define("USE_termino","Use");
+define("USE_termino","use");
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Abc","alfabético");
