@@ -368,8 +368,8 @@ form.editable {
     padding-bottom: 5px;
 }
 
-#theTerm li a:last-child {
-    padding-left: 10px;
+#theTerm a[type="button"] {
+    margin-right: 10px;
 }
 
 div.upload {

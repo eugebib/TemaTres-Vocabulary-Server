@@ -297,7 +297,11 @@ function doContextoTermino($idTema,$i_profundidad){
 				case '4':// USE
 				$leyendaConector=USE_termino;
 					$iuse=++$iuse;
-					$row_USE.='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF[tema_pref].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF[tema_pref_id].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
+					$row_USE.='
+						<li>
+							<em>'.$arrayTerminosValidosUF["tema"].'</em>
+							&nbsp;&nbsp;&nbsp;<strong>→</strong>&nbsp;&nbsp;&nbsp;
+							<a title="'.LABEL_verDetalle.$arrayTerminosValidosUF[tema_pref].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF[tema_pref_id].'">volver al número</a></li>'."\r\n";
 				break;
 
 
