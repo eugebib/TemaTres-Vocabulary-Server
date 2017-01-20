@@ -11,9 +11,9 @@ body {
     margin-bottom: 40px;
 }
 
-#wrap a {
-    color: #193848;
-}
+//#wrap a {
+//    color: #193848;
+//}
 
 .header {
     display: flex;
@@ -81,7 +81,7 @@ body {
 
 .navbar .brand input,
 .navbar .brand button {
-    background-color: darkcyan;
+    background-color: #4E87C0;
     border: 0;
     padding: 1em;
     border-radius: 0;
@@ -93,7 +93,7 @@ body {
 .navbar .link:active,
 .navbar .brand:hover,
 .navbar .brand:active {
-    background: darkcyan;
+    background: #4E87C0;
 }
 
 .navbar .dropdown,
@@ -370,7 +370,8 @@ form.upload {
     flex-basis: 0;
 }
 
-#listaLetras li {
+#listaLetras li,
+#listaBusca li {
     line-height: 35px;
 }
 
@@ -420,6 +421,7 @@ footer p.text-muted {
 
 #arg-footer img {
     height: 40px;
+    margin: 0;
 }
 
 .glyphicon-fw {
