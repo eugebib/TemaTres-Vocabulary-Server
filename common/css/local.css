@@ -81,7 +81,7 @@ body {
 
 .navbar .brand input,
 .navbar .brand button {
-    background-color: darkcyan;
+    background-color: #4E87C0;
     border: 0;
     padding: 1em;
     border-radius: 0;
@@ -93,7 +93,7 @@ body {
 .navbar .link:active,
 .navbar .brand:hover,
 .navbar .brand:active {
-    background: darkcyan;
+    background: #4E87C0;
 }
 
 .navbar .dropdown,
