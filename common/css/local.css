@@ -152,6 +152,7 @@ body {
 
 .navbar .dropdown-menu li a {
     padding: 5px 0px;
+    outline: 0;
 }
 
 .navbar .dropdown-menu .dropdown a {
@@ -400,7 +401,7 @@ footer p.text-muted {
 
 #arg-footer {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
     background: #FFF;
@@ -412,6 +413,23 @@ footer p.text-muted {
     border-top: 1px solid #EEE;
 }
 
+#arg-footer img {
+    height: 40px;
+    margin: 0 15px;
+}
+
+@media (max-width: 730px) {
+    #arg-footer {
+        flex-wrap: wrap;
+    }
+    #arg-footer span {
+        text-align: justify;
+    }
+    #arg-footer img {
+        margin-top: 10px;
+    }
+}
+
 #arg-footer strong {
     font-weight: bold;
     color: inherit;
@@ -419,12 +437,22 @@ footer p.text-muted {
     font-family: inherit;
 }
 
-#arg-footer img {
-    height: 40px;
-    margin: 0;
-}
-
 .glyphicon-fw {
     width: 2.5em;
     text-align: center;
+}
+
+.selectlang button {
+    background-color: transparent;
+    border: 0;
+    padding: 15px 14px;
+    border-radius: 0;
+}
+
+.selectlang button:hover {
+    background-color: #4E87C0;
+}
+
+#select-lang .bootstrap-select>.dropdown-toggle.bs-placeholder {
+    color: white;
 }

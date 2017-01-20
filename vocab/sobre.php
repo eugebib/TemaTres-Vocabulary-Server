@@ -170,7 +170,12 @@ $metadata=do_meta_tag();
     </body>
 
     <?php echo HTMLjsInclude();?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
     <script>
+        $('.selectpicker').selectpicker({
+          style: 'btn-info',
+          size: 4
+        });
         $(".toggle").on("click", function() {
             $(".toggle").parent().parent().toggleClass('active');
         });

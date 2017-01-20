@@ -22,7 +22,8 @@ define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Abc","alfabético");
 define("MENU_Sobre","Sobre este vocabulario");
 define("MENU_Stats","Estadísticas");
-define("MENU_Ayuda","Manual");
+define("MENU_Ayuda","Ayuda");
+define("MENU_Manual","Manual");
 define("MENU_Contact","Asistencia técnica");
 define("MENU_Inicio","Inicio");
 define("MENU_MiCuenta","Entrar");
@@ -253,7 +254,7 @@ $idiomas_disponibles = array(
      "it"  => array("italiano","", "it"),
      "nl"  => array("nederlands","", "nl"),
      "pl"  => array("polski","", "pl"),
-     "pt"  => array("portugués","", "pt"),
+     "pt"  => array("português","", "pt"),
      "ru"  => array("Pусский","", "ru")
     );
 /* Install messages */
