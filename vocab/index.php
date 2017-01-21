@@ -34,17 +34,8 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 </div><!-- /.container -->
 
 		<?php echo footer(); ?>
-		<?php echo HTMLjsInclude();?>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-		<script>
-            $('.selectpicker').selectpicker({
-              style: 'btn-info',
-              size: 4
-            });
-		    $(".toggle").on("click", function() {
-		        $(".toggle").parent().parent().toggleClass('active');
-		    });
-		</script>
 
     </body>
+    <?php echo HTMLjsInclude();?>
+
 </html>
