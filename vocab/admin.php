@@ -199,7 +199,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 
 </div></div><!-- /.container -->
 
-		<?php echo footer(); ?>
+        <?php echo footer(); ?>
+        <?php echo HTMLjsInclude(); ?>
     </body>
-    <?php echo HTMLjsInclude();?>
 </html>

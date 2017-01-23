@@ -33,7 +33,7 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 
 </div><!-- /.container -->
 
-		<?php echo footer(); ?>
+        <?php echo footer(); ?>
+        <?php echo HTMLjsInclude(); ?>
     </body>
-    <?php echo HTMLjsInclude();?>
 </html>

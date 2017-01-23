@@ -166,7 +166,7 @@ $metadata=do_meta_tag();
     </div>
 
         <?php echo footer(); ?>
+        <?php echo HTMLjsInclude(); ?>
     </body>
-    <?php echo HTMLjsInclude(); ?>
 </html>
 

@@ -116,8 +116,8 @@ $metadata=do_meta_tag();
 </div><!-- /.container -->
 
         <?php echo footer(); ?>
+        <?php echo HTMLjsInclude(); ?>
     </body>
-    <?php echo HTMLjsInclude(); ?>
 </html>
 
 <?php

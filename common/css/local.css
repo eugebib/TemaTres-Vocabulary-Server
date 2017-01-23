@@ -9,6 +9,7 @@ body {
 
 #wrap {
     margin-bottom: 40px;
+    height: initial;
 }
 
 .header {
@@ -432,4 +433,35 @@ footer p.text-muted {
 
 .panel {
     padding: 10px;
+}
+
+.estado_termino13 {
+    color: #4e87c0;
+}
+
+.estado_termino14 {
+    color: #ef4d3d;
+    background-color: rgba(255,67,56,0.1);
+    border-radius: 4px;
+}
+
+#breadScrumb + .estado_termino14,
+#metadataTerm .estado_termino14{
+    padding: 10px;
+}
+
+#metadataTerm dl {
+    overflow: auto;
+}
+
+#metadataTerm dt {
+    float: left;
+    clear: left;
+    margin-right: 10px; /* Margin work */
+}
+
+#metadataTerm dd {
+    display: table-cell;
+    padding-left: 10px; /* Padding works */
+    margin-left: 100px; /* Margin has no effect in table-cell */
 }

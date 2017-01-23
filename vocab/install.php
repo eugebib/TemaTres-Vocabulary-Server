@@ -650,10 +650,9 @@ function HTMLformInstall($lang_install)
 
 
 </div><!-- /.container -->
-<div class="push"></div>
 
-		<?php echo footer(); ?>
+        <?php echo footer(); ?>
+        <?php echo HTMLjsInclude(); ?>
     </body>
-    <?php echo HTMLjsInclude();?>
 </html>
 
