@@ -200,13 +200,6 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 </div></div><!-- /.container -->
 
 		<?php echo footer(); ?>
-
-		<?php echo HTMLjsInclude();?>
-		<script>
-		    $(".toggle").on("click", function() {
-		        $(".toggle").parent().parent().toggleClass('active');
-		    });
-		</script>
-
     </body>
+    <?php echo HTMLjsInclude();?>
 </html>

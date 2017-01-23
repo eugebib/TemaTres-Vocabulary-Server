@@ -34,12 +34,6 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 </div><!-- /.container -->
 
 		<?php echo footer(); ?>
-		<?php echo HTMLjsInclude();?>
-		<script>
-		    $(".toggle").on("click", function() {
-		        $(".toggle").parent().parent().toggleClass('active');
-		    });
-		</script>
-
     </body>
+    <?php echo HTMLjsInclude();?>
 </html>

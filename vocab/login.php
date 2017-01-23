@@ -115,18 +115,11 @@ $metadata=do_meta_tag();
 ?>
 </div><!-- /.container -->
 
-		<?php echo footer(); ?>
-
-	</body>
-
-	<?php echo HTMLjsInclude();?>
-	<script>
-	    $(".toggle").on("click", function() {
-	        $(".toggle").parent().parent().toggleClass('active');
-	    });
-	</script>
-
+        <?php echo footer(); ?>
+    </body>
+    <?php echo HTMLjsInclude(); ?>
 </html>
+
 <?php
 /**
  * * From WordPress !!!

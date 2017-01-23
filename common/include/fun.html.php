@@ -2138,7 +2138,12 @@ function HTMLjsInclude(){
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
 		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/bootstrap-tabcollapse.js"></script>
-		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>';
+		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>
+		 		<script>
+		    $(".toggle").on("click", function() {
+		        $(".toggle").parent().parent().toggleClass("active");
+		    });
+		</script>';
 
 if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 //<!-- Load TinyMCE -->

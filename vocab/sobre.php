@@ -166,14 +166,7 @@ $metadata=do_meta_tag();
     </div>
 
         <?php echo footer(); ?>
-
     </body>
-
-    <?php echo HTMLjsInclude();?>
-    <script>
-        $(".toggle").on("click", function() {
-            $(".toggle").parent().parent().toggleClass('active');
-        });
-    </script>
-
+    <?php echo HTMLjsInclude(); ?>
 </html>
+

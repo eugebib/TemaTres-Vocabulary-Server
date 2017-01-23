@@ -651,23 +651,9 @@ function HTMLformInstall($lang_install)
 
 </div><!-- /.container -->
 <div class="push"></div>
-<!-- ###### Footer ###### -->
-<div id="footer" class="footer">
-      <div class="container">
-		<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
-		<strong><?php echo LABEL_Version ?>: </strong>
-		<span class="footerCol2"><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></span>
-    	</div>
-	</div>
 
-		<script>
-
-		    $(".toggle").on("click", function() {
-
-		        $(".toggle").parent().parent().toggleClass('active');
-
-		    });
-
-		</script>
-	</body>
+		<?php echo footer(); ?>
+    </body>
+    <?php echo HTMLjsInclude();?>
 </html>
+
