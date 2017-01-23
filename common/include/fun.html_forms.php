@@ -782,7 +782,8 @@ function HTMLformAdvancedTermReport($array){
 <!-- Form Name -->
 <legend>'.ucfirst(LABEL_FORM_advancedReport).'</legend>';
 if(SQLcount($sqlTopTerm)>0){
-$rows.='<!-- Select Basic -->
+$rows.='<div class="panel panel-default">
+<!-- Select Basic -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="hasTopTerm">'.ucfirst(LABEL_TopTerm).'</label>
   <div class="col-md-5">
@@ -894,6 +895,7 @@ $rows.='<div class="form-group">
 	</div>
 </div>
 <input type="hidden"  name="mod" id="mod" value="csv"/><input type="hidden"  name="task" id="mod" value="csv1"/>
+</div>
 </fieldset>
 </form>
 ';
@@ -911,7 +913,7 @@ function HTMLformSimpleTermReport($array){
 	        <legend>'.ucfirst(LABEL_FORM_simpleReport).'</legend>
 	    </div>
 	    <!-- panel  -->
-	    <div class="col-lg-7">
+	    <div class="col-sm-12">
 	        <div class="panel panel-default">
 	            <div class="panel-body form-horizontal">';
 	$rows.='<div class="form-group">
@@ -936,11 +938,13 @@ function HTMLformSimpleTermReport($array){
 	if ($CFG["_CHAR_ENCODE"]=='utf-8')
 	{
 		$rows.='<div class="form-group">
-		<input type="checkbox" name="csv_encode" id="csv_encodeSimple" value="latin1"/>
-		<div class="col-sm-4">
-		<label for="csv_encodeSimple">'.ucfirst(LABEL_encode).' latin1</label>
-			</div>
-		</div>';
+					<div class="col-sm-3 control-label">
+						<label for="csv_encodeSimple">'.ucfirst(LABEL_encode).' latin1</label>
+					</div>
+					<div class="col-sm-9">
+						<input type="checkbox" name="csv_encode" id="csv_encodeSimple" value="latin1"/>
+					</div>
+				</div>';
 	}
 	$rows.='<div class="form-group">
 							<div class="col-sm-12 text-center">
@@ -968,7 +972,7 @@ function HTMLformMappedTermReport($array){
 	        <legend>'.ucfirst(LABEL_FORM_mappedTermReport).'</legend>
 	    </div>
 	    <!-- panel  -->
-	    <div class="col-lg-7">
+	    <div class="col-sm-12">
 	        <div class="panel panel-default">
 	            <div class="panel-body form-horizontal">';
 
@@ -1022,7 +1026,7 @@ function HTMLformNullNotesTermReport($array){
 	        <legend>'.ucfirst(LABEL_FORM_NULLnotesTermReport).'</legend>
 	    </div>
 	    <!-- panel  -->
-			<div class="col-lg-7">
+			<div class="col-sm-12">
 	        <div class="panel panel-default">
 	            <div class="panel-body form-horizontal"><div class="panel-heading">'.ucfirst(MSG_FORM_NULLnotesTermReport).'</div>';
 

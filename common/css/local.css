@@ -429,3 +429,7 @@ footer p.text-muted {
 .jumbotron {
     font-size: 21px;
 }
+
+.panel {
+    padding: 10px;
+}
