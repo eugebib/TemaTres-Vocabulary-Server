@@ -453,3 +453,7 @@ footer p.text-muted {
 #select-lang .bootstrap-select>.dropdown-toggle.bs-placeholder {
     color: white;
 }
+
+.jumbotron {
+    font-size: 21px;
+}
