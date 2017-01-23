@@ -121,6 +121,7 @@ body {
         width: auto;
     }
 
+    .navbar .link .text,
     .navbar .toggle {
         display: none;
     }
@@ -178,7 +179,8 @@ body {
         display: flex;
     }
 
-    .navbar .link-hidden {
+    .navbar .link-hidden,
+    .navbar .link .glyphicon {
         display: none;
     }
 

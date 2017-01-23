@@ -26,6 +26,7 @@ define("MENU_Ayuda","Ajuda");
 define("MENU_Manual","Guia");
 define("MENU_Contact","Assistência técnica");
 define("MENU_Inicio","Início");
+define("MENU_Entrar","Entrar");
 define("MENU_MiCuenta","Minha conta");
 define("MENU_Usuarios","gestão de usuários");
 define("MENU_NuevoUsuario","Novo usuário");

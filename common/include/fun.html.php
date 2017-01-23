@@ -554,7 +554,7 @@ function HTMLAdminMenu() {
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
 		$row.='
 		<div class="dropdown">
-			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="sr-only">'.ucfirst(LABEL_Admin).'</span></a>
+			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="text"> '.ucfirst(LABEL_Admin).'</span></a>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>
 				<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>
@@ -2083,7 +2083,7 @@ function HTMLnavHeader() {
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
 	    $miCuenta = '
 	    	<div class="dropdown">
-				<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
+				<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span class="text"> '.ucfirst(MENU_MiCuenta).'</span></a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>
 					<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>
@@ -2093,12 +2093,12 @@ function HTMLnavHeader() {
 		if ($DBCFG["help"]) {
 		    $manual = '
 		    <li>
-				<a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">'.MENU_Ayuda.'</span></a>
+				<a title="'.MENU_Ayuda.'" href="'.$DBCFG["help"].'" target="_blank">'.MENU_Manual.'</span></a>
 			</li>';
 		}
 		$ayuda =
 			'<div class="dropdown">
-					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-glyphicon glyphicon-question-sign" aria-hidden="true"></span><span class="sr-only">' . MENU_Ayuda . '</span></a>
+					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-glyphicon glyphicon-question-sign" aria-hidden="true"></span><span class="text">  ' . MENU_Ayuda . '</span></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
 							<a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top">' . ucfirst(MENU_Contact) . '</a>
@@ -2107,7 +2107,7 @@ function HTMLnavHeader() {
 					</ul>
 				</div>';
 	} else {
-	    $miCuenta ='<a class="link" href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a>';
+	    $miCuenta ='<a class="link" href="login.php" title="'.MENU_Entrar.'">'.MENU_Entrar.'</a>';
 	    $busqAvanzada = '<a class="link" title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a>';
 	}
 
