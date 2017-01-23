@@ -11,10 +11,6 @@ body {
     margin-bottom: 40px;
 }
 
-//#wrap a {
-//    color: #193848;
-//}
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -92,7 +88,8 @@ body {
 .navbar .link:hover,
 .navbar .link:active,
 .navbar .brand:hover,
-.navbar .brand:active {
+.navbar .brand:active,
+.open>.dropdown-toggle.btn-info {
     background: #4E87C0;
 }
 
@@ -427,4 +424,8 @@ footer p.text-muted {
 .glyphicon-fw {
     width: 2.5em;
     text-align: center;
+}
+
+.jumbotron {
+    font-size: 21px;
 }
