@@ -878,27 +878,6 @@ function evalSubordina($datos,$i,$idTemaEvaluado){
 #
 function doMenuLang($tema_id="0"){
 
-	// GLOBAL $idiomas_disponibles;
-
-	// $selectLang.='<form id="select-lang" method="get" action="index.php">';
-	// $selectLang.='<select class="navbar-btn btn-info btn-sx pull-right" name="setLang" id="setLang" onchange="this.form.submit();">';
-	// foreach ($idiomas_disponibles AS $key => $value) {
-	// 	if($value[2]==$_SESSION[$_SESSION["CFGURL"]][lang][2]){
-	// 		$selectLang.='<option value="'.$value[2].'" selected="selected">'.$value[0].'</option>';
-	// 	}else{
-	// 		$selectLang.='<option value="'.$value[2].'">'.$value[0].'</option>';
-	// 	};
-	// };
-
-	// $selectLang.='</select>';
-
-	// if((is_numeric($tema_id)) && ($tema_id>0))
-	// {
-	// 	$selectLang.='<input type="hidden" name="tema" value="'.$tema_id.'" />';
-	// }
-	// $selectLang.='</form>';
-	// $menuLang=substr("$menuLang",1);
-
 	$lang = ucfirst($_SESSION[$_SESSION["CFGURL"]][lang][0]);
 
 	$selectLang	= '

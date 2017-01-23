@@ -82,8 +82,9 @@ if($_GET["cmdlog"]==substr(md5(date("Ymd")),"5","10")){
 
 //Save stadistics
 $stats=doLastModified();
-unset($_SESSION[$_SESSION["CFGURL"]]);
 
+unset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]);
+unset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]);
 header("Location:index.php");
 };
 
