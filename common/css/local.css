@@ -5,11 +5,11 @@ html * {
 
 body {
     background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
 }
 
-#wrap {
-    margin-bottom: 40px;
-}
+/* header */
 
 .header {
     display: flex;
@@ -37,7 +37,13 @@ body {
     text-decoration: none;
 }
 
+/* navbar */
+
 .navbar {
+    min-height: initial;
+}
+
+.navbar .container-fluid {
     background-color: #193848;
     border: 0;
     border-radius: 0;
@@ -103,8 +109,8 @@ body {
     height: 100%;
 }
 
-@media (min-width: 816px) {
-    .navbar {
+@media (min-width: 871px) {
+    .navbar .container-fluid {
         flex-flow: row;
     }
 
@@ -131,14 +137,14 @@ body {
     }
 }
 
-.navbar > div {
+.navbar > div > div {
     display: none;
-    @media (min-width: 816px) {
+    @media (min-width: 871px) {
         display: flex;
     }
 }
 
-.navbar > div.search {
+.navbar > div > div.search {
     display: flex;
 }
 
@@ -161,13 +167,13 @@ body {
     padding: 5px 0px 5px 0px;
 }
 
-@media (max-width: 815px) {
+@media (max-width: 870px) {
     .navbar.active .toggle {
         background: seagreen;
         color: white;
     }
 
-    .navbar.active div {
+    .navbar.active > div > div {
         display: block;
     }
 
@@ -175,8 +181,13 @@ body {
         margin-top: 10px;
     }
 
-    .navbar > div.search {
+    .navbar > div > div.search {
         display: flex;
+    }
+
+    .navbar .search form,
+    .navbar .search input {
+        flex-grow: 1;
     }
 
     .navbar .link-hidden,
@@ -201,6 +212,20 @@ body {
 .navbar-inverse {
     background-color: #193848;
     border-radius: 0px;
+}
+
+/* content */
+
+#wrap {
+    margin-bottom: 40px;
+    flex-grow: 1;
+    min-height: initial;
+    margin: 10px;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: initial;
 }
 
 .nav-tabs > li > a {
@@ -374,6 +399,8 @@ form.upload {
 #listaBusca li {
     line-height: 35px;
 }
+
+/* footer */
 
 footer {
     padding-top: 60px;

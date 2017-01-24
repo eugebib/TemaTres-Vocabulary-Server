@@ -165,10 +165,8 @@ $metadata=do_meta_tag();
         </dl>
     </div>
 
-        <?php echo footer(); ?>
+            <?php echo footer(); ?>
+            <?php echo HTMLjsInclude();?>
+        </body>
 
-    </body>
-
-    <?php echo HTMLjsInclude();?>
-
-</html>
+    </html>

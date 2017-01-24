@@ -74,7 +74,7 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 
   <?php echo HTMLnavHeader(); ?>
 
-<div class="container">
+<div id="wrap" class="container">
 
 <?php
 if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
@@ -200,7 +200,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 </div></div><!-- /.container -->
 
 		<?php echo footer(); ?>
+        <?php echo HTMLjsInclude();?>
     </body>
-    <?php echo HTMLjsInclude();?>
 
 </html>
