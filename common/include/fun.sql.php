@@ -1385,10 +1385,9 @@ function SQLterminosEstado($estado_id,$limite=""){
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	where tema.estado_id=$estado_id
 	group by tema.tema_id
-	order by tema.cuando_final,tema.cuando desc
-	limit 0,$limite");
+	order by tema.cuando_final,tema.cuando desc");
 };
-
+//	limit 0,$limite
 
 #
 # Lista de términos según meses y aÃ±os
