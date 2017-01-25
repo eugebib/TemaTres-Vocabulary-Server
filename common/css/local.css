@@ -1,19 +1,16 @@
 html * {
     box-sizing: border-box;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
 }
 
 body {
-    font-family: 'Roboto', 'Open Sans', sans-serif;
     background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
-#wrap {
-    margin-bottom: 40px;
-}
-
-#wrap a {
-    color: #193848;
-}
+/* header */
 
 .header {
     display: flex;
@@ -41,7 +38,13 @@ body {
     text-decoration: none;
 }
 
+/* navbar */
+
 .navbar {
+    min-height: initial;
+}
+
+.navbar .container-fluid {
     background-color: #193848;
     border: 0;
     border-radius: 0;
@@ -107,7 +110,7 @@ body {
 }
 
 @media (min-width: 816px) {
-    .navbar {
+    .navbar .container-fluid {
         flex-flow: row;
     }
 
@@ -133,14 +136,14 @@ body {
     }
 }
 
-.navbar > div {
+.navbar > div > div {
     display: none;
     @media (min-width: 816px) {
         display: flex;
     }
 }
 
-.navbar > div.search {
+.navbar > div > div.search {
     display: flex;
 }
 
@@ -168,7 +171,7 @@ body {
         color: white;
     }
 
-    .navbar.active div {
+    .navbar.active > div > div {
         display: block;
     }
 
@@ -176,8 +179,13 @@ body {
         margin-top: 10px;
     }
 
-    .navbar > div.search {
+    .navbar > div > div.search {
         display: flex;
+    }
+
+    .navbar .search form,
+    .navbar .search input {
+        flex-grow: 1;
     }
 
     .navbar .link-hidden {
@@ -202,6 +210,25 @@ body {
 .navbar-inverse {
     background-color: #193848;
     border-radius: 0px;
+}
+
+/* content */
+
+#wrap {
+    margin-bottom: 40px;
+    flex-grow: 1;
+    min-height: initial;
+    padding: 10px;
+    height: initial;
+}
+
+#wrap a {
+    color: #193848;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: initial;
 }
 
 .nav-tabs > li > a {
@@ -385,10 +412,17 @@ form.upload {
     flex-basis: 0;
 }
 
+/* footer */
+
 footer {
     padding-top: 60px;
     font-size: 16px;
     background-color: white;
+}
+
+footer .container-fluid {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 footer a {

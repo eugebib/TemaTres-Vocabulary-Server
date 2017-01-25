@@ -36,9 +36,4 @@
 		<?php echo footer(); ?>
 		<?php echo HTMLjsInclude();?>
     </body>
-    <script>
-	    $(".toggle").on("click", function() {
-	      	$(".toggle").parent().parent().toggleClass('active');
-	    });
-	</script>
 </html>
