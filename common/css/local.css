@@ -7,6 +7,7 @@ body {
     background-color: #f9f9f9;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
 }
 
 /* header */
@@ -220,7 +221,7 @@ body {
     margin-bottom: 40px;
     flex-grow: 1;
     min-height: initial;
-    margin: 10px;
+    padding: 10px;
 }
 
 .form-signin {
@@ -403,7 +404,6 @@ form.upload {
 /* footer */
 
 footer {
-    padding-top: 60px;
     font-size: 16px;
     background-color: white;
 }
