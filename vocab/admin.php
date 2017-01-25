@@ -67,139 +67,105 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
-  </head>
- <body>
-
-  <?php echo HTMLnavHeader(); ?>
-
-<div class="container">
-
-<?php
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-
-
-	if($_GET["opTbl"]=='TRUE'){
-		echo optimizarTablas();
-		};
-
-	if($_GET["user_id"]=='list'){
-		echo HTMLListaUsers();
-		};
-
-	if(is_numeric($_GET["user_id"])){
-		require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
-		}
-
-	if($_GET["user_id"]=='new'){
-		require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
-	};
-
-
-	if(is_numeric($_GET["vocabulario_id"])){
-		require_once(T3_ABSPATH . 'common/include/inc.abmConfig.php');
-		}
-
-
-	if(($_GET["vocabulario_id"]=='list')||(count($_GET)<1)){
-		echo HTMLlistaVocabularios();
-		echo HTMLlistaTargetVocabularios();
-		echo HTMLaddImages();
-		echo HTMLformUserNotes();
-		echo HTMLformUserRelations();
-		echo HTMLformURIdefinition();
-		};
-
-	//Formulario de exportación
-	if($_GET["doAdmin"]=='export'){
-		echo HTMLformExport();
-		}
-
-	if($_GET["doAdmin"]=='bulkReplace'){
-		echo HTMLformBulkReplace($_POST);
-		}
-
-	if($_GET["doAdmin"]=='glossConfig'){
-		echo HTMLbulkGlossTerms($_GET);
-		echo HTMLformExportGlossary($_POST);
-		}
-
-	//Regenerate indice table
-	if($_GET["doAdmin"]=='reindex'){
-		$sql=SQLreCreateTermIndex();
-		echo $sql[cant_terms_index].' '.LABEL_Terminos;
-		}
-
-	if($_GET["doAdmin"]=='import' && empty($_REQUEST["taskAdmin"]) ){ // change Nicolas Poulain, http://tounoki.Org - 2015
-		echo HTMLformImport();
-	}
-
-
-	if($_GET["doAdmin"]=='massiverem'){
-		echo HTMLformMasiveDelete();
-	}
-
-
-	if($_GET["doAdmin"]=='updateEndpoint'){
-		echo HTMLformUpdateEndpoit();
-	}
-
-	//Formulario de import
-	if($_POST["taskAdmin"]=='importTab'){
-			require_once(T3_ABSPATH . 'common/include/inc.import.php');
-		};
-	//Formulario de import
-	if($_POST["taskAdmin"]=='importTag'){
-			require_once(T3_ABSPATH . 'common/include/inc.importTXT.php');
-		};
-	//Formulario de import line 127 after Formulario de exportación
-	if($_POST["taskAdmin"]=='importSkos'){
-			require_once(T3_ABSPATH . 'common/include/inc.importSkos.php');
-		};
-
-	//Form to add / edit foreing target vocabulary
-	if($_GET["doAdmin"]=='seeformTargetVocabulary'){
-			echo HTMLformTargetVocabulary($_GET[tvocab_id]);
-			}
-
-	//Form to add / edit foreing target vocabulary
-	if($_GET["doAdmin"]=='seeTermsTargetVocabulary'){
-			echo HTMLlistaTermsTargetVocabularios($_GET[tvocab_id],$_GET[f]);
-			}
-
-	//update from tematres 1.1 -> tematres 1.2
-	if($_GET["doAdmin"]=='updte1_1x1_2'){
-				echo updateTemaTres('1_1x1_2');
+	<head>
+		<?php echo HTMLheader($metadata);?>
+	</head>
+	<body>
+		<?php echo HTMLnavHeader(); ?>
+		<div id="wrap" class="container">
+			<?php
+				if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+					if ($_GET["opTbl"]=='TRUE') {
+						echo optimizarTablas();
+					}
+					if ($_GET["user_id"]=='list') {
+						echo HTMLListaUsers();
+					}
+					if (is_numeric($_GET["user_id"])) {
+						require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
+					}
+					if ($_GET["user_id"]=='new') {
+						require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
+					}
+					if (is_numeric($_GET["vocabulario_id"])) {
+						require_once(T3_ABSPATH . 'common/include/inc.abmConfig.php');
+					}
+					if (($_GET["vocabulario_id"]=='list')||(count($_GET)<1)) {
+						echo HTMLlistaVocabularios();
+						echo HTMLlistaTargetVocabularios();
+						echo HTMLaddImages();
+						echo HTMLformUserNotes();
+						echo HTMLformUserRelations();
+						echo HTMLformURIdefinition();
+					}
+					//Formulario de exportación
+					if ($_GET["doAdmin"]=='export' ){
+						echo HTMLformExport();
+					}
+					if ($_GET["doAdmin"]=='bulkReplace') {
+						echo HTMLformBulkReplace($_POST);
+					}
+					if ($_GET["doAdmin"]=='glossConfig') {
+						echo HTMLbulkGlossTerms($_GET);
+						echo HTMLformExportGlossary($_POST);
+					}
+					//Regenerate indice table
+					if ($_GET["doAdmin"]=='reindex') {
+						$sql=SQLreCreateTermIndex();
+						echo $sql[cant_terms_index].' '.LABEL_Terminos;
+					}
+					if ($_GET["doAdmin"]=='import' && empty($_REQUEST["taskAdmin"])) { // change Nicolas Poulain, http://tounoki.Org - 2015
+						echo HTMLformImport();
+					}
+					if ($_GET["doAdmin"]=='massiverem') {
+						echo HTMLformMasiveDelete();
+					}
+					if ($_GET["doAdmin"]=='updateEndpoint') {
+						echo HTMLformUpdateEndpoit();
+					}
+					//Formulario de import
+					if ($_POST["taskAdmin"]=='importTab') {
+						require_once(T3_ABSPATH . 'common/include/inc.import.php');
+					}
+					//Formulario de import
+					if ($_POST["taskAdmin"]=='importTag') {
+						require_once(T3_ABSPATH . 'common/include/inc.importTXT.php');
+					}
+					//Formulario de import line 127 after Formulario de exportación
+					if ($_POST["taskAdmin"]=='importSkos') {
+						require_once(T3_ABSPATH . 'common/include/inc.importSkos.php');
+					}
+					//Form to add / edit foreing target vocabulary
+					if ($_GET["doAdmin"]=='seeformTargetVocabulary') {
+						echo HTMLformTargetVocabulary($_GET[tvocab_id]);
+					}
+					//Form to add / edit foreing target vocabulary
+					if ($_GET["doAdmin"]=='seeTermsTargetVocabulary') {
+						echo HTMLlistaTermsTargetVocabularios($_GET[tvocab_id],$_GET[f]);
+					}
+					if ($_GET["doAdmin"]=='updte1_1x1_2') {
+						echo updateTemaTres('1_1x1_2');
+					}
+					if ($_GET["doAdmin"]=='updte1x1_2') {
+						echo updateTemaTres('1x1_2');
+					}
+					if ($_GET["doAdmin"]=='updte1_3x1_4') {
+						echo updateTemaTres('1_3x1_4');
+					}
+					if ($_GET["doAdmin"]=='updte1_4x1_5') {
+						echo updateTemaTres('1_4x1_5');
+					}
+					if ($_GET["doAdmin"]=='updte1_5x1_6') {
+						echo updateTemaTres('1_5x1_6');
+					}
+					if ($_GET["doAdmin"]=='updte1_6x1_7') {
+						echo updateTemaTres('1_6x1_7');
+					}
 				}
-
-	//update from tematres 1.1 -> tematres 1.2
-	if($_GET["doAdmin"]=='updte1x1_2'){
-				echo updateTemaTres('1x1_2');
-				}
-
-	//update from tematres 1.3 -> tematres 1.4
-	if($_GET["doAdmin"]=='updte1_3x1_4'){
-				echo updateTemaTres('1_3x1_4');
-				}
-	//update from tematres 1.4 -> tematres 1.5
-	if($_GET["doAdmin"]=='updte1_4x1_5'){
-				echo updateTemaTres('1_4x1_5');
-				}
-	//update from tematres 1.5 -> tematres 1.6
-	if($_GET["doAdmin"]=='updte1_5x1_6'){
-				echo updateTemaTres('1_5x1_6');
-				}
-	//update from tematres 1.6 -> tematres 1.7
-	if($_GET["doAdmin"]=='updte1_6x1_7'){
-				echo updateTemaTres('1_6x1_7');
-				}
-	}
-?>
-
-</div></div><!-- /.container -->
-
-        <?php echo footer(); ?>
-        <?php echo HTMLjsInclude(); ?>
-    </body>
+			?>
+		</div>
+		</div>
+		<?php echo footer(); ?>
+	    <?php echo HTMLjsInclude(); ?>
+	</body>
 </html>

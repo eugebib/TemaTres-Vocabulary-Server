@@ -1002,34 +1002,34 @@ function doBrowseTermsByDate(){
 
 
 
-function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
+// function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
 
-	GLOBAL $CFG;
-	$ARRAY_busquedas=$CFG["SEARCH_URL_SITES_SINTAX"];
+// 	GLOBAL $CFG;
+// 	$ARRAY_busquedas=$CFG["SEARCH_URL_SITES_SINTAX"];
 
-	$string_busqueda = $arrayTema[titTema];
-	$html = '<ul class="list-inline" id="enlaces_web">' . "\n";
-	foreach($display as $sitename) {
-		if (in_array($sitename, $ARRAY_busquedas))
-		continue;
-		$site = $ARRAY_busquedas[$sitename];
-		$html .= "<li>";
-		$url = $site['url'];
-		if($site['encode']=='utf8'){
-			$url = str_replace('STRING_BUSQUEDA', urlencode(utf8_encode($string_busqueda)), $url);
-		}else{
-			$url = str_replace('STRING_BUSQUEDA', $string_busqueda, $url);
-		}
+// 	$string_busqueda = $arrayTema[titTema];
+// 	$html = '<ul class="list-inline" id="enlaces_web">' . "\n";
+// 	foreach($display as $sitename) {
+// 		if (in_array($sitename, $ARRAY_busquedas))
+// 		continue;
+// 		$site = $ARRAY_busquedas[$sitename];
+// 		$html .= "<li>";
+// 		$url = $site['url'];
+// 		if($site['encode']=='utf8'){
+// 			$url = str_replace('STRING_BUSQUEDA', urlencode(utf8_encode($string_busqueda)), $url);
+// 		}else{
+// 			$url = str_replace('STRING_BUSQUEDA', $string_busqueda, $url);
+// 		}
 
-		$html .= '<a href="'.$url.'" target="_blank" title="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')">';
-		$html .= '<img src="'.T3_WEBPATH.'/images/'.$site[favicon].'" alt="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')"/>';
-		$html .= '</a>';
-		$html .= "</li>";
-	}
-	$html .= "</ul>";
+// 		$html .= '<a href="'.$url.'" target="_blank" title="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')">';
+// 		$html .= '<img src="'.T3_WEBPATH.'/images/'.$site[favicon].'" alt="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')"/>';
+// 		$html .= '</a>';
+// 		$html .= "</li>";
+// 	}
+// 	$html .= "</ul>";
 
-	return $html;
-};
+// 	return $html;
+// };
 
 
 #
@@ -1894,7 +1894,7 @@ function paginate_links( $args = '' ) {
 
 			$body.='<dt>'.ucfirst(LABEL_busqueda).'</dt>';
 			$body.='<dd>';
-			$body.=HTML_URLsearch($CFG[SEARCH_URL_SITES],$arrayTerm);
+			//$body.=HTML_URLsearch($CFG[SEARCH_URL_SITES],$arrayTerm);
 			$body.='</dd> ';
 			$body.='</dl> ';
 			# fin Div pie de datos
@@ -2093,31 +2093,33 @@ function HTMLnavHeader() {
                 '.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
             </div>
         </div>
-        <nav class="navbar container-fluid">
-			<a class="link link-hidden" title="Inicio" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><span class="sr-only">Inicio</span></a>
-			<div class="search">
-				<a href="#" class="toggle"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
-				<form class="brand" method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php">
-					<input id="query" name="'.FORM_LABEL_buscar.'" type="search">
-					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"><span class="sr-only">'.LABEL_Buscar.'</span></span></button>
-				</form>
-			</div>
-			<div class="section section-left">' .
-				$busqAvanzada .
-				HTMLmainMenu() . '
-			</div>
-			<div class="section section-right">
-				<div class="dropdown">
-					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">' . ucfirst(MENU_Sobre) . '</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">' . ucfirst(MENU_Stats) . '</a></li>
-						<li><a title="Ultimos *" href="'.URL_BASE.'index.php?s=n">' . ucfirst(LABEL_newsTerm) . '</a></li>
-						' . $sparql .
-						$api . '
-					</ul>
-				</div>'
-				. HTMLAdminMenu()
-				. $miCuenta . '
+        <nav class="navbar">
+        	<div class="container-fluid">
+				<a class="link link-hidden" title="Inicio" href="'.URL_BASE.'index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><span class="sr-only">Inicio</span></a>
+				<div class="search">
+					<a href="#" class="toggle"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+					<form class="brand" method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php">
+						<input id="query" name="'.FORM_LABEL_buscar.'" type="search">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"><span class="sr-only">'.LABEL_Buscar.'</span></span></button>
+					</form>
+				</div>
+				<div class="section section-left">' .
+					$busqAvanzada .
+					HTMLmainMenu() . '
+				</div>
+				<div class="section section-right">
+					<div class="dropdown">
+						<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">' . ucfirst(MENU_Sobre) . '</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">' . ucfirst(MENU_Stats) . '</a></li>
+							<li><a title="Ultimos *" href="'.URL_BASE.'index.php?s=n">' . ucfirst(LABEL_newsTerm) . '</a></li>
+							' . $sparql .
+							$api . '
+						</ul>
+					</div>'
+					. HTMLAdminMenu()
+					. $miCuenta . '
+				</div>
 			</div>
         </nav>';
 
@@ -2141,7 +2143,7 @@ function HTMLjsInclude(){
 		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>
 		 		<script>
 		    $(".toggle").on("click", function() {
-		        $(".toggle").parent().parent().toggleClass("active");
+		        $(".toggle").parent().parent().parent().toggleClass("active");
 		    });
 		</script>';
 
@@ -2264,7 +2266,7 @@ function footer() {
 	}
 	$rows = '
 	<footer role="contentinfo" class="main-footer">
-	    <nav role="navigation" class="container">
+	    <nav role="navigation" class="container-fluid">
 	        <div class="row">
 	            <div class="col-sm-6 col-md-6>
 	                <a href="http://www.bnm.me.gov.ar/" title="Biblioteca Nacional de Maestros" target="_blank"><img src="../common/images/bndm.png" alt="Biblioteca Nacional de Maestros" height="70" class="image-responsive"></a>

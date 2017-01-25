@@ -23,65 +23,6 @@ $metadata=do_meta_tag();
 <html lang="<?php echo LANG;?>">
   <head>
   <?php echo HTMLheader($metadata);?>
-<style type="text/css">
-
-.navbar-form {
-    overflow: auto;
-}
-.navbar-form .form-control {
-    display: inline-block;
-    width: 80%;
-    vertical-align: middle;
-}
-.navbar-form .form-group {
-    display: inline;
-}
-
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-.forgot-password {
-	text-decoration: underline;
-	color: #888;
-}
-.forgot-password:hover,
-.forgot-password:focus {
-	text-decoration: underline;
-	color: #666;
-}
-
-</style>
 </head>
 
     <!-- HTML code from Bootply.com editor -->
@@ -90,7 +31,7 @@ $metadata=do_meta_tag();
 
   <?php echo HTMLnavHeader(); ?>
 
-<div class="container">
+<div id="wrap" class="container">
 
 <?php
  if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
