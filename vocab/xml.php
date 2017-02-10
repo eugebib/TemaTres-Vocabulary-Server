@@ -144,8 +144,13 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 					  "includeNote"=>$_GET["includeNote"],
 					  "includeCreatedDate"=>$_GET["includeCreatedDate"],
 					  "includeTopTerm"=>$_GET["includeTopTerm"],
-					  "includeModDate"=>$_GET["includeModDate"]);		
+					  "includeModDate"=>$_GET["includeModDate"]);
 		echo do_pdfAlpha($params);
+		break;
+
+		case 'spdf':
+		$params =array("hasTopTerm"=>$_GET["hasTopTerm"]);
+		echo do_pdfSist($params);
 		break;
 
 		case 'jglossary':

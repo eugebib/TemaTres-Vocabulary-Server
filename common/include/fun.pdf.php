@@ -165,7 +165,7 @@ class PDF extends FPDF {
         $this->ChapterBody($sql,$params);
     }
 
-    function PrintCover($params=array()) {
+    function PrintCover($params=array(),$type) {
         GLOBAL $CFG;
         //turn off
         $this->footer = 0;
@@ -194,6 +194,15 @@ class PDF extends FPDF {
             $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
             $this->SetFont('opensans','B',30);
             $this->MultiCell(0,16,latin1($topTerm['tema']),0,'C');
+        }
+
+        $this->Ln(5);
+        $this->SetFont('opensans','I',20);
+
+        if ($type == 0) {
+            $this->MultiCell(0,16,latin1('Lista alfabética'),0,'C');
+        } else {
+            $this->MultiCell(0,16,latin1('Lista sistemática'),0,'C');
         }
 
         $this->Ln(5);
@@ -232,59 +241,61 @@ class PDF extends FPDF {
             $this->MultiCell(0,8,$sparql_link,0,'L');
         }
 
-        $this->Ln(20);
-        $this->SetFont('opensans','B',12);
-        $this->MultiCell(0,8,latin1(ucfirst(LABEL_references).':'),0,'L');
-        $y=$this->GetY();
-        $this->Line(10,$y,200,$y);
-        $this->SetY($y+5);
-        $this->SetFont('opensans','',10);
+        if ($type == 0) {
+            $this->Ln(20);
+            $this->SetFont('opensans','B',12);
+            $this->MultiCell(0,8,latin1(ucfirst(LABEL_references).':'),0,'L');
+            $y=$this->GetY();
+            $this->Line(10,$y,200,$y);
+            $this->SetY($y+5);
+            $this->SetFont('opensans','',10);
 
-        //Relations
-        if ($params["includeTopTerm"]) {
-            $this->MultiCell(0,6,latin1('TT: '.TT_termino),0,'L');
-        }
-        $this->MultiCell(0,6,latin1(TG_acronimo.':  '.TG_termino),0,'L');
-        $this->MultiCell(0,6,latin1(TE_acronimo.':  '.TE_termino),0,'L');
-        $this->MultiCell(0,6,latin1(UP_acronimo.':  '.UP_termino),0,'L');
-        $this->MultiCell(0,6,latin1(USE_termino.':  '.USE_termino),0,'L');
-
-        $sqlTypeRelations=SQLtypeRelations(4,0,true);
-        while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
-            if (($arrayTypeRelations["cant"]>0) && (!in_array($arrayTypeRelations["rr_code"],$CFG["HIDDEN_EQ"]))) {
-                $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
+            //Relations
+            if ($params["includeTopTerm"]) {
+                $this->MultiCell(0,6,latin1('TT: '.TT_termino),0,'L');
             }
-        }
+            $this->MultiCell(0,6,latin1(TG_acronimo.':  '.TG_termino),0,'L');
+            $this->MultiCell(0,6,latin1(TE_acronimo.':  '.TE_termino),0,'L');
+            $this->MultiCell(0,6,latin1(UP_acronimo.':  '.UP_termino),0,'L');
+            $this->MultiCell(0,6,latin1(USE_termino.':  '.USE_termino),0,'L');
 
-        $sqlTypeRelations=SQLtypeRelations(3,0,true);
-        while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
-            if ($arrayTypeRelations["cant"]>0) {
-                $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
-            }
-        }
-
-        $this->MultiCell(0,6,latin1(TR_acronimo.': '.TR_termino),0,'L');
-
-        $sqlTypeRelations=SQLtypeRelations(2,0,true);
-        while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
-            if ($arrayTypeRelations["cant"]>0) {
-                $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
-            }
-        }
-
-        //Notes
-        if (is_array($params["includeNote"])) {
-            $sqlNoteType=SQLcantNotas();
-            while ($arrayNoteType=$sqlNoteType->FetchRow()) {
-                if(($arrayNoteType["cant"]>0) && (in_array($arrayNoteType["tipo_nota"],$params["includeNote"]))){
-                    $arrayNoteType["value_code"] = str_replace('NA', NA_acronimo, $arrayNoteType["value_code"]);
-                    $this->MultiCell(0,6,latin1($arrayNoteType["value_code"].':  '.$arrayNoteType["value"]),0,'L');
+            $sqlTypeRelations=SQLtypeRelations(4,0,true);
+            while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
+                if (($arrayTypeRelations["cant"]>0) && (!in_array($arrayTypeRelations["rr_code"],$CFG["HIDDEN_EQ"]))) {
+                    $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
                 }
             }
-        }
 
-        $this->SetTextColor(108,101,101);
-        $this->MultiCell(0,6,latin1(LABEL_Metatermino.':  '.NOTE_isMetaTermNote),0,'L');
+            $sqlTypeRelations=SQLtypeRelations(3,0,true);
+            while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
+                if ($arrayTypeRelations["cant"]>0) {
+                    $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
+                }
+            }
+
+            $this->MultiCell(0,6,latin1(TR_acronimo.': '.TR_termino),0,'L');
+
+            $sqlTypeRelations=SQLtypeRelations(2,0,true);
+            while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
+                if ($arrayTypeRelations["cant"]>0) {
+                    $this->MultiCell(0,6,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].':  '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
+                }
+            }
+
+            //Notes
+            if (is_array($params["includeNote"])) {
+                $sqlNoteType=SQLcantNotas();
+                while ($arrayNoteType=$sqlNoteType->FetchRow()) {
+                    if(($arrayNoteType["cant"]>0) && (in_array($arrayNoteType["tipo_nota"],$params["includeNote"]))){
+                        $arrayNoteType["value_code"] = str_replace('NA', NA_acronimo, $arrayNoteType["value_code"]);
+                        $this->MultiCell(0,6,latin1($arrayNoteType["value_code"].':  '.$arrayNoteType["value"]),0,'L');
+                    }
+                }
+            }
+
+            $this->SetTextColor(108,101,101);
+            $this->MultiCell(0,6,latin1(LABEL_Metatermino.':  '.NOTE_isMetaTermNote),0,'L');
+        }
 
         $this->SetXY(10,250);
         $this->SetTextColor(0,0,0);

@@ -3956,8 +3956,58 @@ $txt.=TXTverTE($arrayTema["tema_id"],"0");
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
 return sendFile("$txt","$filname");
-};
+}
 
+
+function do_pdfSist($params=array()) {
+	require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
+	require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
+
+	$pdf = new PDF();
+	$pdf->SetTitle(latin1($_SESSION["CFGTitulo"]));
+	$pdf->SetAuthor(latin1($_SESSION["CFGAutor"]));
+	$pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
+	$pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
+	$pdf->SetCreator($_SESSION["CFGVersion"]);
+
+	$pdf->PrintCover($params,1);
+
+	if ($CFG["intro"]) {
+		$pdf->PrintIntro();
+	}
+
+	if ($params['hasTopTerm'] == '') {
+		$sql=SQLverTopTerm();
+		while ($arrayTema=$sql->FetchRow()) {
+			// #Mantener vivo el navegador
+			// $time_now = time();
+			// if ($time_start >= $time_now + 10) {
+			// 	$time_start = $time_now;
+			// 	header('X-pmaPing: Pong');
+			// };
+
+			$txt.=$arrayTema[tema]."\r\n";
+			$txt.=TXTverTE($arrayTema[id],"0");
+		}
+	} else {
+		$txt=TXTverTE($params['hasTopTerm'],"0");
+	}
+
+	$txt = str_replace(".\t", "     ", $txt);
+	$txt = utf8_decode($txt);
+
+	$pdf->AddFont('opensans','','opensans.php');
+	$pdf->AddPage();
+	$pdf->header = 1;
+	$pdf->footer = 1;
+	$pdf->SetFont('opensans','',12);
+	$pdf->MultiCell(0,10,latin1($txt),0,'J');
+
+	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
+
+	$pdf->Output();
+
+}
 
 //print alphabetic version on PDF
 function do_pdfAlpha($params=array()) {
@@ -3978,7 +4028,7 @@ $pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
 $pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
 $pdf->SetCreator($_SESSION["CFGVersion"]);
 
-$pdf->PrintCover($params);
+$pdf->PrintCover($params,0);
 
 if ($CFG["intro"]) {
 	$pdf->PrintIntro();
@@ -4009,4 +4059,3 @@ $pdf->Output('I',$filname);
 
 
 }
-?>
