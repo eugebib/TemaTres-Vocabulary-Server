@@ -3960,6 +3960,8 @@ return sendFile("$txt","$filname");
 
 
 function do_pdfSist($params=array()) {
+	global $CFG;
+
 	require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
 	require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
 
@@ -4010,7 +4012,7 @@ function do_pdfSist($params=array()) {
 			$pdf->AddPage();
 			$i = 1;
 		}
-		$pdf->Cell(0,8,latin1($line));
+		$pdf->Cell(0,8,$line);
 		$pdf->Ln();
 		$i++;
 	}
