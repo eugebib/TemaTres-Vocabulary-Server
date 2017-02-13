@@ -3997,11 +3997,23 @@ function do_pdfSist($params=array()) {
 	$txt = utf8_decode($txt);
 
 	$pdf->AddFont('opensans','','opensans.php');
+	$pdf->SetMargins(20,20);
 	$pdf->AddPage();
-	$pdf->header = 1;
+	$pdf->SetAutoPageBreak(0,10);
 	$pdf->footer = 1;
 	$pdf->SetFont('opensans','',12);
-	$pdf->MultiCell(0,10,latin1($txt),0,'J');
+
+	$lines = explode("\r\n", $txt);
+	$i = 1;
+	foreach ($lines as $line) {
+		if ($i == 33) {
+			$pdf->AddPage();
+			$i = 1;
+		}
+		$pdf->Cell(0,8,latin1($line));
+		$pdf->Ln();
+		$i++;
+	}
 
 	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
 

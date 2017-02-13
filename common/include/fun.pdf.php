@@ -482,5 +482,3 @@ class PDF extends FPDF {
         $this->SetCol(0);
     }
 }
-
-?>
