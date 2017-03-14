@@ -473,7 +473,7 @@ GLOBAL $DBCFG;
 
 $tema_id=secure_data($_POST["id_tema"],"int");
 
-$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 // Evaluar recursividad
 $evalRecursividad=evalRelacionSuperior($id_mayor,'0',$id_menor);
@@ -489,7 +489,7 @@ if(	(is_numeric($id_menor) && 	is_numeric($id_mayor) && is_numeric($t_relacion) 
 # NO es una relacion recursiva
 if(($evalRecursividad == TRUE) && ($okValues == TRUE)){
 
-		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 'NULL';
+		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
 
 		$sql=SQL("insert","into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
 			values
@@ -804,8 +804,9 @@ $tema_id=secure_data($tema_id,"int");
 
 $estado_id=secure_data($estado_id,"int");
 
-switch($estado_id)
-	{
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+switch($estado_id)	{
 	case '13'://Aceptado / Aceptado
 	//todos pueden ser aceptados
 	$sql=SQL("update","$DBCFG[DBprefix]tema set estado_id='13' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id' ");
@@ -965,7 +966,7 @@ function admin_users($do,$user_id=""){
 	if (is_numeric($user_id))	{
 		$arrayUserData=ARRAYdatosUser($user_id);
 
-		if($arrayUserData[nivel]=='1'){
+		if($arrayUserData["nivel"]=='1'){
 			//Cehcquear que sea ADMIN
 			$sqlCheckAdmin=SQL("select","count(*) as cant from $DBCFG[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
 			$arrayCheckAdmin=$sqlCheckAdmin->FetchRow();
@@ -976,10 +977,8 @@ function admin_users($do,$user_id=""){
 	switch($do){
 		case 'actua':
 		$POSTarrayUser=doArrayDatosUser($_POST);
-
 		//Normalice admin
 		$nivel=($POSTarrayUser["isAdmin"]=='1') ? '1' : '2';
-
 
 		//Check have one admin user
 		if (
@@ -990,17 +989,17 @@ function admin_users($do,$user_id=""){
 		}
 
 
-		$POSTarrayUser[apellido]=trim($POSTarrayUser[apellido]);
-		$POSTarrayUser[nombres]=trim($POSTarrayUser[nombres]);
-		$POSTarrayUser[mail]=trim($POSTarrayUser[mail]);
-		$POSTarrayUser[pass]=trim($POSTarrayUser[pass]);
-		$POSTarrayUser[orga]=trim($POSTarrayUser[orga]);
+		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
+		$POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
+		$POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
+		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
+		$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
-		$POSTarrayUser[apellido]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
-		$POSTarrayUser[nombres]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
-		$POSTarrayUser[mail]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
-		$POSTarrayUser[orga]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-		$POSTarrayUser[pass]=trim($POSTarrayUser[pass]);
+		$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
+		$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
+		$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
+		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
+		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 
 		$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
@@ -1062,6 +1061,7 @@ function admin_users($do,$user_id=""){
 		case 'alta':
 		$POSTarrayUser=doArrayDatosUser($_POST);
 
+
 		$nivel=($POSTarrayUser[isAdmin]=='1') ? '1' : '2';
 
 		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
@@ -1070,22 +1070,21 @@ function admin_users($do,$user_id=""){
 		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 		$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
+		//prevent empty password 
+		if(strlen($POSTarrayUser["pass"])<5) return;
+
 		$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
 		$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
 		$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
 		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
+		$user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]usuario
-			(apellido, nombres, uid, cuando, mail,  orga, nivel, estado, hasta)
+			(apellido, nombres, uid, cuando, mail,  orga, nivel,pass, estado, hasta)
 			VALUES
-			($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?, 'ACTIVO', now())",
+			($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?,'$user_pass', 'ACTIVO', now())",
 			array( $userId,  $nivel));
-
-		$user_id=$sql[cant];
-
-		//set password
-		setPassword($user_id,$POSTarrayUser[pass],CFG_HASH_PASS);
-
+		$user_id=$sql["cant"];
 
 		break;
 		};
@@ -1100,6 +1099,37 @@ return $user_id;
 #
 
 if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+
+
+#ABM source notes for terms and notes
+function abm_srcnotes($do,$srcnote_id="0",$data=array()){
+
+
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+
+switch ($do) {
+	case 'A':
+		$sql=SQL("insert","into $DBCFG[DBprefix]sourcenote (srcnote_tag, srcnote_note, srcnote_url, srcnote_time,srcnote_uid) value ('$data[srcnote_tag]', '$data[srcnote_note]', '$data[srcnote_url]',now(),$userId)");
+		$srcnote_id=sql["cant"];
+		break;
+	case 'M':
+		# code...
+		break;
+	case 'B':
+		# code...
+		break;
+	
+	default:
+		# code...
+		break;
+}
+
+return array("task"=>$do,
+			 "flag"=>$flag,
+			 "srcnote_id"=>$srcnote_id);
+}
+
 
 # cambios de configuracion y registro de vocabularios de referencia
 function abm_vocabulario($do,$vocabulario_id=""){
@@ -1293,7 +1323,7 @@ switch($do){
 				$array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title),get_magic_quotes_gpc());
 				$array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri),get_magic_quotes_gpc());
 				$array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]),get_magic_quotes_gpc());
-				$array["tvocab_status"]=$DB->qstr(trim($_POST["tvocab_status"]),get_magic_quotes_gpc());
+				$array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
 				$sql=SQL("insert","into $DBCFG[DBprefix]tvocab (tvocab_label, tvocab_tag,tvocab_lang, tvocab_title, tvocab_url, tvocab_uri_service, tvocab_status, cuando, uid)
@@ -1333,7 +1363,7 @@ switch($do){
 		$array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title),get_magic_quotes_gpc());
 		$array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri),get_magic_quotes_gpc());
 		$array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]),get_magic_quotes_gpc());
-		$array["tvocab_status"]=$DB->qstr(trim($_POST["tvocab_status"]),get_magic_quotes_gpc());
+		$array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
 		$sql=SQL("update","$DBCFG[DBprefix]tvocab set
@@ -2352,15 +2382,12 @@ $txt.="_________________________________________________________________________
 $sql=SQLlistaTemas($params["hasTopTerm"]);
 
 
-if($params["hasTopTerm"]>0)
-{
+if($params["hasTopTerm"]>0){
 	$txt.=txt4term($params["hasTopTerm"],$params);
-
 }
 
 
-while($arrayTema=$sql->FetchRow())
-{
+while($arrayTema=$sql->FetchRow()){
 
 	#Mantener vivo el navegador
 	$time_now = time();
@@ -2385,9 +2412,7 @@ while($arrayTema=$sql->FetchRow())
 		};
 
 
-	}
-	else
-	{
+	}	else	{
 	// Si es preferido: mostar notas y relaciones
 	$txt.="\n".$arrayTema["tema"]."\r\n";
 
@@ -2403,21 +2428,18 @@ while($arrayTema=$sql->FetchRow())
 	if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
 
 
-	if($params["includeTopTerm"]==1)
-	{
+	if($params["includeTopTerm"]==1){
 		$arrayMyTT=ARRAYmyTopTerm($arrayTema[id]);
 		$txt.=($arrayMyTT["tema_id"]!==$arrayTema[id]) ? '	TT: '.$arrayMyTT["tema"]."\r\n" : '';
 	}
 
 
 	//include or not notes
-	if(is_array($params["includeNote"]))
-	{
+	if(is_array($params["includeNote"])){
 		//Notas
 		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
 
-			while($arrayNotas=$sqlNotas->FetchRow())
-			{
+			while($arrayNotas=$sqlNotas->FetchRow()){
 
 				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
 
@@ -2462,9 +2484,8 @@ while($arrayTema=$sql->FetchRow())
 	};
 	$txt.=$label_target_vocabulary;
 	//Terminos equivalentes web services
-	$SQLtargetTerms=SQLtargetTerms($arrayTema[id]);
-	while($arrayTT=$SQLtargetTerms->FetchRow())
-		{
+	$SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
+	while($arrayTT=$SQLtargetTerms->FetchRow()){
 			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
 		};
 
@@ -2476,6 +2497,8 @@ $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
 
 return sendFile("$txt","$filname");
 };
+
+
 
 
 //Create txt node for one term
@@ -2506,39 +2529,44 @@ function txt4term($tema_id,$params=array())
 			}
 		};
 
-	//Relaciones
-	$sqlRelaciones=SQLverTerminoRelaciones($arrayTema[tema_id]);
+    #Fetch data about associated terms (BT,RT,UF)
+    //Relaciones
+    $sqlRelaciones=SQLdirectTerms($arrayTema["tema_id"]);
 
-	$arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
-	while($arrayRelaciones=$sqlRelaciones->FetchRow())
-	{
+    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
-		if(in_array($arrayRelaciones[t_relacion],$arrayRelacionesVisibles)){
+    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
 
-			$acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones[t_relacion]);
+        if($arrayRelaciones["t_relacion"]==4){
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
+				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+            }
+        }
 
-			if(in_array($arrayRelaciones[t_relacion],array(5,6,7)))
-			{
-				//términos equivalentes .. se concatenan después de los TE/NT
-				$label_target_vocabulary.='	'.$acronimo.': '.$arrayRelaciones[tema].' ('.$arrayRelaciones[titulo].')'."\r\n";
-			}
-			else
-			{
-				$txt.='	'.$acronimo.$arrayRelaciones[rr_code].': '.$arrayRelaciones[tema]."\r\n";
+        if($arrayRelaciones["t_relacion"]==3){
+            if($arrayRelaciones["bt_tema"]){
+				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+            }
 
-			}
+            if($arrayRelaciones["nt_tema"]){
+				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+                }
+         }
+            if($arrayRelaciones["t_relacion"]==2){
+            if($arrayRelaciones["rt_tema"]){
+				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+                }
+            }
+    }
 
+    //internal target terms
+    $SQLiTargetTerms=SQLtermsInternalMapped($arrayTema["tema_id"]);
 
-			}
-
-		};
-
-	//Terminos especificos
-	$SQLTerminosE=SQLverTerminosE($arrayTema[tema_id]);
-	while($arrayTE=$SQLTerminosE->FetchRow())
-		{
-		$txt.='	'.TE_acronimo.$arrayTE[rr_code].': '.$arrayTE[tema]."\r\n";
-		};
+    while($ARRAYiTargetTerms=$SQLiTargetTerms->FetchRow()){
+        $acronimoTterm=arrayReplace (array(5,6,7),array(EQP_acronimo,EQ_acronimo,NEQ_acronimo),$ARRAYiTargetTerms["t_relacion"]);
+		$txt.='	'.$acronimoTterm.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].') '."\r\n";
+    };
 
 	$txt.=$label_target_vocabulary;
 
