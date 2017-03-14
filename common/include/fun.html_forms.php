@@ -131,7 +131,10 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 		}
 	}	else	{
 	if((doValue($_POST,FORM_LABEL_buscarTermino))){
+
 		$expresBusca=doValue($_POST,FORM_LABEL_buscarTermino);
+		$expresBusca=trim($expresBusca);
+		
 		if(($taskterm=='addFreeNT') || ($taskterm=='addFreeUF')){
 			//if enable polijerarquia
 			$sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca,$ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca,$ARRAYtermino["idTema"]);
