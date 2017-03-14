@@ -23,9 +23,9 @@
 // Configuarcion de base de datos - Database Configuration
 
 // Select driver to use
-// Default: mysql , can be mysqli,postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
+// Default: mysqli , can be mysqli,postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
 // To default value, leave empty eg: $DBCFG["DBdriver"] ="";
-$DBCFG["DBdriver"] ="mysqli";
+$DBCFG["DBdriver"] ="";
 
 //  Dirección IP o nombre del servidor - IP Address of the database server
 $DBCFG["Server"]      = "localhost";

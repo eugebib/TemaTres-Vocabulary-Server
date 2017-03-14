@@ -798,13 +798,14 @@ function DBconnect(){
 	GLOBAL $DBCFG;
 
 	//default driver
-	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'mysqli' : $DBCFG["DBdriver"];
+	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'MySQLi' : $DBCFG["DBdriver"];
 
 	$DB = NewADOConnection($DBCFG["DBdriver"]);
 
 	$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
 
 
+	$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
 
 	// Si se establecio un charset para la conexion
 	if(@$DBCFG["DBcharset"]){
@@ -1274,18 +1275,15 @@ function check_password($password,$hash)
 	};
 
 }
+
 /*
  *
  * Update password for user
  */
-function setPassword($user_id,$user_pass,$to_hash=0)
-{
+function setPassword($user_id,$user_pass,$to_hash=0){
 	GLOBAL $DBCFG;
-
 	$user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
-
 	$sql_update_pass=SQLo("update","$DBCFG[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
-
 	return;
 };
 
