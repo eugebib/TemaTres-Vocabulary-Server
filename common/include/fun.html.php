@@ -2242,8 +2242,8 @@ function HTMLextraDataHeader($CFG)
     return '<img src="logo.png" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
 }
 
-function footer() {
-
+function footer()
+{
 	global $DBCFG;
 
 	$lang = doMenuLang($metadata["arraydata"]["tema_id"]);
@@ -2272,8 +2272,7 @@ function footer() {
 	            <div class="col-sm-5 col-sm-offset-1 col-md-3 col-md-offset-3">
 	                <ul class="menu nav">
 	                	' . $contact .
-	                	$help .
-	                	$lang . '
+	                	$help .'
                     </ul>
 	            </div>
 	        </div>
