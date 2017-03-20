@@ -1070,7 +1070,7 @@ function admin_users($do,$user_id=""){
 		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 		$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
-		//prevent empty password 
+		//prevent empty password
 		if(strlen($POSTarrayUser["pass"])<5) return;
 
 		$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
@@ -1111,7 +1111,7 @@ $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 switch ($do) {
 	case 'A':
 		$sql=SQL("insert","into $DBCFG[DBprefix]sourcenote (srcnote_tag, srcnote_note, srcnote_url, srcnote_time,srcnote_uid) value ('$data[srcnote_tag]', '$data[srcnote_note]', '$data[srcnote_url]',now(),$userId)");
-		$srcnote_id=sql["cant"];
+		$srcnote_id=$sql["cant"];
 		break;
 	case 'M':
 		# code...
@@ -1119,7 +1119,7 @@ switch ($do) {
 	case 'B':
 		# code...
 		break;
-	
+
 	default:
 		# code...
 		break;
@@ -1296,7 +1296,7 @@ GLOBAL $DBCFG;
 
 GLOBAL $DB;
 
-$user_id=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$user_id=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 switch($do){
 	case 'A':
