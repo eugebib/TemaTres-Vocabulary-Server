@@ -370,7 +370,16 @@ form.editable {
 }
 
 #theTerm li {
-    padding-bottom: 5px;
+    padding-top: 0;
+    padding-bottom: 12px;
+}
+
+#theTerm li:last-child {
+    padding-bottom: 0px;
+}
+
+#theTerm ul {
+    padding-top: 10px;
 }
 
 #theTerm a[type="button"] {
