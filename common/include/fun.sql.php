@@ -2423,7 +2423,7 @@ function SQLoptimizarTablas($tablas){
 	GLOBAL $DBCFG;
 
 	//SQL to set null all code empty
-	$sqlNull=SQL("UPDATE","$DBCFG[DBprefix]tema SET code = NULL code is not null and length(code)=0");
+	$sqlNull=SQL("UPDATE","$DBCFG[DBprefix]tema SET code = NULL WHERE code is not null and length(code)=0");
 
 	return SQL("OPTIMIZE","TABLE $tablas");
 
