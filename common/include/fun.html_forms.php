@@ -134,7 +134,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 
 		$expresBusca=doValue($_POST,FORM_LABEL_buscarTermino);
 		$expresBusca=trim($expresBusca);
-		
+
 		if(($taskterm=='addFreeNT') || ($taskterm=='addFreeUF')){
 			//if enable polijerarquia
 			$sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca,$ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca,$ARRAYtermino["idTema"]);
@@ -2172,7 +2172,7 @@ function HTMLbulkReplaceResultsNotes($params){
 
 		$rows.='<form class="form-inline" role="form" name="confirmBulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
 		$rows.='  <fieldset id="bulkReplaceDiv">';
-		$rows.= '<p class="alert alert-warning" role="alert">'.MSG__warningDeleteTerm2row.'</p>';
+		$rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
 		$rows.='<div class="table-responsive"> ';
 		$rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
 		$rows.='<thead><tr>';
