@@ -2261,7 +2261,7 @@ function HTMLformExport(){
 $LABEL_jtxt=MENU_ListaSis.' (txt)';
 $LABEL_abctxt=MENU_ListaAbc.' (txt)';
 
-$rows.='<form class="" role="form"  name="export" action="xml.php" method="get">';
+$rows.='<form class="" role="form"  name="export" action="xml.php" method="get" target="_blank">';
 $rows.='	<div class="row">
     <div class="col-sm-12">
         <legend>'.ucfirst(LABEL_Admin).'</legend>
