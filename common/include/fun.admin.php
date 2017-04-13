@@ -1,122 +1,100 @@
 <?php
-if ((stristr( $_SsRVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+############################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales          #
+#                                                                          #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar              #
+# Distribuido bajo Licencia GNU Public License, versión 2 (de junio de     #
+# 1.991) Free Software Foundation                                          #
+#                                                                          #
+############################################################################
+
 # llamada de funciones de gestion de terminos
-#
 
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0){
-
-//prevent duplicate in create terms functions
-if ($_GET["tcode"]){
-	do_target_temaXcode($_GET["tema_id"], $_GET["tcode"], $_GET["tvocab_id"]);
+if ((stristr( $_SsRVER['REQUEST_URI'], "session.php")) || ( !defined('T3_ABSPATH'))) {
+	die("no access");
+}
+if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
+	//prevent duplicate in create terms functions
+	if ($_GET["tcode"]) {
+		do_target_temaXcode($_GET["tema_id"], $_GET["tcode"], $_GET["tvocab_id"]);
 	}
-
-
-# Borrado y edición de término
-# no control if resend.
-if($_POST[task]=='remterm'){
-	borra_t($_POST["tema_id"]);
-	};
-
-# Modificación de término
-if($_POST["edit_id_tema"]){
-		$proc=modTerm(doValue($_POST,FORM_LABEL_termino),$_POST["edit_id_tema"]);
-		$tema=$proc["tema_id"];
-		if($proc["log"]==false){
+	# Borrado y edición de término
+	# no control if resend.
+	if ($_POST[task] == 'remterm') {
+		borra_t($_POST["tema_id"]);
+	}
+	# Modificación de término
+	if ($_POST["edit_id_tema"]) {
+		$proc = modTerm(doValue($_POST,FORM_LABEL_termino),$_POST["edit_id_tema"]);
+		$tema = $proc["tema_id"];
+		if ($proc["log"]==false) {
 			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert(array($proc["tema_id"] => $proc["term_original"]));
 		}
-	};
-### ### ### ### ### ###
-###  resend control ###
-### ### ### ### ### ###
-if(isset($_SESSION['SEND_KEY'])) {
-	$sendkey=$_POST['ks'];
-	if(strcasecmp($sendkey,$_SESSION['SEND_KEY'])===0) {
-
-	#alta de términos sugeridos
-	if($_POST["taskterm"]=='addSuggestedTerms'){
-
-		$ARRAYtema=ARRAYverTerminoBasico($_POST["tema"]);
-
-		$tema=$ARRAYtema["tema_id"];
-
-		if(($_POST["addNoteReference"]==1) || ($_POST["addLinkReference"]>0) || ($_POST["addMappReference"]==1))		{
-			$ARRAYtargetVocabulary=ARRAYtargetVocabulary($_POST["tvocab_id"]);
-		}
-
-		switch ($_POST["t_relation"]) {
-			case '0':
-
-				for($i=0; $i<sizeof($selectedTerms);++$i){
-					//parse string and term_id
-					$arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
-					$tema=abm_tema('alta',$arrayNewTerm[0]);
-
-					//add reference
-					ADDreferencesSuggestedTerm($tema,$arrayNewTerm[1],$ARRAYtargetVocabulary,$options=array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
+	}
+	### ### ### ### ### ###
+	###  resend control ###
+	### ### ### ### ### ###
+	if (isset($_SESSION['SEND_KEY'])) {
+		$sendkey = $_POST['ks'];
+		if (strcasecmp($sendkey,$_SESSION['SEND_KEY']) === 0) {
+			#alta de términos sugeridos
+			if ($_POST["taskterm"] == 'addSuggestedTerms') {
+				$ARRAYtema = ARRAYverTerminoBasico($_POST["tema"]);
+				$tema = $ARRAYtema["tema_id"];
+				if (($_POST["addNoteReference"] == 1) || ($_POST["addLinkReference"] > 0) || ($_POST["addMappReference"] == 1)) {
+					$ARRAYtargetVocabulary = ARRAYtargetVocabulary($_POST["tvocab_id"]);
 				}
-				break;
-
-			case '2':
-
+				switch ($_POST["t_relation"]) {
+					case '0':
+						for ($i=0; $i<sizeof($selectedTerms);++$i) {
+							//parse string and term_id
+							$arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
+							$tema=abm_tema('alta',$arrayNewTerm[0]);
+							//add reference
+							ADDreferencesSuggestedTerm($tema,$arrayNewTerm[1],$ARRAYtargetVocabulary,$options=array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
+						}
+					break;
+					case '2':
 				for($i=0; $i<sizeof($selectedTerms);++$i){
 					//parse string and term_id
 					$arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
 					$relative_term_id=abm_tema('alta',$arrayNewTerm[0]);
-
 					//associate terms
 					$new_relacion=do_terminos_relacionados($relative_term_id,$ARRAYtema["tema_id"]);
-
 					//add reference
 					ADDreferencesSuggestedTerm($relative_term_id,$arrayNewTerm[1],$ARRAYtargetVocabulary,$options=array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
 				}
 				break;
-
 			case '3':
 				for($i=0; $i<sizeof($selectedTerms);++$i){
 					//parse string and term_id
 					$arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
 					$relative_term_id=abm_tema('alta',$arrayNewTerm[0]);
-
 					//associate terms
 					$new_relacion=do_r($ARRAYtema["tema_id"],$relative_term_id,"3");
-
 					//add reference
 					ADDreferencesSuggestedTerm($relative_term_id,$arrayNewTerm[1],$ARRAYtargetVocabulary,$options=array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
 				}
 				break;
-
 			case '4':
 				for($i=0; $i<sizeof($selectedTerms);++$i){
 					//parse string and term_id
 					$arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
 					$relative_term_id=abm_tema('alta',$arrayNewTerm[0]);
-
 					//associate terms
 					$new_relacion=do_r($relative_term_id,$ARRAYtema["tema_id"],"4");
 				}
 				break;
-
-
 		}
-
 	}
-
-
 	# Alta de término subordinado
-	if($_POST[id_termino_sub])	{
+	if ($_POST[id_termino_sub]) {
 		$proc=associateTerms($_POST["id_termino_sub"],doValue($_POST,FORM_LABEL_termino),"3",$_POST["t_rel_rel_id"]);
 		$tema=$proc["last_term_id"];
 		if(count($proc["arrayDupliTerms"])>0){
 			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
 		}
 	}
-
 	# Alta de término no preferido
 	if($_POST[id_termino_uf]){
 		$proc=associateTerms($_POST["id_termino_uf"],doValue($_POST,FORM_LABEL_termino),"4",$_POST["t_rel_rel_id"]);
@@ -125,7 +103,6 @@ if(isset($_SESSION['SEND_KEY'])) {
 			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
 		}
 	}
-
 	# Alta de término relacionado
 	if($_POST[id_termino_rt]){
 		$proc=associateTerms($_POST["id_termino_rt"],doValue($_POST,FORM_LABEL_termino),"2",$_POST["t_rel_rel_id"]);
@@ -134,8 +111,6 @@ if(isset($_SESSION['SEND_KEY'])) {
 			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
 		}
 	}
-
-
 	# Alta de término equivalente
 	#1. Alta de término
 	#2. Alta de relaci�n
@@ -145,115 +120,86 @@ if(isset($_SESSION['SEND_KEY'])) {
 		$tema=$_POST["id_termino_eq"];
 		$_GET["id_eq"]='';
 	}
-
-
 	# Alta de término
 	if($_POST["alta_t"]=='new'){
 		$proc=createTerms(doValue($_POST,FORM_LABEL_termino),$_POST["isMetaTerm"]);
-
 		$tema=$proc["last_term_id"];
-
 		if(count($proc["arrayDupliTerms"])>0){
 			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
 		}
 	};
-
-
 	# Alta de nota
 	if($_POST["taskNota"]=='alta'){
 		$tema=abmNota('A',$_POST["idTema"],doValue($_POST,FORM_LABEL_tipoNota),doValue($_POST,FORM_LABEL_Idioma),doValue($_POST,FORM_LABEL_nota));
 	};
-
 	#Alta URI
 	if($_POST["taskURI"]=='addURI'){
 		$tema=abmURI('A',$_POST["tema_id"],$_POST);
 	};
-
 	//prevent duplicate
 	unset($_SESSION['SEND_KEY']);
 	}
-
 }//END PREVENT DUPLICATED TERMS
-
 
 switch ($_GET["taskrelations"])
 {
 	case 'addTgetTerm'://agregar un término de WS
 		$new_relacion=abm_target_tema("A",$_GET["tema"],$_GET["tvocab_id"],$_GET["tgetTerm_id"]);
 	break;
-
 	case 'delTgetTerm'://eliminar un término de WS
 		$del_relacion=abm_target_tema("B",$_GET["tema"],$_GET["tvocab_id"],$_GET["tgetTerm_id"],$_GET["tterm_id"]);
 	break;
-
 	case 'delURIterm'://eliminar una URL
 		$del_relacion=abmURI("B",$_GET["tema"],array(),$_GET["uri_id"]);
 	break;
-
 	case 'updTgetTerm'://actualiza término de WS
 		$up_relacion=abm_target_tema("U",$_GET["tema"],$_GET["tvocab_id"],$_GET["tgetTerm_id"],$_GET["tterm_id"]);
 	break;
-
 	case 'addRT':
 		for($i=0; $i<sizeof($_GET["rema_id"]);++$i){
 			$new_relacion=do_terminos_relacionados($_GET["rema_id"][$i],$_GET["tema"]);
 			}
 		$tema=$_GET["tema"];
 	break;
-
 	case 'addBT':
 		$new_relacion=do_r($_GET["rema_id"],$_GET["tema"],"3");
 		$tema=$_GET["rema_id"];
 		$tema=$new_relacion["id_menor"];
-
 		if ($new_relacion["log"]==true)	loadPageTerm($tema);
-
 		$MSG_ERROR_RELACION=$new_relacion["msg_error"];
 	break;
-
 	case 'addFreeUF':
 		for($i=0; $i<sizeof($_GET["rema_id"]);++$i){
 			$new_relacion=do_r($_GET["rema_id"][$i],$_GET["tema"],"4");
 			//DATESTAMP change term for the non-prefered term.
 			updateTermDate($_GET["rema_id"][$i]);
 			}
-
 		$tema=$_GET["tema"];
-
 		if ($new_relacion["log"]==true)	loadPageTerm($tema);
-
 		$MSG_ERROR_RELACION=$new_relacion["msg_error"];
 	break;
-
 	case 'addFreeNT':
 		for($i=0; $i<sizeof($_GET[rema_id]);++$i){
 			$new_relacion=do_r($_GET[tema],$_GET[rema_id][$i],"3");
 			}
 		$tema=$_GET["tema"];
-
 		if ($new_relacion["log"]==true)	loadPageTerm($tema);
-
 		$MSG_ERROR_RELACION=$new_relacion["msg_error"];
 	break;
-
 	//assign multiple free terms to relation
 	case 'freeTermsAssoc':
 		freeTermsAssoc($_POST["rema_id"],$_POST["rel_free_term"],$_POST["freeTerms_id"]);
-
 		//if ($new_relacion["log"]==true)	loadPageTerm($tema);
 		loadPageTerm($_POST["rema_id"]);
 	break;
-
 	default:
 }
-
 	# Alta de relaci�n entre término
 	if($_GET["sel_idtr"])	{
 		$new_relacion=do_terminos_relacionados($_GET["sel_idtr"],$_GET["tema"]);
 		$_GET["sel_idtr"]='';
 		$MSG_ERROR_RELACION=$new_relacion["msg_error"];
 	}
-
 	# Subordinaci�n de un término a otro
 	if($_GET["sel_idsuptr"])	{
 		$new_relacion=do_r($_GET["sel_idsuptr"],$tema,"3");
@@ -261,41 +207,29 @@ switch ($_GET["taskrelations"])
 		$_GET["sel_idsuptr"]='';
 		$MSG_ERROR_RELACION=$new_relacion["msg_error"];
 	};
-
-
 	# Borrado de  relaci�n
 	if($_GET["ridelete"])	{
 		borra_r($_GET["ridelete"]);
 	};
-
-
-
-
 	#Operaciones Mod y Borrado de notas
 	# Modificaci�n de nota
 		if($_POST["taskNota"]=='edit')	{
 			$tema=abmNota('M',$_POST["idTema"],doValue($_POST,FORM_LABEL_tipoNota),doValue($_POST,FORM_LABEL_Idioma),doValue($_POST,FORM_LABEL_nota),$_POST["idNota"]);
 		};
-
 		# Borrado de nota
 		if($_GET["taskNota"]=='rem')		{
 			$tema=abmNota('B',$_GET["idTema"],"","","",$_GET["idNota"]);
 		};
-
-
 	# Cambio de estado de un término
 	if(($_GET["estado_id"])&&($_GET["tema"]))	{
 		$cambio_estado=cambio_estado($_GET["tema"],$_GET["estado_id"]);
 		$tema=$cambio_estado["tema_id"];
 		$MSG_ERROR_ESTADO=$cambio_estado["msg_error"];
 	};
-
 	#turn to metaterm or term
 	if(($_GET["taskterm"]=='metaTerm') && ($_GET["tema"]))	{
 		$task=setMetaTerm($_GET["tema"],$_GET["mt_status"]);
 	}
-
-
 //////////////////////////////////////////////////////////////////////////
 ///////////////////// functions //////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -304,96 +238,72 @@ function to select wich report download
 */
 function wichReport($task){
 	switch ($task) {
-
 	//advanced report
 	case 'csv1':
 	$sql=SQLadvancedTermReport($_GET);
 	break;
-
 	//free terms
 	case 'csv2':
 	$sql=SQLverTerminosLibres();
 	break;
-
 	//duplicated terms
 	case 'csv3':
 	$sql=SQLverTerminosRepetidos();
 	break;
-
 	//polit BT terms
 	case 'csv4':
 	$sql=SQLpoliBT();
 	break;
-
 	//candidate terms
 	case 'csv5':
 	$sql=SQLtermsXstatus($_SESSION["id_tesa"],"12");
 	break;
-
 	//rejected terms
 	case 'csv6':
 	$sql=SQLtermsXstatus($_SESSION["id_tesa"],"14");
 	break;
-
 	//preferred and accepted terms without hierarchical relationships
 	case 'csv7':
 	$sql=SQLtermsXcantNT();
 	break;
-
 	//preferred and accepted terms with words count
 	case 'csv8':
 	$sql=SQLtermsXcantWords($_SESSION["id_tesa"]);
 	break;
-
 	//meta terms
 	case 'csv9':
 	$sql=SQLtermsIsMetaTerms($_SESSION["id_tesa"]);
 	break;
-
 	//Terms with related terms
 	case 'csv10':
 	$sql=SQLtermsXrelatedTerms($_SESSION["id_tesa"]);
 	break;
-
 	//Terms with non prefered terms
 	case 'csv11':
 	$sql=SQLtermsXNonPreferedTerms($_SESSION["id_tesa"]);
 	break;
-
 	//Comparative report about mapped terms
 	case 'csv12':
 	$sql=SQLreportTargetTerms($_GET["tvocabs"]);
 	break;
-
 	//Preferred terms
 	case 'csv13':
 	$sql=SQLreportTerminosPreferidos();
 	break;
-
 	//Terms without note o note type
 	case 'csv14':
 	$sql=SQLreportNullNotes($_GET["note_type_null"]);
 	break;
-
 	default :
-
 	break;
 }
-
 return sql2csv($sql,string2url($_SESSION["CFGTitulo"]).'.csv',$_GET["csv_encode"]);
 }
-
-
-
-
 };// fin de llamdas de funciones de gestion
-
-
 
 ###################################################################################
 ##################      FUNCIONES DE ABM TERMINOS   ###############################
 ###################################################################################
-
 function doArrayNota($array){
 $arrayDatos=array("idTermino"=> doValue($array,"idTermino"),
 		"idNota"=> doValue($array,"idNota"),
@@ -404,7 +314,6 @@ return $arrayDatos;
 };
 
 function doArrayDatosUser($array){
-
 $arrayDatos=array("nombres"=> doValue($array,FORM_LABEL_nombre),
 		"apellido"=> doValue($array,FORM_LABEL_apellido),
 		"mail"=>doValue($array,FORM_LABEL_mail),
@@ -417,13 +326,10 @@ $arrayDatos=array("nombres"=> doValue($array,FORM_LABEL_nombre),
 return $arrayDatos;
 };
 
-
 function doArrayDatosTesauro($array){
-
 if(!doValue($array,FORM_LABEL_URI)){
 	$array[FORM_LABEL_URI]="http://" . $_SERVER['HTTP_HOST']. rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	};
-
 $arrayDatos=array("titulo"=>doValue($array,FORM_LABEL_Titulo),
 		"autor"=>doValue($array,FORM_LABEL_Autor),
 		"idioma"=>doValue($array,FORM_LABEL_Idioma),
@@ -439,16 +345,12 @@ $arrayDatos=array("titulo"=>doValue($array,FORM_LABEL_Titulo),
 return $arrayDatos;
 };
 
-
 #
 # ALTA DE TERMINOS RELACIONADOS (solo TR)
 #
 function do_terminos_relacionados($id_mayor,$id_menor,$rel_rel_id=0){
-
 $evalRecursividad_ida=evalRelacionSuperior($id_mayor,'0',$id_menor);
-
 $evalRecursividad_vuelta=evalRelacionSuperior($id_menor,'0',$id_mayor);
-
 if(($evalRecursividad_ida==TRUE)&&($evalRecursividad_vuelta==TRUE)){
 	#1. Alta de relaci�n de ida
 	#2. Alta de relaci�n de vuelta
@@ -460,7 +362,6 @@ if(($evalRecursividad_ida==TRUE)&&($evalRecursividad_vuelta==TRUE)){
 	$msg='<p class="error">'.MSGL_relacionIlegal.'</p>';;
 	$log=false;
 }
-
 return array("id_tema"=>$id_menor,"msg_error"=>$msg,"log"=>$log);
 };
 
@@ -468,58 +369,41 @@ return array("id_tema"=>$id_menor,"msg_error"=>$msg,"log"=>$log);
 # ALTA DE TERMINOS RELACIONADOS (todo tipo de relacion)
 #
 function do_r($id_mayor,$id_menor,$t_relacion,$rel_rel_id=0){
-
 GLOBAL $DBCFG;
-
 $tema_id=secure_data($_POST["id_tema"],"int");
-
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
-
 // Evaluar recursividad
 $evalRecursividad=evalRelacionSuperior($id_mayor,'0',$id_menor);
-
 // Evaluar si son valores numericos
 if(	(is_numeric($id_menor) && 	is_numeric($id_mayor) && is_numeric($t_relacion) )	)	{
 	$okValues = TRUE;
 	};
 	//si es una relación consigo mismo
 	if($id_mayor==$id_menor) return array("id_tema"=>$id_mayor,"msg_error"=>'<p class="error">'.MSGL_relacionIlegal.'</p>',"log"=>"false");
-
-
 # NO es una relacion recursiva
 if(($evalRecursividad == TRUE) && ($okValues == TRUE)){
-
 		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
-
 		$sql=SQL("insert","into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
 			values
 			('$id_mayor','$id_menor','$t_relacion','$rel_rel_id','$userId',now())");
 		//es TG y hay que actualizar el arbol
 		if($t_relacion=='3'){		actualizaListaArbolAbajo($id_menor);		}
-
 		$msg='';
 		$log=true;
 	}else{
 		$msg='<p class="error">'.MSGL_relacionIlegal.'</p>';
 		$log=false;
 	};
-
 return array("id_tema"=>$tema_id,
 						"id_mayor"=>$id_mayor,
 						"id_menor"=>$id_menor,
 						 "msg_error"=>$msg,"log"=>$log);
 };
 
-
-
 function actualizaListaArbolAbajo($tema_id){
-
 $tema_id=secure_data($tema_id,"int");
-
 $sql=actualizaArbolxTema($tema_id);
-
 $sqlTerminosAfectados=SQLtieneTema($tema_id);
-
 //Hay algo que actualizar
 if(SQLcount($sqlTerminosAfectados)>'0')
 	{
@@ -531,15 +415,12 @@ if(SQLcount($sqlTerminosAfectados)>'0')
 return $tema_id;
 };
 
-
 #
 # BAJA FISICA DE TERMINOS
 #
 function borra_t($id_t){
 GLOBAL $DBCFG;
-
 $id_t=secure_data($id_t,"int");
-
 	$delete=SQL("delete","from $DBCFG[DBprefix]term2tterm where tema_id='$id_t'");
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where '$id_t' in (id_menor,id_mayor)");
 	$delete=SQL("delete","from $DBCFG[DBprefix]indice where tema_id='$id_t'");
@@ -548,20 +429,14 @@ $id_t=secure_data($id_t,"int");
 	$delete=SQL("delete","from $DBCFG[DBprefix]tema where tema_id='$id_t'");
 };
 
-
 #
 # BAJA DE RELACIONES ENTRE TERMINOS
 #
 function borra_r($id_r){
-
 GLOBAL $DBCFG;
-
 $id_r=secure_data($id_r,"int");
-
 $sql_dator=SQL("select","$DBCFG[DBprefix]tabla_rel.id,id_mayor,id_menor,t_relacion from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-
 $dator=$sql_dator->FetchRow();
-
 switch($dator[t_relacion]){
 	case '2':
 	$sql_id_delete=SQL("select","$DBCFG[DBprefix]tabla_rel.id
@@ -570,72 +445,57 @@ switch($dator[t_relacion]){
 		id_menor in ('$dator[id_menor]','$dator[id_mayor]')
 		and id_mayor in ('$dator[id_menor]','$dator[id_mayor]')
 		and t_relacion='$dator[t_relacion]'");
-
 	while($id_delete=$sql_id_delete->FetchRow())
 		{
 		$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_delete[0]'");
 		}
 	break;
-
 	case '3':
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 	actualizaListaArbolAbajo($dator[id_menor]);
 	break;
-
-
 	case '4': //UF
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	//borra_t($dator[id_mayor]);
 	break;
-
 	case '5': //EQ
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator[id_mayor]);
 	break;
-
 	case '6': //EQ
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator[id_mayor]);
 	break;
-
 	case '7': //EQ
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator[id_mayor]);
 	break;
-
-
 	case '8': //EQ
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator[id_mayor]);
 	break;
 	};
-
 };
 
 #
 # devuelve una lista separada por | del arbol/indice de un tema
 #
 function generaIndices($tema_id){
-
 	$tema_id=secure_data($tema_id,"int");
-
 	$indice_temas=bucle_arriba($tema_id.'|',$tema_id);
 	return $indice_temas;
 };
-
-
 
 #
 # actualiza la situacion de tema en el arbol/indice
 #
 function actualizaArbolxTema($tema_id){
 	GLOBAL $DBCFG;
-
 	$tema_id=secure_data($tema_id,"int");
 	$este_tema_id=$tema_id;
 	//Obtengo una cadena separada con | con el arbol inverso de un tema
@@ -648,73 +508,50 @@ function actualizaArbolxTema($tema_id){
 		}
 	//Saco el ultimo caracter
 	$esteindice=substr($indice[$este_tema_id],1);
-
 	$sql=SQL("insert","into $DBCFG[DBprefix]indice values ('$tema_id','$esteindice')");
-
 	if(@$sql[error])		{
 		$sql=SQL("update","$DBCFG[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
 		}
-
 return $tema_id;
 };
-
 
 #
 # ALTA Y MODIFICACION DE TERMINOS
 #
 function abm_tema($do,$titu_tema,$tema_id=""){
-
 GLOBAL $DBCFG;
-
 GLOBAL $DB;
-
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
-
 //Es un término del vocabulario o una referencia a un término mapeado de otro vocabulario.
 $tesauro_id = (secure_data($_POST[ref_vocabulario_id],"int")) ? $_POST[ref_vocabulario_id] : $_SESSION[id_tesa];
-
 $titu_tema=trim($titu_tema);
-
 //no string
 if(strlen($titu_tema)<1) return ;
-
 $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
-
 switch($do){
 		case 'alta':
 		$estado_id = (@$_POST[estado_id]) ? $_POST[estado_id] : '13';
-
 		$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
 			values ($titu_tema,?,?,now(),?,now())",array($tesauro_id,$userId,$estado_id));
-
 		$tema_id=$sql["cant"];
 		break;
-
 		case 'mod':
 		$tema_id=secure_data($tema_id,"int");
-
 		$sql=SQLo("update","$DBCFG[DBprefix]tema set
 		tema=$titu_tema ,uid_final= ?,cuando_final=now() where tema_id= ?",
 		array($userId,$tema_id));
 		break;
 		};
-
 return $tema_id;
 };
-
-
-
 
 #update date for a term
 function updateTermDate($tema_id)
 {
 	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 	$tema_id=secure_data($tema_id,"int");
-
 	GLOBAL $DBCFG;
-
 	$sql=SQL("update","$DBCFG[DBprefix]tema set uid_final='$userId',cuando_final=now() where tema_id='$tema_id' ");
-
 	return $tema_id;
 }
 
@@ -725,28 +562,19 @@ function abm_target_tema($do,$tema_id,$tvocab_id,$tgetTerm_id,$tterm_id="0")
 {
 GLOBAL $DBCFG;
 GLOBAL $DB;
-
 $userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
-
 $tema_id=secure_data($tema_id,"int");
-
 $tvocab_id=secure_data($tvocab_id,"int");
-
 $arrayVocab=ARRAYtargetVocabulary($tvocab_id);
-
 $sendkey='';
-
 if(is_array($arrayVocab))
 	{
-
 	switch($do)
 		{
 		case 'A':
 		//prevent duplicate
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
-
 		$dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchTerm&arg='.$tgetTerm_id);
-
 		$arrayTterm["tterm_uri"]=$arrayVocab["tvocab_uri_service"].'?task=fetchTerm&arg='.$tgetTerm_id;
 
 		$arrayTterm["tterm_url"]=$arrayVocab["tvocab_url"].'?tema='.$tgetTerm_id;
@@ -2508,153 +2336,132 @@ while($arrayTema=$sql->FetchRow()){
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
 
 return sendFile("$txt","$filname");
-};
-
-
-
+}
 
 //Create txt node for one term
-function txt4term($tema_id,$params=array())
+function txt4term($tema_id, $params = array())
 {
+	$arrayTema = ARRAYverTerminoBasico($tema_id);
+	$label_target_vocabulary = '';
 
-	$arrayTema=ARRAYverTerminoBasico($tema_id);
+	$txt.= "\n".$arrayTema[tema]."\r\n";
+	$txt.= ($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema[cuando]."\r\n" : '';
 
-	$txt.="\n".$arrayTema[tema]."\r\n";
+	if (($arrayTema[cuando_final] > $arrayTema[cuando]) && ($params["includeModDate"] == 1)) {
+		$txt.= LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";
+	}
 
-	$label_target_vocabulary='';
+	// Notas
+	$sqlNotas = SQLdatosTerminoNotas($arrayTema[tema_id]);
+	while ($arrayNotas=$sqlNotas->FetchRow()) {
+		$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+		if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"]))) {
+			$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
+		}
+	}
 
-	$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema[cuando]."\r\n" : '';
+    // Relaciones
+    $sqlRelaciones = SQLdirectTerms($arrayTema["tema_id"]);
+    $arrayRelacionesVisibles = array(2,3,4,5,6,7); // TG/TE/UP/TR
 
-	if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
-
-	//Notas
-	$sqlNotas=SQLdatosTerminoNotas($arrayTema[tema_id]);
-
-		while($arrayNotas=$sqlNotas->FetchRow())
-		{
-
-			$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
-
-			if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))
-			{
-				$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
-			}
-		};
-
-    #Fetch data about associated terms (BT,RT,UF)
-    //Relaciones
-    $sqlRelaciones=SQLdirectTerms($arrayTema["tema_id"]);
-
-    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
-
-    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-
-        if($arrayRelaciones["t_relacion"]==4){
+    while ($arrayRelaciones = $sqlRelaciones->FetchRow()) {
+        if ($arrayRelaciones["t_relacion"] == 4) {
             # is UF and not hidden UF
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
-				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+            if (!in_array($arrayRelaciones["rr_code"], $CFG["HIDDEN_EQ"])) {
+				$txt.= '	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
-
-        if($arrayRelaciones["t_relacion"]==3){
-            if($arrayRelaciones["bt_tema"]){
-				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+        if ($arrayRelaciones["t_relacion"] == 3) {
+            if ($arrayRelaciones["bt_tema"]) {
+				$txt.= '	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
             }
-
-            if($arrayRelaciones["nt_tema"]){
-				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
-                }
-         }
-            if($arrayRelaciones["t_relacion"]==2){
-            if($arrayRelaciones["rt_tema"]){
-				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
-                }
+            if ($arrayRelaciones["nt_tema"]) {
+				$txt.= '	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
             }
+        }
+        if ($arrayRelaciones["t_relacion"] == 2) {
+            if ($arrayRelaciones["rt_tema"]) {
+				$txt.= '	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+            }
+        }
     }
 
     //internal target terms
-    $SQLiTargetTerms=SQLtermsInternalMapped($arrayTema["tema_id"]);
+    $SQLiTargetTerms = SQLtermsInternalMapped($arrayTema["tema_id"]);
+    while ($ARRAYiTargetTerms = $SQLiTargetTerms->FetchRow()) {
+        $acronimoTterm = arrayReplace(array(5,6,7), array(EQP_acronimo,EQ_acronimo, NEQ_acronimo), $ARRAYiTargetTerms["t_relacion"]);
+		$txt.= '	'.$acronimoTterm.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].') '."\r\n";
+    }
 
-    while($ARRAYiTargetTerms=$SQLiTargetTerms->FetchRow()){
-        $acronimoTterm=arrayReplace (array(5,6,7),array(EQP_acronimo,EQ_acronimo,NEQ_acronimo),$ARRAYiTargetTerms["t_relacion"]);
-		$txt.='	'.$acronimoTterm.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].') '."\r\n";
-    };
-
-	$txt.=$label_target_vocabulary;
+	$txt.= $label_target_vocabulary;
 
 	//Terminos equivalentes web services
-	$SQLtargetTerms=SQLtargetTerms($arrayTema["tema_id"]);
-	while($arrayTT=$SQLtargetTerms->FetchRow())
-		{
-			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
-		};
+	$SQLtargetTerms = SQLtargetTerms($arrayTema["tema_id"]);
+	while ($arrayTT=$SQLtargetTerms->FetchRow()) {
+		$txt.= '	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
+	}
 
-
-		return $txt;
+	return $txt;
 }
 
-function txtJerarquico(){
+function txtJerarquico()
+{
+	$txt = ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
+	$txt.= ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
+	$txt.= ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
+	$txt.= ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
+	$txt.= LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
+	$txt.= ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
+	$txt.= "__________________________________________________________________________\r\n";
 
-$txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
-$txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
-$txt.=ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
-$txt.=ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
-$txt.=LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
-$txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
-$txt.="__________________________________________________________________________\r\n";
+	//Lista de términos topes
+	$sql = SQLverTopTerm();
+	while ($arrayTema = $sql->FetchRow()) {
+		#Mantener vivo el navegador
+		$time_now = time();
+		if ($time_start >= $time_now + 10) {
+			$time_start = $time_now;
+			header('X-pmaPing: Pong');
+		}
 
-//Lista de términos topes
-$sql=SQLverTopTerm();
+		// es preferido
+		// $txt.="\n".$arrayTema[tema]."\r\n";
+		$txt.= $arrayTema[tema]."\r\n";
+		//Terminos especificos
+		$txt.= TXTverTE($arrayTema[id],"0");
+	}
 
-while($arrayTema=$sql->FetchRow()){
+	$filname = string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
-#Mantener vivo el navegador
-$time_now = time();
-if ($time_start >= $time_now + 10) {
-	$time_start = $time_now;
-	header('X-pmaPing: Pong');
-};
-// es preferido
-
-// $txt.="\n".$arrayTema[tema]."\r\n";
-$txt.=$arrayTema[tema]."\r\n";
-//Terminos especificos
-$txt.=TXTverTE($arrayTema[id],"0");
+	return sendFile("$txt","$filname");
 }
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
-return sendFile("$txt","$filname");
-};
+function TXTverTE($tema_id,$i_profundidad)
+{
+	GLOBAL $CFG;
+	$i_profundidad=++$i_profundidad;
 
-
-function TXTverTE($tema_id,$i_profundidad){
-
-GLOBAL $CFG;
-$i_profundidad=++$i_profundidad;
-
-$sql=SQLverTerminosE($tema_id);
-
-//Contador de profundidad de TE desde la ra�z
-	while($array=$sql->FetchRow()){
+	$sql = SQLverTerminosE($tema_id);
+	//Contador de profundidad de TE desde la ra�z
+	while ($array=$sql->FetchRow()) {
 		//calculo de sangría
-		$sangria='';
-		for($i="1"; $i<="$i_profundidad"; ++$i){
-			$sangria.=' .'."\t";
-			};
+		$sangria = '' ;
+		for ($i = "1"; $i <= "$i_profundidad"; ++$i) {
+			$sangria.= ' .'."\t";
+		}
 
 		//si tiene TEs
-		if($array[id_te]){
-			$txt.=$sangria.$array[tema]."\r\n";
-			$txt.=TXTverTE($array[id_tema],$i_profundidad);
-		}else{
-		$txt.=$sangria.$array[tema]."\r\n";
-		};
-	};
+		if ($array[id_te]) {
+			$txt.= $sangria.$array[tema]."\r\n";
+			$txt.= TXTverTE($array[id_tema],$i_profundidad);
+		} else {
+			$txt.= $sangria.$array[tema]."\r\n";
+		}
+	}
+
 	return $txt;
-};
-
-
+}
 
 /*
  * Backup tematres tables
@@ -4023,6 +3830,8 @@ function do_pdfSist($params=array()) {
 		}
 	} else {
 		$txt=TXTverTE($params['hasTopTerm'],"0");
+		$topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
+		$topTerm = $topTerm['tema'];
 	}
 
 	$txt = str_replace(".\t", "     ", $txt);
@@ -4047,9 +3856,9 @@ function do_pdfSist($params=array()) {
 		$i++;
 	}
 
-	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
+	$filname=string2url($_SESSION[CFGTitulo].'-sist-'.$topTerm).'.pdf';
 
-	$pdf->Output();
+	$pdf->Output('I',$filname);
 
 }
 
@@ -4097,7 +3906,7 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 	    $topTerm = $topTerm['tema'];
 	}
 
-$filname=string2url($_SESSION[CFGTitulo].'-'.MENU_Abc.'-'.$topTerm).'.pdf';
+$filname=string2url($_SESSION[CFGTitulo].'-alf-'.$topTerm).'.pdf';
 
 $pdf->Output('I',$filname);
 
