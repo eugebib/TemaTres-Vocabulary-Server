@@ -343,6 +343,9 @@ function SQLbuscaExacta($texto){
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
 
+	//hide hidden :)
+	$where.=" and relaciones.rel_rel_id!=44";
+
 	$sql=SQL("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as id_definitivo,
 		tema.tema_id,tema.isMetaTerm,
 		if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
