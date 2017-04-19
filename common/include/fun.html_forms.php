@@ -1847,7 +1847,7 @@ function HTMLformRecoveryPassword($user_name="")
 #
 # Vista de términos libres
 #
-function HTMLformVerTerminosLibres($taskterm='null',$freeTerms_id=array())
+function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
 {
 	switch ($taskterm) {
 		case 'deleteFreeTerms':
@@ -1871,9 +1871,9 @@ function HTMLformVerTerminosLibres($taskterm='null',$freeTerms_id=array())
 		default:
 		break;
 	}
-	$sql=SQLverTerminosLibres();
-	$rows.='<div>';
-	$rows.='<h3>'.ucfirst(LABEL_terminosLibres).' ('.SQLcount($sql).') </h3>';
+	$sql  = SQLverTerminosLibres();
+	$rows.= '<div>';
+	$rows.= '<h3>'.ucfirst(LABEL_terminosLibres).' ('.SQLcount($sql).') </h3>';
 	if (is_array($task)) {
 		if ($task["error"]>0) {
 			$rows.='<p class="error">'.$task["error"].' '.MSG_termsErrorTask.' </p>';

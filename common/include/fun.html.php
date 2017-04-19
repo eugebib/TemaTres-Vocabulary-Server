@@ -538,6 +538,7 @@ function HTMLmainMenu() {
 						<li><a title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>
 						<li><a title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>
 						<li><a title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>
+						<li><a title="'.ucfirst(LABEL_Aceptados).'" href="'.URL_BASE.'index.php?estado_id=13">'.ucfirst(LABEL_Aceptados).'</a></li>
 						<li><a title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>
 						<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>
 					</ul>
@@ -1161,50 +1162,51 @@ function JHTMLverTE($tema_id){
 }
 
 
-function HTMLlistaTerminosEstado($estado_id,$limite="")
+function HTMLlistaTerminosEstado($estado_id, $limite = "")
 {
+	$arrayEstados_id = array(12, 13, 14);
+	$arrayEstados    = array("12"=>LABEL_Candidatos,"13"=>LABEL_Aceptados,"14"=>LABEL_Rechazados);
 
-	//Estados posibles y aceptados
-	$arrayEstados_id=array(12,14);
-
-	//Descripcion de estados
-	$arrayEstados=array("12"=>LABEL_Candidatos,"13"=>LABEL_Aceptados,"14"=>LABEL_Rechazados);
-
-	if(in_array($estado_id,$arrayEstados_id)){
-
-		$sql=SQLterminosEstado($estado_id,$limite);
-
-		$rows.='<div><h3>'.ucfirst($arrayEstados[$estado_id]).' ('.SQLcount($sql).') </h3>';
-
-		if(SQLcount($sql)>0){
-			$rows.='<div class="table-responsive"> ';
-			$rows.='<table class="table table-striped table-bordered table-condensed table-hover">
-			<thead>
-			<tr>
-				<th>'.ucfirst(LABEL_Termino).'</th>
-				<th>'.ucfirst(LABEL_Fecha).'</th>
-			</tr>
-			</thead>
-			<tbody>';
-
-			while ($array = $sql->FetchRow()){
-				$css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$rows.= '<tr>';
-				$rows.=  '     	<td><a class="estado_termino'.$array[estado_id].'" title="'.$array[tema].'" href="'.URL_BASE.'index.php?tema='.$array[tema_id].'&tipo=E">'.$array[tema].'</a></td>';
-				$rows.=  '      <td>'.$array["cuando"].'</td>';
-				$rows.=  ' </tr>';
-
-			};
-			$rows.='        </tbody>		</table>';
-			$rows.='        </div>';
+	if (!in_array($estado_id,$arrayEstados_id)) {
+		return;
 	}
-}//if in_array
 
-	$rows.='</div>';
+	$sql  = SQLterminosEstado($estado_id, $limite);
+	$rows.='<h3>'.ucfirst($arrayEstados[$estado_id]).' ('.SQLcount($sql).')</h3>';
+
+	if (SQLcount($sql) == 0) {
+		return $rows;
+	}
+
+	$rows.='<div class="table-responsive">
+				<table class="table table-striped table-bordered table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>'.ucfirst(LABEL_Termino).'</th>
+							<th>'.ucfirst(LABEL_Fecha).'</th>
+						</tr>
+					</thead>
+					<tbody>';
+
+	while ($array = $sql->FetchRow()) {
+		$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+		$rows.='<tr>
+					<td>
+						<a class="estado_termino'.$estado_id.$array["class"].' title="'.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'&tipo=E">'.
+							$array["tema"].'
+						</a>
+					</td>
+					<td>'.
+						$array["cuando"].'
+					</td>
+				</tr>';
+	}
+	$rows.=' 		</tbody>
+				</table>
+			</div>';
 
 	return $rows;
-};
-
+}
 
 function HTMLlistaTerminosFecha($limite="")
 {
