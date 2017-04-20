@@ -894,22 +894,22 @@ function SQLdirectTerms($tema_id)
 
 
 
-	#
-	# Buscador de términos iguales
-	#
-	function SQLverTerminosRepetidos($tesauro_id=1){
-		GLOBAL $DBCFG;
-		$sql=SQL("select","tema.tema as string_term,count(*) as cant,tema2.tema,tema2.tema_id,tema2.isMetaTerm
-		from $DBCFG[DBprefix]tema as tema, $DBCFG[DBprefix]tema as tema2
-		where tema2.tema=tema.tema
-		and tema.tesauro_id='$tesauro_id'
-		and tema2.tesauro_id='$tesauro_id'
-		group by tema.tema,tema2.tema_id
-		having cant >1
-		order by cant desc,lower(tema.tema),tema2.isMetaTerm");
-		return $sql;
-	};
-
+#
+# Buscador de términos iguales
+#
+function SQLverTerminosRepetidos($tesauro_id = 1)
+{
+	GLOBAL $DBCFG;
+	$sql = SQL("select","tema.tema as string_term,count(*) as cant,tema2.tema,tema2.tema_id,tema2.isMetaTerm
+	from $DBCFG[DBprefix]tema as tema, $DBCFG[DBprefix]tema as tema2
+	where tema2.tema=tema.tema
+	and tema.tesauro_id='$tesauro_id'
+	and tema2.tesauro_id='$tesauro_id'
+	group by tema.tema,tema2.tema_id
+	having cant >1
+	order by cant desc,lower(tema.tema),tema2.isMetaTerm");
+	return $sql;
+}
 
 	#
 	# BUSCADOR DE TERMINOS especÃ­ficos de un término general

@@ -507,3 +507,20 @@ footer p.text-muted {
     padding-left: 10px; /* Padding works */
     margin-left: 100px; /* Margin has no effect in table-cell */
 }
+
+.square {
+    list-style-type: square;
+}
+
+.list h3 {
+    margin-bottom: 30px;
+    border-bottom: black solid 1px;
+}
+
+.square > li {
+    margin-bottom: 15px;
+}
+
+.circle {
+    list-style-type: circle;
+}
