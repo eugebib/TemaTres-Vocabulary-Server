@@ -144,7 +144,7 @@ $metadata=do_meta_tag();
             }
             if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
                 //es admin y quiere ver un usuario
-                if(($_GET[user_id])	&&	($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1)) {
+                if(($_GET[user_id])	&&	($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) {
                     echo doBrowseTermsFromUser(secure_data($_GET[user_id],$_GET[ord]));
                     //no es admin y quiere verse a si mismo
                 } elseif($_GET[user_id]) {

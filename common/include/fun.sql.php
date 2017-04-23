@@ -1406,14 +1406,16 @@ function SQLtermsByDate(){
 #
 # Lista de datos según usuarios
 #
-function SQLdatosUsuarios($user_id=""){
+function SQLdatosUsuarios($user_id="")
+{
 	GLOBAL $DBCFG;
-	if($id){
-		$where=" where usuario.id='$user_id'";
-	};
-	$sql=SQL("select","usuario.id,usuario.apellido,usuario.nombres,usuario.orga,usuario.mail,usuario.cuando,usuario.hasta,usuario.estado,usuario.pass,if(usuario.estado=1,'caducar','habilitar') as enlace, count(tema.tema_id) as cant_terminos
+	if ($id) {
+		$where=" and usuario.id='$user_id'";
+	}
+	$sql=SQL("select","usuario.id,usuario.apellido,usuario.nombres,usuario.orga,usuario.mail,usuario.cuando,usuario.hasta,usuario.estado,usuario.pass,usuario.nivel,if(usuario.estado=1,'caducar','habilitar') as enlace, count(tema.tema_id) as cant_terminos
 	from $DBCFG[DBprefix]usuario as usuario
 	left join $DBCFG[DBprefix]tema as tema on tema.uid=usuario.id
+	where usuario.nivel!=3
 	$where
 	group by usuario.id
 	order by usuario.apellido");
@@ -2092,8 +2094,7 @@ function SQLadvancedTermReport($array)
 
 	#has top term X
 	$array[hasTopTerm]=secure_data($array[hasTopTerm],"int");
-	if($array[hasTopTerm]>0)
-	{
+	if($array[hasTopTerm]>0) {
 		$size_i=strlen($array[hasTopTerm])+2;
 		$from="$DBCFG[DBprefix]indice tti,";
 		$where="	and t.tema_id=tti.tema_id";
@@ -2103,8 +2104,7 @@ function SQLadvancedTermReport($array)
 	#has note type X
 	$array[hasNote]=$DB->qstr(trim($array[hasNote]),get_magic_quotes_gpc());
 
-	if(strlen($array[hasNote])>2)
-	{
+	if(strlen($array[hasNote])>2) {
 		$from.="$DBCFG[DBprefix]notas n,";
 		$where.="		and n.id_tema=t.tema_id";
 		$where.="		and n.tipo_nota=$array[hasNote]";
@@ -2116,8 +2116,7 @@ function SQLadvancedTermReport($array)
 	$yearDate=secure_data($arrayDates[0],"int");
 	$monthDate=secure_data($arrayDates[1],"int");
 
-	if(($yearDate>0) && ($monthDate>0))
-	{
+	if(($yearDate>0) && ($monthDate>0)) {
 		$fromDate=$yearDate.'-'.$monthDate.'-01';
 		$where.="		and (t.cuando between '$fromDate' and now())";
 	}
@@ -2127,18 +2126,15 @@ function SQLadvancedTermReport($array)
 	#user filter
 	$array[byuser_id]=secure_data($array[byuser_id],"int");
 
-	if(($array[byuser_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'))
-	{
+	if ($array[byuser_id] && $_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
 		$where.="		and '$array[byuser_id]' in (t.uid,t.uid_final)";
 	}
 
 	#string filter
 	//$array[csvstring]=secure_data(trim($array[csvstring]),"sql");
 
-	if((strlen($array[csvstring])>0) && (in_array($array[w_string],array('x','s','e'))))
-	{
-		switch($array[w_string])
-		{
+	if((strlen($array[csvstring])>0) && (in_array($array[w_string],array('x','s','e')))) {
+		switch($array[w_string]) {
 
 			case 's'://start term
 			/*
@@ -2181,7 +2177,6 @@ function SQLadvancedTermReport($array)
 			$array_where.="[[:<:]]$array[csvstring][[:>:]]";
 			break;
 		}
-
 	}
 
 

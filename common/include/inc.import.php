@@ -11,7 +11,7 @@ must be ADMIN
 */
 if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 	// get the variables
-	
+
 	if (($_POST['taskAdmin']=='importTab') && (file_exists($_FILES["file"]["tmp_name"])) )
 	{
 
@@ -43,16 +43,16 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		if ($debug) echo "<textarea style=\"width:500px;height:500px;\">" ;
 
 		$fd=fopen($src_txt,"r");
-		
-		while ( ($content= fgets($fd)) !== false ) {	
+
+		while ( ($content= fgets($fd)) !== false ) {
 
 		$time_now = time();
 		if ($time_start >= $time_now + 10) {
 			$time_start = $time_now;
 			header('X-pmaPing: Pong');
 		};
-			
-			
+
+
 			//sleep(1) ;
 			$terme = $content ;
 			// traitement data
@@ -114,7 +114,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 		fclose($fd);
 		//recreate index
-		$sql=SQLreCreateTermIndex();		
+		$sql=SQLreCreateTermIndex();
 		echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
 
 	}

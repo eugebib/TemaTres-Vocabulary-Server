@@ -1378,54 +1378,50 @@ return $rows;
 #
 # Lista de usuarios
 #
-function HTMLListaUsers(){
+function HTMLListaUsers()
+{
+	$sqlListaUsers = SQLdatosUsuarios();
+	$rows.='<div class="table-responsive">
+				<table id="tableusers" class="table table-striped table-bordered table-condensed table-hover" summary="'.MENU_Usuarios.'">';
 
-$sqlListaUsers=SQLdatosUsuarios();
-
-$rows.='<div class="table-responsive"> ';
-$rows.='<table id="tableusers" class="table table-striped table-bordered table-condensed table-hover" summary="'.MENU_Usuarios.'">';
-
-$rows.='<thead>';
-$rows.='<tr>';
-$rows.='<th class="izq" colspan="4">'.MENU_Usuarios.' &middot; <a class="btn btn-primary btn-xs" href="admin.php?user_id=new" title="'.MENU_NuevoUsuario.'">'.MENU_NuevoUsuario.'</a></th>';
-$rows.='</tr>';
-$rows.='<tr>';
-$rows.='<th>'.ucfirst(LABEL_apellido).', '.ucfirst(LABEL_nombre).'</th>';
-$rows.='<th>'.ucfirst(LABEL_orga).'</th>';
-$rows.='<th>'.ucfirst(LABEL_Fecha).'</th>';
-$rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
-$rows.='</tr>';
-$rows.='</thead>';
-
-$rows.='<tbody>';
-
-while($listaUsers=$sqlListaUsers->FetchRow()){
-	$fecha_alta=do_fecha($listaUsers[cuando]);
+	$rows.='<thead>';
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers[id].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
-	$rows.='<td class="izq">'.$listaUsers[orga].'</td>';
-	$rows.='<td>'.$fecha_alta[dia].'-'.$fecha_alta[descMes].'-'.$fecha_alta[ano].' ('.arrayReplace(array("ACTIVO","BAJA"),array(LABEL_User_Habilitado,LABEL_User_NoHabilitado),$listaUsers[estado]). ')</td>';
-	if($listaUsers[cant_terminos]>0){
-		$rows.='<td><a href="sobre.php?user_id='.$listaUsers[id].'" title="'.LABEL_Detalle.'">'.$listaUsers[cant_terminos].'</a></td>';
-		}else{
-		$rows.='<td>'.$listaUsers[cant_terminos].'</td>';
-		}
+	$rows.='<th class="izq" colspan="4">'.MENU_Usuarios.' &middot; <a class="btn btn-primary btn-xs" href="admin.php?user_id=new" title="'.MENU_NuevoUsuario.'">'.MENU_NuevoUsuario.'</a></th>';
 	$rows.='</tr>';
-	};
+	$rows.='<tr>';
+	$rows.='<th>'.ucfirst(LABEL_apellido).', '.ucfirst(LABEL_nombre).'</th>';
+	$rows.='<th>'.ucfirst(LABEL_orga).'</th>';
+	$rows.='<th>'.ucfirst(LABEL_Fecha).'</th>';
+	$rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
+	$rows.='</tr>';
+	$rows.='</thead>
+			<tbody>';
 
-$rows.='</tbody>';
-$rows.='<tfoot>';
-$rows.='<tr>';
-$rows.='<td class="izq">'.ucfirst(LABEL_TotalUsuarios).'</td>';
-$rows.='<td colspan="3">'.SQLcount($sqlListaUsers).'</td>';
-$rows.='</tr>';
-$rows.='</tfoot>';
+	while ($listaUsers = $sqlListaUsers->FetchRow()) {
+		$fecha_alta=do_fecha($listaUsers[cuando]);
+		$rows.='<tr>';
+		$rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers[id].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
+		$rows.='<td class="izq">'.$listaUsers[orga].'</td>';
+		$rows.='<td>'.$fecha_alta[dia].'-'.$fecha_alta[descMes].'-'.$fecha_alta[ano].' ('.arrayReplace(array("ACTIVO","BAJA"),array(LABEL_User_Habilitado,LABEL_User_NoHabilitado),$listaUsers[estado]). ')</td>';
+		if($listaUsers[cant_terminos]>0){
+			$rows.='<td><a href="sobre.php?user_id='.$listaUsers[id].'" title="'.LABEL_Detalle.'">'.$listaUsers[cant_terminos].'</a></td>';
+			}else{
+			$rows.='<td>'.$listaUsers[cant_terminos].'</td>';
+			}
+		$rows.='</tr>';
+		};
 
-$rows.='</table> </div>       ';
+	$rows.='</tbody>';
+	$rows.='<tfoot>';
+	$rows.='<tr>';
+	$rows.='<td class="izq">'.ucfirst(LABEL_TotalUsuarios).'</td>';
+	$rows.='<td colspan="3">'.SQLcount($sqlListaUsers).'</td>';
+	$rows.='</tr>';
+	$rows.='</tfoot>';
+	$rows.='</table> </div>';
 
-return $rows;
-};
-
+	return $rows;
+}
 
 #
 # lista de vocabularios

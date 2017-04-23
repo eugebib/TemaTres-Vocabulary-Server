@@ -7,18 +7,17 @@
 ###############################################################################################################
 #
 include("config.tematres.php");
-
 $metadata=do_meta_tag();
 
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1'){
+if(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] || $_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='2'){
 	loadPage('login.php');
 	};
 
 //Acciones de gestion de usuarios
-if($_POST["userTask"]=='A'){
-	$user_id=admin_users("alta");
+if ($_POST["userTask"]=='A') {
+	$user_id = admin_users("alta");
 	header("Location:admin.php?user_id=list");
-	}
+}
 
 if($_POST["useactua"]){
 	$user_id=admin_users("actua",$_POST["useactua"]);
@@ -82,7 +81,12 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 						echo HTMLListaUsers();
 					}
 					if (is_numeric($_GET["user_id"])) {
-						require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
+						$dato_user = ARRAYdatosUser($_GET["user_id"]);
+						if ($dato_user['nivel'] == 3) {
+							echo HTMLListaUsers();
+						} else {
+							require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
+						}
 					}
 					if ($_GET["user_id"]=='new') {
 						require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');

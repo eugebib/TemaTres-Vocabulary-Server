@@ -550,11 +550,11 @@ function HTMLmainMenu() {
 	}
 
 	return $row;
-};
+}
 
-function HTMLAdminMenu() {
-
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
+function HTMLAdminMenu()
+{
+	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel] == '1' || $_SESSION[$_SESSION["CFGURL"]][ssuser_nivel] == '3') {
 		$row.='
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="sr-only">'.ucfirst(LABEL_Admin).'</span></a>
@@ -2059,10 +2059,8 @@ function HTMLheader($metadata){
 	return $rows;
 }
 
-
-
-function HTMLnavHeader() {
-
+function HTMLnavHeader()
+{
 	GLOBAL  $CFG,
 			$DBCFG;
 

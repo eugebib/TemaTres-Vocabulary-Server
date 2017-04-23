@@ -8,10 +8,11 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 ###############################################################################################################
 # Include para alta y modificacion de usuarios genericos.
 
-if(is_numeric($_GET["user_id"]))  $dato_user=ARRAYdatosUser($_GET["user_id"]);
+if (is_numeric($_GET["user_id"])) {
+	$dato_user = ARRAYdatosUser($_GET["user_id"]);
+}
 
-if($dato_user["id"]){
-
+if ($dato_user["id"]) {
 	$resumen=ARRAYresumen($_SESSION["id_tesa"],"U",$dato_user["id"]);
 	$row_resumen.='<div id="cajaAncha">'."\n\r";
 	$row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
