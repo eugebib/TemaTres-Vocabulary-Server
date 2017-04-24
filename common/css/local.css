@@ -338,6 +338,14 @@ fieldset .btn {
     content: " | ";
 }
 
+.breadcrumb>li:last-child {
+    float: right;
+}
+
+.breadcrumb>li:last-child:before {
+    content: "";
+}
+
 .nav-tabs>li {
     padding-bottom: 0px;
 }

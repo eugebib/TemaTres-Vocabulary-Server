@@ -166,8 +166,8 @@ function resultaBusca($texto,$tipo=""){
 #
 #  ARMADOR DE HTML CON DATOS DEL TERMINO
 #
-function doContextoTermino($idTema,$i_profundidad){
-
+function doContextoTermino($idTema,$i_profundidad)
+{
 	GLOBAL $CFG;
 
 	//recibe de HTMLbodyTermino
@@ -180,7 +180,7 @@ function doContextoTermino($idTema,$i_profundidad){
 	//Se devolverá el tema_id para utilizar en fuentes XML y como tema_id canónico
 	$tema_id=$idTema;
 
-	while ($datosNT=$sqlNT->FetchRow()){
+	while ($datosNT=$sqlNT->FetchRow()) {
 		$int=++$int;
 
 		if($datosNT["id_te"]){
@@ -210,45 +210,38 @@ function doContextoTermino($idTema,$i_profundidad){
 		$label_MT=($datosNT["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
 		$row_NT.='<a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
-	};
+	}
 
 	// Terminos TG, UF y TR
 	$sqlTotalRelacionados=SQLverTerminoRelaciones($tema_id);
 
-	while($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()){
-
-		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+	while ($datosTotalRelacionados = $sqlTotalRelacionados->FetchRow()) {
+		if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 			$td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			$classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
-		}else{
+		} else {
 			$td_delete='';
 			$classAcrnoyn='thesacronym';
-		};
-
+		}
 		#Change to metaTerm attributes
-		if(($datosTotalRelacionados["BT_isMetaTerm"]==1))
-		{
+		if (($datosTotalRelacionados["BT_isMetaTerm"]==1)) {
 			$css_class_MT= ' class="metaTerm" ';
 			$label_MT=NOTE_isMetaTerm;
-		}
-		else
-		{
+		} else {
 			$css_class_MT= '';
 			$label_MT='';
 		}
-
-
-		switch($datosTotalRelacionados["t_relacion"]){
+		switch ($datosTotalRelacionados["t_relacion"]) {
 			case '3':// TG
-			$itg=++$itg;
-			$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			$row_TG.='          <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+				$itg=++$itg;
+				$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+				$row_TG.='          <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+				$tg_delete = $td_delete;
 			break;
 
 			case '4':// UF
 			//hide hidden equivalent terms
-			if ((!in_array($datosTotalRelacionados["rr_code"],$CFG["HIDDEN_EQ"])) || ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))
-			{
+			if ((!in_array($datosTotalRelacionados["rr_code"],$CFG["HIDDEN_EQ"])) || ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 				$iuf=++$iuf;
 				$row_UP.='          <li>'.$td_delete/*.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.UP_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.UP_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>'*/;
 				$row_UP.='          <a class="NoTerm" title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.UP_termino.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
@@ -327,30 +320,29 @@ function doContextoTermino($idTema,$i_profundidad){
 		};
 	}
 
-	$rows=array("UP"=>doListaTag($iuf,'ul',$row_UP,"UP","list-unstyled"),
-	"USE"=>doListaTag($iuse,'ul',$row_USE,"EQ","list-unstyled"),
-	"TR"=>doListaTag($irt,'ul',$row_TR,"TR","list-unstyled"),
-	"TG"=>doListaTag($itg,'ul',$row_TG,"TG","list-unstyled"),
-	"TE"=>doListaTag($int,'ul',$row_NT,"TE","list-unstyled"),
-	"EQ"=>doListaTag($ieq,'ul',$row_EQ,"EQ","list-unstyled")
-);
+	$rows = array(
+		"UP"=>doListaTag($iuf,'ul',$row_UP,"UP","list-unstyled"),
+		"USE"=>doListaTag($iuse,'ul',$row_USE,"EQ","list-unstyled"),
+		"TR"=>doListaTag($irt,'ul',$row_TR,"TR","list-unstyled"),
+		"TG"=>doListaTag($itg,'ul',$row_TG,"TG","list-unstyled"),
+		"TE"=>doListaTag($int,'ul',$row_NT,"TE","list-unstyled"),
+		"EQ"=>doListaTag($ieq,'ul',$row_EQ,"EQ","list-unstyled")
+	);
 
-$cant_relaciones=array(
-	"cantUF"=>$iuf,
-	"cantRT"=>$irt,
-	"cantTG"=>$itg,
-	"cantNT"=>$int,
-	"cantEQ"=>$ieq,
-	"cantTotal"=>$iuf+$irt+$itg+$int+$iuse+$ieq
-);
+	$cant_relaciones=array(
+		"cantUF"=>$iuf,
+		"cantRT"=>$irt,
+		"cantTG"=>$itg,
+		"cantNT"=>$int,
+		"cantEQ"=>$ieq,
+		"cantTotal"=>$iuf+$irt+$itg+$int+$iuse+$ieq
+	);
 
-return array("HTMLterminos"=>$rows,
-"cantRelaciones"=>$cant_relaciones,
-"tema_id"=>$tema_id);
-};
-#######################################################################
-
-
+	return array("HTMLterminos"=>$rows,
+		"cantRelaciones"=>$cant_relaciones,
+		"tema_id"=>$tema_id,
+		"boton_eliminar_TG"=>$tg_delete);
+}
 
 function HTMLmenuCustumRel($tema_id,$arrayDataRelation)
 {
@@ -397,9 +389,9 @@ function HTMLbodyTermino($array)
 				$menu_miga.='<li><a title="'.LABEL_verDetalle.$arrayMiga["tema"].'" href="'.URL_BASE.'index.php?tema='.$arrayMiga["tema_id"].'&amp;/'.string2url($arrayMiga["tema"]).'" >'.$arrayMiga["tema"].'</a></li>';
 			}
 		}
-	};
+	}
 
-	$row_miga.='<ol class="breadcrumb"><li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'</ol>';
+	$row_miga.='<ol class="breadcrumb"><li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'<li>'.$HTMLterminos['boton_eliminar_TG'].'</li></ol>';
 
 	$body='<div class="container" id="bodyText">';
 

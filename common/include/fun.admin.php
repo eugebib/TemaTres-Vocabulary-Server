@@ -552,70 +552,59 @@ $id_t=secure_data($id_t,"int");
 #
 # BAJA DE RELACIONES ENTRE TERMINOS
 #
-function borra_r($id_r){
+function borra_r($id_r)
+{
+	GLOBAL $DBCFG;
 
-GLOBAL $DBCFG;
+	$id_r=secure_data($id_r,"int");
 
-$id_r=secure_data($id_r,"int");
+	$sql_dator=SQL("select","$DBCFG[DBprefix]tabla_rel.id,id_mayor,id_menor,t_relacion from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 
-$sql_dator=SQL("select","$DBCFG[DBprefix]tabla_rel.id,id_mayor,id_menor,t_relacion from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$dator = $sql_dator->FetchRow();
 
-$dator=$sql_dator->FetchRow();
-
-switch($dator[t_relacion]){
-	case '2':
-	$sql_id_delete=SQL("select","$DBCFG[DBprefix]tabla_rel.id
-		from $DBCFG[DBprefix]tabla_rel
-		where
-		id_menor in ('$dator[id_menor]','$dator[id_mayor]')
-		and id_mayor in ('$dator[id_menor]','$dator[id_mayor]')
-		and t_relacion='$dator[t_relacion]'");
-
-	while($id_delete=$sql_id_delete->FetchRow())
-		{
-		$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_delete[0]'");
-		}
-	break;
-
-	case '3':
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-	actualizaListaArbolAbajo($dator[id_menor]);
-	break;
-
-
-	case '4': //UF
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-	//Eliminar tambi�n el término
-	//borra_t($dator[id_mayor]);
-	break;
-
-	case '5': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-	//Eliminar tambi�n el término
-	borra_t($dator[id_mayor]);
-	break;
-
-	case '6': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-	//Eliminar tambi�n el término
-	borra_t($dator[id_mayor]);
-	break;
-
-	case '7': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-	//Eliminar tambi�n el término
-	borra_t($dator[id_mayor]);
-	break;
-
-
-	case '8': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-	//Eliminar tambi�n el término
-	borra_t($dator[id_mayor]);
-	break;
-	};
-
-};
+	switch($dator[t_relacion]){
+		case '2':
+			$sql_id_delete=SQL("select","$DBCFG[DBprefix]tabla_rel.id
+				from $DBCFG[DBprefix]tabla_rel
+				where
+				id_menor in ('$dator[id_menor]','$dator[id_mayor]')
+				and id_mayor in ('$dator[id_menor]','$dator[id_mayor]')
+				and t_relacion='$dator[t_relacion]'");
+			while($id_delete=$sql_id_delete->FetchRow()){
+				$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_delete[0]'");
+				}
+		break;
+		case '3':
+			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			actualizaListaArbolAbajo($dator[id_menor]);
+		break;
+		case '4': //UF
+			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			//Eliminar tambi�n el término
+			//borra_t($dator[id_mayor]);
+		break;
+		case '5': //EQ
+			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			//Eliminar tambi�n el término
+			borra_t($dator[id_mayor]);
+		break;
+		case '6': //EQ
+			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			//Eliminar tambi�n el término
+			borra_t($dator[id_mayor]);
+		break;
+		case '7': //EQ
+			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			//Eliminar tambi�n el término
+			borra_t($dator[id_mayor]);
+		break;
+		case '8': //EQ
+			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			//Eliminar tambi�n el término
+			borra_t($dator[id_mayor]);
+		break;
+	}
+}
 
 #
 # devuelve una lista separada por | del arbol/indice de un tema
