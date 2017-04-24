@@ -418,48 +418,43 @@ function ARRAYdatosNota($idNota){
 	and notas.id='$idNota'");
 
 	return $sql->FetchRow();
-};
-
-
+}
 
 #
 # SQL de datos de notas de un término
 #
-
-function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
-
+function SQLdatosTerminoNotas($tema_id, $array_tipo_nota = array())
+{
 	GLOBAL $DBCFG;
-
-	$tema_id=secure_data($tema_id,"int");
-
-	if(count($array_tipo_nota)>0)	{
+	$tema_id = secure_data($tema_id,"int");
+	if (count($array_tipo_nota) > 0) {
 		//es una array de tipos de notas
-		for($i=0; $i<count($array_tipo_nota);++$i)		{
+		for ($i = 0; $i < count($array_tipo_nota); ++$i) {
 //			if(in_array($array_tipo_nota[$i],array('NA','NH','NC','NB','NP'))){
-				$where_in.="'".$array_tipo_nota[$i]."',";
-		};
-		$where_in=substr("$where_in",0,-1);
-
-		$where=" and notas.tipo_nota in ( $where_in ) ";
-		$param_where= $where_in ;
+			$where_in.="'".$array_tipo_nota[$i]."',";
+		}
+		$where_in    = substr("$where_in",0,-1);
+		$where       = " and notas.tipo_nota in ( $where_in ) ";
+		$param_where = $where_in ;
+	}
+	if (!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) {
+		$where.=" and notas.tipo_nota!='NP' ";
 	}
 
-	if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])
-	$where.=" and notas.tipo_nota!='NP' ";
-
 	return SQL("select","notas.id as nota_id, notas.tipo_nota,notas.nota,notas.lang_nota,notas.cuando,
-	tema.tema_id as tema_id,tema.tema,tema.estado_id,tema.cuando_estado,tema.isMetaTerm,
-	v.value as ntype, v.value_code as ntype_code,v.value_id as ntype_id
-	from $DBCFG[DBprefix]values as v,$DBCFG[DBprefix]notas as notas,$DBCFG[DBprefix]tema as tema
-	where
-	notas.id_tema=tema.tema_id
-	and notas.tipo_nota=v.value_code
-	and v.value_type='t_nota'
-	and tema.tema_id='$tema_id'
-	$where
-	order by v.value_order,notas.tipo_nota,notas.cuando");
-};
-
+		tema.tema_id as tema_id,tema.tema,tema.estado_id,tema.cuando_estado,tema.isMetaTerm,
+		v.value as ntype, v.value_code as ntype_code,v.value_id as ntype_id,
+		u.id as user_id,u.nombres,u.apellido
+		from $DBCFG[DBprefix]values as v,$DBCFG[DBprefix]notas as notas,$DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]usuario as u
+		where
+		notas.id_tema=tema.tema_id
+		and notas.tipo_nota=v.value_code
+		and v.value_type='t_nota'
+		and tema.tema_id='$tema_id'
+		and u.id=notas.uid
+		$where
+		order by v.value_order,notas.tipo_nota,notas.cuando");
+}
 
 #
 # Búsqueda de términos relacionados candidatos para un término según un string
@@ -531,11 +526,10 @@ function fetchTermId2RT($string,$tema_id){
 # Datos de cada términos con su tipificaciÃ³n y notas
 #
 
-function ARRAYverDatosTermino($tema_id){
+function ARRAYverDatosTermino($tema_id)
+{
 	GLOBAL $DBCFG;
-
 	$tema_id=secure_data($tema_id,"int");
-
 	$sql=SQL("select","tema.tema_id as idTema,
 	tema.code,
 	tema.tema,
@@ -558,8 +552,7 @@ function ARRAYverDatosTermino($tema_id){
 	and v.value_type='t_estado'
 	and tema.tesauro_id=c.id
 	and v.value_id=tema.estado_id");
-
-	while($array=$sql->FetchRow()){
+	while ($array=$sql->FetchRow()) {
 		$i=++$i;
 		$arrayDatos["idTema"]=$array["idTema"];
 		$arrayDatos["tema_id"]=$array["idTema"];
@@ -578,29 +571,27 @@ function ARRAYverDatosTermino($tema_id){
 		$arrayDatos["uid_final"]=$array["uid_final"];
 		$arrayDatos["last"]=$array["last"];
 		$arrayDatos["isMetaTerm"]=$array["isMetaTerm"];
-	};
-
-	$arrayNotas=array();
-
-	$sqlNotas=SQLdatosTerminoNotas($tema_id);
-
-	while($array=$sqlNotas->FetchRow()){
-		if($array[nota_id]){
-			array_push($arrayNotas,array(
-				"id"=>$array[nota_id],
-				"tipoNota"=>$array[ntype_code],
-				"tipoNotaLabel"=>$array[ntype],
-				"tipoNota_id"=>$array[ntype_id],
-				"lang_nota"=>$array[lang_nota],
-				"cuando_nota"=>$array[cuando],
-				"nota"=>$array[nota]));
-			};
-		};
-		$arrayDatos["notas"]=$arrayNotas;
-		return $arrayDatos;
 	}
+	$arrayNotas=array();
+	$sqlNotas = SQLdatosTerminoNotas($tema_id);
+	while ($array=$sqlNotas->FetchRow()) {
+		if ($array[nota_id]) {
+			array_push($arrayNotas,array(
+				"id"=>$array["nota_id"],
+				"tipoNota"=>$array["ntype_code"],
+				"tipoNotaLabel"=>$array["ntype"],
+				"tipoNota_id"=>$array["ntype_id"],
+				"lang_nota"=>$array["lang_nota"],
+				"cuando_nota"=>$array["cuando"],
+				"user"=>$array["nombres"].' '.$array["apellido"],
+				"user_id"=>$array["user_id"],
+				"nota"=>$array["nota"]));
+		}
+	}
+	$arrayDatos["notas"]=$arrayNotas;
 
-
+	return $arrayDatos;
+}
 
 	/*
 	BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
@@ -3735,4 +3726,25 @@ function SQLtermsInternalMapped($tema_id,$tesauro_id="")
 	order by c.titulo,lower(t.tema)");
 }
 
-?>
+/*details about one normalized source note*/
+function SQLsrcnote($srcnote_id)
+{
+	GLOBAL $DBCFG;
+	$srcnote_id = secure_data($srcnote_id,"int");
+	return SQL("select select srcn.scrnote_id,
+		srcn.scrnote_tag,
+		srcn.scrnote_note,
+		srcn.scrnote_time,
+		srcn.scrnote_time_last,
+		u.id as user_id,
+		u.nombres,u.apellido,
+		u2.id as user_id_last,
+		u2.nombres as nombre_last,u2.apellido as apellido_last,
+		count(srcn.scrnote_id) as cant_notas
+		from
+		$DBCFG[DBprefix]usuario u,
+		$DBCFG[DBprefix]sourcenote srcn
+		left join $DBCFG[DBprefix]usuario u2 on u2.id=srcn.scrnote_last_uid
+		left join $DBCFG[DBprefix]src_relation r on srcn.scrnote_id=r.src_id
+		group by srcn.scrnote_id");
+}

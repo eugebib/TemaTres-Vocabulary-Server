@@ -1508,7 +1508,7 @@ $sql=SQLlistTermsfromUser($user_id,$ord);
 $rows.='<div class="flex"><dt>'.mb_strtoupper(LABEL_auditoria, 'UTF-8').'</dt>';
 $rows.='<dd style="padding:0px;">';
 $rows.='<div class="table-responsive"> ';
-$rows.='<table class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
+$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
 
 $rows.='<tbody>';
 while($array=$sql->FetchRow()){
@@ -1555,8 +1555,7 @@ function HTMLListaUsers(){
 $sqlListaUsers=SQLdatosUsuarios();
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<table class="table table-striped table-bordered table-condensed table-hover" summary="'.MENU_Usuarios.'">';
-
+$rows.='<table id="tableusers" class="table table-striped table-bordered table-condensed table-hover" summary="'.MENU_Usuarios.'">';
 $rows.='<thead>';
 $rows.='<tr>';
 $rows.='<th class="izq" colspan="4">'.MENU_Usuarios.' &middot; <a class="btn btn-primary btn-xs" href="admin.php?user_id=new" title="'.MENU_NuevoUsuario.'">'.MENU_NuevoUsuario.'</a></th>';
