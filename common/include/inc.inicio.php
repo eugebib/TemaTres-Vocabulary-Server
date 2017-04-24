@@ -69,7 +69,7 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 	echo '</div>';
 } elseif (($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET["verT"])) {
 	echo '<div class="container" id="bodyText">';
-	switch($_GET[verT]){
+	switch ($_GET[verT]) {
 		case 'L':
 			if ($_POST["massive_task_freeterms"]=='assocfreeTerm') {
 				echo HTMLformAssociateFreeTerms($_POST["deleteFreeTerms_id"],"");
@@ -86,7 +86,7 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 		case 'NBT':
 			echo HTMLformVerTerminosSinBT($_POST["taskterm"],$_POST["deleteTerms_id"]);
 		break;
-		}
+	}
 	echo '</div>';
 } else {
 	echo '<div class="container" id="bodyText">';

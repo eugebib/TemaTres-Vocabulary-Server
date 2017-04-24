@@ -1938,32 +1938,37 @@ function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
 #
 # Vista de términos repetidos
 #
-function HTMLformVerTerminosRepetidos(){
-	$sql=SQLverTerminosRepetidos();
-	$rows.='<div><h3>'.ucfirst(LABEL_terminosRepetidos).' ('.SQLcount($sql).') </h3>';
-	$rows.='<ul>';
-	if(SQLcount($sql)==0){
-		$rows.='<li>'.ucfirst(MSG_noTerminosRepetidos).'</li>';
-	}else{
-		while($array = $sql->FetchRow()){
-			$i=++$i;
-			if($string_term!==$array["string_term"]){
-				if(!$i!==0){
-					$rows.='</ul></li>';
-				}
-				$rows.='<li>'.$array["string_term"].' ('.$array["cant"].')<ul>';
+function HTMLformVerTerminosRepetidos()
+{
+	$sql  = SQLverTerminosRepetidos();
+	$rows.= '<div class="list">
+				<h3>'.ucfirst(LABEL_terminosRepetidos).' ('.SQLcount($sql).') </h3>';
+	if (SQLcount($sql) == 0) {
+		return $rows;
+	}
+	$rows.= '	<ul class="square">';
+	$i = -1;
+	while ($array = $sql->FetchRow()) {
+		$i = ++$i;
+		if ($string_term !== $array["string_term"]) {
+			if ($i !== 0) {
+				$rows.='</ul></li>';
 			}
-			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
-			$rows.='<li>'.HTMLlinkTerm($array).'  '.$alert_MT.' </li>';
-			$string_term=$array["string_term"];
+      	$rows.='	<li>'.
+ 	            		$array["string_term"].' ('.$array["cant"].')
+            			<ul class="circle">';
 		}
-		$rows.='</ul></li>';
-	};
-	$rows.='</ul>';
-	$rows.='</div>';
+		$alert_MT = ($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+		$rows.= '		<li>'.HTMLlinkTerm($array).'  '.$alert_MT.' </li>';
+		$string_term = $array["string_term"];
+	}
+	$rows.='       </ul>
+				</li>
+			</ul>
+		</div>';
 
 	return $rows;
-};
+}
 
 #
 # Vista de términos sin relaciones jer�rquicas // preferred and accepted terms without hierarchical relationships
@@ -2471,4 +2476,3 @@ if($params["makeAutoGloss"]==1){
 
 	return $rows;
 }
-?>
