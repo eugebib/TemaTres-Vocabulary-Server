@@ -67,33 +67,28 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 	echo HTMLformMappedTermReport($_GET);
 
 	echo '</div>';
-}
-//Esta login y mostrar terminios libres o repetidos
-elseif(($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET["verT"])){
+} elseif (($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET["verT"])) {
 	echo '<div class="container" id="bodyText">';
 	switch($_GET[verT]){
 		case 'L':
-		if($_POST["massive_task_freeterms"]=='assocfreeTerm'){
-			echo HTMLformAssociateFreeTerms($_POST["deleteFreeTerms_id"],"");
-		}else{
-			echo HTMLformVerTerminosLibres($_POST["massive_task_freeterms"],$_POST["deleteFreeTerms_id"]);
-		}
+			if ($_POST["massive_task_freeterms"]=='assocfreeTerm') {
+				echo HTMLformAssociateFreeTerms($_POST["deleteFreeTerms_id"],"");
+			} else {
+				echo HTMLformVerTerminosLibres($_POST["massive_task_freeterms"],$_POST["deleteFreeTerms_id"]);
+			}
 		break;
-
 		case 'LA':
-		echo HTMLformAssociateFreeTerms($_POST["freeTerms_id"],$_POST["taskterm"]);
+			echo HTMLformAssociateFreeTerms($_POST["freeTerms_id"],$_POST["taskterm"]);
 		break;
-
 		case 'R':
-		echo HTMLformVerTerminosRepetidos();
+			echo HTMLformVerTerminosRepetidos();
 		break;
-
 		case 'NBT':
-		echo HTMLformVerTerminosSinBT($_POST["taskterm"],$_POST["deleteTerms_id"]);
+			echo HTMLformVerTerminosSinBT($_POST["taskterm"],$_POST["deleteTerms_id"]);
 		break;
-		};
+		}
 	echo '</div>';
-}else{
+} else {
 	echo '<div class="container" id="bodyText">';
 	echo HTMLlistaAlfabeticaUnica($letra);
 	if($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]!=='0') echo HTMLdisplayRandomTerm($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]);

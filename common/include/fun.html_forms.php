@@ -1861,35 +1861,41 @@ function HTMLformRecoveryPassword($user_name=""){
 #
 # Vista de términos libres
 #
-function HTMLformVerTerminosLibres($taskterm='null',$freeTerms_id=array()){
-switch ($taskterm) {
-	case 'deleteFreeTerms':
-		if(count($freeTerms_id)==0) return HTMLformVerTerminosLibres();
-		$task=REMTerms($freeTerms_id,1);
+function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
+{
+	switch ($taskterm) {
+		case 'deleteFreeTerms':
+			if (count($freeTerms_id) == 0) {
+				return HTMLformVerTerminosLibres();
+			}
+			$task = REMTerms($freeTerms_id,1);
 		break;
-	case 'rejectFreeTerms':
-		if(count($freeTerms_id)==0) return HTMLformVerTerminosLibres();
-		$task=REJECTterms($freeTerms_id,1);
+		case 'rejectFreeTerms':
+			if (count($freeTerms_id) == 0) {
+				return HTMLformVerTerminosLibres();
+			}
+			$task = REJECTterms($freeTerms_id,1);
 		break;
-	case 'makeMetaTermsFreeTerms':
-		if(count($freeTerms_id)==0) return HTMLformVerTerminosLibres();
-		$task=makeMetaTerms($freeTerms_id);
+		case 'makeMetaTermsFreeTerms':
+			if (count($freeTerms_id) == 0) {
+				return HTMLformVerTerminosLibres();
+			}
+			$task = makeMetaTerms($freeTerms_id);
 		break;
 		default:
 		break;
-}
-	$sql=SQLverTerminosLibres();
-	$rows.='<div>';
-	$rows.='<h3>'.ucfirst(LABEL_terminosLibres).' ('.SQLcount($sql).') </h3>';
-	if(is_array($task)){
-		if($task["error"]>0)
-		{
-			$rows.='<p class="error">'.$task["error"].' '.MSG_termsErrorTask.' </p>';
-		}else{
-			$rows.='<p class="success">'.$task["success"].' '.MSG_termsSuccessTask.' </p>';
+	}
+	$sql  = SQLverTerminosLibres();
+	$rows.= '<div>';
+	$rows.= '<h3>'.ucfirst(LABEL_terminosLibres).' ('.SQLcount($sql).') </h3>';
+	if (is_array($task)) {
+		if ($task["error"]>0) {
+			$rows.= '<p class="error">'.$task["error"].' '.MSG_termsErrorTask.' </p>';
+		} else {
+			$rows.= '<p class="success">'.$task["success"].' '.MSG_termsSuccessTask.' </p>';
 		}
 	}
-	if(SQLcount($sql)>0){
+	if (SQLcount($sql) > 0) {
 		$rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
 		$rows.='<form  role="form"  id="delete_free_terms" name="delete_free_terms" action="index.php?verT=L" method="post">';
 		$rows.='<div class="table-responsive"> ';
@@ -1918,17 +1924,16 @@ switch ($taskterm) {
 		$rows.=doSelectForm(array('deleteFreeTerms#'.ucfirst(LABEL_eliminar),'rejectFreeTerms#'.ucfirst(LABEL_RechazarTermino),'makeMetaTermsFreeTerms#'.ucfirst(LABEL_turnOnMetaTerm),'assocfreeTerm#'.ucfirst(LABEL_associateFreeTerms)),"");
 		$rows.='</select>';
 		$rows.='</div>';
-			$rows.='<div class="col-md-12 control-label form-group">';
-		//	$rows.='	<input type="hidden" id="taskterm" name="taskterm" value="deleteFreeTerms"/>';
-			$rows.='	<input type="hidden" id="taskterm" name="taskterm" value=""/>';
-			$rows.='  <button type="submit" class="btn btn-primary">'.LABEL_Enviar.'</button>';
-			$rows.='</div>';
+		$rows.='<div class="col-md-12 control-label form-group">';
+		$rows.='	<input type="hidden" id="taskterm" name="taskterm" value=""/>';
+		$rows.='  <button type="submit" class="btn btn-primary">'.LABEL_Enviar.'</button>';
+		$rows.='</div>';
 		$rows.='</div>';
 		$rows.='</form>';
-	}//if cant
+	}
 	$rows.='</div>';
 	return $rows;
-};
+}
 
 #
 # Vista de términos repetidos

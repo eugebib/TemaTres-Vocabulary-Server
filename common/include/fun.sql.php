@@ -1366,18 +1366,14 @@ function SQLlastTerms($limit="50"){
 #
 # lista de términos según estados
 #
-function SQLterminosEstado($estado_id,$limite=""){
+function SQLterminosEstado($estado_id, $limite = "")
+{
 	GLOBAL $DBCFG;
-
 	$codUP=UP_acronimo;
-
-	if(@$limite)
-	{
-		$limite=(secure_data($limite,"int")) ? $limite : "300";
+	if(@$limite) {
+		$limite = (secure_data($limite,"int")) ? $limite : "300";
 	}
-
-	$estado_id=secure_data($estado_id,"int");
-
+	$estado_id = secure_data($estado_id,"int");
 
 	return SQL("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,
 	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
@@ -1386,10 +1382,9 @@ function SQLterminosEstado($estado_id,$limite=""){
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	where tema.estado_id=$estado_id
 	group by tema.tema_id
-	order by tema.cuando_final,tema.cuando desc
+	order by tema.tema,tema.cuando desc
 	limit 0,$limite");
-};
-
+}
 
 #
 # Lista de términos según meses y aÃ±os
