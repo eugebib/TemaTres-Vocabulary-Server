@@ -10,9 +10,9 @@ include("config.tematres.php");
 
 $metadata=do_meta_tag();
 
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1'){
+if (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] || $_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '2') {
 	loadPage('login.php');
-	};
+}
 
 //Acciones de gestion de usuarios
 if($_POST["userTask"]=='A'){
@@ -86,17 +86,18 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 
 	if($_GET["user_id"]=='list'){
 		echo HTMLListaUsers();
-		};
-
-	if(is_numeric($_GET["user_id"])){
-		require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
 		}
-
-	if($_GET["user_id"]=='new'){
+	if (is_numeric($_GET["user_id"])) {
+		$dato_user = ARRAYdatosUser($_GET["user_id"]);
+		if ($dato_user['nivel'] == 3) {
+			echo HTMLListaUsers();
+		} else {
+			require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
+		}
+	}
+	if ($_GET["user_id"]=='new') {
 		require_once(T3_ABSPATH . 'common/include/inc.formUsers.php');
-	};
-
-
+	}
 	if(is_numeric($_GET["vocabulario_id"])){
 		require_once(T3_ABSPATH . 'common/include/inc.abmConfig.php');
 		}

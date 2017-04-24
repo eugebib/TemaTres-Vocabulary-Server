@@ -1405,7 +1405,8 @@ function SQLtermsByDate(){
 #
 # Lista de datos según usuarios
 #
-function SQLdatosUsuarios($user_id=""){
+function SQLdatosUsuarios($user_id = "")
+{
 	GLOBAL $DBCFG;
 	if($id){
 		$where=" where usuario.id='$user_id'";
@@ -1413,7 +1414,8 @@ function SQLdatosUsuarios($user_id=""){
 	$sql=SQL("select","usuario.id,usuario.apellido,usuario.nombres,usuario.orga,usuario.mail,usuario.cuando,usuario.hasta,usuario.estado,usuario.pass,if(usuario.estado=1,'caducar','habilitar') as enlace, count(tema.tema_id) as cant_terminos
 	from $DBCFG[DBprefix]usuario as usuario
 	left join $DBCFG[DBprefix]tema as tema on tema.uid=usuario.id
-	$where
+	where usuario.nivel!=3
+ 	$where
 	group by usuario.id
 	order by usuario.apellido");
 	return $sql;
