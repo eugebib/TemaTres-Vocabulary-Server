@@ -448,13 +448,15 @@ function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
 
 	return SQL("select","notas.id as nota_id, notas.tipo_nota,notas.nota,notas.lang_nota,notas.cuando,
 	tema.tema_id as tema_id,tema.tema,tema.estado_id,tema.cuando_estado,tema.isMetaTerm,
-	v.value as ntype, v.value_code as ntype_code,v.value_id as ntype_id
-	from $DBCFG[DBprefix]values as v,$DBCFG[DBprefix]notas as notas,$DBCFG[DBprefix]tema as tema
-	where
+	v.value as ntype, v.value_code as ntype_code,v.value_id as ntype_id,
+	u.id as user_id,u.nombres,u.apellido
+	from $DBCFG[DBprefix]values as v,$DBCFG[DBprefix]notas as notas,$DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]usuario as u
+ 	where
 	notas.id_tema=tema.tema_id
 	and notas.tipo_nota=v.value_code
 	and v.value_type='t_nota'
 	and tema.tema_id='$tema_id'
+	and u.id=notas.uid
 	$where
 	order by v.value_order,notas.tipo_nota,notas.cuando");
 };
@@ -521,44 +523,38 @@ function fetchTermId2RT($string,$tema_id){
 	and terminosUP.id is null");
 
 	return $sql->FetchRow();
-};
-
-
-
+}
 
 #
 # Datos de cada términos con su tipificaciÃ³n y notas
 #
-
-function ARRAYverDatosTermino($tema_id){
+function ARRAYverDatosTermino($tema_id)
+{
 	GLOBAL $DBCFG;
-
 	$tema_id=secure_data($tema_id,"int");
-
 	$sql=SQL("select","tema.tema_id as idTema,
-	tema.code,
-	tema.tema,
-	if(relaciones.id is null,'TT','PT') as tipo_termino,
-	tema.cuando,
-	tema.uid,
-	tema.cuando_final,
-	tema.uid_final,
-	tema.isMetaTerm,
-	relaciones.id_mayor,
-	tema.estado_id,
-	v.value_code as estado_code,
-	tema.cuando_estado,
-	c.idioma
-	from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id=relaciones.id_menor
-	and relaciones.t_relacion='3'
-	where
-	tema.tema_id='$tema_id'
-	and v.value_type='t_estado'
-	and tema.tesauro_id=c.id
-	and v.value_id=tema.estado_id");
-
-	while($array=$sql->FetchRow()){
+		tema.code,
+		tema.tema,
+		if(relaciones.id is null,'TT','PT') as tipo_termino,
+		tema.cuando,
+		tema.uid,
+		tema.cuando_final,
+		tema.uid_final,
+		tema.isMetaTerm,
+		relaciones.id_mayor,
+		tema.estado_id,
+		v.value_code as estado_code,
+		tema.cuando_estado,
+		c.idioma
+		from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
+		left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id=relaciones.id_menor
+		and relaciones.t_relacion='3'
+		where
+		tema.tema_id='$tema_id'
+		and v.value_type='t_estado'
+		and tema.tesauro_id=c.id
+		and v.value_id=tema.estado_id");
+	while ($array=$sql->FetchRow()) {
 		$i=++$i;
 		$arrayDatos["idTema"]=$array["idTema"];
 		$arrayDatos["tema_id"]=$array["idTema"];
@@ -577,36 +573,35 @@ function ARRAYverDatosTermino($tema_id){
 		$arrayDatos["uid_final"]=$array["uid_final"];
 		$arrayDatos["last"]=$array["last"];
 		$arrayDatos["isMetaTerm"]=$array["isMetaTerm"];
-	};
-
-	$arrayNotas=array();
-
-	$sqlNotas=SQLdatosTerminoNotas($tema_id);
-
-	while($array=$sqlNotas->FetchRow()){
-		if($array[nota_id]){
-			array_push($arrayNotas,array(
-				"id"=>$array[nota_id],
-				"tipoNota"=>$array[ntype_code],
-				"tipoNotaLabel"=>$array[ntype],
-				"tipoNota_id"=>$array[ntype_id],
-				"lang_nota"=>$array[lang_nota],
-				"cuando_nota"=>$array[cuando],
-				"nota"=>$array[nota]));
-			};
-		};
-		$arrayDatos["notas"]=$arrayNotas;
-		return $arrayDatos;
 	}
+	$arrayNotas=array();
+	$sqlNotas=SQLdatosTerminoNotas($tema_id);
+	while ($array=$sqlNotas->FetchRow()) {
+		if ($array[nota_id]) {
+			array_push($arrayNotas, array(
+				"id"=>$array["nota_id"],
+				"tipoNota"=>$array["ntype_code"],
+				"tipoNotaLabel"=>$array["ntype"],
+				"tipoNota_id"=>$array["ntype_id"],
+				"lang_nota"=>$array["lang_nota"],
+				"cuando_nota"=>$array["cuando"],
+				"user"=>$array["nombres"].' '.$array["apellido"],
+				"user_id"=>$array["user_id"],
+				"nota"=>$array["nota"]));
+		}
+	}
+	$arrayDatos["notas"]=$arrayNotas;
 
+	return $arrayDatos;
+}
 
+/*
+BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
+* Retrieve BT,UF,RT,EQ. NOT RETRIEVE: NT,USE
+*/
 
-	/*
-	BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
-	* Retrieve BT,UF,RT,EQ. NOT RETRIEVE: NT,USE
-	*/
-
-	function SQLverTerminoRelaciones($tema_id){
+function SQLverTerminoRelaciones($tema_id)
+{
 
 		GLOBAL $DBCFG;
 
