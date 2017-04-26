@@ -593,18 +593,17 @@ function ARRAYverDatosTermino($tema_id)
 	return $arrayDatos;
 }
 
-	/*
-	BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
-	* Retrieve BT,UF,RT,EQ. NOT RETRIEVE: NT,USE
-	*/
+/*
+BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
+* Retrieve BT,UF,RT,EQ. NOT RETRIEVE: NT,USE
+*/
+function SQLverTerminoRelaciones($tema_id)
+{
+	GLOBAL $DBCFG;
 
-	function SQLverTerminoRelaciones($tema_id){
+	$tema_id=secure_data($tema_id,"int");
 
-		GLOBAL $DBCFG;
-
-		$tema_id=secure_data($tema_id,"int");
-
-		return SQL("select","r.t_relacion,
+	return SQL("select","r.t_relacion,
 		BT.tema_id as tema_id,
 		BT.tema,
 		BT.code,
@@ -629,30 +628,29 @@ function ARRAYverDatosTermino($tema_id)
 		and BT.tema_id=r.id_mayor
 		and c.id=BT.tesauro_id
 		order by r.t_relacion,lower(BT.code),trr.value_order,lower(BT.tema)");
-	};
-
-
-	/*
-	BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
-	* Retrieve BT,NT,UF,RT
-	*/
-
-function SQLdirectTerms($tema_id)
-{
-	GLOBAL $DBCFG;
-	$tema_id=secure_data($tema_id,"int");
-	return SQL("select","if(uf.tema_id is not null,0,if(bt.tema_id is not null,1,if(nt.tema_id is not null,2,3))) as rel_order, uf.tema_id as uf_tema_id,uf.code as uf_code,uf.tema as uf_tema,uf.isMetaTerm as uf_isMetaTerm, nt.tema_id as nt_tema_id,nt.code as nt_code,nt.tema as nt_tema,nt.isMetaTerm as nt_isMetaTerm, bt.tema_id as bt_tema_id,bt.code as bt_code,bt.tema as bt_tema,bt.isMetaTerm as bt_isMetaTerm, rt.tema_id as rt_tema_id,rt.code as rt_code,rt.tema as rt_tema,trr.value_code as rr_code,rt.isMetaTerm as rt_isMetaTerm, r.*
-	from $DBCFG[DBprefix]tabla_rel as r
-	left join $DBCFG[DBprefix]tema as uf on uf.tema_id=r.id_mayor and r.t_relacion=4 and r.id_menor=$tema_id
-	left join $DBCFG[DBprefix]tema as nt on nt.tema_id=r.id_menor and r.t_relacion=3 and r.id_mayor=$tema_id
-	left join $DBCFG[DBprefix]tema as bt on bt.tema_id=r.id_mayor and r.t_relacion=3 and r.id_menor=$tema_id
-	left join $DBCFG[DBprefix]tema as rt on rt.tema_id=r.id_mayor and r.t_relacion=2 and r.id_menor=$tema_id
-	left join $DBCFG[DBprefix]values as trr on trr.value_id=r.rel_rel_id
-	where $tema_id in (r.id_mayor,r.id_menor)
-	and r.t_relacion in (2,3,4)
-	order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),lower(rt_tema)");
 }
 
+
+/*
+BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
+* Retrieve BT,NT,UF,RT
+*/
+function SQLdirectTerms($tema_id, $t_relation = '2,3,4')
+{
+	GLOBAL $DBCFG;
+	$tema_id    = secure_data($tema_id,"int");
+
+	return SQL("select","if(uf.tema_id is not null,0,if(bt.tema_id is not null,1,if(nt.tema_id is not null,2,3))) as rel_order, uf.tema_id as uf_tema_id,uf.code as uf_code,uf.tema as uf_tema,uf.isMetaTerm as uf_isMetaTerm, nt.tema_id as nt_tema_id,nt.code as nt_code,nt.tema as nt_tema,nt.isMetaTerm as nt_isMetaTerm, bt.tema_id as bt_tema_id,bt.code as bt_code,bt.tema as bt_tema,bt.isMetaTerm as bt_isMetaTerm, rt.tema_id as rt_tema_id,rt.code as rt_code,rt.tema as rt_tema,trr.value_code as rr_code,rt.isMetaTerm as rt_isMetaTerm, r.*
+		from $DBCFG[DBprefix]tabla_rel as r
+		left join $DBCFG[DBprefix]tema as uf on uf.tema_id=r.id_mayor and r.t_relacion=4 and r.id_menor=$tema_id
+		left join $DBCFG[DBprefix]tema as nt on nt.tema_id=r.id_menor and r.t_relacion=3 and r.id_mayor=$tema_id
+		left join $DBCFG[DBprefix]tema as bt on bt.tema_id=r.id_mayor and r.t_relacion=3 and r.id_menor=$tema_id
+		left join $DBCFG[DBprefix]tema as rt on rt.tema_id=r.id_mayor and r.t_relacion=2 and r.id_menor=$tema_id
+		left join $DBCFG[DBprefix]values as trr on trr.value_id=r.rel_rel_id
+		where $tema_id in (r.id_mayor,r.id_menor)
+		and r.t_relacion in ($t_relation)
+		order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),lower(rt_tema)");
+}
 
 #
 # DATOS DE UN TERMINO (id y string) Y SUS TERMINOS RELACIONADOS (id) y tipo de relacion
@@ -900,7 +898,8 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 	#
 	# BUSCADOR DE TERMINOS especÃ­ficos de un término general
 	#
-	function SQLverTerminosE($tema_id){
+	function SQLverTerminosE($tema_id)
+	{
 		GLOBAL $DBCFG;
 
 		$tema_id=secure_data($tema_id,"int");

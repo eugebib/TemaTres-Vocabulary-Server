@@ -262,14 +262,10 @@ switch ($_GET["taskrelations"])
 		$MSG_ERROR_RELACION=$new_relacion["msg_error"];
 	};
 
-
 	# Borrado de  relaci�n
-	if($_GET["ridelete"])	{
+	if ($_GET["ridelete"]) {
 		borra_r($_GET["ridelete"]);
-	};
-
-
-
+	}
 
 	#Operaciones Mod y Borrado de notas
 	# Modificaci�n de nota
@@ -508,29 +504,21 @@ return array("id_tema"=>$tema_id,
 						"id_mayor"=>$id_mayor,
 						"id_menor"=>$id_menor,
 						 "msg_error"=>$msg,"log"=>$log);
-};
+}
 
-
-
-function actualizaListaArbolAbajo($tema_id){
-
-$tema_id=secure_data($tema_id,"int");
-
-$sql=actualizaArbolxTema($tema_id);
-
-$sqlTerminosAfectados=SQLtieneTema($tema_id);
-
-//Hay algo que actualizar
-if(SQLcount($sqlTerminosAfectados)>'0')
-	{
-		while($array=$sqlTerminosAfectados->FetchRow())
-		{
+function actualizaListaArbolAbajo($tema_id)
+{
+	$tema_id              = secure_data($tema_id,"int");
+	$sql                  = actualizaArbolxTema($tema_id);
+	$sqlTerminosAfectados = SQLtieneTema($tema_id);
+	if (SQLcount($sqlTerminosAfectados) > '0') {
+		while ($array=$sqlTerminosAfectados->FetchRow()) {
 			actualizaArbolxTema($array[0]);
-		};
+		}
 	}
-return $tema_id;
-};
 
+	return $tema_id;
+}
 
 #
 # BAJA FISICA DE TERMINOS
@@ -562,7 +550,7 @@ function borra_r($id_r)
 
 	$dator = $sql_dator->FetchRow();
 
-	switch($dator[t_relacion]){
+	switch ($dator[t_relacion]) {
 		case '2':
 			$sql_id_delete=SQL("select","$DBCFG[DBprefix]tabla_rel.id
 				from $DBCFG[DBprefix]tabla_rel
@@ -570,12 +558,12 @@ function borra_r($id_r)
 				id_menor in ('$dator[id_menor]','$dator[id_mayor]')
 				and id_mayor in ('$dator[id_menor]','$dator[id_mayor]')
 				and t_relacion='$dator[t_relacion]'");
-			while($id_delete=$sql_id_delete->FetchRow()){
+			while ($id_delete=$sql_id_delete->FetchRow()) {
 				$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_delete[0]'");
-				}
+			}
 		break;
 		case '3':
-			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+			$delete = SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 			actualizaListaArbolAbajo($dator[id_menor]);
 		break;
 		case '4': //UF

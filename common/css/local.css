@@ -398,6 +398,10 @@ form.editable {
     content: "   (metatérmino)";
 }
 
+.listTE {
+    padding-bottom: 10px;
+}
+
 #theTerm li {
     padding-top: 0;
     padding-bottom: 12px;
