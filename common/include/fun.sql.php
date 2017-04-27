@@ -1366,7 +1366,7 @@ function SQLterminosEstado($estado_id, $limite = "")
 
 	return SQL("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,
 	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
-	tema.cuando,tema.cuando_final,tema.isMetaTerm
+	tema.cuando,tema.cuando_final,tema.isMetaTerm,tema.code
 	from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	where tema.estado_id=$estado_id

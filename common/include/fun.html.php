@@ -1160,6 +1160,7 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
         		<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
+							<th>'.ucfirst(LABEL_CODE).'</th>
 							<th>'.ucfirst(LABEL_Termino).'</th>
 							<th>'.ucfirst(LABEL_Fecha).'</th>
 						</tr>
@@ -1169,6 +1170,9 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
 	while ($array = $sql->FetchRow()) {
 		$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 		$rows.='		<tr>
+							<td class="text-center">'.
+								str_replace(array('[',']'), "", $array["code"]).'
+							</td>
 							<td>
 								<a class="estado_termino'.$estado_id.$array["class"].' title="'.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'&tipo=E">'.
 									$array["tema"].'
