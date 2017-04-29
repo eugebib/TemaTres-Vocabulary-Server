@@ -2860,19 +2860,39 @@ function SQLtargetTerms($tema_id,$tterm_id="0")
 {
 	GLOBAL $DBCFG;
 
-	$tema_id=secure_data($tema_id,"int");
-	$tterm_id=secure_data($tterm_id,"int");
+	$tema_id  = secure_data($tema_id,"int");
+	$tterm_id = secure_data($tterm_id,"int");
 
-	$where = ($tterm_id>0) ? " and t2tt.tterm_id ='$tterm_id' " : "";
+	$where    = ($tterm_id>0) ? " and t2tt.tterm_id ='$tterm_id' " : "";
 
-	return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
-	tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando as tvoacb_cuando,tv.uid,
-	t2tt.tema_id,t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last
-	from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt
-	where tv.tvocab_id=t2tt.tvocab_id
-	and t2tt.tema_id='$tema_id'
-	$where
-	order by tv.tvocab_tag,t2tt.tterm_string");
+	return SQL("select","
+		tv.tvocab_id,
+		tv.tvocab_label,
+		tv.tvocab_tag,
+		tv.tvocab_lang,
+		tv.tvocab_title,
+		tv.tvocab_url,
+		tv.tvocab_uri_service,
+		tv.cuando as tvocab_cuando,
+		tv.uid,
+		t2tt.tema_id,
+		t2tt.tterm_id,
+		t2tt.tterm_url,
+		t2tt.tterm_uri,
+		t2tt.tterm_string,
+		t2tt.cuando,
+		t2tt.cuando_last
+	from
+		$DBCFG[DBprefix]tvocab tv,
+		$DBCFG[DBprefix]term2tterm t2tt
+	where
+		tv.tvocab_id=t2tt.tvocab_id
+		and t2tt.tema_id='$tema_id'
+		$where
+	order by
+		tv.tvocab_tag,
+		t2tt.tterm_string"
+	);
 }
 
 

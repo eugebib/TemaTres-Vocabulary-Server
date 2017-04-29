@@ -350,27 +350,28 @@ class XMLvocabularyServices {
 		return $result;
 	}
 
-	// Devuelve lista de términos mapeados para un tema_id
-	// array(tema_id,string)
-	function fetchTargetTermsById($tema_id){
+// Devuelve lista de términos mapeados para un tema_id
+// array(tema_id,string)
+function fetchTargetTermsById($tema_id)
+{
+	$sql = SQLtargetTerms($tema_id);
 
-		$sql=SQLtargetTerms($tema_id);
-
-		while($array=$sql->FetchRow())
-		{
-			$result["result"][$array[tterm_id]]= array(
-
-				"string"=>$array[tterm_string],
-				"url"=>$array[tterm_url],
-				"uri"=>$array[tterm_uri],
-				"term_id"=>$array[tema_id],
-				"target_vocabulary_label"=>$array[tvocab_label],
-				"target_vocabulary_tag"=>$array[tvocab_tag],
-				"target_vocabulary_title"=>$array[tvocab_title]
-			);
-		};
-		return $result;
+	while($array=$sql->FetchRow()) {
+		preg_match('/([0-9]+)$/', $array['tterm_uri'], $matches);
+		$result["result"][$array['tterm_id']]= array(
+			"string"                  => $array['tterm_string'],
+			"url"                     => $array['tterm_url'],
+			"uri"                     => $array['tterm_uri'],
+			//"term_id"                 => $array['tema_id'],
+			"term_id"				  => $matches[0],
+			"target_vocabulary_label" => $array['tvocab_label'],
+			"target_vocabulary_tag"   => $array['tvocab_tag'],
+			"target_vocabulary_title" => $array['tvocab_title']
+		);
 	}
+
+	return $result;
+}
 
 	// Devuelve lista de términos propios mapeados para una URI de un término externo
 	//
@@ -781,12 +782,7 @@ class XMLvocabularyServices {
 	// fin de la clase
 }
 
-
-#######################################################################
-
-
-
-function fetchVocabularyService($task,$arg,$output="xml")
+function fetchVocabularyService($task, $arg, $output="xml")
 {
 
 	$evalParam=evalServiceParam($task,$arg);
@@ -917,13 +913,11 @@ function fetchVocabularyService($task,$arg,$output="xml")
 			// array(tema_id,string)
 			$response = $service-> fetchRelatedTermsByIds($arg);
 			break;
-
 			case 'fetchTargetTerms':
-			// Devuelve lista de términos mapeados para un tema_id
-			// array(tema_id,string)
-			$response = $service-> fetchTargetTermsById($arg);
+				// Devuelve lista de términos mapeados para un tema_id
+				// array(tema_id,string)
+				$response = $service->fetchTargetTermsById($arg);
 			break;
-
 			case 'fetchURI':
 			// Devuelve lista de enlaces linkeados para un tema_id
 			// list of foreign links to term
