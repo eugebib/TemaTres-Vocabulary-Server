@@ -70,16 +70,15 @@ function fetchExactTerm($string)
 
 	while ($array=$sql->FetchRow()) {
 		$i=++$i;
-
 		$result["result"][$array["id_definitivo"]]= array(
-			"term_id"=>$array["id_definitivo"],
-			"code"=>$array["code"],
-			"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
-			"isMetaTerm"=>$array["isMetaTerm"],
-			"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
-			"order" => $i
+			"term_id"        => $array["id_definitivo"],
+			"code"           => $array["code"],
+			"string"         => ($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
+			"isMetaTerm"     => $array["isMetaTerm"],
+			"no_term_string" => ($array["termino_preferido"]) ? $array["tema"] : FALSE,
+			"order"          => $i
 		);
-	};
+	}
 	return $result;
 }
 

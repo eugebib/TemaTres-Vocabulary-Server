@@ -346,10 +346,12 @@ function SQLbuscaExacta($texto)
 		tema.tema_id,tema.isMetaTerm,
 		if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
 		tema.code,
-		relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre
+		relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre,
+		if(relaciones.t_relacion=4, preferido.tema, NULL) as termino_preferido
 	from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tabla_rel as relacionesMenor on relacionesMenor.id_menor=tema.tema_id
+	left join $DBCFG[DBprefix]tema as preferido on preferido.tema_id=relaciones.id_menor
 	where
 	tema.tema = $texto
 	$where
