@@ -86,7 +86,7 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 		case 'NBT':
 			echo HTMLformVerTerminosSinBT($_POST["taskterm"],$_POST["deleteTerms_id"]);
 		break;
-	};
+	}
 	echo '</div>';
 }else{
 	echo '<div class="container" id="bodyText">';

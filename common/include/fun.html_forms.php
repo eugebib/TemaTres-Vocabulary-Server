@@ -1932,6 +1932,7 @@ function HTMLformVerTerminosRepetidos()
 	$rows.= '<div class="list">
 				<h3>'.ucfirst(LABEL_terminosRepetidos).' ('.SQLcount($sql).') </h3>';
 	if (SQLcount($sql) == 0) {
+		$rows.='</div>';
 		return $rows;
 	}
 	$rows.=		'<ul class="square">';
