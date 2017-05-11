@@ -326,16 +326,15 @@ function SQLSimpleSearchTrueTerms($texto,$limit="20"){
 	$where
 	order by rank desc,lower(t.tema)
 	limit 0,$limit",array($texto,"%$texto%"));
-};
+}
 
-
-function SQLbuscaExacta($texto){
-
+function SQLbuscaExacta($texto)
+{
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
-	$texto=trim($texto);
-	$texto=$DB->qstr($texto,get_magic_quotes_gpc());
-	$codUP=UP_acronimo;
+	$texto = trim($texto);
+	$texto = $DB->qstr($texto,get_magic_quotes_gpc());
+	$codUP = UP_acronimo;
 
 	//Control de estados
 	$where=(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
@@ -350,10 +349,12 @@ function SQLbuscaExacta($texto){
 		tema.tema_id,tema.isMetaTerm,
 		if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
 		tema.code,
-		relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre
-	from $DBCFG[DBprefix]tema as tema
+		relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre,
+		if(relaciones.t_relacion=4, preferido.tema, NULL) as termino_preferido
+		from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tabla_rel as relacionesMenor on relacionesMenor.id_menor=tema.tema_id
+	left join $DBCFG[DBprefix]tema as preferido on preferido.tema_id=relaciones.id_menor
 	where
 	tema.tema = $texto
 	$where
