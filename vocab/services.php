@@ -9,9 +9,9 @@
 #                                                                          #
 ############################################################################
 
-    include("config.tematres.php");
+include("config.tematres.php");
 
-    // XML tiny web services
-    require_once(T3_ABSPATH .'common/include/fun.api.php');
+// XML tiny web services
+require_once(T3_ABSPATH .'common/include/fun.api.php');
 
-    echo fetchVocabularyService($_GET["task"],$_GET["arg"],$_GET["output"]);
+echo fetchVocabularyService($_GET["task"],$_GET["arg"],$_GET["output"]);
