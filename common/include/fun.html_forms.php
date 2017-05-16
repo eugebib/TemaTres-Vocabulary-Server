@@ -891,7 +891,7 @@ function HTMLformAdvancedTermReport($array)
 		<div class="form-group">
 		  <label class="col-md-4 control-label" for="csv_encodeAdvance">'.ucfirst(LABEL_encode).' latin1</label>
 		  <div class="col-md-4">
-		      <input name="csv_encode" id="csv_encodeAdvance" value="latin1" type="checkbox">
+		      <input name="csv_encode" id="csv_encodeAdvance" value="latin1" type="checkbox" checked>
 		  </div>
 		</div>
 		<!-- Button -->
@@ -946,7 +946,7 @@ function HTMLformSimpleTermReport($array)
 						<label for="csv_encodeSimple">'.ucfirst(LABEL_encode).' latin1</label>
 					</div>
 					<div class="col-sm-9">
-						<input type="checkbox" name="csv_encode" id="csv_encodeSimple" value="latin1"/>
+						<input type="checkbox" name="csv_encode" id="csv_encodeSimple" value="latin1" checked>
 					</div>
 				</div>';
 	}
@@ -993,7 +993,7 @@ function HTMLformMappedTermReport($array)
 	$rows.='	<div class="form-group">
 		  <label class="col-md-4 control-label" for="csv_encodeTargetVocab">'.ucfirst(LABEL_encode).' latin1</label>
 		  <div class="col-md-4">
-		      <input name="csv_encode" id="csv_encodeTargetVocab" value="latin1" type="checkbox">
+		      <input name="csv_encode" id="csv_encodeTargetVocab" value="latin1" type="checkbox" checked>
 		  </div>
 		</div>';
 	$rows.='<div class="form-group">
