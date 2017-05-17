@@ -156,53 +156,102 @@ function SQLbucleAbajo($tema_id){
 	group by id_tema
 	order by id_abajo desc");
 	return $sql;
-};
-
+}
 
 #
 # Buscador general según string
 #
-function SQLbuscaSimple($texto){
+function SQLbuscaSimple($texto)
+{
 	GLOBAL $DBCFG;
 
-	$texto=trim($texto);
+	$texto = trim($texto);
+	$words = explode(' ', $texto);
 
-	$codUP=UP_acronimo;
+	foreach ($words as $key => $word) {
+		if ($key == 0) {
+			$text = '"%'.$word.'%"';
+		} else {
+			$text .= ' and tema.tema like "%'.$word.'%"';
+		}
+	}
 
 	//Control de estados
-	$where=(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
-
+	$where = (!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
 
-	$sql=SQLo("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.code,
-	tema.estado_id,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido,
-	tema.isMetaTerm,
-	if(?=tema.tema,1,0) as rank,
-	i.indice,
-	v.value_id as rel_rel_id,
-	v.value as rr_value,
-	v.value_code as rr_code
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
-	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
-	where
-	tema.tema like ?
-	$where
-	group by id_definitivo
-	order by rank desc,lower(tema.tema)",array($texto,"%$texto%"));
+	$sql=SQL("select","
+	    	if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
+			tema.tema_id,
+			tema.tema,
+			tema.code,
+	   		tema.estado_id,
+			relaciones.t_relacion,
+			temasPreferidos.tema as termino_preferido,
+			tema.isMetaTerm,
+			if($text=tema.tema,1,0) as rank,
+			i.indice,
+			v.value_id as rel_rel_id,
+			v.value as rr_value,
+			v.value_code as rr_code
+		from
+	   		$DBCFG[DBprefix]tema as tema
+		left join
+			$DBCFG[DBprefix]tabla_rel as relaciones
+		on
+			relaciones.id_mayor=tema.tema_id
+			and relaciones.t_relacion in (4,5,6,7)
+		left join
+			$DBCFG[DBprefix]tema as temasPreferidos
+		on
+			temasPreferidos.tema_id=relaciones.id_menor
+			and tema.tema_id=relaciones.id_mayor
+		left join
+			$DBCFG[DBprefix]indice i
+		on
+			i.tema_id=tema.tema_id
+		left join
+			$DBCFG[DBprefix]values v
+		on
+			v.value_id = relaciones.rel_rel_id
+		where
+			tema.tema like $text
+			$where
+		group by
+			id_definitivo
+		order by
+		rank desc,lower(tema.tema)"
+	);
+
+	// $sql=SQLo("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
+	// tema.tema_id,
+	// tema.tema,
+	// tema.code,
+	// tema.estado_id,
+	// relaciones.t_relacion,
+	// temasPreferidos.tema as termino_preferido,
+	// tema.isMetaTerm,
+	// if(?=tema.tema,1,0) as rank,
+	// i.indice,
+	// v.value_id as rel_rel_id,
+	// v.value as rr_value,
+	// v.value_code as rr_code
+	// from $DBCFG[DBprefix]tema as tema
+	// left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+	// and relaciones.t_relacion in (4,5,6,7)
+	// left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+	// and tema.tema_id=relaciones.id_mayor
+	// left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+	// left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
+	// where
+	// tema.tema like ?
+	// $where
+	// group by id_definitivo
+	// order by rank desc,lower(tema.tema)",array($texto,"%$texto%"));
 
 	return $sql;
-};
+}
 
 #
 # Buscador general según string
