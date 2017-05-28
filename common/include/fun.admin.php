@@ -3436,7 +3436,7 @@ function doSparqlEndpoint()
 
 	GLOBAL $DBCFG;
 	/* Include ARC2 classes. */
-	require_once(T3_ABSPATH . 'common/arc2/ARC2.php');
+	require_once(T3_ABSPATH . 'common/vendors/arc2/ARC2.php');
 	/* ARC2 static class inclusion */
 
 	/* MySQL and endpoint configuration */
@@ -3984,48 +3984,48 @@ $txt.=TXTverTE($arrayTema["tema_id"],"0");
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
 return sendFile("$txt","$filname");
-};
-
-
-//print alphabetic version on PDF
-function do_pdfAlpha($params=array()) {
-    GLOBAL $CFG;
-
-//update stats
-doLastModified();
-//Load config values
-loadConfigValues(1);
-
-require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
-require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
-
-$pdf = new PDF();
-$pdf->SetTitle(latin1($_SESSION["CFGTitulo"]));
-$pdf->SetAuthor(latin1($_SESSION["CFGAutor"]));
-$pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
-$pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
-$pdf->SetCreator($_SESSION["CFGVersion"]);
-
-$pdf->PrintCover($params);
-
-if ($CFG["intro"]) {
-	$pdf->PrintIntro();
 }
 
-$sqlMenuAlfabetico=SQLlistaABC();
+function do_pdfAlpha($params=array())
+{
+    GLOBAL $CFG;
 
-while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
-	$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
-	if(ctype_digit($datosAlfabetico[0])){
-		$ARRAYletras["0-9"].=$datosAlfabetico[0];
-		}else{
-		$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];
+	//update stats
+	doLastModified();
+	//Load config values
+	loadConfigValues(1);
+
+	require_once(T3_ABSPATH . 'common/vendors/fpdf/fpdf.php');
+	require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
+
+	$pdf = new PDF();
+	$pdf->SetTitle(latin1($_SESSION["CFGTitulo"]));
+	$pdf->SetAuthor(latin1($_SESSION["CFGAutor"]));
+	$pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
+	$pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
+	$pdf->SetCreator($_SESSION["CFGVersion"]);
+
+	$pdf->PrintCover($params);
+
+	if ($CFG["intro"]) {
+		$pdf->PrintIntro();
+	}
+
+	$sqlMenuAlfabetico=SQLlistaABC();
+
+	while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow()) {
+		$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
+		if (ctype_digit($datosAlfabetico[0])) {
+			$ARRAYletras["0-9"].=$datosAlfabetico[0];
+		} else {
+			$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];
 		}
 	}
 	foreach ($ARRAYletras as $key => $value) {
-		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value,$params);
+		if (strlen($value)>0) {
+			$pdf->PrintChapter(ucwords($key),$value,$params);
+		}
 	}
-
 	if ($params["hasTopTerm"]>0) {
 	    $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
 	    $topTerm = $topTerm['tema'];
