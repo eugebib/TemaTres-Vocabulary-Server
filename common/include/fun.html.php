@@ -952,7 +952,8 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 #
 # Armado de browse de términos
 #
-function doBrowseTermsByDate(){
+function doBrowseTermsByDate()
+{
 	GLOBAL $MONTHS;
 	$sql=SQLtermsByDate();
 	$rows.='<div class="flex"><dt>'.mb_strtoupper(LABEL_auditoria, 'UTF-8').'</dt>';

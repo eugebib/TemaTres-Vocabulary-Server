@@ -551,39 +551,37 @@ function fetchTargetTermsById($tema_id)
 	}
 
 
-	// Devuelve detalles del vocabularios
-	//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia)
-	function fetchVocabularyData($vocabulary_id){
+// Devuelve detalles del vocabularios
+//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia)
+function fetchVocabularyData($vocabulary_id)
+{
 
-		$sql=SQLdatosVocabulario($vocabulary_id);
-		$array=$sql->FetchRow();
-		$arrayResponse["result"][vocabulary_id]	=$array[vocabulario_id];
-		$arrayResponse["result"][title]		=$array[titulo];
-		$arrayResponse["result"][author]		=$array[autor];
-		$arrayResponse["result"][lang]		=$array[idioma];
-		$arrayResponse["result"][scope]		=$array[cobertura];
-		$arrayResponse["result"][keywords]	=$array[keywords];
-		$arrayResponse["result"][uri]		=$array[url_base];
-		$arrayResponse["result"][createDate]=$array[cuando];
-		$arrayResponse["result"][lastMod]	=fetchlastMod();
+	$sql                   = SQLdatosVocabulario($vocabulary_id);
+	$array                 = $sql->FetchRow();
+	$ARRAYfetchValues      = ARRAYfetchValues('METADATA');
+	$ARRAYfetchContactMail = ARRAYfetchValue('CONTACT_MAIL');
+	$cant_term             = ARRAYcantTerms4Thes("1");
 
+	$arrayResponse["result"] = array(
+		'vocabulary_id' => $array[vocabulario_id],
+	    'title'         => $array[titulo],
+	    'author'        => $array[autor],
+	    'lang'          => $array[idioma],
+	    'scope'         => $array[cobertura],
+	    'keywords'      => $array[keywords],
+	    'uri'           => $array[url_base],
+	    'createDate'    => $array[cuando],
+	    'lastMod'       => fetchlastMod(),
+	    'contributor'   => $ARRAYfetchValues["dc:contributor"]["value"],
+	    'adminEmail'    => $ARRAYfetchContactMail["value"],
+	    'publisher'     => $ARRAYfetchValues["dc:publisher"]["value"],
+	    'rights'        => $ARRAYfetchValues["dc:rights"]["value"],
+	    'cant_terms'    => $cant_term["cant"],
+	    'last_month'    => lastTerms(),
+	);
 
-		$ARRAYfetchValues=ARRAYfetchValues('METADATA');
-		$ARRAYfetchContactMail=ARRAYfetchValue('CONTACT_MAIL');
-
-		$arrayResponse["result"]["contributor"]= $ARRAYfetchValues["dc:contributor"]["value"];
-		$arrayResponse["result"]["adminEmail"]= $ARRAYfetchContactMail["value"];
-		$arrayResponse["result"]["publisher"]= $ARRAYfetchValues["dc:publisher"]["value"];
-		$arrayResponse["result"]["rights"]= $ARRAYfetchValues["dc:rights"]["value"];
-
-
-		$cant_term=ARRAYcantTerms4Thes("1");
-
-		$arrayResponse["result"]["cant_terms"]	=$cant_term["cant"];
-
-
-		return $arrayResponse;
-	}
+	return $arrayResponse;
+}
 
 	//Devuelve un término con cadena similar para una una cadena de búsqueda
 	//array($tema_id,$tema)

@@ -31,12 +31,11 @@ function SQLcantTR($tipo,$idUser=""){
 #
 # Cantidad de términos generales y por usuarios
 #
-function SQLcantTerminos($tipo,$idUser=""){
-
+function SQLcantTerminos($tipo,$idUser="")
+{
 	GLOBAL $DBCFG;
 
 	$idUser=secure_data($idUser,"int");
-
 
 	$clausula= ($tipo=='U') ? " where tema.uid='$idUser' " :"";
 
@@ -45,22 +44,26 @@ function SQLcantTerminos($tipo,$idUser=""){
 	left join $DBCFG[DBprefix]tema as c on tema.tema_id=c.tema_id and c.estado_id='12'
 	left join $DBCFG[DBprefix]tema as r on tema.tema_id=r.tema_id and r.estado_id='14'
 	$clausula");
-};
+}
 
 
 #
 # Cantidad de términos generales aprobados y tesauro
 #
-function ARRAYcantTerms4Thes($tesauro_id){
-
+function ARRAYcantTerms4Thes($tesauro_id)
+{
 	GLOBAL $DBCFG;
 
-	$tesauro_id=secure_data($tesauro_id,"int");
+	$tesauro_id = secure_data($tesauro_id,"int");
 
-	$sql=SQL("select","count(*) as cant
-	from $DBCFG[DBprefix]tema t
-	where t.estado_id='13'
-	and t.tesauro_id='$tesauro_id'");
+	$sql = SQL("select","
+		count(*) as cant
+		from
+			$DBCFG[DBprefix]tema t
+		where
+			t.estado_id='13' and
+			t.tesauro_id='$tesauro_id'
+	");
 
 	$array=(is_object($sql)) ? $sql->FetchRow() : array("cant"=>0);
 
@@ -1437,7 +1440,8 @@ function SQLterminosEstado($estado_id,$limite=""){
 #
 # Lista de términos según meses y aÃ±os
 #
-function SQLtermsByDate(){
+function SQLtermsByDate()
+{
 
 	GLOBAL $DBCFG;
 
@@ -1446,7 +1450,26 @@ function SQLtermsByDate(){
 	group by year(tema.cuando),month(tema.cuando)
 	order by tema.cuando desc");
 	return $sql;
-};
+}
+
+function lastTerms()
+{
+	GLOBAL $DBCFG;
+
+	$from = date("Y-m-d", strtotime("first day of previous month"));
+	$to = date("Y-m-d", strtotime("first day of this month"));
+
+	$sql = SQL("select","
+		count(tema.tema) as lastMonth
+		FROM $DBCFG[DBprefix]tema as tema
+		WHERE cuando
+		BETWEEN '$from 00:00:00.000000' AND '$to 00:00:00.000000'
+	");
+
+	$array = (is_object($sql)) ? $sql->FetchRow() : array("lastMonth"=>0);
+
+	return $array['lastMonth'];
+}
 
 #
 # Lista de datos según usuarios
@@ -1510,21 +1533,17 @@ function SQLlistTermsfromUser($id_user,$ord=""){
 #
 # Resúmen de datos del tesauro
 #
-function ARRAYresumen($id_tesa,$tipo,$idUser=""){
+function ARRAYresumen($id_tesa,$tipo,$idUser="")
+{
+	$sql_cant_rel = SQLcantTR($tipo,$idUser);
 
-
-	$sql_cant_rel=SQLcantTR($tipo,$idUser);
-
-	while($cant_rel=$sql_cant_rel->FetchRow()){
-		if($cant_rel[0]=='2')
-		{
+	while ($cant_rel=$sql_cant_rel->FetchRow()) {
+		if ($cant_rel[0]=='2') {
 			$cant_terminos_relacionados=$cant_rel[1];
-		}
-		elseif($cant_rel[0]=='4')
-		{
+		} elseif($cant_rel[0]=='4') {
 			$cant_terminos_up=$cant_rel[1];
-		};
-	};
+		}
+	}
 
 	$sql_cant_term=SQLcantTerminos($tipo,$idUser);
 	$cant_term=$sql_cant_term->FetchRow();
