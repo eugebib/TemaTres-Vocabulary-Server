@@ -57,16 +57,19 @@ function ARRAYcantTerms4Thes($tesauro_id){
 
 	$tesauro_id=secure_data($tesauro_id,"int");
 
-	$sql=SQL("select","count(*) as cant
-	from $DBCFG[DBprefix]tema t
-	where t.estado_id='13'
-	and t.tesauro_id='$tesauro_id'");
+	$sql = SQL("select","
+		count(*) as cant
+		from
+	  		$DBCFG[DBprefix]tema t
+		where
+		  	t.estado_id='13' and
+		  	t.tesauro_id='$tesauro_id'
+	");
 
 	$array=(is_object($sql)) ? $sql->FetchRow() : array("cant"=>0);
 
 	return $array;
-};
-
+}
 
 #
 # Cantidad de notas generales y por usuarios
@@ -1448,7 +1451,24 @@ function SQLtermsByDate(){
 	group by year(tema.cuando),month(tema.cuando)
 	order by tema.cuando desc");
 	return $sql;
-};
+}
+
+function lastTerms()
+{
+	GLOBAL $DBCFG;
+
+	$from = date("Y-m-d", strtotime("first day of previous month"));
+	$to   = date("Y-m-d", strtotime("first day of this month"));
+	$sql  = SQL("select","
+		count(tema.tema) as lastMonth
+		FROM $DBCFG[DBprefix]tema as tema
+		WHERE cuando
+		BETWEEN '$from 00:00:00.000000' AND '$to 00:00:00.000000'
+	");
+	$array = (is_object($sql)) ? $sql->FetchRow() : array("lastMonth"=>0);
+
+	return $array['lastMonth'];
+}
 
 #
 # Lista de datos según usuarios
