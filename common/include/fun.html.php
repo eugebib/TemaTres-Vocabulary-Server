@@ -2041,8 +2041,8 @@ function HTMLheader($metadata){
  $rows='   <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
+    <link href="'.T3_WEBPATH.'vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="'.T3_WEBPATH.'vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
     <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
     <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
@@ -2133,16 +2133,16 @@ function HTMLjsInclude(){
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  $rows='<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 		 <!-- Include all compiled plugins (below), or include individual files as needed -->
-		 <script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>
+		 <script src="'.T3_WEBPATH.'vendors/bootstrap/js/bootstrap.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
 
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/bootstrap-tabcollapse.js"></script>
-		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>
+		 <script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
+		 <script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap/bootstrap-tabcollapse.js"></script>
+		 <link type="text/css" src="'.T3_WEBPATH.'vendors/bootstrap/forms/css/styles.css"/>
 		 		<script>
 		    $(".toggle").on("click", function() {
 		        $(".toggle").parent().parent().parent().toggleClass("active");
@@ -2151,7 +2151,7 @@ function HTMLjsInclude(){
 
 if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 //<!-- Load TinyMCE -->
- $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'tiny_mce4/tinymce.min.js"></script>';
+ $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'vendors/tiny_mce4/tinymce.min.js"></script>';
 //<!-- /TinyMCE -->
 
  $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />

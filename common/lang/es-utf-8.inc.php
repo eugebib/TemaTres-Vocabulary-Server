@@ -446,7 +446,7 @@ define('MSG__updatedEndpoint','El punto de consulta SPARQL se encuentra actualiz
 define('MSG__dateUpdatedEndpoint','Fecha de última actualización del punto de consulta SPARQL');
 define('LABEL__ENABLE_SPARQL','Deberá actualizar el punto de consulta: Menú Administración -> Mantenimiento de la base de datos -> Actualizar punto de consulta SPARQL.');
 define('MSG__disable_endpoint','El punto de consulta SPARQL se encuentra deshabilitado.');
-define('MSG__need2setup_endpoint','El punto de consulta SPARQL se necesita ser actualizado. Contacte al administrador');
+define('MSG__need2setup_endpoint','El punto de consulta SPARQL necesita ser actualizado. Contacte al administrador');
 define('LABEL_SPARQLEndpoint','Punto de consulta SPARQL');
 define('LABEL_AgregarRTexist','asociar un término asociado existente con ');
 define('MENU_selectExistTerm','seleccionar término existente');
