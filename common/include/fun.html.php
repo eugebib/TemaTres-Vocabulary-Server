@@ -2052,8 +2052,8 @@ function HTMLheader($metadata){
 
 
 
-function HTMLnavHeader() {
-
+function HTMLnavHeader()
+{
 	GLOBAL  $CFG,
 			$DBCFG;
 

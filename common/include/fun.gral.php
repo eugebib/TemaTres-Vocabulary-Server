@@ -272,16 +272,14 @@ function sendFile($input,$filename){
                 print $input;
 }
 
-
-
 //sql 2 CSV and send as attach
 //based on http://www.phpclasses.org/browse/file/16237.html
 function sql2csv($sql,$filename,$encode="utf8")
 {
-$res = $sql;
-$colnames = array();
+    $res = $sql;
+    $colnames = array();
 
-// get column captions and enclose them in doublequotes (")
+    // get column captions and enclose them in doublequotes (")
 	for ($i = 0; $i < $res->FieldCount(); $i++) {
 		$fld = $res->FetchField($i);
 		$colnames[] = '"'.$fld->name.'"';
@@ -291,35 +289,116 @@ $colnames = array();
 	//replace some colnames
 	$CSV .= str_replace ( array("tema_id","cuando","tema","date_estado") , array("internal_term_id","date","term","date_status"), implode(";", $colnames) );
 
-// iterate through each row
-// replace single double-quotes with double double-quotes
-// and add values to .csv file contents
-if (SQLcount($res)>0) {
-	$CSV.="\n";
-	while ($array = $res->FetchRow()) {
+    // iterate through each row
+    // replace single double-quotes with double double-quotes
+    // and add values to .csv file contents
+    if (SQLcount($res)>0) {
+    	$CSV.="\n";
+    	while ($array = $res->FetchRow()) {
 
-		//for ($i = 0; $i < sizeof($row); $i++) {
-		for ($i = 0; $i < $res->FieldCount(); $i++) {
-			$array[$i] = '"'.str_replace('"', '""', $array[$i]).'"';
-			$CSV.= $array[$i].";";
-			}
+    		//for ($i = 0; $i < sizeof($row); $i++) {
+    		for ($i = 0; $i < $res->FieldCount(); $i++) {
+    			$array[$i] = '"'.str_replace('"', '""', $array[$i]).'"';
+    			$CSV.= $array[$i].";";
+    			}
 
-		$CSV.="\n";
-	}
+    		$CSV.="\n";
+    	}
+    }
+
+    // send output to browser as attachment (force to download file
+    header('Expires: Mon, 1 Jan 1990 00:00:00 GMT');
+    header('Last-Modified: '.gmdate("D,d M Y H:i:s").' GMT');
+    header('Pragma: no-cache');
+    header('Content-type: text/csv;charset=latin1');
+    header('Content-Disposition: attachment; filename='.$filename);
+
+    // print the final contents of .csv file
+    print ($encode=='latin1') ? latin1($CSV) : utf8($CSV);
 }
 
-// send output to browser as attachment (force to download file
-header('Expires: Mon, 1 Jan 1990 00:00:00 GMT');
-header('Last-Modified: '.gmdate("D,d M Y H:i:s").' GMT');
-header('Pragma: no-cache');
-header('Content-type: text/csv;charset=latin1');
-header('Content-Disposition: attachment; filename='.$filename);
+function sql2xls($sql, $filename, $encode = "utf8")
+{
+    require_once(T3_ABSPATH . 'common/vendors/Classes/PHPExcel.php');
 
-// print the final contents of .csv file
-print ($encode=='latin1') ? latin1($CSV) : utf8($CSV);
+    $objPHPExcel = new PHPExcel();
+    $objPHPExcel->getProperties()->setCreator($CFG["author_site"]);
+    $objPHPExcel->getProperties()->setTitle('Control terminológico - '.$vocabularyMetaData->result->title);
 
+    $worksheet = $objPHPExcel->getActiveSheet();
+
+    $worksheet->setShowGridlines(false);
+    $styleDefault = array(
+        'font' => array(
+            'size'  => 11,
+            'name'  => 'Calibri'
+        ),
+        'alignment' => array(
+            'vertical'   => 'center',
+            'horizontal' => 'center'
+        )
+    );
+    $worksheet->getDefaultStyle()->applyFromArray($styleDefault);
+
+    foreach ($sql as $line) {
+        foreach ($line as $key => $value) {
+            if (is_numeric($key)) {
+                unset($line[$key]);
+            }
+        }
+
+        $keys = array_keys($line);
+        $i    = 0;
+        $qty  = count($line);
+        foreach (range('A', 'Z') as $col) {
+            if ($i == $qty) {
+                break;
+            }
+            $worksheet->getColumnDimension($col)->setWidth(40);
+            $worksheet->getRowDimension('1')->setRowHeight(60);
+            $worksheet->getStyle($col.'1')->getFill()
+                ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+                ->getStartColor()->setARGB('FF009999');
+            $worksheet->getStyle($col.'1')->getFont()->setBold(true);
+            $worksheet->setCellValue($col.'1', $keys[$i]);
+            $i++;
+        }
+        break;
+    }
+
+    $row = 2;
+    foreach ($sql as $line) {
+        foreach ($line as $key => $value) {
+            if (is_numeric($key)) {
+                unset($line[$key]);
+            }
+        }
+
+        $worksheet->getRowDimension($row)->setRowHeight(40);
+
+        $i = 0;
+        foreach (range('A', 'Z') as $col) {
+            if ($i == $qty) {
+                break;
+            }
+            $worksheet->setCellValue($col.$row, current($line));
+            $i++;
+            next($line);
+        }
+        $row++;
+    }
+
+    $row = $objPHPExcel->getActiveSheet()->getHighestRow();
+    $col = $objPHPExcel->getActiveSheet()->getHighestColumn();
+
+    $worksheet->getStyle('A1:'.$col.$row)->getAlignment()->setWrapText(true);
+
+    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    ob_end_clean();
+    header('Content-type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment; filename="comparacion.xlsx"');
+    $objWriter->save('php://output');
 }
-
 
 //From TematresView by Nicolas Poulain
 function secure_data($data,$type="alnum") {

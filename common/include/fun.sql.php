@@ -2327,59 +2327,52 @@ function SQLadvancedTermReport($array)
 
 }
 
-
-/*
-Comparative reports about mapped terms
-*/
+/* Comparative reports about mapped terms */
 function SQLreportTargetTerms($tvocab_ids=array())
 {
-
 	GLOBAL $DBCFG;
-	$SQLtvocabs=SQLtargetVocabulary();
 
-	while($ARRAYtvocabs=$SQLtvocabs->FetchRow()){
+	$SQLtvocabs = SQLtargetVocabulary();
 
-		if(in_array($ARRAYtvocabs["tvocab_id"],$tvocab_ids)){
-
-			$tvocabs[$ARRAYtvocabs["tvocab_id"]]=array("tvocab_id"=>$ARRAYtvocabs["tvocab_id"],
-			"tvocab_label"=>$ARRAYtvocabs["tvocab_label"],
-			"tvocab_title"=>$ARRAYtvocabs["tvocab_title"]
-		);
-		$select.=',tv'.$ARRAYtvocabs["tvocab_id"].'.tterm_string as "'.$ARRAYtvocabs["tvocab_label"].'"';
-		$leftjoin.=' left join '.$DBCFG[DBprefix].'term2tterm tv'.$ARRAYtvocabs["tvocab_id"].' on tv'.$ARRAYtvocabs["tvocab_id"].'.tema_id=t.tema_id';
-		$leftjoin.=' and tv'.$ARRAYtvocabs["tvocab_id"].'.tvocab_id='.$ARRAYtvocabs["tvocab_id"];
-
+	while ($ARRAYtvocabs = $SQLtvocabs->FetchRow()) {
+		if (in_array($ARRAYtvocabs["tvocab_id"],$tvocab_ids)) {
+			$tvocabs[$ARRAYtvocabs["tvocab_id"]] = array(
+				"tvocab_id"    => $ARRAYtvocabs["tvocab_id"],
+				"tvocab_label" => $ARRAYtvocabs["tvocab_label"],
+				"tvocab_title" => $ARRAYtvocabs["tvocab_title"]
+			);
+			$select   .= ',tv'.$ARRAYtvocabs["tvocab_id"].'.tterm_string as "'.$ARRAYtvocabs["tvocab_label"].'"';
+			$leftjoin .= ' LEFT JOIN '.$DBCFG[DBprefix].'term2tterm as tv'.$ARRAYtvocabs["tvocab_id"].' on tv'.$ARRAYtvocabs["tvocab_id"].'.tema_id=t.tema_id';
+			$leftjoin .= ' and tv'.$ARRAYtvocabs["tvocab_id"].'.tvocab_id='.$ARRAYtvocabs["tvocab_id"];
+		}
 	}
 
-};
+	if (count($tvocabs) > 0) {
+		$svocab_title = '"'.$_SESSION["CFGTitulo"].'"';
+		$sql          = SQL("select","
+				t.tema as $svocab_title
+				$select
+			FROM
+				$DBCFG[DBprefix]tema as t
+			$leftjoin
+			LEFT JOIN
+				$DBCFG[DBprefix]tabla_rel as r
+			ON
+				t.tema_id = r.id_mayor and
+				r.t_relacion = '4'
+			WHERE
+				t.tesauro_id = 1 and
+				t.estado_id = 13 and
+				r.id is null
+		");
+	} else {
+		$sql = SQL("select","'no_data'");
+	}
 
-//check if there are tvocabs
-if(count($tvocabs)>0){
-
-	$svocab_title='"'.$_SESSION["CFGTitulo"].'"';
-
-	$sql=SQL("select","t.tema_id as internal_term_id,t.tema as $svocab_title
-	$select
-	from $DBCFG[DBprefix]tema t
-	$leftjoin
-	left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id =r.id_mayor
-	and r.t_relacion='4'
-	where
-	t.tesauro_id=1
-	and t.estado_id=13
-	and r.id is null");
-
+	return $sql;
 }
-else{
-	//empy set
-	$sql=SQL("select","'no_data'");
-};
-return $sql;
-}
 
-/*
-Terms withouts notes
-*/
+/* Terms withouts notes */
 function SQLreportNullNotes($t_note)
 {
 
