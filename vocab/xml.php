@@ -118,7 +118,7 @@ if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel] == '1') && ($_GET["dis"])) {
 				"includeCreatedDate" => $_GET["includeCreatedDate"],
 				"includeTopTerm"     => $_GET["includeTopTerm"],
 				"includeModDate"     => $_GET["includeModDate"]);
-			echo do_pdfAlpha($params);
+			echo do_pdfAlpha2($params);
 		break;
 		case 'spdf':
 			$params = array("hasTopTerm" => $_GET["hasTopTerm"]);

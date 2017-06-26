@@ -5,7 +5,8 @@ class PDF extends FPDF {
     protected $y0;      // Ordinate of column start
     protected $HREF = '';
 
-    function WriteHTML($html) {
+    function WriteHTML($html)
+    {
         // Intérprete de HTML
         $html = str_replace("\n",' ',$html);
         $a    = preg_split('/<(.*)>/U',$html,-1,PREG_SPLIT_DELIM_CAPTURE);
@@ -38,7 +39,8 @@ class PDF extends FPDF {
         }
     }
 
-    function OpenTag($tag, $attr) {
+    function OpenTag($tag, $attr)
+    {
         // Etiqueta de apertura
         if ($tag=='B' || $tag=='I' || $tag=='U') {
             $this->SetStyle($tag,true);
@@ -51,7 +53,8 @@ class PDF extends FPDF {
         }
     }
 
-    function CloseTag($tag) {
+    function CloseTag($tag)
+    {
         // Etiqueta de cierre
         if ($tag=='B' || $tag=='I' || $tag=='U') {
             $this->SetStyle($tag,false);
@@ -61,7 +64,8 @@ class PDF extends FPDF {
         }
     }
 
-    function SetStyle($tag, $enable) {
+    function SetStyle($tag, $enable)
+    {
         // Modificar estilo y escoger la fuente correspondiente
         $this->$tag += ($enable ? 1 : -1);
         $style = '';
@@ -73,7 +77,8 @@ class PDF extends FPDF {
         $this->SetFont('',$style);
     }
 
-    function PutLink($URL, $txt) {
+    function PutLink($URL, $txt)
+    {
         // Escribir un hiper-enlace
         $this->SetTextColor(0,0,255);
         $this->SetStyle('U',true);
@@ -82,76 +87,73 @@ class PDF extends FPDF {
         $this->SetTextColor(0);
     }
 
-    function Header() {
+    function Header()
+    {
         if ($this->header==0) {
             return;
         }
 
         $title=latin1($_SESSION["CFGTitulo"]);
-        $this->SetFont('OpenSans','B',10);
-        $this->MultiCell(0,8,latin1($title.' / '.$_SESSION["CFGAutor"]),0,'L');
+        $this->SetFont('OpenSans','',8);
+        $this->MultiCell(0,8,latin1($_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"]),'B','L');
         /*$this->SetFont('OpenSans','',8);
         $title_link='<a href="'.URL_BASE.'" title="'.$title.'">'.URL_BASE.'</a>';
         $link=$this->WriteHTML($title_link);
         $this->Cell(0,10,$link,'0',0,'L');
         */
-        $y=$this->GetY();
-        $this->Line(10,$y,200,$y);
-        $this->Ln(8);
+        $this->Ln(10);
         // Save ordinate
         $this->y0 = $this->GetY();
     }
 
-    function Footer() {
+    function Footer()
+    {
         if ($this->footer==0) {
-            return;//turn off
+            return;
         }
-        // Page footer
+
         $this->SetY(-15);
+        $this->SetX(15);
         $this->SetFont('OpenSans','I',8);
         $this->SetTextColor(128);
-        $this->Cell(0,10,$this->PageNo(),T,0,'C');
+        $this->Cell(0,10,$this->PageNo(),'T',0,'C');
         $this->SetFont('OpenSans','',6);
-        $this->Cell(-4,10,$_SESSION["CFGVersion"],T,0,'R','');
+        $this->Cell(-4,10,$_SESSION["CFGVersion"],0,0,'R');
         $this->Image(T3_ABSPATH.'common/images/t3logo.png',198,285,0,0,'png','http://www.vocabularyserver.com');
     }
 
-    function SetCol($col) {
-        // Set position at a given column
+    function SetCol($col)
+    {
         $this->col = $col;
-        $x = 10+$col*95;
+        $x = 15 + $col * 95;
         $this->SetLeftMargin($x);
         $this->SetX($x);
     }
 
-    function AcceptPageBreak() {
-        // Method accepting or not automatic page break
-        if ($this->col<1) {
-            // Go to next column
+    function AcceptPageBreak()
+    {
+        if ($this->col < 1) {
             $this->SetCol($this->col+1);
-            // Set ordinate to top
+            $this->Line(105, 30, 105, 275);
             $this->SetY($this->y0);
-            // Keep on page
             return false;
-        } else {
-            // Go back to first column
-            $this->SetCol(0);
-            // Page break
-            return true;
         }
+
+        $this->SetCol(0);
+        return true;
     }
 
-    function ChapterTitle($label) {
-        // Title
+    function ChapterTitle($label)
+    {
         $this->SetFont('opensans','B',14);
         $this->SetFillColor(178,168,168);
         $this->Cell(0,8,$label,0,1,'L',true);
         $this->Ln(4);
-        // Save ordinate
         $this->y0 = $this->GetY();
     }
 
-    function PrintChapter($title, $letter,$params=array()) {
+    function PrintChapter($title, $letter,$params=array())
+    {
         // Add chapter
         $sql=SQLterms4char($letter,$params["hasTopTerm"]);
         if (SQLcount($sql)==0) {
@@ -165,13 +167,12 @@ class PDF extends FPDF {
         $this->ChapterBody($sql,$params);
     }
 
-    function PrintCover($params=array(),$type) {
+    function PrintCover($params=array(),$type)
+    {
         GLOBAL $CFG;
-        //turn off
+
         $this->footer = 0;
         $this->header = 0;
-
-        $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
 
         $this->AddFont('opensans','','opensans.php');
         $this->AddFont('opensans','B','opensansb.php');
@@ -189,29 +190,30 @@ class PDF extends FPDF {
 
         $this->SetFont('opensans','B',36);
         $this->MultiCell(0,16,latin1($_SESSION["CFGTitulo"]),0,'C');
-
-        if ($params["hasTopTerm"]>0) {
+        if ($params["hasTopTerm"] > 0) {
             $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
             $this->SetFont('opensans','B',30);
             $this->MultiCell(0,16,latin1($topTerm['tema']),0,'C');
         }
-
         $this->Ln(5);
-        $this->SetFont('opensans','I',20);
 
+        $this->SetFont('opensans','I',20);
         if ($type == 0) {
             $this->MultiCell(0,16,latin1('Lista alfabética'),0,'C');
         } else {
             $this->MultiCell(0,16,latin1('Lista sistemática'),0,'C');
         }
-
         $this->Ln(5);
+
         $this->SetFont('opensans','',15);
         $this->MultiCell(0,8,latin1($_SESSION["CFGAutor"]),0,'C');
+
         $this->SetFont('opensans','',10);
-        if(strlen($ARRAYmailContact["value"])>0) {
+        $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
+        if (strlen($ARRAYmailContact["value"]) > 0) {
             $this->MultiCell(0,8,latin1($ARRAYmailContact["value"]),0,'C');
         }
+
         if (file_exists(local_path . 'footer.png')) {
             $this->SetY(235);
             $this->Image(local_path . 'footer.png',null,null,190);
@@ -220,24 +222,28 @@ class PDF extends FPDF {
         $this->AddPage();
 
         $this->SetFont('opensans','L',12);
-        if (strlen($_SESSION["CFGCobertura"])>0) {
+        if (strlen($_SESSION["CFGCobertura"]) > 0) {
             $this->MultiCell(0,8,latin1(html2txt($_SESSION["CFGCobertura"])),1,'J');
             $this->Ln(5);
         }
-        if (strlen($_SESSION["CFGContributor"])>0) {
+
+        if (strlen($_SESSION["CFGContributor"]) > 0) {
             $this->MultiCell(0,8,latin1(LABEL_Contributor.': '.$_SESSION["CFGContributor"]),0,'L');
             $this->Ln(5);
         }
-        if (strlen($_SESSION["CFGRights"])>0) {
+
+        if (strlen($_SESSION["CFGRights"]) > 0) {
             $this->MultiCell(0,8,latin1(LABEL_Rights.': '.$_SESSION["CFGRights"]),0,'L');
             $this->Ln(5);
         }
+
         $site_link = $this->WriteHTML('URL: <a href="'.URL_BASE.'">'.URL_BASE.'</a>');
         $this->MultiCell(0,8,$site_link,0,'L');
         $this->Ln(5);
+
         $this->SetFont('opensans','L',12);
-        if (CFG_ENABLE_SPARQL==1) {
-            $sparql_link=$this->WriteHTML(LABEL_SPARQLEndpoint.': <a href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.URL_BASE.'sparql.php</a>');
+        if (CFG_ENABLE_SPARQL == 1) {
+            $sparql_link = $this->WriteHTML(LABEL_SPARQLEndpoint.': <a href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.URL_BASE.'sparql.php</a>');
             $this->MultiCell(0,8,$sparql_link,0,'L');
         }
 
@@ -314,7 +320,8 @@ class PDF extends FPDF {
         $this->y0 = $this->GetY();
     }
 
-    function PrintIntro() {
+    function PrintIntro()
+    {
         GLOBAL $CFG;
 
         $this->AddPage();
@@ -325,7 +332,8 @@ class PDF extends FPDF {
         $this->MultiCell(0,8,latin1($CFG["intro"]),0,'J');
     }
 
-    function ChapterBody($sql_data,$params=array()) {
+    function ChapterBody($sql_data, $params=array())
+    {
         GLOBAL $CFG;
 
         while ($arrayTerm=$sql_data->FetchRow()) {

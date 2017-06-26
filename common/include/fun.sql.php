@@ -860,31 +860,33 @@ function SQLdirectTerms($tema_id)
 
 
 
-	#
-	# TERMINOS TOPES
-	#
-	function SQLverTopTerm(){
-		GLOBAL $DBCFG;
+#
+# TERMINOS TOPES
+#
+function SQLverTopTerm()
+{
+	GLOBAL $DBCFG;
 
-		//Control de estados
-		(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and TT.estado_id='13' " : $where="";
+	//Control de estados
+	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and TT.estado_id='13' " : $where="";
 
-		$sql=SQL("select","TT.tema_id as id,TT.tema,TT.code,TT.tema_id,TT.isMetaTerm,c.idioma,c.titulo
-		from $DBCFG[DBprefix]tabla_rel as relaciones,
-		$DBCFG[DBprefix]config as c,
-		$DBCFG[DBprefix]tema as TT
-		left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
-		and no_menor.t_relacion='3'
-		where
-		TT.tema_id=relaciones.id_mayor
-		$where
-		and relaciones.t_relacion='3'
-		and no_menor.id is null
-		and c.id=TT.tesauro_id
-		group by TT.tema_id
-		order by lower(TT.code),lower(TT.tema)");
-		return $sql;
-	};
+	$sql=SQL("select","TT.tema_id as id,TT.tema,TT.code,TT.tema_id,TT.isMetaTerm,c.idioma,c.titulo
+	from $DBCFG[DBprefix]tabla_rel as relaciones,
+	$DBCFG[DBprefix]config as c,
+	$DBCFG[DBprefix]tema as TT
+	left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
+	and no_menor.t_relacion='3'
+	where
+	TT.tema_id=relaciones.id_mayor
+	$where
+	and relaciones.t_relacion='3'
+	and no_menor.id is null
+	and c.id=TT.tesauro_id
+	group by TT.tema_id
+	order by lower(TT.code),lower(TT.tema)");
+
+	return $sql;
+}
 
 
 
@@ -1093,7 +1095,7 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 	order by lower(tema.tema)");
 
 	return $sql;
-};
+}
 
 	#
 	# Lista PAGINADA de términos de una letra
@@ -3822,4 +3824,39 @@ function SQLsrcnote($srcnote_id)
 		left join $DBCFG[DBprefix]usuario u2 on u2.id=srcn.scrnote_last_uid
 		left join $DBCFG[DBprefix]src_relation r on srcn.scrnote_id=r.src_id
 		group by srcn.scrnote_id");
+}
+
+function SQLterms4alpha($id, $params)
+{
+	GLOBAL $DBCFG;
+
+	$sql=SQL("select","
+			tema.tema_id as id,
+			tema.tema,
+			tema.isMetaTerm,
+			UP.tema_id as UPId,
+			UP.tema as noPreferido,
+			notas.nota
+		FROM
+			$DBCFG[DBprefix]tabla_rel as Relaciones
+		LEFT JOIN
+			$DBCFG[DBprefix]tema as tema on Relaciones.id_menor=tema.tema_id
+		LEFT JOIN
+		    $DBCFG[DBprefix]tabla_rel AS RelUP
+		ON
+		    Relaciones.id_menor = RelUP.id_menor and RelUP.t_relacion=4 and RelUP.rel_rel_id != 29
+		LEFT JOIN
+		    $DBCFG[DBprefix]tema AS UP
+		ON
+		    UP.tema_id = RelUP.id_mayor
+		LEFT JOIN
+		    $DBCFG[DBprefix]notas AS notas
+		ON
+		    tema.tema_id = notas.id_tema and notas.tipo_nota = 'NA'
+		WHERE
+			Relaciones.id_mayor=$id and
+			Relaciones.t_relacion=3
+	");
+
+	return $sql;
 }

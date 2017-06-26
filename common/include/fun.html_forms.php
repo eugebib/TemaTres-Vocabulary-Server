@@ -2316,56 +2316,64 @@ function HTMLformExport()
 						<fieldset>
 							<legend>'.ucfirst(LABEL_include_data).'</legend>';
 	//Evaluar si hay notas
-	if (is_array($arrayVocabStats["cant_notas"])) {
-		$LabelNB       = array('NB',LABEL_NB);
-		$LabelNH       = array('NH',LABEL_NH);
-		$LabelNA       = array('NA',LABEL_NA);
-		$LabelNP       = array('NP',LABEL_NP);
-		$LabelNC       = array('NC',LABEL_NC);
-		$sqlNoteType   = SQLcantNotas();
-		$arrayNoteType = array();
-		while ($arrayNotes = $sqlNoteType->FetchRow()) {
-			if ($arrayNotes[cant] > 0) {
-				//nota privada no
-				if ($arrayNotes["value_id"] !== '11') {
-					$varNoteType = (in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[1],$LabelNH[1],$LabelNB[1],$LabelNP[1],$LabelNC[1]),$arrayNotes["value_id"]) : $arrayNotes["value"];
-					$varNoteTypeCode = (in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[0],$LabelNH[0],$LabelNB[0],$LabelNP[0],$LabelNC[0]),$arrayNotes["value_id"]) : $arrayNotes["value_code"];
-					$rows_notes.= '
-						<div class="form-group">
-							<div class="col-sm-4">
-								<label for="includeNote'.$arrayNotes["value_id"].'" accesskey="d">'.
-									ucfirst($varNoteType).'
-								</label>
-							</div>
-							<input name="includeNote[]" type="checkbox" id="includeNote'.$arrayNotes["value_id"].'" value="'.$varNoteTypeCode.'" />
-						</div>';
-				}
-			}
-		}
-		$rows.='				<div class="form-group">
-									<div class="col-sm-4">
-										<label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label>
-									</div>
-									<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />
-								</div>';
+	// if (is_array($arrayVocabStats["cant_notas"])) {
+	// 	$LabelNB       = array('NB',LABEL_NB);
+	// 	$LabelNH       = array('NH',LABEL_NH);
+	// 	$LabelNA       = array('NA',LABEL_NA);
+	// 	$LabelNP       = array('NP',LABEL_NP);
+	// 	$LabelNC       = array('NC',LABEL_NC);
+	// 	$sqlNoteType   = SQLcantNotas();
+	// 	$arrayNoteType = array();
+	// 	while ($arrayNotes = $sqlNoteType->FetchRow()) {
+	// 		if ($arrayNotes[cant] > 0) {
+	// 			//nota privada no
+	// 			if ($arrayNotes["value_id"] !== '11') {
+	// 				$varNoteType = (in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[1],$LabelNH[1],$LabelNB[1],$LabelNP[1],$LabelNC[1]),$arrayNotes["value_id"]) : $arrayNotes["value"];
+	// 				$varNoteTypeCode = (in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[0],$LabelNH[0],$LabelNB[0],$LabelNP[0],$LabelNC[0]),$arrayNotes["value_id"]) : $arrayNotes["value_code"];
+	// 				$rows_notes.= '
+	// 					<div class="form-group">
+	// 						<div class="col-sm-4">
+	// 							<label for="includeNote'.$arrayNotes["value_id"].'" accesskey="d">'.
+	// 								ucfirst($varNoteType).'
+	// 							</label>
+	// 						</div>
+	// 						<input name="includeNote[]" type="checkbox" id="includeNote'.$arrayNotes["value_id"].'" value="'.$varNoteTypeCode.'" />
+	// 					</div>';
+	// 			}
+	// 		}
+	// 	}
+		// $rows.='				<div class="form-group">
+		// 							<div class="col-sm-4">
+		// 								<label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label>
+		// 							</div>
+		// 							<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />
+		// 						</div>';
 		/* Si hay m�s de un tipo de nota			 */
 		if (count($arrayVocabStats["cant_notas"]) > 0) {
-			$rows.= $rows_notes;
+			//$rows.= $rows_notes;
+			$rows .= '	<div class="form-group">
+							<div class="col-sm-4">
+								<label for="includeNoteNA" accesskey="d">
+									Nota de alcance
+								</label>
+							</div>
+							<input name="includeNote[]" type="checkbox" id="includeNoteNA" value="NA" />
+						</div>';
 		}
-	}
+	//}
+	// $rows.='					<div class="form-group">
+	// 								<div class="col-sm-4">
+	// 									<label for="includeCreatedDate" accesskey="d">'.ucfirst(LABEL_Fecha).'</label>
+	// 								</div>
+	// 								<input name="includeCreatedDate" type="checkbox" id="includeCreatedDate" value="1" />
+	// 							</div>
+	// 							<div class="form-group">
+	// 								<div class="col-sm-4">
+	// 									<label for="includeModDate" accesskey="m">'.ucfirst(LABEL_lastChangeDate).'</label></div>
+	// 									<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />
+	// 								</div>
+	// 							</div>';
 	$rows.='					<div class="form-group">
-									<div class="col-sm-4">
-										<label for="includeCreatedDate" accesskey="d">'.ucfirst(LABEL_Fecha).'</label>
-									</div>
-									<input name="includeCreatedDate" type="checkbox" id="includeCreatedDate" value="1" />
-								</div>
-								<div class="form-group">
-									<div class="col-sm-4">
-										<label for="includeModDate" accesskey="m">'.ucfirst(LABEL_lastChangeDate).'</label></div>
-										<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />
-									</div>
-								</div>
-								<div class="form-group">
 									<div class="text-center">
 										<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 									</div>
