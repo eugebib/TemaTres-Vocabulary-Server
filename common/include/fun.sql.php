@@ -3840,7 +3840,9 @@ function SQLterms4alpha($id, $params)
 		FROM
 			$DBCFG[DBprefix]tabla_rel as Relaciones
 		LEFT JOIN
-			$DBCFG[DBprefix]tema as tema on Relaciones.id_menor=tema.tema_id
+			$DBCFG[DBprefix]tema as tema
+		ON
+			Relaciones.id_menor=tema.tema_id
 		LEFT JOIN
 		    $DBCFG[DBprefix]tabla_rel AS RelUP
 		ON

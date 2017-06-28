@@ -4,6 +4,9 @@ class PDF extends FPDF {
     protected $col = 0; // Current column
     protected $y0;      // Ordinate of column start
     protected $HREF = '';
+    protected $columns = 0;
+    protected $columnsWithLine;
+    protected $columnWidth;
 
     function WriteHTML($html)
     {
@@ -122,23 +125,47 @@ class PDF extends FPDF {
         $this->Image(T3_ABSPATH.'common/images/t3logo.png',198,285,0,0,'png','http://www.vocabularyserver.com');
     }
 
+    function useColumns($num, $line)
+    {
+        $this->columns = $num;
+        if (!in_array($this->columns, array(2,3))) {
+            $this->columns = 2;
+        }
+        $this->columnsWithLine = $line;
+        $this->columnWidth = $this->columns == 2 ? 85 : 55;
+        $this->columnSpace = $this->columns == 2 ? 10 : 7;
+    }
+
+    function getWidth()
+    {
+        return $this->columnWidth;
+    }
+
     function SetCol($col)
     {
         $this->col = $col;
-        $x = 15 + $col * 95;
+        $x = 15 + $col * ($this->columnWidth + $this->columnSpace);
         $this->SetLeftMargin($x);
         $this->SetX($x);
     }
 
     function AcceptPageBreak()
     {
-        if ($this->col < 1) {
+        if ($this->columns == 0) {
+           return true;
+        }
+        if ($this->col < $this->columns-1) {
             $this->SetCol($this->col+1);
-            $this->Line(105, 30, 105, 275);
+            if ($this->columnsWithLine & $this->columns == 2) {
+                $this->Line(105, 30, 105, 275);
+            }
+            if ($this->columnsWithLine & $this->columns == 3) {
+                $this->Line(74, 30, 74, 275);
+                $this->Line(136, 30, 136, 275);
+            }
             $this->SetY($this->y0);
             return false;
         }
-
         $this->SetCol(0);
         return true;
     }
@@ -328,8 +355,8 @@ class PDF extends FPDF {
         $this->SetFont('opensans','B',20);
         $this->MultiCell(0,20,latin1('Introducción'),0,'L');
         $this->Ln(15);
-        $this->SetFont('opensans','',12);
-        $this->MultiCell(0,8,latin1($CFG["intro"]),0,'J');
+        $this->SetFont('opensans','',10);
+        $this->MultiCell(0,6,latin1($CFG["intro"]),0,'J');
     }
 
     function ChapterBody($sql_data, $params=array())

@@ -3823,24 +3823,26 @@ function do_pdfAlpha2($params=array())
 	$pdf->header = 1;
 	$pdf->footer = 1;
 	$pdf->SetMargins(15,15);
+	$pdf->useColumns(3, true);
+	$w = $pdf->getWidth();
 	$pdf->AddPage();
 
-	$pdf->SetFont('opensans','',12);
+	$pdf->SetFont('opensans','',11);
 	foreach ($terms as $term) {
 		if ($term['isMetaTerm'] == 0) {
 			if (isset($term['preferido'])) {
 				$pdf->SetFont('opensans','I',12);
-				$pdf->MultiCell(85,8,latin1($term["term"]),0,'L');
+				$pdf->MultiCell($w,6,latin1($term["term"]),0,'L');
 				$pdf->SetFont('opensans','',10);
-				$pdf->MultiCell(85,8,'   USE  '.latin1($term["preferido"]),0,'L');
+				$pdf->MultiCell($w,6,'   USE  '.latin1($term["preferido"]),0,'L');
 			} else {
 				$pdf->SetFont('opensans','B',12);
-				$pdf->MultiCell(85,8,latin1($term["term"]),0,'L');
+				$pdf->MultiCell($w,6,latin1($term["term"]),0,'L');
 				$pdf->SetFont('opensans','',12);
 			}
 			if ($term['note'] != '') {
 				$pdf->SetFont('opensans','',10);
-				$pdf->MultiCell(85,5,latin1($term['note']));
+				$pdf->MultiCell($w,5,latin1($term['note']));
 				$pdf->SetFont('opensans','',12);
 				$pdf->Ln(4);
 			} else {
