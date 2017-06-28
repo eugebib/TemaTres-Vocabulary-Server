@@ -125,11 +125,11 @@ class PDF extends FPDF {
         $this->Image(T3_ABSPATH.'common/images/t3logo.png',198,285,0,0,'png','http://www.vocabularyserver.com');
     }
 
-    function useColumns($num, $line)
+    function useColumns($num, $line = 0)
     {
         $this->columns = $num;
         if (!in_array($this->columns, array(2,3))) {
-            $this->columns = 2;
+            $this->columns = 0;
         }
         $this->columnsWithLine = $line;
         $this->columnWidth = $this->columns == 2 ? 85 : 55;

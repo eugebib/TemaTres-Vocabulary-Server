@@ -3823,7 +3823,7 @@ function do_pdfAlpha2($params=array())
 	$pdf->header = 1;
 	$pdf->footer = 1;
 	$pdf->SetMargins(15,15);
-	$pdf->useColumns(3, true);
+	$pdf->useColumns(2, true);
 	$w = $pdf->getWidth();
 	$pdf->AddPage();
 
@@ -3929,10 +3929,10 @@ function array_sort($array, $on, $order=SORT_ASC)
 
         switch ($order) {
             case SORT_ASC:
-                asort($sortable_array);
+                natcasesort($sortable_array);
             break;
             case SORT_DESC:
-                arsort($sortable_array);
+                arsort($sortable_array, SORT_LOCALE_STRING);
             break;
         }
 
