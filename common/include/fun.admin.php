@@ -2172,8 +2172,10 @@ function txtAlfabetico($params=array())
 	$txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
 	$txt.="__________________________________________________________________________\r\n";
 
-	$list = getTermsxAlpha($params["hasTopTerm"]);
-	$list = getDataxAlpha($list, $params);
+	$sql=SQLlistaTemas($params["hasTopTerm"]);
+	if($params["hasTopTerm"]>0){
+		$txt.=txt4term($params["hasTopTerm"],$params);
+	}
 
 	while($arrayTema=$sql->FetchRow()){
 
