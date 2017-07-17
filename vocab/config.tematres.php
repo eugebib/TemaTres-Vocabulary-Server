@@ -1,12 +1,12 @@
 <?php
 if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
 /*
- *      config.tematres.php
+ * config.tematres.php
  *
- *      Copyright 2011 diego ferreyra <diego@r020.com.ar>
+ * Copyright 2011 diego ferreyra <diego@r020.com.ar>
  *
- *      This program is free software; you can redistribute it and/or modify
- *      it under the terms of the GNU General Public License as published by
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation; either version 2 of the License, or
  *      (at your option) any later version.
  *
@@ -20,35 +20,44 @@ if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
+
+
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
+
 include('db.tematres.php');
-if($DBCFG["debugMode"]=='1'){
+
+if ($DBCFG["debugMode"]=='1') {
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
-}else{
+} else {
 	ini_set('display_errors',false);
 }
+
 require_once(T3_ABSPATH . 'common/include/fun.gral.php');
+
 // Conexión con la BD || => proceso de instalación
 $DB = DBconnect();
 
-if(!$DB) loadPage('install.php');
+if (!$DB) {
+    loadPage('install.php');
+}
 
 //Agregado para la version multi
 require_once(T3_ABSPATH . 'common/include/config.tematres.php');
 require_once(T3_ABSPATH . 'common/include/session.php');
 
-if(checkAllowPublication(basename($_SERVER['SCRIPT_NAME']))==0) loadPage('login.php');
-
+if (checkAllowPublication(basename($_SERVER['SCRIPT_NAME']))==0) {
+    loadPage('login.php');
+}
 
 // ID del Tesauro por DEFAULT
-$CFG["DFT_TESA"] ='1';
+$CFG["DFT_TESA"] = '1';
 
 //Config Sites availables for URL search
-$CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
+$CFG["SEARCH_URL_SITES"] = array("wikipedia","Google exacto","Google scholar","Google images","Google books");
 
 //List of alias code for hidden non prefered terms
-$CFG["HIDDEN_EQ"] =array("MS","SP","H");
+$CFG["HIDDEN_EQ"] = array("MS","SP","H");
 
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';

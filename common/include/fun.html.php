@@ -375,6 +375,8 @@ function HTMLbodyTermino($array){
 	GLOBAL $MSG_ERROR_RELACION;
 	GLOBAL $CFG;
 
+	$editFlag=($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? 1 : 0;
+
 	//breadcrumb
 	$BT = SQLverTerminoRelaciones($array["idTema"]);
 	while ($bc = $BT->FetchRow()) {
@@ -432,7 +434,7 @@ function HTMLbodyTermino($array){
 		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
 	}
 	//div oculto para eliminar término
-	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])	{
+	if ($editFlag==1) {
 		$body.=HTMLconfirmDeleteTerm($array);
 	}
 
@@ -456,7 +458,7 @@ function HTMLbodyTermino($array){
 	$body.='<div id="tabContent" class="tab-content">';
 
 	$body.='<div class="tab-pane fade" id="notesTerm">';
-	$body.=HTMLNotasTermino($array);
+	$body.=HTMLNotasTermino($array, $editFlag);
 	$body.='</div>';
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
@@ -543,6 +545,7 @@ function HTMLmainMenu() {
 						<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>
 					</ul>
 				</li>
+				<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>
 				<li><a title="' . ucfirst(LABEL_FORM_simpleReport) . '" href="'.URL_BASE.'index.php?mod=csv">' . ucfirst(LABEL_FORM_simpleReport) . '</a></li>
 			</ul>
 		</div>
@@ -718,7 +721,7 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 #
 # Ficha del término
 #
-function HTMLNotasTermino($array){
+function HTMLNotasTermino($array, $editFlag=0) {
 	if(count($array["notas"])){
 		for($iNota=0; $iNota<(count($array["notas"])); ++$iNota){
 			if($array["notas"][$iNota][id]){
@@ -755,7 +758,7 @@ function HTMLNotasTermino($array){
 				//no mostrar si es igual al idioma del vocabulario
 				$label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')';
 
-				if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+				if($editFlag==1){
 					$body.='<dt> <a title="'.LABEL_EditarNota.'" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.$tipoNota.'</a>'.$label_lang_nota;
 					$body.=' <a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>';
 					$body.=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;idTema='.$array["idTema"].'&amp;idNota='.$array["notas"][$iNota]["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a>';
@@ -2296,4 +2299,63 @@ function footer()
 	</footer>';
 
 	return $rows;
+}
+
+//select target vocabulary in trad module
+function HTMLselectTargetVocabulary($tvocab_id="")
+{
+  	$sql=SQLinternalTargetVocabs();
+  	if (SQLcount($sql)=='0') {
+		//No hay vocabularios de referencia, solo vocabulario principal
+		$rows.=HTMLalertNoTargetVocabularyPivotModel($tvocab_id);
+  	} else {
+    	$rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+			<thead>
+				<tr>
+					<th>'.ucfirst(LABEL_vocabulario_referencia).'</th>
+					<th>'.ucfirst(LABEL_cantTerms).'</th>
+				</tr>
+			</thead>
+		<tbody>';
+
+    	while ($array = $sql->FetchRow()){
+
+	      	$rows.= '<tr>';
+	      	$rows.=  '     <td><a href="'.URL_BASE.'index.php?mod=trad&amp;tvocab_id='.$array["tvocab_id"].'" title="'.$array["titulo"].'">'.$array["titulo"].'</a> ('.strtoupper($array["idioma"]).')</td>';
+	      	$rows.=  '      <td>'.$array["cant"].'</td>';
+	      	$rows.=  '</tr>';
+	    }
+	    $rows.='        </tbody></table>';
+	    $rows.='</div>';
+	}
+
+  	return $rows;
+}
+
+//alphabetic list of terms to browse table
+function HTMLalphaListTerms4map($tvocab_id,$filterEQ,$char="")
+{
+  	$sqlMenuAlfabetico = SQLlistaABCPreferedTerms($char);
+  	if (SQLcount($sqlMenuAlfabetico)>0) {
+    	$rows.='<ul class="pagination pagination-sm">';
+	    while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow()) {
+      		$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
+	      	//is a valid letter
+      		if (strlen($datosAlfabetico[0])>0) {
+		        $class = ($datosAlfabetico[1]==0)  ? '' : 'active';
+		        if (!ctype_digit($datosAlfabetico[0])) {
+		          	$menuAlfabetico.='<li class="'.$class.'">';
+		          	$menuAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra2trad='.$datosAlfabetico[0].'&tvocab_id='.$tvocab_id.'&mod=trad">'.$datosAlfabetico[0].'</a>';
+		          	$menuAlfabetico.='</li>';
+ 		        } else {
+          			$menuNoAlfabetico='<li class="'.$class.'">';
+					$menuNoAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra2trad='.$datosAlfabetico[0].'&tvocab_id='.$tvocab_id.'&mod=trad">0-9</a>';
+          			$menuNoAlfabetico.='</li>';
+        		}
+      		}
+    	}
+  	}
+  	$menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>';
+
+  	return $menuAlfabetico;
 }
