@@ -313,7 +313,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 			break;
 			//Comparative report about mapped terms
 			case 'csv12':
-			$sql=SQLreportTargetTerms($_GET["tvocabs"]);
+				$sql = SQLreportTargetTerms($_GET["tvocabs"]);
 			break;
 			//Preferred terms
 			case 'csv13':

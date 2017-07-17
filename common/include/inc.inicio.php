@@ -54,9 +54,7 @@ elseif(($_GET[xsearch]=='1')){
 	echo '<div class="container" id="bodyText">';
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
-}
-//Vista de reporteador
-elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
+} elseif (($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) {
 	echo '<div id="bodyText">';
 	echo HTMLformSimpleTermReport($_GET);
 
