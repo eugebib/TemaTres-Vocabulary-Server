@@ -520,4 +520,12 @@ define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marca
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
-?>
+##v.3
+define('MENU_bulkTranslate','editor multilingüe');
+define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
+define('LABEL_termsEQ','con correspondencias');
+define('LABEL_termsNoEQ','sin correspondencias');
+define('LABEL_close','cerrar');
+define('LABEL_allTerms','todos los términos');
+define('LABEL_allNotes','todas las notas');
+define('LABEL_allRelations','todas las relaciones entre términos');?>

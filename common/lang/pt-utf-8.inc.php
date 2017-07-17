@@ -542,4 +542,12 @@ define('LABEL_generateAutoGlossary','geração de autoglossário');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referências');
 define('LABEL_printData','data de impressão');
-define('LABEL_Info','Informações sobre este vocabulário');
+##v.3
+define('MENU_bulkTranslate','editor multilingüe');
+define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
+define('LABEL_termsEQ','con correspondencias');
+define('LABEL_termsNoEQ','sin correspondencias');
+define('LABEL_close','cerrar');
+define('LABEL_allTerms','todos los términos');
+define('LABEL_allNotes','todas las notas');
+define('LABEL_allRelations','todas las relaciones entre términos');?>
