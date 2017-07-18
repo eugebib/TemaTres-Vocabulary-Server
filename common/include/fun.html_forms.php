@@ -903,7 +903,8 @@ function HTMLformSimpleTermReport($array)
 {
 	GLOBAL $CFG;
 
-	$options = doSelectForm(array(
+	$arraySimpleReports = array(
+		'csv15#'.ucfirst(LABEL_allTerms),
 		'csv2#'.ucfirst(LABEL_terminosLibres),
 		'csv3#'.ucfirst(LABEL_terminosRepetidos),
 		'csv4#'.ucfirst(LABEL_poliBT),
@@ -913,20 +914,29 @@ function HTMLformSimpleTermReport($array)
 		'csv13#'.ucfirst(LABEL_preferedTerms),
 		'csv10#'.ucfirst(LABEL_relatedTerms),
 		'csv11#'.ucfirst(LABEL_nonPreferedTerms),
-		'csv5#'.ucfirst(LABEL_Candidato),
-		'csv6#'.ucfirst(LABEL_Rechazado)),"$_GET[task]");
+		'csv5#'.ucfirst(LABEL_Candidatos),
+		'csv6#'.ucfirst(LABEL_Rechazados)
+	);
+
+	//admin reports
+	if (checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"],"adminReports")) {
+	    array_push($arraySimpleReports,
+	    	'csv16#'.ucfirst(LABEL_allRelations),
+	    	'csv17#'.ucfirst(LABEL_allNotes)
+	    );
+	}
 
 	$rows =
 		'<form class="box" role="form" name="simprereport" id="simprereport" action="index.php" method="get">
 			<div class="box-title">
-			    <span>'. ucfirst(LABEL_FORM_simpleReport).'</span>
+			    <span>'. ucfirst(LABEL_FORM_lists).'</span>
 			    <button type="submit" class="btn btn-primary" id="boton" name="boton">'.ucfirst(FORM_LABEL_Descargar).'</button>
 			</div>
 	        <div class="box-content">
 				<select class="form-control" id="task" name="task">
 					<option value="">'.ucfirst(LABEL_seleccionar).'</option>'.
-					$options.
-				'</select>';
+					doSelectForm($arraySimpleReports,"$_GET[task]").'
+				</select>';
 	if ($CFG["_CHAR_ENCODE"]=='utf-8') {
 		$rows.='<div class="form-group">
 					<input type="checkbox" name="csv_encode" id="csv_encodeSimple" value="latin1" checked>
@@ -1005,7 +1015,7 @@ function HTMLformNullNotesTermReport($array)
 					<label for="note_typeNULL0">'.ucfirst(LABELnoNotes).'</label>
 				</div>
 				<div class="form-group">
-					<input name="csv_encode" id="csv_encodeNotes" value="latin1" type="checkbox">
+					<input name="csv_encode" id="csv_encodeNotes" value="latin1" type="checkbox" checked>
 				  	<label class="control-label" for="csv_encodeNotes">'.ucfirst(LABEL_encode).' latin1</label>
 				</div>
 			</div>
@@ -2197,62 +2207,42 @@ function HTMLformExport()
 	$LABEL_abctxt = MENU_ListaAbc.' (txt)';
 
 	$rows.='
-		<form class="" role="form"  name="export" action="xml.php" method="get" target="_blank">
-			<div class="row">
-			    <div class="col-sm-12">
-			        <legend>'.ucfirst(LABEL_Admin).'</legend>
-			    </div>
+		<form class="box" role="form"  name="export" action="xml.php" method="get" target="_blank">
+			<div class="box-title">
+				<span>'. ucfirst(LABEL_export).'</span>
+	        	<button type="submit" class="btn btn-primary" id="boton" name="boton">'.ucfirst(FORM_LABEL_Descargar).'</button>
 			</div>
-			<div class="row">
-			    <div class="col-sm-12">
-        			<h4>'.ucfirst(LABEL_export).'</h4>
-        		</div>
-        	</div>
-        	<div class="panel panel-default">
-    			<div class="panel-body form-horizontal">
-    				<div class="form-group">
-    					<label class="col-sm-3 control-label" for="report_tvocab_id" accesskey="t">'.ucfirst(FORM_LABEL_format_export).'</label>
-    					<div class="col-sm-9">
-    						<select class="form-control" id="dis" name="dis">'.
-    							doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SistPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]").'
-    						</select>
-    					</div>
-    				</div>
-    				<div style="display:none;" id="skos_config">';
+		 	<div class="box-content">
+				<select class="form-control" id="dis" name="dis">'.
+					doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SistPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]").'
+				</select>
+				<div style="display:none;" id="skos_config">';
 
 	$sqlTopTerm = SQLverTopTerm();
 	if (SQLcount($sqlTopTerm) > 0) {
 		while ($arrayTopTerms = $sqlTopTerm->FetchRow()) {
 			$formSelectTopTerms[] = $arrayTopTerms[tema_id].'#'.$arrayTopTerms[tema];
 		}
-		$rows.='		<div class="form-group">
-							<label class="col-sm-3 control-label" for="hasTopTermSKOS" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="hasTopTermSKOS" name="hasTopTermSKOS">
-									<option value="">'.ucfirst(LABEL_Todos).'</option>'.
-									doSelectForm($formSelectTopTerms,"$_GET[hasTopTermSKOS]").'
-								</select>
-							</div>
-						</div>';
-	}
-	$rows.='		</div>
-					<div style="display:none;" id="txt_config">';
-	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
-	if (SQLcount($sqlTopTerm) > 0) {
-		$rows.='		<div class="form-group">
-							<label class="col-sm-3 control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="hasTopTerm" name="hasTopTerm">
-									<option value="">'.ucfirst(LABEL_Todos).'</option>'.
-									doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]").'
-								</select>
-							</div>
-						</div>
+		$rows.='	<div class="form-group">
+						<select class="form-control" id="hasTopTerm" name="hasTopTerm">
+							<option value="">Todas las categorías</option>'.
+							doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]").'
+						</select>
 					</div>';
 	}
-	$rows.='		<div style="display:none;" id="txt_config2">
-						<fieldset>
-							<legend>'.ucfirst(LABEL_include_data).'</legend>';
+	$rows.='	</div>
+				<div style="display:none;" id="txt_config">';
+	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
+	if (SQLcount($sqlTopTerm) > 0) {
+		$rows.='	<div class="form-group">
+						<select class="form-control" id="hasTopTerm" name="hasTopTerm">
+							<option value="">Todas las categorías</option>'.
+							doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]").'
+						</select>
+					</div>';
+	}
+	$rows.='	</div>
+				<div style="display:none;" id="txt_config2">';
 	//Evaluar si hay notas
 	// if (is_array($arrayVocabStats["cant_notas"])) {
 	// 	$LabelNB       = array('NB',LABEL_NB);
@@ -2287,17 +2277,18 @@ function HTMLformExport()
 		// 							<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />
 		// 						</div>';
 		/* Si hay m�s de un tipo de nota			 */
-		if (count($arrayVocabStats["cant_notas"]) > 0) {
+	if (count($arrayVocabStats["cant_notas"]) > 0) {
 			//$rows.= $rows_notes;
-			$rows .= '	<div class="form-group">
-							<div class="col-sm-4">
-								<label for="includeNoteNA" accesskey="d">
-									Nota de alcance
-								</label>
-							</div>
-							<input name="includeNote[]" type="checkbox" id="includeNoteNA" value="NA" />
-						</div>';
-		}
+		$rows .= '	<div class="form-group">
+						<input name="includeNote[]" type="checkbox" id="includeNoteNA" value="NA" />
+						<div class="col-sm-4">
+							<label for="includeNoteNA" accesskey="d">
+								Incluir notas de alcance
+							</label>
+						</div>
+					</div>
+				</div>';
+	}
 	//}
 	// $rows.='					<div class="form-group">
 	// 								<div class="col-sm-4">
@@ -2311,15 +2302,7 @@ function HTMLformExport()
 	// 									<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />
 	// 								</div>
 	// 							</div>';
-	$rows.='					<div class="form-group">
-									<div class="text-center">
-										<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-									</div>
-								</div>
-							</div>
-						</div>
-				</div>
-			</div>
+	$rows.='</div>
 		</form>';
 
 	return $rows;

@@ -297,6 +297,19 @@ function wichReport($task)
 		case 'csv14':
 		$sql=SQLreportNullNotes($_GET["note_type_null"]);
 		break;
+
+		case 'csv15':
+			//All accepted Terms (prefered and no-preferd without distinction)
+			$sql=SQLreportAllTerms($_SESSION["id_tesa"]);
+		break;
+		case 'csv16':
+			//All relations for all accepted terms
+			$sql=SQLreportAllRelations($_SESSION["id_tesa"]);
+		break;
+		case 'csv17':
+			//All notes for all accepted terms
+			$sql=SQLreportAllNotes($_SESSION["id_tesa"]);
+		break;
 		default :
 		break;
 	}
@@ -2763,7 +2776,7 @@ function abm_rel_rel($do,$rel_id,$rel_type_id)
 	$rel_id=secure_data($rel_id,"int");
 	$rel_type_id=secure_data($rel_type_id,"int");
 
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 	switch ($do)
 		{
@@ -2771,10 +2784,9 @@ function abm_rel_rel($do,$rel_id,$rel_type_id)
 			//check if the type relation exist
 			$ARRAYdataRelation=ARRAYdataRelation($rel_id);
 
-			$ARRAYtypeRelations=ARRAYtypeRelations($ARRAYdataRelation[t_relacion],$rel_type_id);
+			$ARRAYtypeRelations=ARRAYtypeRelations($ARRAYdataRelation["t_relacion"],$rel_type_id);
 
-			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1')
-			{
+			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1') {
 
 				$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
 			}
