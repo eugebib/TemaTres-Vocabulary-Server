@@ -3932,8 +3932,7 @@ function getTermsxAlpha($params)
     	    $array = array(
 				'id'         => (int) $term['id'],
 				'term'       => (string) $term['tema'],
-				'isMetaTerm' => (int) $term['isMetaTerm'],
-				'tope'		 => (string) $term['tope']
+				'isMetaTerm' => (int) $term['isMetaTerm']
 	    	);
 	    	if (in_array('NA', (array) $params['includeNote'])) {
 	    		$array['NA'] = strip_tags((string) $term['nota']);
@@ -3941,13 +3940,16 @@ function getTermsxAlpha($params)
     	    if (!in_array($array, $list)) {
     	    	$list[] = $array;
     	    }
-    	    if (isset($term['noPreferido'])) {
-    	    	$list[] = array(
+	        if (isset($term['noPreferido'])) {
+		    	$array = array(
 					'id'        => (int) $term['UPId'],
 					'term'      => (string) $term['noPreferido'],
 					'preferido' => (string) $term['tema']
 		    	);
-    	    }
+		    }
+		    if (!in_array($array, $list)) {
+		    	$list[] = $array;
+		    }
 	    }
 	    $count = count($list);
     }
