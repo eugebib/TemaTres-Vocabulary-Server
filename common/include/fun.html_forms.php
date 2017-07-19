@@ -570,62 +570,60 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary=ar
 	return $rows;
 }
 
-/*
-Advanced search form
-*
-*/
+/* Advanced search form */
 function HTMLformAdvancedSearch($array)
 {
 	GLOBAL $CFG;
-	$array=XSSpreventArray($array);
-	$rows.='<div class="row">';
-	$rows.='	<div class="col-md-6 col-md-offset-3">';
-	$rows.=' <h3>'.ucfirst(LABEL_BusquedaAvanzada).'</h3>';
-	$rows.='<form  class="col-xs-8 form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">';
-	$rows.='<fieldset>';
-	$arrayWS=array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
-	$arrayVocabStats=ARRAYresumen($_SESSION[id_tesa],"G","");
-	if ($arrayVocabStats["cant_up"]>0) {
+
+	$array           = XSSpreventArray($array);
+	$arrayWS         = array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
+	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
+
+	if ($arrayVocabStats["cant_up"] > 0) {
 		array_push($arrayWS,'uf#'.ucfirst(LABEL_esNoPreferido));
 	}
-	if ($arrayVocabStats["cant_notas"]>0) {
+	if ($arrayVocabStats["cant_notas"] > 0) {
 		array_push($arrayWS,'n#'.ucfirst(LABEL_nota));
 	}
-	if ($CFG["_SHOW_CODE"]=='1') {
+	if ($CFG["_SHOW_CODE"] == '1') {
 		array_push($arrayWS,'c#'.ucfirst(LABEL_CODE));
 	}
 	if ($arrayVocabStats["cant_term2tterm"]) {
 		array_push($arrayWS,'tgt#'.ucfirst(LABEL_TargetTerm));
 	}
-	/*
-	solo si hay m�s de un opci�n
-	*/
-	if (count($arrayWS)>1) {
-		$rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
-		$rows.='<select class="select_ttl form-control" id="ws" name="ws">';
-		$rows.=doSelectForm($arrayWS,"$_GET[ws]");
-		$rows.='</select>';
-		$rows.='</div>';
+
+	$rows    = '
+		<form class="box form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">
+			<div class="box-title">
+			    <span>'. ucfirst(LABEL_BusquedaAvanzada).'</span>
+			    <input type="submit" id="boton" name="boton" class="btn btn-primary" value="Buscar">
+			    <input type="hidden" name="xsearch" id="xsearch" value="1"/>
+			</div>
+			<div class="box-content">
+				<input name="xstring" class="input_ln form-control" required type="search" id="xstring" size="25" maxlength="50" value="'.$array["xstring"].'"/>';
+	/* solo si hay más de un opción */
+	if (count($arrayWS) > 1) {
+		$rows.='<select class="select_ttl form-control" id="ws" name="ws">
+					<option value="">'.ucfirst(LABEL_QueBuscar).'</option>'.
+					doSelectForm($arrayWS,"$_GET[ws]").'
+				</select>';
 	}
-	$rows.='<div class="form-group"><label class="label_ln control-label" for="xstring" accesskey="s">'.ucfirst(LABEL_Buscar).'</label>';
-	$rows.='<input name="xstring" class="input_ln form-control" required type="search" id="xstring" size="25" maxlength="50" value="'.$array["xstring"].'"/>';
-	$rows.='	<div class="checkbox-inline" ><label class="btn btn-default" for="isExactMatch" accesskey="f">';
-	$rows.='	<input name="isExactMatch" type="checkbox" id="isExactMatch" value="1" '.do_check('1',$_GET["isExactMatch"],"checked").'/>'.ucfirst(LABEL_esFraseExacta).'</label>';
-	$rows.=' 	</div>';
-	$rows.='</div>';
-	$rows.='<div class="collapse" id="masOpcionesBusqueda">';
+	$rows.=' 	<div class="form-group">
+					<input type="checkbox" name="isExactMatch" id="isExactMatch" value="1" '.do_check('1',$_GET["isExactMatch"],"checked").'/>
+					'.ucfirst(LABEL_esFraseExacta).'
+				</div>
+				<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.ucfirst(LABEL_Opciones).'</button>';
+	$rows.='	<div class="collapse" id="masOpcionesBusqueda">';
 	//Evaluar si hay top terms
-	$sqlTopTerm=SQLverTopTerm();
+	$sqlTopTerm = SQLverTopTerm();
 	if (SQLcount($sqlTopTerm)>0) {
 		while ($arrayTopTerms=$sqlTopTerm->FetchRow()) {
 			$formSelectTopTerms[]=$arrayTopTerms["tema_id"].'#'.$arrayTopTerms[tema];
 		}
-		$rows.='<div class="form-group"><label class="label_ttl control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
-		$rows.='<select class="select_ttl form-control" id="hasTopTerm" name="hasTopTerm">';
-		$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-		$rows.=doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]");
-		$rows.='</select>';
-		$rows.='</div>';
+		$rows.='	<select class="select_ttl form-control" id="hasTopTerm" name="hasTopTerm">
+						<option value="">En todas las categorías</option>'.
+						doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]").'
+					</select>';
 	}
 	//Evaluar si hay notas
 	if (is_array($arrayVocabStats["cant_notas"])) {
@@ -646,16 +644,12 @@ function HTMLformAdvancedSearch($array)
 				}
 			}
 		}
-		/*
-		Si hay m�s de un tipo de nota
-		*/
+		/* Si hay más de un tipo de nota */
 		if (count($arrayVocabStats["cant_notas"])>0) {
-			$rows.='<div class="form-group"><label class="label_ttl control-label" for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>';
-			$rows.='<select class="select_ttl form-control" id="hasNote" name="hasNote">';
-			$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-			$rows.=doSelectForm($arrayNoteType,"$_GET[hasNote]");
-			$rows.='</select>';
-			$rows.='</div>';
+			$rows.='<select class="select_ttl form-control" id="hasNote" name="hasNote">
+						<option value="">Todas las notas</option>'.
+						doSelectForm($arrayNoteType,"$_GET[hasNote]").'
+					</select>';
 		}
 	}
 	//Evaluar si hay terminos
@@ -664,15 +658,13 @@ function HTMLformAdvancedSearch($array)
 		GLOBAL $MONTHS;
 		while ($arrayTermsByDates=$sqlTermsByDates->FetchRow()) {
 			//normalizacion de fechas
-			$arrayTermsByDates[months]=(strlen($arrayTermsByDates[months])==1) ? '0'.$arrayTermsByDates[months] : $arrayTermsByDates[months];
-			$formSelectByDate[]=$arrayTermsByDates[years].'-'.$arrayTermsByDates[months].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates[years].' ('.$arrayTermsByDates[cant].')';
+			$arrayTermsByDates["months"]=(strlen($arrayTermsByDates["months"])==1) ? '0'.$arrayTermsByDates["months"] : $arrayTermsByDates["months"];
+			$formSelectByDate[]=$arrayTermsByDates["years"].'-'.$arrayTermsByDates["months"].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates["years"].' ('.$arrayTermsByDates["cant"].')';
 		}
-		$rows.='<div class="form-group"><label class="label_ttl control-label" for="fromDate" accesskey="d">'.ucfirst(LABEL_DesdeFecha).'</label>';
-		$rows.='<select class="select_ttl form-control" id="fromDate" name="fromDate">';
-		$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-		$rows.=doSelectForm($formSelectByDate,"$_GET[fromDate]");
-		$rows.='</select>';
-		$rows.='</div>';
+		$rows.='	<select class="select_ttl form-control" id="fromDate" name="fromDate">
+						<option value="">En cualquier fecha</option>'.
+						doSelectForm($formSelectByDate,"$_GET[fromDate]").'
+					</select>';
 	}
 	//terms by deep
 	$sqlTermsByDeep=SQLTermDeep();
@@ -680,24 +672,15 @@ function HTMLformAdvancedSearch($array)
 		while ($arrayTermsByDeep=$sqlTermsByDeep->FetchRow()) {
 			$formSelectByDeep[]=$arrayTermsByDeep[tdeep].'#'.$arrayTermsByDeep[tdeep].' ('.$arrayTermsByDeep[cant].')';
 		}
-		$rows.='<div class="form-group"><label class="label_ttl control-label" for="termDeep" accesskey="e">'.ucfirst(LABEL_ProfundidadTermino).'</label>';
-		$rows.='<select class="select_ttl form-control" id="termDeep" name="termDeep">';
-		$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-		$rows.=doSelectForm($formSelectByDeep,"$_GET[termDeep]");
-		$rows.='</select>';
-		$rows.='</div>';
+		$rows.='	<select class="select_ttl form-control" id="termDeep" name="termDeep">
+						<option value="">Cualquier profundidad</option>'.
+						doSelectForm($formSelectByDeep,"$_GET[termDeep]").'
+					</select>';
 	}
-	$rows.='</div>';//hide div
-	$rows.='<div class="btn-group">';
-	$rows.='<input type="submit"  id="boton" name="boton" class="btn btn-primary" value="'.LABEL_Enviar.'"/>';
-	$rows.=' <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.ucfirst(LABEL_Opciones).'</button>';
-	$rows.='</div>';
-	$rows.='<input type="hidden"  name="xsearch" id="xsearch" value="1"/>';
-	$rows.='  </fieldset>';
-	$rows.='</form>';
-	$rows.='</div>';//div row
-	$rows.='</div>';//div col
-	$rows.='<div class="push"></div>';
+	$rows.='	</div>
+			</div>
+		</form>
+		<div class="push"></div>';
 	if ($_GET[boton]==LABEL_Enviar) {
 		$rows.=HTMLadvancedSearchResult($array);
 	}
