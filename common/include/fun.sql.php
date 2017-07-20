@@ -1969,32 +1969,26 @@ function ARRAYdatosUserXkey($user_login,$key){
 	$sql=SQLo("select","u.id,u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.cuando,u.hasta,u.estado,u.pass, if(u.estado=1,'caducar','habilitar') as enlace,u.nivel,user_activation_key
 	from $DBCFG[DBprefix]usuario u where u.mail= ? and user_activation_key= ?",array($user_login,$key));
 	return (is_object) ? $sql->FetchRow() : false;
-};
+}
 
-
-
-#
-# Busca lista de términos para evaluar similitud de una expresiona de búsqueda
-#
-function SQLsimiliar($texto,$lista_temas_id="0"){
+# Busca lista de términos para evaluar similitud de una expresión de búsqueda
+function SQLsimiliar($texto,$lista_temas_id="0")
+{
 	GLOBAL $DBCFG;
 	/*
 	El termino a evaluar debe ser mayor o menor en no más de 2 caracteres con respecto al texto de búsqueda
 	El termino a evaluar no debe estar en la lista de resultados
 	13 = estado aceptado
 	*/
-	$texto=trim($texto);
-
-
+	$texto     = trim($texto);
 	$maxstrlen = strlen($texto)+2;
 	$minstrlen = strlen($texto)-2;
 
 	//Hubo resultados de búsqueda
-	if(count(explode("|",$lista_temas_id))>1){
-
-		$lista_temas_id=str_replace("|",",",$lista_temas_id);
-		$lista_temas_id=substr($lista_temas_id,0,-1);
-		$where = " 	and t.tema_id not in ($lista_temas_id) ";
+	if (count(explode("|",$lista_temas_id))>1) {
+		$lista_temas_id = str_replace("|",",",$lista_temas_id);
+		$lista_temas_id = substr($lista_temas_id,0,-1);
+		$where          = " and t.tema_id not in ($lista_temas_id) ";
 	} else {
 		$where = "";
 	}
@@ -2002,15 +1996,21 @@ function SQLsimiliar($texto,$lista_temas_id="0"){
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and t.isMetaTerm=0 " : "";
 
-	$sql=SQL("select","t.tema,length(t.tema) as largo
-	from $DBCFG[DBprefix]tema as t
-	where
-	length(t.tema) between $minstrlen and $maxstrlen
-	and t.estado_id ='13'
-	$where
-	order by tema,largo","1");
+	$sql = SQL("select","
+			t.tema,
+			length(t.tema) as largo
+		FROM
+			$DBCFG[DBprefix]tema as t
+		WHERE
+			length(t.tema) between $minstrlen and $maxstrlen and
+			t.estado_id ='13'
+			$where
+		ORDER BY
+			tema, largo",
+		"1");
+
 	return $sql;
-};
+}
 
 
 

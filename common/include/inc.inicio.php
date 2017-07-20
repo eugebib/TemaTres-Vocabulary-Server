@@ -1,36 +1,42 @@
 <?php
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-# Include para seleccionar include o función de visualizaicon de listas de términos #
 
-//Antes de desplegar cotenidos => Echo mensajes de error
-	echo $MSG_PROC_ERROR["html"];
+#####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales   #
+#                                                                   #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar       #
+# Distribuido bajo Licencia GNU Public License, versión 2           #
+# (de junio de 1.991) Free Software Foundation                      #
+#                                                                   #
+#####################################################################
+
+# Include para seleccionar include o función de visualización de listas de términos
+
+//Antes de desplegar contenidos => Echo mensajes de error
+echo $MSG_PROC_ERROR["html"];
 
 //Mostrar alfabeto
 if($_GET["letra"]){	// sanitice $letra
 	$letra=isValidLetter($_GET["letra"]);
 }
 
-if((strlen($letra)>0) && (strlen($letra)<5)){
-	echo '<div class="container" id="bodyText">';
-	echo '<div class="row">';
-	echo HTMLlistaAlfabeticaUnica($letra);
-	echo HTMLterminosLetra($letra);
-	echo '</div>';
-	echo '</div>';
-}
-elseif (strlen($search_string)>0) {
+if ((strlen($letra)>0) && (strlen($letra)<5)) {
+
+	echo '
+		<div class="container" id="bodyText">
+			<div class="row">'.
+				HTMLlistaAlfabeticaUnica($letra).
+				HTMLterminosLetra($letra).'
+			</div>
+		</div>';
+
+} elseif (strlen($search_string)>0) {
+
 	//check again
 	$search_string=XSSprevent($search_string);
 	echo resultaBusca($search_string,$_GET["tipo"]);
-}
-//Mostrar ficha de termino o crear término
-elseif(
+
+} elseif (//Mostrar ficha de termino o crear término
 	(is_numeric($metadata["arraydata"]["tema_id"])) ||
 	($_GET["taskterm"]=='addTerm') ||
 	($_GET["taskterm"]=='addTermSuggested')
@@ -100,11 +106,15 @@ elseif(($_GET[xsearch]=='1')){
 		break;
 	}
 	echo '</div>';
-}else{
+} else {
 	echo '<div class="container" id="bodyText">';
 	echo HTMLlistaAlfabeticaUnica($letra);
-	if($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]!=='0') echo HTMLdisplayRandomTerm($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]);
-	if($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]=='1') echo HTMLtopTerms($letra);
+	if ($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"] !== '0') {
+		echo HTMLdisplayRandomTerm($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]);
+	}
+	if ($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"] == '1') {
+		echo HTMLtopTerms($letra);
+	}
 	echo '</div>';
 }
 ?>

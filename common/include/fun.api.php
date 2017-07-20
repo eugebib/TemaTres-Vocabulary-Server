@@ -585,30 +585,23 @@ function fetchVocabularyData($vocabulary_id)
 	//array($tema_id,$tema)
 	function fetchSimilar($string)
 	{
+		$sqlSimilar = SQLsimiliar($string);
 
-		$sqlSimilar=SQLsimiliar($string);
-
-		if(is_object($sqlSimilar))
-		{
-			while($arraySimilar=$sqlSimilar->FetchRow())
-			{
+		if (is_object($sqlSimilar)) {
+			while($arraySimilar=$sqlSimilar->FetchRow()) {
 				$listaCandidatos.= $arraySimilar[tema].'|';
 			}
-
-			$listaCandidatos=explode("|",$listaCandidatos);
-			$similar = new Qi_Util_Similar($listaCandidatos, $string);
-			$sugerencia= $similar->sugestao();
+			$listaCandidatos = explode("|",$listaCandidatos);
+			$similar         = new Qi_Util_Similar($listaCandidatos, $string);
+			$sugerencia      = $similar->sugestao();
 		}
 
-		$evalSimilar=evalSimiliarResults($string, $sugerencia);
+		$evalSimilar = evalSimiliarResults($string, $sugerencia);
 
-		if ($sugerencia && $evalSimilar)
-		{
-			$result["result"]= array("string"=>$sugerencia);
-		}
-		else
-		{
-			$result["result"]= array();
+		if ($sugerencia && $evalSimilar) {
+			$result["result"] = array("string"=>$sugerencia);
+		} else {
+			$result["result"] = array();
 		}
 
 		return $result;

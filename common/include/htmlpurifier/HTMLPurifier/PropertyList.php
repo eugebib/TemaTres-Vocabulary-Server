@@ -49,7 +49,8 @@ class HTMLPurifier_PropertyList
      * Resets a value to the value of it's parent, usually the default. If
      * no value is specified, the entire plist is reset.
      */
-    public function reset($name = null) {
+    public function reset($name = null)
+    {
         if ($name == null) $this->data = array();
         else unset($this->data[$name]);
     }

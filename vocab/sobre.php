@@ -1,15 +1,18 @@
 <?php
-###########################################################################
-# TemaTres : aplicación para la gestión de lenguajes documentales         #
-#                                                                         #
-# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar             #
-# Distribuido bajo Licencia GNU Public License, versión 2 (de junio de    #
-# 1.991) Free Software Foundation                                         #
-#                                                                         #
-###########################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
 
-    include("config.tematres.php");
-    $metadata=do_meta_tag();
+include("config.tematres.php");
+$metadata = do_meta_tag();
+
+$top = getQtyXTop();
+
 ?>
 
 <!DOCTYPE html>
@@ -103,10 +106,22 @@
                             </a>'; ?>
                     </dd>
                 </div>
+                <div class="flex">
+                    <dt><?= 'TÉRMINOS POR CATEGORÍA'; ?></dt>
+                    <dd>
+                        <div id="chart_div"></div>
+                    </dd>
+                </div>
             	<?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_candidato] > 0): ?>
                     <div class="flex">
-                    	<dt><?= mb_strtoupper(LABEL_Candidatos, 'UTF-8');?></dt>
-                        <dd><a href="'.URL_BASE.'index.php?estado_id=12"><?= $resumen[cant_candidato];?></a></dd>
+                    	<dt>
+                            <?= mb_strtoupper(LABEL_Candidatos, 'UTF-8');?>
+                        </dt>
+                        <dd>
+                            <a href="'.URL_BASE.'index.php?estado_id=12">
+                                <?= $resumen[cant_candidato];?>
+                            </a>
+                        </dd>
                     </div>
                 <?php endif;?>
                 <?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_rechazado] > 0): ?>
@@ -170,6 +185,64 @@
 
         <?php echo footer(); ?>
         <?php echo HTMLjsInclude(); ?>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart()
+            {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Categoría');
+                data.addColumn('number', 'Slices');
+                data.addRows([<?= $top ?>]);
+
+                var options = {
+                    chartArea: {
+                        left: 20,
+                        top: 10,
+                        width: '75%',
+                        height: '100%'
+                    },
+                    backgroundColor: 'transparent',
+                    is3D: true,
+                    sliceVisibilityThreshold: 0
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            }
+        </script>
     </body>
 </html>
 
+<?php
+
+function getQtyXTop()
+{
+    $filename = T3_ABSPATH . DIRECTORY_SEPARATOR . 'vocab' .DIRECTORY_SEPARATOR . 'qtyXTop';
+    if (file_exists($filename)) {
+        $cache = file_get_contents($filename);
+        $json  = json_decode($cache, true);
+        if ($json['time'] > time() - 86400) {
+            return $json['html'];
+        }
+    }
+
+    $topes = SQLverTopTerm();
+    while ($tope = $topes->FetchRow()) {
+        $top .= '["'.$tope['tema'].'", '.cantChildTerms($tope['id']).'],';
+    }
+
+    $file = fopen($filename, "w");
+    fwrite($file, json_encode(
+        array(
+            'time' => time(),
+            'html' => $top,
+        )
+    ));
+    fclose($file);
+
+    return $top;
+}
