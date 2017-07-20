@@ -547,6 +547,7 @@ function HTMLmainMenu() {
 				</li>
 				<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>
 				<li><a title="' . ucfirst(LABEL_FORM_simpleReport) . '" href="'.URL_BASE.'index.php?mod=csv">' . ucfirst(LABEL_FORM_simpleReport) . '</a></li>
+				<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>
 			</ul>
 		</div>';
 	}
@@ -565,7 +566,6 @@ function HTMLAdminMenu()
 				<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>
 				<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>
 				<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>
-				<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>
 				<li class="dropdown dropdown-submenu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
 					<ul class="dropdown-menu">

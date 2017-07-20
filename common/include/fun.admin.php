@@ -267,62 +267,74 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 	function wichReport($task)
 	{
 		switch ($task) {
-			//advanced report
-			case 'csv1':
-			$sql=SQLadvancedTermReport($_GET);
+
+			case 'csv1': //advanced report
+				$sql=SQLadvancedTermReport($_GET);
 			break;
-			//free terms
-			case 'csv2':
-			$sql=SQLverTerminosLibres();
+
+			case 'csv2': //free terms
+				$sql=SQLverTerminosLibres();
 			break;
-			//duplicated terms
-			case 'csv3':
-			$sql=SQLverTerminosRepetidos();
+
+			case 'csv3': //duplicated terms
+				$sql=SQLverTerminosRepetidos();
 			break;
-			//polit BT terms
-			case 'csv4':
-			$sql=SQLpoliBT();
+
+			case 'csv4': //polit BT terms
+				$sql=SQLpoliBT();
 			break;
-			//candidate terms
-			case 'csv5':
-			$sql=SQLtermsXstatus($_SESSION["id_tesa"],"12");
+
+			case 'csv5': //candidate terms
+				$sql=SQLtermsXstatus($_SESSION["id_tesa"],"12");
 			break;
-			//rejected terms
-			case 'csv6':
-			$sql=SQLtermsXstatus($_SESSION["id_tesa"],"14");
+
+			case 'csv6': //rejected terms
+				$sql=SQLtermsXstatus($_SESSION["id_tesa"],"14");
 			break;
-			//preferred and accepted terms without hierarchical relationships
-			case 'csv7':
-			$sql=SQLtermsXcantNT();
+
+			case 'csv7': //preferred and accepted terms without hierarchical relationships
+				$sql=SQLtermsXcantNT();
 			break;
-			//preferred and accepted terms with words count
-			case 'csv8':
-			$sql=SQLtermsXcantWords($_SESSION["id_tesa"]);
+
+			case 'csv8': //preferred and accepted terms with words count
+				$sql=SQLtermsXcantWords($_SESSION["id_tesa"]);
 			break;
-			//meta terms
-			case 'csv9':
-			$sql=SQLtermsIsMetaTerms($_SESSION["id_tesa"]);
+
+			case 'csv9': //meta terms
+				$sql=SQLtermsIsMetaTerms($_SESSION["id_tesa"]);
 			break;
-			//Terms with related terms
-			case 'csv10':
-			$sql=SQLtermsXrelatedTerms($_SESSION["id_tesa"]);
+
+			case 'csv10': //Terms with related terms
+				$sql=SQLtermsXrelatedTerms($_SESSION["id_tesa"]);
 			break;
-			//Terms with non prefered terms
-			case 'csv11':
-			$sql=SQLtermsXNonPreferedTerms($_SESSION["id_tesa"]);
+
+			case 'csv11': //Terms with non prefered terms
+				$sql=SQLtermsXNonPreferedTerms($_SESSION["id_tesa"]);
 			break;
-			//Comparative report about mapped terms
-			case 'csv12':
+
+			case 'csv12': //Comparative report about mapped terms
 				$sql = SQLreportTargetTerms($_GET["tvocabs"]);
 			break;
-			//Preferred terms
-			case 'csv13':
-			$sql=SQLreportTerminosPreferidos();
+
+			case 'csv13': //Preferred terms
+				$sql=SQLreportTerminosPreferidos();
 			break;
-			//Terms without note o note type
-			case 'csv14':
-			$sql=SQLreportNullNotes($_GET["note_type_null"]);
+
+			case 'csv14': //Terms without note o note type
+				$sql=SQLreportNullNotes($_GET["note_type_null"]);
 			break;
+			case 'csv15': //All accepted Terms (prefered and no-preferd without distinction)
+				$sql=SQLreportAllTerms($_SESSION["id_tesa"]);
+			break;
+
+			case 'csv16': //All relations for all accepted terms
+			 	$sql=SQLreportAllRelations($_SESSION["id_tesa"]);
+			break;
+
+			case 'csv17': //All notes for all accepted terms
+			 	$sql=SQLreportAllNotes($_SESSION["id_tesa"]);
+			break;
+
 			default :
 
 			break;
@@ -699,7 +711,7 @@ function abm_target_tema($do,$tema_id,$tvocab_id,$tgetTerm_id,$tterm_id="0")
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 	$tema_id=secure_data($tema_id,"int");
 
@@ -2954,10 +2966,9 @@ function abm_rel_rel($do,$rel_id,$rel_type_id)
 			//check if the type relation exist
 			$ARRAYdataRelation=ARRAYdataRelation($rel_id);
 
-			$ARRAYtypeRelations=ARRAYtypeRelations($ARRAYdataRelation[t_relacion],$rel_type_id);
+			$ARRAYtypeRelations=ARRAYtypeRelations($ARRAYdataRelation["t_relacion"],$rel_type_id);
 
-			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1')
-			{
+			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1') {
 
 				$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
 			}

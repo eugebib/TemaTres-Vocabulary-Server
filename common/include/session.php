@@ -59,20 +59,20 @@ $_SESSION["CFGDerechos"]      =$derechos[0];
 loadConfigValues(1);
 
 
-if($_GET[setLang]){
-		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_GET[setLang]];
-	}
+if ($_GET["setLang"]) {
+	$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
+}
 
 $_SESSION["CFGIdioma"] = ($_SESSION["CFGIdioma"]) ? $_SESSION["CFGIdioma"] : $idiomas_disponibles[0][2];
 
 //NO hay idioma, idioma por default ES
-if(!$_SESSION[$_SESSION["CFGURL"]][lang])   {
-		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
+if(!$_SESSION[$_SESSION["CFGURL"]]["lang"])   {
+		$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
 }
 
 //prevent missing language file
-if(in_array($_SESSION[$_SESSION["CFGURL"]][lang],$idiomas_disponibles))	{
-	require_once(T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]][lang][1]);
+if(in_array($_SESSION[$_SESSION["CFGURL"]]["lang"],$idiomas_disponibles))	{
+	require_once(T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]]["lang"][1]);
 }	else	{
 	require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles[en][1]);
 }
@@ -88,11 +88,11 @@ unset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]);
 header("Location:index.php");
 };
 
-if($_POST[id_correo_electronico]){
+if($_POST["id_correo_electronico"]){
 
 $chk_user='';
 
-$chk_user=ARRAYcheckLogin($_POST[id_correo_electronico]);
+$chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 
  if($chk_user["user_id"])
  {
@@ -107,9 +107,9 @@ $chk_user=ARRAYcheckLogin($_POST[id_correo_electronico]);
 
 	if(check_password($_POST["id_password"],$chk_user["pass"]))
 	{
-		$_SESSION[$_SESSION["CFGURL"]][ssuser_id]=$chk_user["user_id"];
-		$_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=$chk_user["nivel"];
-		$_SESSION[$_SESSION["CFGURL"]][ssuser_nombre]=$chk_user["name"];
+		$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]=$chk_user["user_id"];
+		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=$chk_user["nivel"];
+		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nombre"]=$chk_user["name"];
 		//redirigir
 		header("Location:index.php");
 	}
