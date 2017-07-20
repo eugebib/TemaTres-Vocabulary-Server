@@ -518,7 +518,8 @@ footer p.text-muted {
 }
 
 .box-content select,
-.box-content input[type="text"] {
+.box-content input[type="text"],
+.box-content input[type="search"] {
     height: 50px;
 }
 
