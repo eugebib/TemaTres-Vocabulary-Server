@@ -1,4 +1,14 @@
-﻿<?php define("LANG","cn");
+﻿<?php
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+define("LANG","cn");
 define("TR_acronimo","参 RT");
 define("TE_acronimo","分 NT");
 define("TG_acronimo","属 BT");
@@ -463,4 +473,13 @@ define('LABEL_GLOSS_NOTES','Select which note type will be used to enrich (gloss
 define('LABEL_AlphaPDF','alphabetic (PDF)');
 define('LABEL_references','references');
 define('LABEL_printData','date of print');
-?>
+
+##v.3
+define('MENU_bulkTranslate','multilingual editor');
+define('LABEL_bulkTranslate','mapping and multilingual editor');
+define('LABEL_termsEQ','with mapping');
+define('LABEL_termsNoEQ','without mapping');
+define('LABEL_close','close');
+define('LABEL_allTerms','all terms');
+define('LABEL_allNotes','all notes');
+define('LABEL_allRelations','all terms relations');

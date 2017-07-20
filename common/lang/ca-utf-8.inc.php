@@ -1,11 +1,13 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#   Maribel Cuadrado
-# 2014-03-06 jsau arreglant i completant catala
-###############################################################################################################
-#
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 define("LANG","ca");
 define("TR_acronimo","TR");
 define("TE_acronimo","TE");
@@ -520,4 +522,13 @@ define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marca
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
-?>
+
+##v.3
+define('MENU_bulkTranslate','editor multilingüe');
+define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
+define('LABEL_termsEQ','con correspondencias');
+define('LABEL_termsNoEQ','sin correspondencias');
+define('LABEL_close','cerrar');
+define('LABEL_allTerms','todos los términos');
+define('LABEL_allNotes','todas las notas');
+define('LABEL_allRelations','todas las relaciones entre términos');

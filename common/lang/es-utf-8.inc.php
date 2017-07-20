@@ -1,10 +1,13 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#   #
-###############################################################################################################
-#
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 define("LANG","es");
 define("TR_acronimo","TR");
 define("TE_acronimo","TE");
@@ -556,3 +559,6 @@ define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
 define('LABEL_termsEQ','con correspondencias');
 define('LABEL_termsNoEQ','sin correspondencias');
 define('LABEL_close','cerrar');
+define('LABEL_allTerms','todos los términos');
+define('LABEL_allNotes','todas las notas');
+define('LABEL_allRelations','todas las relaciones entre términos');

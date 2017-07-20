@@ -1,10 +1,13 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#   Author for this i18n: Tiago Murakami - trmurakami @ gmail.com
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#   Version 1.7
-#
-###############################################################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 define("LANG","pt");
 define("TR_acronimo","TR");
 define("TE_acronimo","TE");
@@ -545,3 +548,13 @@ define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referências');
 define('LABEL_printData','data de impressão');
 define('LABEL_Info','Informações sobre este vocabulário');
+
+##v.3
+define('MENU_bulkTranslate','editor multilingüe');
+define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
+define('LABEL_termsEQ','con correspondencias');
+define('LABEL_termsNoEQ','sin correspondencias');
+define('LABEL_close','cerrar');
+define('LABEL_allTerms','todos los términos');
+define('LABEL_allNotes','todas las notas');
+define('LABEL_allRelations','todas las relaciones entre términos');
