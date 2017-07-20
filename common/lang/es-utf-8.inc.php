@@ -549,3 +549,10 @@ define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
 define('LABEL_Info','Información sobre este vocabulario');
+
+##v.3
+define('MENU_bulkTranslate','editor multilingüe');
+define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
+define('LABEL_termsEQ','con correspondencias');
+define('LABEL_termsNoEQ','sin correspondencias');
+define('LABEL_close','cerrar');

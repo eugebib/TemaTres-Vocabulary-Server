@@ -334,6 +334,50 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 
 }
 
+//create and delete target terms
+
+function addLocalTargetTerms($tvocab_id,$data=array())
+
+{
+
+  $ARRAYvocabulario=ARRAYvocabulario($tvocab_id);
+
+  $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+
+    GLOBAL $DBCFG;
+
+
+    if($ARRAYvocabulario["vocabulario_id"]>1){
+
+      //delete equivalences
+
+      for($i=0; $i<sizeof($data["remove_tterm_rel"]);++$i){
+
+          borra_r($data["remove_tterm_rel"][$i]);
+
+      }
+
+
+      //add equivalences
+
+      for($i=0; $i<sizeof($data["term_id"]);++$i){
+
+        if(strlen($data["tterm_string"][$i])>1) {
+
+            $tterm_id=addTerm($data["tterm_string"][$i],$ARRAYvocabulario["vocabulario_id"],'13');
+
+            $tterm_rel=do_r($tterm_id,$data["term_id"][$i],$data["tipo_equivalencia"][$i],"");
+
+        }
+
+      }
+
+    }
+
+}
+
+
 
 ##################      FUNCIONES DE ABM TERMINOS
 
@@ -516,32 +560,26 @@ function borra_r($id_r)
 		break;
 		case '4': //UF
 			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-			//Eliminar tambi�n el término
-			//borra_t($dator[id_mayor]);
 		break;
-
 		case '5': //EQ
 			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 			//Eliminar tambi�n el término
-			borra_t($dator[id_mayor]);
+			borra_t($dator["id_mayor"]);
 		break;
-
 		case '6': //EQ
 			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 			//Eliminar tambi�n el término
-			borra_t($dator[id_mayor]);
+			borra_t($dator["id_mayor"]);
 		break;
-
 		case '7': //EQ
 			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 			//Eliminar tambi�n el término
-			borra_t($dator[id_mayor]);
+			borra_t($dator["id_mayor"]);
 		break;
-
 		case '8': //EQ
 			$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
 			//Eliminar tambi�n el término
-			borra_t($dator[id_mayor]);
+			borra_t($dator["id_mayor"]);
 		break;
 	}
 }
@@ -582,6 +620,30 @@ function actualizaArbolxTema($tema_id)
 	return $tema_id;
 }
 
+# ALTA DE TERMINOS
+
+function addTerm($string,$tesauro_id,$estado_id=13)
+
+{
+
+  GLOBAL $DBCFG;
+
+  GLOBAL $DB;
+
+  $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
+
+  $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+  $sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
+
+
+      values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id));
+
+
+  return $sql["cant"];
+
+}
+
 # ALTA Y MODIFICACION DE TERMINOS
 function abm_tema($do,$titu_tema,$tema_id="")
 {
@@ -592,33 +654,28 @@ function abm_tema($do,$titu_tema,$tema_id="")
 	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 	//Es un término del vocabulario o una referencia a un término mapeado de otro vocabulario.
-	$tesauro_id = (secure_data($_POST[ref_vocabulario_id],"int")) ? $_POST[ref_vocabulario_id] : $_SESSION[id_tesa];
+	$tesauro_id = (secure_data($_POST["ref_vocabulario_id"],"int")) ? $_POST["ref_vocabulario_id"] : $_SESSION["id_tesa"];
 
 	$titu_tema=trim($titu_tema);
 
 	//no string
 	if(strlen($titu_tema)<1) return ;
 
-	$titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
+	$tesauro_id=secure_data($tesauro_id,"int");
 
-	switch($do){
-			case 'alta':
-			$estado_id = (@$_POST[estado_id]) ? $_POST[estado_id] : '13';
-
-			$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
-				values ($titu_tema,?,?,now(),?,now())",array($tesauro_id,$userId,$estado_id));
-
-			$tema_id=$sql["cant"];
-			break;
-
-			case 'mod':
+	switch($do) {
+		case 'alta':
+			$estado_id = (@$_POST["estado_id"]) ? $_POST["estado_id"] : '13';
+			$tema_id=addTerm($titu_tema,$tesauro_id,$estado_id);
+		break;
+		case 'mod':
 			$tema_id=secure_data($tema_id,"int");
-
+			$titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 			$sql=SQLo("update","$DBCFG[DBprefix]tema set
 			tema=$titu_tema ,uid_final= ?,cuando_final=now() where tema_id= ?",
 			array($userId,$tema_id));
-			break;
-			};
+		break;
+	};
 
 	return $tema_id;
 }
