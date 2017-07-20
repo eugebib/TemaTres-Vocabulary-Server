@@ -1,10 +1,13 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#   #
-###############################################################################################################
-#
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 define("LANG","es");
 define("TR_acronimo","TR");
 define("TE_acronimo","TE");
@@ -124,6 +127,7 @@ define("FORM_LABEL_Terminos","términos");
 define("FORM_LABEL_RelTerminos","relaciones entre términos");
 define("FORM_LABEL_TerminosUP","términos equivalentes");
 define("FORM_LABEL_Guardar","Guardar");
+define("FORM_LABEL_Descargar","Descargar");
 define("LABEL_verDetalle","ver detalles de ");
 define("LABEL_verTerminosLetra","ver términos iniciados con ");
 define("LABEL_NB","Nota bibliográfica");
@@ -322,6 +326,7 @@ define('LABEL_TargetTerm',"término externo (mapeo terminológico)");
 define('LABEL_TargetTerms',"términos externos (mapeo terminológico)");
 define('LABEL_seleccionar','seleccionar');
 define('LABEL_poliBT','más de un término genérico');
+define('LABEL_FORM_lists','Listas de términos');
 define('LABEL_FORM_simpleReport','Reportes');
 define('LABEL_FORM_advancedReport','Reportes avanzados');
 define('LABEL_FORM_nullValue','no importa');

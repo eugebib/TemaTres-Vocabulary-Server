@@ -1,14 +1,12 @@
 <?php
-
-#########################################################################################
-#                                                                       				#
-#   TemaTres : aplicación para la gestión de lenguajes documentales 					#
-#                                                                       				#
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar							#
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) 		#
-#   Free Software Foundation															#
-#																						#
-#########################################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
 
 	if (!defined('T3_WEBPATH')) {
 		define('T3_WEBPATH', getURLbaseInstall().'../common/');
@@ -179,7 +177,7 @@ function SQLtematres($DBCFG,$DB,$arrayInstallData=array()) {
 		  `url_base` varchar(255) default NULL,
 		  PRIMARY KEY  (`id`)
 		) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;") ;
- 
+
 		//If create table --> insert data
 		if ($result1) {
 			$today  = date("Y-m-d") ;
