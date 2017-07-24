@@ -3888,9 +3888,9 @@ function do_pdfAlpha2($params=array())
 				$pdf->MultiCell($w,6,latin1($term["term"]),0,'L');
 				$pdf->SetFont('opensans','',12);
 			}
-			if ($term['note'] != '') {
+			if ($term['NA'] != '') {
 				$pdf->SetFont('opensans','',10);
-				$pdf->MultiCell($w,5,latin1($term['note']));
+				$pdf->MultiCell($w,5,latin1($term['NA']));
 				$pdf->SetFont('opensans','',12);
 				$pdf->Ln(4);
 			} else {
@@ -3908,20 +3908,54 @@ function getTermsxAlpha($params)
 {
     GLOBAL $CFG;
 
-    $topTerms = SQLverTopTerm();
-    while ($top = $topTerms->FetchRow()) {
-    	if ($params['hasTopTerm'] == 0 || $params['hasTopTerm'] == $top['id']) {
-	    	$list[] = array(
-				'id'         => (int) $top['id'],
-				'term'       => (string) $top['tema'],
-				'isMetaTerm' => (int) $top['isMetaTerm']
-	    	);
+    if ($params['hasTopTerm'] > 0) {
+	    $topTerms = SQLverTopTerm();
+	    while ($top = $topTerms->FetchRow()) {
+	    	if ($params['hasTopTerm'] == 0 || $params['hasTopTerm'] == $top['id']) {
+		    	$list[] = array(
+					'id'         => (int) $top['id'],
+					'term'       => (string) $top['tema'],
+					'isMetaTerm' => (int) $top['isMetaTerm']
+		    	);
+		    }
 	    }
-    }
-    $count = count($list);
+	    $count = count($list);
 
-	for ($i=0; $i < $count; $i++) {
-    	$terms = SQLterms4alpha($list[$i]['id'], $params);
+		for ($i=0; $i < $count; $i++) {
+	    	$terms = SQLterms4alpha($list[$i]['id'], $params);
+	    	while ($term = $terms->FetchRow()) {
+	    	    #Mantener vivo el navegador
+	    	    $time_now = time();
+	    	    if ($time_start >= $time_now + 10) {
+	    	        $time_start = $time_now;
+	    	        header('X-pmaPing: Pong');
+	    	    }
+	    	    $array = array(
+					'id'         => (int) $term['id'],
+					'term'       => (string) $term['tema'],
+					'isMetaTerm' => (int) $term['isMetaTerm']
+		    	);
+		    	if (in_array('NA', (array) $params['includeNote'])) {
+		    		$array['NA'] = strip_tags((string) $term['nota']);
+		    	}
+	    	    if (!in_array($array, $list)) {
+	    	    	$list[] = $array;
+	    	    }
+		        if (isset($term['noPreferido'])) {
+			    	$array = array(
+						'id'        => (int) $term['UPId'],
+						'term'      => (string) $term['noPreferido'],
+						'preferido' => (string) $term['tema']
+			    	);
+			    }
+			    if (!in_array($array, $list)) {
+			    	$list[] = $array;
+			    }
+		    }
+		    $count = count($list);
+	    }
+	} else {
+		$terms = SQLterms4alpha(0, $params);
     	while ($term = $terms->FetchRow()) {
     	    #Mantener vivo el navegador
     	    $time_now = time();
@@ -3937,6 +3971,7 @@ function getTermsxAlpha($params)
 	    	if (in_array('NA', (array) $params['includeNote'])) {
 	    		$array['NA'] = strip_tags((string) $term['nota']);
 	    	}
+
     	    if (!in_array($array, $list)) {
     	    	$list[] = $array;
     	    }
@@ -3951,11 +3986,10 @@ function getTermsxAlpha($params)
 		    	$list[] = $array;
 		    }
 	    }
-	    $count = count($list);
-    }
+	}
 
     $list = array_sort($list, 'term');
-//dd($list);
+
     return $list;
 }
 

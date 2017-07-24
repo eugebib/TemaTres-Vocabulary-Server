@@ -4034,6 +4034,14 @@ function SQLterms4alpha($id, $params)
 {
 	GLOBAL $DBCFG;
 
+	if ($id > 0) {
+		$where = 'WHERE
+			Relaciones.id_mayor='.$id.' and
+			Relaciones.t_relacion=3';
+	} else {
+		$where = '';
+	}
+
 	$sql=SQL("select","
 			tema.tema_id as id,
 			tema.tema,
@@ -4059,9 +4067,7 @@ function SQLterms4alpha($id, $params)
 		    $DBCFG[DBprefix]notas AS notas
 		ON
 		    tema.tema_id = notas.id_tema and notas.tipo_nota = 'NA'
-		WHERE
-			Relaciones.id_mayor=$id and
-			Relaciones.t_relacion=3
+		$where
 	");
 
 	return $sql;
