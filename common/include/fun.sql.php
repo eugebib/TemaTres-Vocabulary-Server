@@ -4036,10 +4036,14 @@ function SQLterms4alpha($id, $params)
 
 	if ($id > 0) {
 		$where = 'WHERE
-			Relaciones.id_mayor='.$id.' and
-			Relaciones.t_relacion=3';
+			Relaciones.id_mayor='.$id.' AND
+			Relaciones.t_relacion=3 AND
+			tema.tema_id IS NOT NULL AND
+    		tema.tema_id <> ""';
 	} else {
-		$where = '';
+		$where = 'WHERE
+			tema.tema_id IS NOT NULL AND
+    		tema.tema_id <> ""';
 	}
 
 	$sql=SQL("select","

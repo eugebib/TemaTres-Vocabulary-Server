@@ -3956,6 +3956,7 @@ function getTermsxAlpha($params)
 	    }
 	} else {
 		$terms = SQLterms4alpha(0, $params);
+		$list = array();
     	while ($term = $terms->FetchRow()) {
     	    #Mantener vivo el navegador
     	    $time_now = time();
@@ -3971,7 +3972,6 @@ function getTermsxAlpha($params)
 	    	if (in_array('NA', (array) $params['includeNote'])) {
 	    		$array['NA'] = strip_tags((string) $term['nota']);
 	    	}
-
     	    if (!in_array($array, $list)) {
     	    	$list[] = $array;
     	    }
