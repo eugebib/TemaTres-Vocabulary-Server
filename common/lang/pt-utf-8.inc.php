@@ -545,6 +545,7 @@ define('MSG_cantTermsFound','términos encontrados');
 define('MENU_glossConfig','configuração de autoglossário');
 define('LABEL_generateAutoGlossary','geração de autoglossário');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
+define('LABEL_SistPDF','Sistemático (PDF)');
 define('LABEL_references','referências');
 define('LABEL_printData','data de impressão');
 define('LABEL_Info','Informações sobre este vocabulário');
