@@ -843,60 +843,49 @@ function edit_single_code($tema_id,$code)
 
 function admin_users($do,$user_id="")
 {
-		GLOBAL $DBCFG;
+	GLOBAL $DBCFG,
+	       $DB;
 
-		GLOBAL $DB;
+	$userId = $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-		$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
-
-		if (is_numeric($user_id))	{
-			$arrayUserData=ARRAYdatosUser($user_id);
-
-			if($arrayUserData["nivel"]=='1'){
-				//Cehcquear que sea ADMIN
-				$sqlCheckAdmin=SQL("select","count(*) as cant from $DBCFG[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
-				$arrayCheckAdmin=$sqlCheckAdmin->FetchRow();
-				}
+	if (is_numeric($user_id)) {
+		$arrayUserData = ARRAYdatosUser($user_id);
+		if ($arrayUserData["nivel"]=='1') {
+			//Chequear que sea ADMIN
+			$sqlCheckAdmin = SQL("select","count(*) as cant from $DBCFG[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
+			$arrayCheckAdmin=$sqlCheckAdmin->FetchRow();
 		}
+	}
 
-
-		switch($do){
-			case 'actua':
+	switch ($do) {
+		case 'actua':
 			$POSTarrayUser=doArrayDatosUser($_POST);
 			//Normalice admin
 			$nivel=($POSTarrayUser["isAdmin"]=='1') ? '1' : '2';
 
 			//Check have one admin user
-			if (
-				($arrayUserData["nivel"]=='1') &&
-				($arrayCheckAdmin["cant"]=='1')
-				)		{
+			if (($arrayUserData["nivel"]=='1') && ($arrayCheckAdmin["cant"]=='1')) {
 				$nivel='1';
 			}
 
+			$POSTarrayUser["apellido"] = trim($POSTarrayUser[apellido]);
+			$POSTarrayUser["nombres"]  = trim($POSTarrayUser[nombres]);
+			$POSTarrayUser["mail"]     = trim($POSTarrayUser[mail]);
+			$POSTarrayUser["pass"]     = trim($POSTarrayUser[pass]);
+			$POSTarrayUser["orga"]     = trim($POSTarrayUser[orga]);
 
-			$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
-			$POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
-			$POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
-			$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
-			$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
+			$POSTarrayUser["apellido"] = $DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
+			$POSTarrayUser["nombres"]  = $DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
+			$POSTarrayUser["mail"]     = $DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
+			$POSTarrayUser["orga"]     = $DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
+			$POSTarrayUser["pass"]     = trim($POSTarrayUser[pass]);
 
-			$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
-			$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
-			$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
-			$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-			$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
-
-			$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
+			$POSTarrayUser["status"]   = ($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
 			//Check have one admin user
-			if (($POSTarrayUser["status"]=='BAJA') &&
-				($arrayUserData["nivel"]=='1') &&
-				($arrayCheckAdmin["cant"]=='1')
-				)		{
+			if (($POSTarrayUser["status"]=='BAJA') && ($arrayUserData["nivel"]=='1') && ($arrayCheckAdmin["cant"]=='1')) {
 				$POSTarrayUser["status"]='ACTIVO';
 			}
-
 
 			$sql=SQL("update","$DBCFG[DBprefix]usuario
 				SET apellido=$POSTarrayUser[apellido],
@@ -906,10 +895,10 @@ function admin_users($do,$user_id="")
 				orga= $POSTarrayUser[orga]
 				WHERE id= '$arrayUserData[user_id]'");
 
-				//set password
-				if(strlen($POSTarrayUser[pass])>0)				{
-						setPassword($arrayUserData["user_id"],$POSTarrayUser[pass],CFG_HASH_PASS);
-					}
+			//set password
+			if (strlen($POSTarrayUser[pass])>0) {
+				setPassword($arrayUserData["user_id"],$POSTarrayUser[pass],CFG_HASH_PASS);
+			}
 
 			//only admin
 			if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')			{
@@ -921,9 +910,9 @@ function admin_users($do,$user_id="")
 					WHERE id='$arrayUserData[user_id]'");
 				}
 
-			break;
+		break;
 
-			case 'estado':
+		case 'estado':
 			$new_estado = ($POSTarrayUser["status"]=='ACTIVO') ?  'ACTIVO': 'BAJA';
 
 			//Check have one admin user
@@ -941,39 +930,36 @@ function admin_users($do,$user_id="")
 				hasta=now()
 				WHERE id='$arrayUserData[user_id]'
 				");
-			break;
+		break;
 
-
-			case 'alta':
-			$POSTarrayUser=doArrayDatosUser($_POST);
-
-
-			$nivel=($POSTarrayUser[isAdmin]=='1') ? '1' : '2';
-
-			$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
-			$POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
-			$POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
-			$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
-			$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
+		case 'alta':
+			$POSTarrayUser             = doArrayDatosUser($_POST);
+			$nivel                     = ($POSTarrayUser["isAdmin"]=='1') ? '1' : '2';
+			$POSTarrayUser["apellido"] = trim($POSTarrayUser["apellido"]);
+			$POSTarrayUser["nombres"]  = trim($POSTarrayUser["nombres"]);
+			$POSTarrayUser["mail"]     = trim($POSTarrayUser["mail"]);
+			$POSTarrayUser["pass"]     = trim($POSTarrayUser["pass"]);
+			$POSTarrayUser["orga"]     = trim($POSTarrayUser["orga"]);
 
 			//prevent empty password
-			if(strlen($POSTarrayUser["pass"])<5) return;
+			if (strlen($POSTarrayUser["pass"])<4) return;
 
 			$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
 			$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
 			$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
 			$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-			$user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
-			$sql=SQLo("insert","into $DBCFG[DBprefix]usuario
+			$user_pass = (CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
+
+			$sql = SQLo("insert","into $DBCFG[DBprefix]usuario
 				(apellido, nombres, uid, cuando, mail,  orga, nivel,pass, estado, hasta)
 				VALUES
 				($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?,'$user_pass', 'ACTIVO', now())",
 				array( $userId,  $nivel));
-			$user_id=$sql["cant"];
+			$user_id = $sql["cant"];
 
-			break;
-		}
+		break;
+	}
 
 	return $user_id;
 }
@@ -981,7 +967,6 @@ function admin_users($do,$user_id="")
 #
 # # # # funciones de administracion # # # #
 #
-
 if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
 
 #ABM source notes for terms and notes

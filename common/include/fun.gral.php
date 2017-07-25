@@ -848,36 +848,32 @@ if (!$rs) return array("error"=>$DB->ErrorMsg());
 		default:
 		return $rs;
 		}
-};
+}
 
+function SQLo($todo,$sql,$array)
+{
+    GLOBAL $DB;
 
-function SQLo($todo,$sql,$array){
+    $sql = $todo.' '.$sql;
 
-GLOBAL $DB;
+    $rs  = $DB->Prepare($sql);
+    $rs  = $DB->Execute($rs,$array);
 
-$sql=$todo.' '.$sql;
+    if (!$rs) return array("error"=>$DB->ErrorMsg());
 
-$rs = $DB->Prepare($sql);
+    switch ($todo) {
+        case 'insert':
+            return array("cant"=>$DB->Insert_ID());
+            break;
 
-$rs = $DB->Execute($rs,$array);
+        case 'update':
+            return array("cant"=>$DB->Affected_Rows());
+            break;
 
-if (!$rs) return array("error"=>$DB->ErrorMsg());
-
-	switch($todo)
-		{
-		case 'insert':
-		return array("cant"=>$DB->Insert_ID());
-		break;
-
-		case 'update':
-		return array("cant"=>$DB->Affected_Rows());
-		break;
-
-		default:
-		return $rs;
-		}
-};
-
+        default:
+            return $rs;
+  }
+}
 
 #
 # Datos del Tesauro
