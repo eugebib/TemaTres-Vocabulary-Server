@@ -927,35 +927,32 @@ if (!$rs) return array("error"=>$DB->ErrorMsg());
 		default:
 		return $rs;
 		}
-};
+}
 
+function SQLo($todo,$sql,$array)
+{
+    GLOBAL $DB;
 
-function SQLo($todo,$sql,$array){
+    $sql = $todo.' '.$sql;
 
-GLOBAL $DB;
+    $rs  = $DB->Prepare($sql);
+    $rs  = $DB->Execute($rs,$array);
 
-$sql=$todo.' '.$sql;
+    if (!$rs) return array("error"=>$DB->ErrorMsg());
 
-$rs = $DB->Prepare($sql);
-
-$rs = $DB->Execute($rs,$array);
-
-if (!$rs) return array("error"=>$DB->ErrorMsg());
-
-	switch($todo)
-		{
+	switch ($todo) {
 		case 'insert':
-		return array("cant"=>$DB->Insert_ID());
-		break;
+    		return array("cant"=>$DB->Insert_ID());
+    		break;
 
 		case 'update':
-		return array("cant"=>$DB->Affected_Rows());
-		break;
+    		return array("cant"=>$DB->Affected_Rows());
+    		break;
 
 		default:
-		return $rs;
-		}
-};
+            return $rs;
+	}
+}
 
 
 #

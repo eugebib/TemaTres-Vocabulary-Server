@@ -18,7 +18,7 @@ if (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] || $_SESSION[$_SESSION["CFGU
 
 //Acciones de gestion de usuarios
 if ($_POST["userTask"]=='A') {
-	$user_id=admin_users("alta");
+	$user_id = admin_users("alta");
 	header("Location:admin.php?user_id=list");
 }
 
