@@ -2224,7 +2224,15 @@ function HTMLformExport()
 						</select>
 					</div>';
 	}
-	$rows.='	</div>
+	$rows.='		<div class="form-group rpdf">
+						<input name="includeAlt" type="checkbox" id="includeAlt" value="1" />
+						<div class="col-sm-4">
+							<label for="includeAlt" accesskey="d">
+								Incluir términos alternativos
+							</label>
+						</div>
+					</div>
+				</div>
 				<div style="display:none;" id="txt_config2">';
 	//Evaluar si hay notas
 	// if (is_array($arrayVocabStats["cant_notas"])) {

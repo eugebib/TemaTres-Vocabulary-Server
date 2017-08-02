@@ -137,7 +137,8 @@ if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel] == '1') && ($_GET["dis"])) {
 		case 'rpdf':
 			$params = array(
 				"hasTopTerm"  => $_GET["hasTopTerm"],
-				"includeNote" => $_GET["includeNote"]
+				"includeNote" => $_GET["includeNote"],
+				"includeAlt"  => $_GET["includeAlt"]
 			);
 			echo do_pdfAlpha2($params);
 		break;

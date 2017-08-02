@@ -102,8 +102,7 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 						echo HTMLformUserRelations();
 						echo HTMLformURIdefinition();
 					}
-					//Formulario de exportación
-					if ($_GET["doAdmin"]=='export' ){
+					if ($_GET["doAdmin"] == 'export' ){
 						echo HTMLformExport();
 					}
 					if ($_GET["doAdmin"]=='bulkReplace') {

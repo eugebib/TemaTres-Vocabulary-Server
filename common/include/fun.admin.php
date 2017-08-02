@@ -3926,7 +3926,7 @@ function getTermsxAlpha($params)
 	    	    if (!in_array($array, $list)) {
 	    	    	$list[] = $array;
 	    	    }
-		        if (isset($term['noPreferido'])) {
+		        if (isset($term['noPreferido']) && $params['includeAlt']) {
 			    	$array = array(
 						'id'        => (int) $term['UPId'],
 						'term'      => (string) $term['noPreferido'],
@@ -3960,7 +3960,7 @@ function getTermsxAlpha($params)
     	    if (!in_array($array, $list)) {
     	    	$list[] = $array;
     	    }
-	        if (isset($term['noPreferido'])) {
+	        if (isset($term['noPreferido']) && $params['includeAlt']) {
 		    	$array = array(
 					'id'        => (int) $term['UPId'],
 					'term'      => (string) $term['noPreferido'],

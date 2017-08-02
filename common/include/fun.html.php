@@ -2185,17 +2185,19 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					    var x = $(\'#dis\').val();
 					    if ((x == "txt") || (x == "spdf") || (x == "rpdf")) {
 					        $(\'#txt_config\').show();
-					    }else{
+					        $(\'.rpdf\').show();
+					    } else {
 					        $(\'#txt_config\').hide();
-					    };
+					        $(\'.rpdf\').hide();
+					    }
 					    if ((x == "txt") || (x == "rpdf")) {
 					        $(\'#txt_config2\').show();
-					    }else{
+					    } else {
 					        $(\'#txt_config2\').hide();
-					    };
+					    }
 					    if (x == "rfile") {
 					        $(\'#skos_config\').show();
-					    } else{
+					    } else {
 					        $(\'#skos_config\').hide();
 					    }
 					});
