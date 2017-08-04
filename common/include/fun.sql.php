@@ -2667,55 +2667,86 @@ function SQLreportTargetTerms($tvocab_ids=array())
 	return $sql;
 }
 
-/* Terms withouts notes */
 function SQLreportNullNotes($t_note)
 {
-
 	GLOBAL $DBCFG;
 
-	if($t_note==0){
-		$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
-						e.value as status_term
-						from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
-						left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
-						where
-						e.value_id=t.estado_id
-						and n.id is null
-						order by t.tema");
-
-	}else {
+	if ($t_note == 0) {
+		$sql = SQL(
+			"select","
+				t.tema_id,
+				t.tema as term,
+				t.cuando as date_created,
+				t.cuando_final as date_modicated,
+				t.isMetaTerm,
+				e.value as status_term
+			FROM
+				$DBCFG[DBprefix]values e,
+				$DBCFG[DBprefix]tema t
+			LEFT JOIN
+				$DBCFG[DBprefix]notas n
+			ON
+				n.id_tema=t.tema_id
+			LEFT JOIN
+				$DBCFG[DBprefix]tabla_rel as rel
+			ON
+				rel.id_mayor=t.tema_id
+			WHERE
+				e.value_id=t.estado_id AND
+				n.id is null AND
+                (rel.t_relacion is null OR rel.t_relacion <> '4')
+			ORDER BY
+				t.tema
+		");
+	} else {
 		//check if is valid note type
-		$sqlNoteType=SQLcantNotas();
-		$arrayNoteType=array();
+		$sqlNoteType   = SQLcantNotas();
+		$arrayNoteType = array();
 
-		while ($array=$sqlNoteType->FetchRow()){
-			if($array[cant]>0)
-			{
+		while ($array=$sqlNoteType->FetchRow()) {
+			if ($array[cant] > 0) {
 				array_push($arrayNoteType, $array["tipo_nota"]);
 			}
-		};
+		}
 
-		if(in_array($t_note, $arrayNoteType)){
-			$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
-							e.value as status_term
-							from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
-							left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
-							and n.tipo_nota='$t_note'
-							where
-							e.value_id=t.estado_id
-							and n.id is null
-							order by t.tema");
-		}else {
+		if (in_array($t_note, $arrayNoteType)) {
+			$sql = SQL(
+				"select","
+					t.tema_id,
+					t.tema as term,
+					t.cuando as date_created,
+					t.cuando_final as date_modicated,
+					t.isMetaTerm,
+					e.value as status_term
+				FROM
+					$DBCFG[DBprefix]values e,
+					$DBCFG[DBprefix]tema t
+				LEFT JOIN
+					$DBCFG[DBprefix]notas n
+				ON
+					n.id_tema=t.tema_id AND
+					n.tipo_nota='$t_note'
+				LEFT JOIN
+					$DBCFG[DBprefix]tabla_rel as rel
+				ON
+					rel.id_mayor=t.tema_id
+				WHERE
+					e.value_id=t.estado_id AND
+					n.id is null AND
+	                (rel.t_relacion is null OR rel.t_relacion <> '4')
+				ORDER BY
+					t.tema
+			");
+		} else {
 			//empy set
 			$sql=SQL("select","'no_data'");
 		}
 	}
 
-return $sql;
+	return $sql;
 }
-/*
-regenerate indice table => only in case of corrupt database or import thesaurus vÃ­a dump
-*/
+
+/* regenerate indice table => only in case of corrupt database or import thesaurus vÃ­a dump */
 function SQLreCreateTermIndex()
 {
 

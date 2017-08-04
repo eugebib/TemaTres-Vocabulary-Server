@@ -321,8 +321,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 			break;
 
 			case 'csv14': //Terms without note o note type
-				$sql=SQLreportNullNotes($_GET["note_type_null"]);
+				$sql = SQLreportNullNotes($_GET["note_type_null"]);
 			break;
+
 			case 'csv15': //All accepted Terms (prefered and no-preferd without distinction)
 				$sql=SQLreportAllTerms($_SESSION["id_tesa"]);
 			break;

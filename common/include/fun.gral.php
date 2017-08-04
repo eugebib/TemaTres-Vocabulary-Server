@@ -396,7 +396,7 @@ function sql2xls($sql, $filename, $encode = "utf8")
     $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
     ob_end_clean();
     header('Content-type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment; filename="comparacion.xlsx"');
+    header('Content-Disposition: attachment; filename="reporte.xlsx"');
     $objWriter->save('php://output');
 }
 
