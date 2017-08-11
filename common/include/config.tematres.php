@@ -143,6 +143,10 @@ define("id_EQ_INEXACTA","8");//Tipo relacion término equivalente inexacta
 define("SI","1");
 define("NO","2");
 
+//enable HTML tags in web services and metadata data
+$CFG["_HTMLinDATA"] = 1;
+
+
 
  ##
  # Reporte de errores pero no de noticias (variables no inicializadas);
