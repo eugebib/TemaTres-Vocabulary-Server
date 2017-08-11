@@ -906,16 +906,11 @@ function doMenuLang($tema_id="0"){
 	$menuLang=substr("$menuLang",1);
 
 	return $selectLang;
-};
+}
 
-
-
-
-#
 # Armado de tabla de términos según meses
-#
-function doBrowseTermsFromDate($month,$year,$ord=""){
-
+function doBrowseTermsFromDate($month,$year,$ord="")
+{
 	GLOBAL $MONTHS;
 	$sql=SQLlistTermsfromDate($month,$year,$ord);
 	$rows.='<div class="table-responsive"> ';
@@ -925,7 +920,7 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 		$fecha_termino=do_fecha($array[cuando]);
 
 		$rows.='<tr>';
-		$rows.='<td class="izq">'.HTMLlinkTerm($array).'</td>';
+		$rows.='<td class="izq">'.HTMLlinkTerm($array,array("modal"=>1)).'</td>';
 		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
 		if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
@@ -1157,13 +1152,12 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 	return $rows;
 }
 
-
-function JHTMLverTE($tema_id){
+function JHTMLverTE($tema_id)
+{
 
 	GLOBAL $CFG;
 	return '<div id="treeTerm" data-url="suggest.php?node='.$tema_id.'"></div>';
 }
-
 
 function HTMLlistaTerminosEstado($estado_id, $limite = "")
 {
@@ -1192,12 +1186,11 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
 					<tbody>';
 
 	while ($array = $sql->FetchRow()) {
+		$styleTerm    = 'estado_termino'.$array["estado_id"];
 		$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 		$rows.='<tr>
 					<td>
-						<a class="estado_termino'.$estado_id.$array["class"].' title="'.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'&tipo=E">'.
-							$array["tema"].'
-						</a>
+						'.HTMLlinkTerm($array,array("style"=>$styleTerm,"modal"=>1)).'
 					</td>
 					<td>'.
 						$array["cuando"].'
@@ -1233,11 +1226,12 @@ function HTMLlistaTerminosFecha($limite="")
 			</thead>
 			<tbody>';
 
-			while ($array = $sql->FetchRow()){
-				$css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$fecha=(@$array["cuando_final"]) ? $array["cuando_final"] : $array["cuando"];
+			while ($array = $sql->FetchRow()) {
+				$styleTerm    = 'estado_termino'.$array[estado_id];
+				$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+				$fecha        = (@$array["cuando_final"]) ? $array["cuando_final"] : $array["cuando"];
 				$rows.= '<tr>';
-				$rows.=  '     	<td><a class="estado_termino'.$array[estado_id].'" title="'.$array[tema].'" href="'.URL_BASE.'index.php?tema='.$array[tema_id].'&tipo=E">'.$array[tema].'</a></td>';
+				$rows.=  '      <td>'.HTMLlinkTerm($array,array("style"=>$styleTerm,"modal"=>1)).'</td>';
 				$rows.=  '      <td>'.$fecha.'</td>';
 				$rows.=  ' </tr>';
 
@@ -1560,24 +1554,25 @@ function HTMLtargetTerms($tema_id)
 	return $rows;
 }
 
-/*
-Show URIs associated to term
-*/
+# Show URIs associated to term
 function HTMLURI4term($tema_id)
 {
 	$sql=SQLURIxterm($tema_id);
 
-	if (SQLcount($sql)>0)
-	{
+	if (SQLcount($sql)>0) {
 		$rows='<ul class="list-unstyled">';
 
-		while ($array=$sql->FetchRow())
-		{
-			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
-			{
+		while ($array=$sql->FetchRow()) {
+			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array[uri_id].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			}
-			$rows.='<li>'.$delLink.' '.ucfirst($array["uri_value"]).' <a href="'.$array["uri"].'" target="_blank" title="'.ucfirst($array[uri_value]).'">'.$array["uri"].'</a>';
+			$rows.='<li>'.$delLink.' '.ucfirst($array["uri_value"]).': ';
+			$url_parts=parse_url($array["uri"]);
+			if (in_array($url_parts['scheme'],array('http','https'))){
+				$rows.=' <a href="'.$array["uri"].'" target="_blank" title="'.ucfirst($array[uri_value]).'">'.$array["uri"].'</a>';
+			} else {
+				$rows.=' '.$array["uri"];
+			}
 			$rows.='</li>';
 		}
 		$rows.='</ul>';
@@ -1966,14 +1961,19 @@ function HTMLduplicatedTermsAlert($arrayDuplicatedTerms){
 				 "html"=>$rows)	;
 }
 
-
-function HTMLlinkTerm($arrayTerm,$arg=array()){
+function HTMLlinkTerm($arrayTerm,$arg=array())
+{
 
 	$class=(@$arg["style"]) ? $arg["style"] : '';
 
 	$class.=($arrayTerm["isMetaTerm"]==1) ? ' metaTerm' : '';
 
 	$url_parts=parse_url($_SESSION["CFGURL"]);
+
+	//if is modal link
+	if ($arg["modal"]==1) {
+		return '<a href="'.$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'modal.php?tema='.$arrayTerm["tema_id"].'" class="modalTrigger '.$class.'">'.$arrayTerm["tema"].'</a>';
+	}
 
 	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
 

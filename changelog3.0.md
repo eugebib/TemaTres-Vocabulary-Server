@@ -18,7 +18,7 @@ For examples, please visit: http://www.vocabularyserver.com/vocabularies.php
 Changelog TemaTres 2.2:
 - New export format in JSON to integrate glossaries and vocabularies in distributed content
 - Can bulk create auto-gloss: search and replace terms found in notes and use wiki links to semantically enrich the vocabulary (auto-gloss)
-- Export vocabularies in PDF format. 
+- Export vocabularies in PDF format.
 - Massive task for free terms (change status, delete, associate with terms and more)
 - Utilities to export specific terms, facet or taxon in alphabetical or hierarchical format (for admins)
 - Facilities to reuse terms or change the structure of the vocabulary
@@ -49,3 +49,4 @@ diego ferreyra
 tematres@r020.com.ar
 http://www.vocabularyserver.com
 
+add modal view to list terms
