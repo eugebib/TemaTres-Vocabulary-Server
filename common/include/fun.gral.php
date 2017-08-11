@@ -550,8 +550,6 @@ function html2txt($html){
     return $txt;
 }
 
-
-
 /* Convert wiki text to html for output */
 //This function is a part of http://svn.studentrobotics.org/ ide2/
 function wiki2html($wikitext)
@@ -570,8 +568,17 @@ function wiki2html($wikitext)
 			$inter_text	= str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', $inter_text);
 	}
 
-
 	return $inter_text;
+}
+
+/* Convert wiki text to XML for output */
+function wiki2xml($wikitext)
+{
+    if (!isset($wikitext) || $wikitext == "") {
+        return FALSE;
+    }
+
+    return str_replace ( array ('[[',']]' ), array ('',''), $wikitext );
 }
 
 /* Convert wiki text to html for output */
