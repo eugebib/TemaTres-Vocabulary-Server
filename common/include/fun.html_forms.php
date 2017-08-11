@@ -681,7 +681,7 @@ function HTMLformAdvancedSearch($array)
 			</div>
 		</form>
 		<div class="push"></div>';
-	if ($_GET[boton]==LABEL_Enviar) {
+	if ($_GET[boton]==LABEL_Buscar) {
 		$rows.=HTMLadvancedSearchResult($array);
 	}
 
