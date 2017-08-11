@@ -490,9 +490,17 @@ function wiki2html($wikitext)
 			$href	= 'index.php?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
 			$inter_text	= str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', $inter_text);
 	}
-
-
 	return $inter_text;
+}
+
+/* Convert wiki text to XML for output */
+function wiki2xml($wikitext)
+{
+    if (!isset($wikitext) || $wikitext == "") {
+        return FALSE;
+    }
+
+    return str_replace ( array ('[[',']]' ), array ('',''), $wikitext );
 }
 
 /* Convert wiki text to html for output */
