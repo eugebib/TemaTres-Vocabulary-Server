@@ -9,6 +9,15 @@
 ####################################################################
 
 define("LANG","es");
+
+$paises = array(
+  'ar' => 'Argentina',
+  'br' => 'Brasil',
+  'py' => 'Paraguay',
+  'uy' => 'Uruguay',
+  've' => 'Venezuela'
+);
+
 define("TR_acronimo","TR");
 define("TE_acronimo","TE");
 define("TG_acronimo","TG");
