@@ -3,7 +3,7 @@
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
+#   Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 #
 ###############################################################################################################
@@ -528,7 +528,7 @@ function HTMLbodyTermino($array){
 
 function HTMLmainMenu() {
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 		$row = '
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
@@ -886,10 +886,10 @@ function doMenuLang($tema_id="0"){
 
 	GLOBAL $idiomas_disponibles;
 
-	$selectLang.='<form id="select-lang" method="get" action="index.php">';
+	$selectLang ='<form id="select-lang" method="get" action="index.php">';
 	$selectLang.='<select class="navbar-btn btn-info btn-sx pull-right" name="setLang" id="setLang" onchange="this.form.submit();">';
 	foreach ($idiomas_disponibles AS $key => $value) {
-		if($value[2]==$_SESSION[$_SESSION["CFGURL"]][lang][2]){
+		if($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]){
 			$selectLang.='<option value="'.$value[2].'" selected="selected">'.$value[0].'</option>';
 		}else{
 			$selectLang.='<option value="'.$value[2].'">'.$value[0].'</option>';
@@ -903,7 +903,6 @@ function doMenuLang($tema_id="0"){
 		$selectLang.='<input type="hidden" name="tema" value="'.$tema_id.'" />';
 	}
 	$selectLang.='</form>';
-	$menuLang=substr("$menuLang",1);
 
 	return $selectLang;
 }
@@ -922,7 +921,7 @@ function doBrowseTermsFromDate($month,$year,$ord="")
 		$rows.='<tr>';
 		$rows.='<td class="izq">'.HTMLlinkTerm($array,array("modal"=>1)).'</td>';
 		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
-		if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
 		}else{
 			$rows.='<td>'.$array[apellido].', '.$array[nombres].'</td>';
@@ -1056,33 +1055,25 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 
 
 	//Si no hay términos más genericos que los resultados
-	if(@$temas_ids)
-	{
+	if(@$temas_ids) {
 		$sql=SQLlistaTema_id(substr($temas_ids,0,-1));
 
 		$recordCount=SQLcount($sql);
 
 		//Si hay resultados
-		if($recordCount>0)
-		{
-
+		if ($recordCount>0) {
 			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_suplementarios.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
-
 			$row_result.='<ul >';
-			while($resulta_busca=$sql->FetchRow())
-			{
+			while($resulta_busca=$sql->FetchRow()) {
 				$ibusca=++$ibusca;
 				$row_result.='<li>'.HTMLlinkTerm($resulta_busca).'</li>';
 			}
 			$row_result.='</ul>';
-		};
+		}
 	}
 
 	return array("html"=>$row_result,"count"=>$recordCount);
-
-};
-
-
+}
 
 #
 # Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda
@@ -1091,29 +1082,23 @@ function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 
 	$temas_ids=str_replace("|",",", $acumula_temas);
 	//Si no hay términos más genericos que los resultados
-	if(@$temas_ids){
-
+	if (@$temas_ids) {
 		$sql=SQLexpansionTR(substr($temas_ids,0,-1));
 		$recordCount=SQLcount($sql);
-
 		//Si hay resultados
-		if($recordCount>0){
-
+		if ($recordCount>0) {
 			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_relacionados.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
-
 			$row_result.='<ul >';
-
-			while($resulta_busca=$sql->FetchRow())
-			{
+			while($resulta_busca=$sql->FetchRow()) {
 				$ibusca=++$ibusca;
 				$row_result.='<li>'.HTMLlinkTerm($resulta_busca).'</li>';
 			}
 			$row_result.='</ul>';
 		}
 	}
-	return array("html"=>$row_result,"count"=>$recordCount);
-};
 
+	return array("html"=>$row_result,"count"=>$recordCount);
+}
 
 function HTMLverTE($tema_id,$i_profundidad,$i=""){
 
@@ -1305,14 +1290,14 @@ function HTMLtopTerms($letra=""){
 }
 
 
-function HTMLlistaAlfabeticaUnica($letra=""){
+function HTMLlistaAlfabeticaUnica($letra="")
+{
+	$menuNoAlfabetico  = '';
+	$menuAlfabetico    = '';
+	$sqlMenuAlfabetico = SQLlistaABC($letra);
 
-	$sqlMenuAlfabetico=SQLlistaABC($letra);
-
-	if(SQLcount($sqlMenuAlfabetico)>0){
-
+	if (SQLcount($sqlMenuAlfabetico)>0) {
 		$rows.='<ul class="pagination pagination-sm">';
-
 		while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 			$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
 
@@ -1325,7 +1310,7 @@ function HTMLlistaAlfabeticaUnica($letra=""){
 					$menuAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">'.$datosAlfabetico[0].'</a>';
 					$menuAlfabetico.='</li>';
 				}				else				{
-					$menuNoAlfabetico='<li class="'.$class.'">';
+					$menuNoAlfabetico.='<li class="'.$class.'">';
 					$menuNoAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">0-9</a>';
 					$menuNoAlfabetico.='</li>';
 				}
@@ -1833,7 +1818,7 @@ function paginate_links( $args = '' ) {
 			$fecha_estado=do_fecha($arrayTerm["cuando_estado"]);
 			$body.='<dl class="dl-horizontal">';
 
-			if(@$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+			if(isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 				$ARRAYuserData4term=ARRAYuserData4term($arrayTerm["tema_id"]);
 				$termCreator=' ('.$ARRAYuserData4term["c_nombres"].' '.$ARRAYuserData4term["c_apellido"].')';
 				$termMod=' ('.$ARRAYuserData4term["m_nombres"].' '.$ARRAYuserData4term["m_apellido"].')';
@@ -2067,11 +2052,11 @@ function HTMLnavHeader()
 	GLOBAL  $CFG,
 			$DBCFG;
 
-	if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
+	if ((!isset($_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"]))) {
     	$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
 	}
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 	    $miCuenta = '<div class="dropdown">
 					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">
@@ -2152,7 +2137,8 @@ function HTMLjsInclude(){
 		    });
 		</script>';
 
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
+if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0)){
+
 //<!-- Load TinyMCE -->
  $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'vendors/tiny_mce4/tinymce.min.js"></script>';
 //<!-- /TinyMCE -->
@@ -2178,7 +2164,10 @@ $rows.='<script type="text/javascript">
 	  </script>';
 
 //scritp to export form
-if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){
+if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
+  ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) &&
+  ($_GET["doAdmin"]=='export')){
+
 $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
@@ -2203,8 +2192,9 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					});
 					});//]]>
 			</script>';
-};
-return $rows;
+}
+
+	return $rows;
 }
 
 // specific note types for contextual term definition

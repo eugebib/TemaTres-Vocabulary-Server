@@ -1,24 +1,26 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2015 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-#
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 include("config.tematres.php");
 $metadata=do_meta_tag();
 
-	if(($_GET["action"]=='rp') && ($_GET["key"]))
-	{
-			$chek_key=check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
+if (($_GET["action"]=='rp') && ($_GET["key"])) {
+	$chek_key=check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
 
-			if($chek_key["user_id"]>0)
-			{
-				$task_result=reset_password($chek_key);
-			}
+	if ($chek_key["user_id"]>0) {
+		$task_result=reset_password($chek_key);
 	}
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
   <head>
@@ -42,10 +44,9 @@ $metadata=do_meta_tag();
 		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
 	}
 
-
-	if ($_GET["task"]=='recovery')	{
+	if ((@$_GET["task"]) && ($_GET["task"]=='recovery')) {
 		echo HTMLformRecoveryPassword();
-	}	else	{
+	} else {
 
 		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))		{
 			$task_result=array("msg"=>t3_messages('no_user'));
@@ -91,10 +92,8 @@ function check_password_reset_key($key, $login) {
 	return $ARRAYuser;
 }
 
-
 function recovery($user_login)
 {
-
 	GLOBAL $DBCFG;
 
 	$ARRAYuser=array();
@@ -123,21 +122,16 @@ function recovery($user_login)
 	$title = sprintf('[%s] '.LABEL_mail_recoveryTitle, $_SESSION[CFGTitulo] );
 
 
-	$sendMail=sendMail($ARRAYuser[mail], $title, $message);
+	$sendMail=sendMail($ARRAYuser["mail"], $title, $message);
 
-	if ($sendMail)
-	{
+	if ($sendMail) {
 		return array("result"=>true, "msg"=>t3_messages("mailOK"));
-	}
-	else
-	{
+	} else {
 		array("result"=>false, "msg"=>t3_messages("mailFail"));
-	};
+	}
 
 	return;
-
-};
-
+}
 
 function reset_password($ARRAYuser){
 

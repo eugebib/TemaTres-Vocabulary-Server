@@ -1144,63 +1144,65 @@ function stripslashes_deep($value) {
 	return $value;
 }
 
-
-
 function currentPageURL()
 {
-$pageURL = $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
-$pageURL .= $_SERVER['SERVER_PORT'] != '80' ? $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"] : $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-return $pageURL;
+  $pageURL = $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
+  $pageURL .= $_SERVER['SERVER_PORT'] != '80' ? $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"] : $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+  return $pageURL;
 }
-
-
-
 
 function currentBasePage($url)
 {
-	return substr($url,0,strripos($url,"/")+1);
+  return substr($url,0,strripos($url,"/")+1);
 }
-
-
 
 function sendMail($to_address,$subject,$message,$extra=array())
 {
+  GLOBAL $DBCFG;
 	require_once("mailer/PHPMailerAutoload.php");
 
 	$mail = new PHPMailer();
 
-/*
- * Exmple with SMTP from gmail
- *
-	$mail->IsSMTP();                                      // set mailer to use SMTP
-	$mail->Host = 'ssl://smtp.gmail.com';
-	$mail->Port = 465;
-	$mail->SMTPAuth = true;
-	$mail->Username = 'username@gmail.com';
-	$mail->Password = 'password';
-*/
+  /* Exmple with SMTP from gmail **/
+  //Set the hostname of the mail server
+  // $mail->isSMTP();
+  // $mail->Host = 'smtp.gmail.com';
+  // $mail->Port = 587;
+  // $mail->SMTPSecure = 'tls';
+  // $mail->SMTPAuth = true;
+  // $mail->Username = "username";
+  // $mail->Password = "Password";
 
-	$mail->From = 'tematres@'.string2url($_SESSION["CFGTitulo"]);
+  //OR  Set PHPMailer to use the sendmail transport
+  //$mail->isSendmail();
+
+  //OR SMTP
+  //$mail->IsSMTP();
+  //$mail->Host = "localhost";
+  $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
 	$mail->CharSet = "UTF-8";
 	$mail->AddAddress($to_address);
 	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 	$mail->IsHTML(false);                                  // set email format to HTML
 	$mail->Subject = $subject;
 	$mail->Body    = $message;
+  $mail->Send();
 
-/*
- * Debug
- *
- $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
- // 1 = errors and messages
- // 2 = messages only
+  if($DBCFG["debugMode"] == "1") {
+    //Enable SMTP debugging
+    // 0 = off (for production use)
+    // 1 = client messages
+    // 2 = client and server messages
+    $mail->SMTPDebug = 2;
+    //Ask for HTML-friendly debug output
+    $mail->Debugoutput = 'html';
 
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	echo $mail->ErrorInfo;
-*/
- return ($mail->Send()) ? true  : false;
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+    echo "DEBUG DATA:". $mail->ErrorInfo;
+  }
 
+  return ($mail->Send()) ? true  : false;
 }
 
 
