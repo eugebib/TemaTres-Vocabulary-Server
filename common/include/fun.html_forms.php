@@ -2256,8 +2256,8 @@ function HTMLformExport()
 		$rows .= '	<div class="form-group">
 						<input name="includeNote[]" type="checkbox" id="includeNoteNA" value="NA" />
 						<div class="col-sm-4">
-							<label for="includeNoteNA" accesskey="d">
-								Incluir notas de alcance
+							<label for="includeNoteNA" accesskey="d">'.
+								LABEL_includeNA.'
 							</label>
 						</div>
 					</div>

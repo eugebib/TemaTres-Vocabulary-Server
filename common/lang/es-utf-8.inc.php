@@ -573,3 +573,5 @@ define('LABEL_close','cerrar');
 define('LABEL_allTerms','todos los términos');
 define('LABEL_allNotes','todas las notas');
 define('LABEL_allRelations','todas las relaciones entre términos');
+
+define('LABEL_includeNA', 'Incluir notas de alcance');

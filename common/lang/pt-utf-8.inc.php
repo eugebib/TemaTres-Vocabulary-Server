@@ -139,6 +139,7 @@ define("FORM_LABEL_Terminos","termos");
 define("FORM_LABEL_RelTerminos","relações entre termos");
 define("FORM_LABEL_TerminosUP","termos não preferidos");
 define("FORM_LABEL_Guardar","Salvar");
+define("FORM_LABEL_Descargar","Download");
 define("LABEL_verDetalle","mostrar detalhes de ");
 define("LABEL_verTerminosLetra","mostrar termos iniciados com ");
 define("LABEL_NB","Nota bibliográfica");
@@ -568,3 +569,5 @@ define('LABEL_close','cerrar');
 define('LABEL_allTerms','todos los términos');
 define('LABEL_allNotes','todas las notas');
 define('LABEL_allRelations','todas las relaciones entre términos');
+
+define('LABEL_includeNA', 'Incluir notas de escopo');
