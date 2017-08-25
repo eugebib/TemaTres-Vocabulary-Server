@@ -2206,7 +2206,12 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					        $(\'#txt_config\').show();
 					    }else{
 					        $(\'#txt_config\').hide();
-					    };
+					    }
+					    if ((x == "txt") || (x == "rpdf")) {
+					        $(\'#txt_config2\').show();
+					    } else {
+					        $(\'#txt_config2\').hide();
+					    }
 					    if (x == "rfile") {
 					        $(\'#skos_config\').show();
 					    } else{
