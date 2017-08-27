@@ -1163,46 +1163,47 @@ function sendMail($to_address,$subject,$message,$extra=array())
 
 	$mail = new PHPMailer();
 
-  /* Exmple with SMTP from gmail **/
-  //Set the hostname of the mail server
-  // $mail->isSMTP();
-  // $mail->Host = 'smtp.gmail.com';
-  // $mail->Port = 587;
-  // $mail->SMTPSecure = 'tls';
-  // $mail->SMTPAuth = true;
-  // $mail->Username = "username";
-  // $mail->Password = "Password";
+    /* Exmple with SMTP from gmail **/
+    //Set the hostname of the mail server
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = 587;
+    $mail->SMTPSecure = 'tls';
+    $mail->SMTPAuth = true;
+    $mail->Username = "vocabulariosBNM";
+    $mail->Password = "leopoldito";
 
-  //OR  Set PHPMailer to use the sendmail transport
-  //$mail->isSendmail();
+    //OR  Set PHPMailer to use the sendmail transport
+    //$mail->isSendmail();
 
-  //OR SMTP
-  //$mail->IsSMTP();
-  //$mail->Host = "localhost";
-  $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
+    //OR SMTP
+    //$mail->IsSMTP();
+    //$mail->Host = "localhost";
+    $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
 	$mail->CharSet = "UTF-8";
 	$mail->AddAddress($to_address);
 	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 	$mail->IsHTML(false);                                  // set email format to HTML
 	$mail->Subject = $subject;
 	$mail->Body    = $message;
-  $mail->Send();
 
-  if($DBCFG["debugMode"] == "1") {
-    //Enable SMTP debugging
-    // 0 = off (for production use)
-    // 1 = client messages
-    // 2 = client and server messages
-    $mail->SMTPDebug = 2;
-    //Ask for HTML-friendly debug output
-    $mail->Debugoutput = 'html';
+    /*
+    if ($DBCFG["debugMode"] == "1") {
+        //Enable SMTP debugging
+        // 0 = off (for production use)
+        // 1 = client messages
+        // 2 = client and server messages
+        $mail->SMTPDebug = 2;
+        //Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
 
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    echo "DEBUG DATA:". $mail->ErrorInfo;
-  }
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        echo "DEBUG DATA:". $mail->ErrorInfo;
+    }
+    */
 
-  return ($mail->Send()) ? true  : false;
+    return ($mail->Send()) ? true  : false;
 }
 
 
