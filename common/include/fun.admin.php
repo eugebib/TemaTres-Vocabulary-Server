@@ -3921,7 +3921,7 @@ function getTermsxAlpha($params)
 					'isMetaTerm' => (int) $term['isMetaTerm']
 		    	);
 		    	if (in_array('NA', (array) $params['includeNote'])) {
-		    		$array['NA'] = strip_tags((string) $term['nota']);
+		    		$array['NA'] = strip_tags(str_replace(array('[[', ']]'), '', (string) $term['nota']));
 		    	}
 	    	    if (!in_array($array, $list)) {
 	    	    	$list[] = $array;
@@ -3955,7 +3955,7 @@ function getTermsxAlpha($params)
 				'isMetaTerm' => (int) $term['isMetaTerm']
 	    	);
 	    	if (in_array('NA', (array) $params['includeNote'])) {
-	    		$array['NA'] = strip_tags((string) $term['nota']);
+	    		$array['NA'] = strip_tags(str_replace(array('[[', ']]'), '', (string) $term['nota']));
 	    	}
     	    if (!in_array($array, $list)) {
     	    	$list[] = $array;
