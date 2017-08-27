@@ -1724,9 +1724,10 @@ function HTMLformUpdateEndpoit(){
 	return $rows;
 }
 
-function HTMLformLogin($task_result){
-	if(is_array($task_result))
-	{
+function HTMLformLogin($task_result)
+{
+	$rows = '';
+	if (is_array($task_result)){
 		$rows.='<div>'.$task_result["msg"].'</div>';
 	}
 
@@ -1755,25 +1756,27 @@ function HTMLformLogin($task_result){
 	return $rows;
 }
 
-function HTMLformRecoveryPassword($user_name=""){
+function HTMLformRecoveryPassword($user_name="")
+{
 	$rows='<form class="form-horizontal" id="myRecovery" name="myRecovery" action="login.php" method="post">
-<fieldset>
-<legend>'.LABEL_user_recovery_password.'</legend>
-<div class="form-group">
-  <label class="col-md-4 control-label" for="id_correo_electronico_recovery" >'.ucfirst(LABEL_mail).'</label>
-  <div class="col-md-4">
-  <input id="id_correo_electronico_recovery" name="id_correo_electronico_recovery" placeholder="'.ucfirst(LABEL_mail).'" class="form-control input-md" required="" type="email">
-  </div>
-</div>
-<div class="form-group">
-  <div class="col-md-8 text-center">
-    <button id="button1id" type="submit" name="button1id" class="btn btn-primary">'.LABEL_Enviar.'</button>
-     <a href="login.php" class="btn btn-inverse">'.ucfirst(LABEL_Cancelar).'</a>
-  </div>
-</div>
-<input type="hidden"  name="task" value="user_recovery" />
-</fieldset>
-</form>';
+	<fieldset>
+	<legend>'.LABEL_user_recovery_password.'</legend>
+	<div class="form-group">
+	  <label class="col-md-4 control-label" for="id_correo_electronico_recovery" >'.ucfirst(LABEL_mail).'</label>
+	  <div class="col-md-4">
+	  <input id="id_correo_electronico_recovery" name="id_correo_electronico_recovery" placeholder="'.ucfirst(LABEL_mail).'" class="form-control input-md" required="" type="email">
+	  </div>
+	</div>
+	<div class="form-group">
+	  <div class="col-md-8 text-center">
+	    <button id="button1id" type="submit" name="button1id" class="btn btn-primary">'.LABEL_Enviar.'</button>
+	     <a href="login.php" class="btn btn-inverse">'.ucfirst(LABEL_Cancelar).'</a>
+	  </div>
+	</div>
+	<input type="hidden"  name="task" value="user_recovery" />
+	</fieldset>
+	</form>';
+
 	return $rows;
 }
 

@@ -1,12 +1,16 @@
 <?php
 // don't load directly
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 # Funciones HTML. #
 
 # Armado de resultados de búsqueda
@@ -528,7 +532,7 @@ function HTMLbodyTermino($array){
 
 function HTMLmainMenu() {
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 		$row = '
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
@@ -557,7 +561,7 @@ function HTMLmainMenu() {
 
 function HTMLAdminMenu()
 {
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1' || $_SESSION[$_SESSION["CFGURL"]][ssuser_nivel] == '3') {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1' || $_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '3') {
 		$row.='
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="text"> '.ucfirst(LABEL_Admin).'</span></a>
@@ -882,7 +886,7 @@ function evalSubordina($datos,$i,$idTemaEvaluado){
 #
 function doMenuLang($tema_id="0"){
 
-	$lang = ucfirst($_SESSION[$_SESSION["CFGURL"]][lang][0]);
+	$lang = ucfirst($_SESSION[$_SESSION["CFGURL"]]["lang"][0]);
 
 	$selectLang	= '
 		<form id="select-lang" method="get" action="index.php">
@@ -896,7 +900,6 @@ function doMenuLang($tema_id="0"){
 		$selectLang.='<input type="hidden" name="tema" value="'.$tema_id.'" />';
 	}
 	$selectLang.='</form>';
-	$menuLang=substr("$menuLang",1);
 
 	return $selectLang;
 }
@@ -917,7 +920,7 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 		$rows.='<tr>';
 		$rows.='<td class="izq">'.HTMLlinkTerm($array).'</td>';
 		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
-		if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
 		}else{
 			$rows.='<td>'.$array[apellido].', '.$array[nombres].'</td>';
@@ -1042,25 +1045,20 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 	$cantValores=array_count_values($array_indice);
 	$array_indice=array_unique($array_indice);
 
-	while (list($key, $val) = each($array_indice))
-	{
-		if(!in_array($val,$array_temas))
-		{
+	while (list($key, $val) = each($array_indice)) {
+		if (!in_array($val,$array_temas)) {
 			$temas_ids.=$val.',';
 		}
-	};
-
+	}
 
 	//Si no hay términos más genericos que los resultados
-	if(@$temas_ids)
-	{
+	if (@$temas_ids) {
 		$sql=SQLlistaTema_id(substr($temas_ids,0,-1));
 
 		$recordCount=SQLcount($sql);
 
 		//Si hay resultados
-		if($recordCount>0)
-		{
+		if ($recordCount>0) {
 
 			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_suplementarios.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
 
@@ -1301,15 +1299,17 @@ function HTMLtopTerms($letra=""){
 }
 
 
-function HTMLlistaAlfabeticaUnica($letra=""){
+function HTMLlistaAlfabeticaUnica($letra="")
+{
+	$menuNoAlfabetico  = '';
+	$menuAlfabetico    = '';
+	$sqlMenuAlfabetico = SQLlistaABC($letra);
 
-	$sqlMenuAlfabetico=SQLlistaABC($letra);
-
-	if(SQLcount($sqlMenuAlfabetico)>0){
+	if (SQLcount($sqlMenuAlfabetico)>0) {
 
 		$rows.='<ul class="pagination pagination-sm">';
 
-		while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
+		while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow()) {
 			$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
 
 			//is a valid letter
@@ -1828,7 +1828,7 @@ function paginate_links( $args = '' ) {
 			$fecha_estado=do_fecha($arrayTerm["cuando_estado"]);
 			$body.='<dl class="dl-horizontal">';
 
-			if(@$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+			if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 				$ARRAYuserData4term=ARRAYuserData4term($arrayTerm["tema_id"]);
 				$termCreator=' ('.$ARRAYuserData4term["c_nombres"].' '.$ARRAYuserData4term["c_apellido"].')';
 				$termMod=' ('.$ARRAYuserData4term["m_nombres"].' '.$ARRAYuserData4term["m_apellido"].')';
@@ -2060,11 +2060,11 @@ function HTMLnavHeader()
 	GLOBAL  $CFG,
 			$DBCFG;
 
-	if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
+	if ((!isset($_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"]))) {
     	$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
 	}
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 	    $miCuenta = '
 	    	<div class="dropdown">
 				<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span class="text"> '.ucfirst(MENU_MiCuenta).'</span></a>
@@ -2171,23 +2171,23 @@ function HTMLjsInclude(){
 		    });
 		</script>';
 
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
-//<!-- Load TinyMCE -->
- $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'/vendors/tiny_mce4/tinymce.min.js"></script>';
-//<!-- /TinyMCE -->
+	if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0)) {
+		//<!-- Load TinyMCE -->
+		 $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'/vendors/tiny_mce4/tinymce.min.js"></script>';
+		//<!-- /TinyMCE -->
 
- $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />
-	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
-}
+		 $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />
+			<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
+	}
 
- $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
+	$rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>';
 
- if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
- 	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
+	if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
+ 		$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
 
-$rows.='<script type="text/javascript">
+	$rows.='<script type="text/javascript">
 	  	$("#myTermTab").tabCollapse();
 	  	$(".dropdown-submenu > a").submenupicker();
 
@@ -2196,9 +2196,12 @@ $rows.='<script type="text/javascript">
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
-//scritp to export form
-if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){
-$rows.='<script type=\'text/javascript\'>//<![CDATA[
+	//scritp to export form
+	if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
+	    ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) &&
+	    ($_GET["doAdmin"]=='export')){
+
+		$rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
 					    var x = $(\'#dis\').val();
@@ -2220,8 +2223,9 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					});
 					});//]]>
 			</script>';
-};
-return $rows;
+	}
+
+	return $rows;
 }
 
 // specific note types for contextual term definition

@@ -180,7 +180,7 @@ function SQLbuscaSimple($texto)
 	}
 
 	//Control de estados
-	$where = (!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
+	$where = (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
 
@@ -267,7 +267,7 @@ function SQLsearchInNotes($texto,$params=array()){
 	$codUP=UP_acronimo;
 
 	//Control de estados
-	$where=(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
+	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
 
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -317,7 +317,7 @@ function SQLstartWith($texto){
 	$codUP=UP_acronimo;
 
 	//Control de estados
-	$where=(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
+	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
 
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -389,7 +389,7 @@ function SQLbuscaExacta($texto)
 	$codUP = UP_acronimo;
 
 	//Control de estados
-	$where=(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and tema.estado_id='13' " : "";
+	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
 
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -424,7 +424,7 @@ function ARRAYverTerminoBasico($tema_id){
 	$tema_id=secure_data($tema_id,"int");
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and tema.estado_id='13' " : $where="";
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
 
 	$sql=SQL("select","tema.tema_id, tema.tema_id as idTema,
 	tema.code,
@@ -492,7 +492,7 @@ function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
 		$param_where= $where_in ;
 	}
 
-	if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])
+	if(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 	$where.=" and notas.tipo_nota!='NP' ";
 
 	return SQL("select","notas.id as nota_id, notas.tipo_nota,notas.nota,notas.lang_nota,notas.cuando,
@@ -813,7 +813,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 			$where.="	and left(tti.indice,$size_i)='|$top_term_id|'";
 		}
 		//Control de estados
-		// (!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" where tema.estado_id='13' " : $where="";
+		// (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" where tema.estado_id='13' " : $where="";
 
 		$sql=SQL("select","tema.tema_id as id,tema.tema,tema.code,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,r.t_relacion,r.id_menor as tema_id_referido
 		from $from $DBCFG[DBprefix]tema as tema
@@ -858,7 +858,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		GLOBAL $DBCFG;
 
 		//Control de estados
-		(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and TT.estado_id='13' " : $where="";
+		(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and TT.estado_id='13' " : $where="";
 
 		$sql=SQL("select","TT.tema_id as id,TT.tema,TT.code,TT.tema_id,TT.isMetaTerm,c.idioma,c.titulo
 		from $DBCFG[DBprefix]tabla_rel as relaciones,
@@ -934,15 +934,15 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		and no_mayor.id is null
 		and TT.tema_id='$tema_id'
 		order by lower(TT.tema)");
+
 		return $sql;
-	};
-
-
+	}
 
 	#
 	# Buscador de términos iguales
 	#
-	function SQLverTerminosRepetidos($tesauro_id=1){
+	function SQLverTerminosRepetidos($tesauro_id=1)
+	{
 		GLOBAL $DBCFG;
 		$sql=SQL("select","tema.tema as string_term,count(*) as cant,tema2.tema,tema2.tema_id,tema2.isMetaTerm
 		from $DBCFG[DBprefix]tema as tema, $DBCFG[DBprefix]tema as tema2
@@ -965,7 +965,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		$tema_id=secure_data($tema_id,"int");
 
 		//Control de estados
-		(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and tema.estado_id='13' " : $where="";
+		(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
 
 		$sql=SQL("select","tema.tema_id,tema.tema_id as id_tema,
 		tema.code,
@@ -1000,9 +1000,10 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 
 		GLOBAL $DBCFG;
 		GLOBAL $CFG;
-		$where="";
+		$where    = "";
+		$leftJoin = '';
 
-		if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])		{
+		if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 			//Control de estados
 			$where=" where tema.estado_id='13' ";
 
@@ -1111,7 +1112,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 
 	$where="";
 
-	if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])
+	if(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 	{
 		//Control de estados
 		$where=" and tema.estado_id='13' ";
@@ -1161,7 +1162,7 @@ function numTerms2Letter($letra){
 	$where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)=$letra_sanitizada " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' ";
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and tema.estado_id='13' " : $where="";
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
 
 	$sql=SQL("select","count(*) as cant
 	from $DBCFG[DBprefix]tema as tema
@@ -1189,7 +1190,7 @@ function SQLbuscaTerminosSimple($string,$limit="20"){
 	$limit=(is_int($limit)) ? $limit : "20";
 
 	//Control de estados
-	$where=(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? " and t.estado_id='13' " : "";
+	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and t.estado_id='13' " : "";
 
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and t.isMetaTerm=0 " : "";
@@ -1246,7 +1247,7 @@ function SQLTerminosValidos($tema_id=""){
 	(@$tema_id) ? $where=" and tema.tema_id='$tema_id' " : $where="";
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where.=" and tema.estado_id='13' " : $where=$where;
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where.=" and tema.estado_id='13' " : $where=$where;
 
 	$sql=SQL("SELECT","tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
 	from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones
@@ -1292,7 +1293,7 @@ function SQLTerminosPreferidos($tema_id=""){
 	$tesauro_id= $_SESSION["id_tesa"];
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where.=" and tema.estado_id='13' " : $where=$where;
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where.=" and tema.estado_id='13' " : $where=$where;
 
 	$sql=SQL("select","tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
 	from $DBCFG[DBprefix]tema as tema
@@ -1824,7 +1825,7 @@ function SQLexpansionTema($tema_id){
 	$tema_id=secure_data($tema_id,"int");
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and t.estado_id='13' " : $where="";
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and t.estado_id='13' " : $where="";
 
 	return SQL("select","t.tema_id as tema_id,t.tema,t.isMetaTerm, i.indice,
 	LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep
@@ -1847,7 +1848,7 @@ function SQLexpansionTR($lista_temas_id){
 	$csv_temas_id=string2array4ID($lista_temas_id);
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and t.estado_id='13' " : $where="";
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and t.estado_id='13' " : $where="";
 
 	return SQL("select","t.tema_id as tema_id,t.tema, t.isMetaTerm,count(t.tema_id) as cant_rel
 	from $DBCFG[DBprefix]tema t, $DBCFG[DBprefix]tabla_rel tr
@@ -1870,7 +1871,7 @@ function SQLlistaTema_id($lista_temas_id){
 	GLOBAL $DBCFG;
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and t.estado_id='13' " : $where="";
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and t.estado_id='13' " : $where="";
 
 	$csv_temas_id=string2array4ID($lista_temas_id);
 
@@ -2286,7 +2287,7 @@ function ARRAYCodeDetailed($code)
 	$code=secure_data($code,"ADOsql");
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and tema.estado_id='13' " : $where="";
+	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
 
 	$sql=SQL("select","tema.tema_id, tema.tema_id as idTema,
 	tema.code,

@@ -9,51 +9,43 @@
 include("config.tematres.php");
 $metadata=do_meta_tag();
 
-	if(($_GET["action"]=='rp') && ($_GET["key"]))
-	{
-			$chek_key=check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
+if (($_GET["action"]=='rp') && ($_GET["key"])) {
+		$chek_key = check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
 
-			if($chek_key["user_id"]>0)
-			{
-				$task_result=reset_password($chek_key);
-			}
-	}
+		if ($chek_key["user_id"]>0) {
+			$task_result = reset_password($chek_key);
+		}
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
+	<head>
+		<?php echo HTMLheader($metadata);?>
+	</head>
 
-</head>
-
- <body>
-
-  <?php echo HTMLnavHeader(); ?>
-
-<div id="wrap" class="container">
-
-<?php
- if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-            require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
-    }else{
-
-	if($_POST["task"]=='user_recovery')	{
-		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
-	}
-
-
-	if ($_GET["task"]=='recovery')	{
-		echo HTMLformRecoveryPassword();
-	}	else	{
-
-		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))		{
-			$task_result=array("msg"=>t3_messages('no_user'));
-		}
-		echo HTMLformLogin($task_result);
-	};
- }// if session
-?>
-</div><!-- /.container -->
+	 <body>
+		<?php echo HTMLnavHeader(); ?>
+		<div id="wrap" class="container">
+			<?php
+ 				if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+            		require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
+    			} else {
+					if ($_POST["task"]=='user_recovery') {
+						$task_result = recovery($_POST["id_correo_electronico_recovery"]);
+					}
+					if ((@$_GET["task"]) && ($_GET["task"]=='recovery')) {
+						echo HTMLformRecoveryPassword();
+					} else {
+						if (($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+							$task_result=array("msg"=>t3_messages('no_user'));
+						}
+						echo HTMLformLogin($task_result);
+					}
+ 				}// if session
+ 			?>
+		</div><!-- /.container -->
 
         <?php echo footer(); ?>
         <?php echo HTMLjsInclude();?>
@@ -94,24 +86,22 @@ function check_password_reset_key($key, $login) {
 
 function recovery($user_login)
 {
-
 	GLOBAL $DBCFG;
 
-	$ARRAYuser=array();
-	$ARRAYuser=ARRAYdatosUserXmail($user_login);
-
+	$ARRAYuser = array();
+	$ARRAYuser = ARRAYdatosUserXmail($user_login);
 
 	//El usuario no existe
-	if(!$ARRAYuser["user_id"]) return array("result"=>false, "msg"=>t3_messages("no_user"));
-
-	if ( empty($ARRAYuser["user_activation_key"]) ) {
+	if (!$ARRAYuser["user_id"]) {
+		return array("result"=>false, "msg"=>t3_messages("no_user"));
+	}
+	if (empty($ARRAYuser["user_activation_key"])) {
 		// Generate something random for a key...
 		$ARRAYuser["user_activation_key"] = wp_generate_password(20, false);
 
 		// Now insert the new md5 key into the db
-		$sql_update_key=SQL("update","$DBCFG[DBprefix]usuario set user_activation_key='$ARRAYuser[user_activation_key]' where id='$ARRAYuser[user_id]'");
+		$sql_update_key = SQL("update","$DBCFG[DBprefix]usuario set user_activation_key='$ARRAYuser[user_activation_key]' where id='$ARRAYuser[user_id]'");
 	}
-
 
 	$message = LABEL_mail_recovery_pass1. "\r\n\r\n";
 	$message .= $_SESSION["CFGURL"]. "\r\n\r\n";
@@ -122,21 +112,16 @@ function recovery($user_login)
 
 	$title = sprintf('[%s] '.LABEL_mail_recoveryTitle, $_SESSION[CFGTitulo] );
 
+	$sendMail = sendMail($ARRAYuser['mail'], $title, $message);
 
-	$sendMail=sendMail($ARRAYuser[mail], $title, $message);
-
-	if ($sendMail)
-	{
+	if ($sendMail) {
 		return array("result"=>true, "msg"=>t3_messages("mailOK"));
-	}
-	else
-	{
+	} else {
 		array("result"=>false, "msg"=>t3_messages("mailFail"));
-	};
+	}
 
 	return;
-
-};
+}
 
 
 function reset_password($ARRAYuser){
