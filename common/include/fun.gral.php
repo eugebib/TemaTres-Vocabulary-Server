@@ -1266,8 +1266,8 @@ function sendMail($to_address,$subject,$message,$extra=array())
     /*
     $mail->IsSMTP();
     $mail->Host = "localhost";
-    $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
     */
+    $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
 	$mail->CharSet = "UTF-8";
 	$mail->AddAddress($to_address);
 	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
