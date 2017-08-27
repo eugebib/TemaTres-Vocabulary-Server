@@ -34,7 +34,7 @@
 					if ($_POST["task"]=='user_recovery') {
 						$task_result=recovery($_POST["id_correo_electronico_recovery"]);
 					}
-					if ($_GET["task"]=='recovery') {
+					if ((@$_GET["task"]) && ($_GET["task"]=='recovery')) {
 						echo HTMLformRecoveryPassword();
 					} else {
 						if (($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {

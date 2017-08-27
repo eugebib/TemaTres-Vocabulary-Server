@@ -501,7 +501,7 @@ function HTMLbodyTermino($array)
 
 function HTMLmainMenu() {
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 		$row = '
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
@@ -528,7 +528,7 @@ function HTMLmainMenu() {
 };
 
 function HTMLAdminMenu() {
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 		$row.='
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="sr-only">'.ucfirst(LABEL_Admin).'</span></a>
@@ -862,7 +862,7 @@ function doMenuLang($tema_id="0"){
 	$selectLang.='<form id="select-lang" method="get" action="index.php">';
 	$selectLang.='<select class="navbar-btn btn-info btn-sx pull-right" name="setLang" id="setLang" onchange="this.form.submit();">';
 	foreach ($idiomas_disponibles AS $key => $value) {
-		if($value[2]==$_SESSION[$_SESSION["CFGURL"]][lang][2]){
+		if($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]){
 			$selectLang.='<option value="'.$value[2].'" selected="selected">'.$value[0].'</option>';
 		}else{
 			$selectLang.='<option value="'.$value[2].'">'.$value[0].'</option>';
@@ -876,13 +876,9 @@ function doMenuLang($tema_id="0"){
 		$selectLang.='<input type="hidden" name="tema" value="'.$tema_id.'" />';
 	}
 	$selectLang.='</form>';
-	$menuLang=substr("$menuLang",1);
 
 	return $selectLang;
-};
-
-
-
+}
 
 #
 # Armado de tabla de términos según meses
@@ -900,7 +896,7 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 		$rows.='<tr>';
 		$rows.='<td class="izq">'.HTMLlinkTerm($array).'</td>';
 		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
-		if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
 		}else{
 			$rows.='<td>'.$array[apellido].', '.$array[nombres].'</td>';
@@ -1289,11 +1285,13 @@ function HTMLtopTerms($letra=""){
 }
 
 
-function HTMLlistaAlfabeticaUnica($letra=""){
+function HTMLlistaAlfabeticaUnica($letra="")
+{
+	$menuNoAlfabetico  = '';
+	$menuAlfabetico    = '';
+	$sqlMenuAlfabetico = SQLlistaABC($letra);
 
-	$sqlMenuAlfabetico=SQLlistaABC($letra);
-
-	if(SQLcount($sqlMenuAlfabetico)>0){
+	if (SQLcount($sqlMenuAlfabetico)>0) {
 
 		$rows.='<ul class="pagination pagination-sm">';
 
@@ -1816,7 +1814,7 @@ function paginate_links( $args = '' ) {
 			$fecha_estado=do_fecha($arrayTerm["cuando_estado"]);
 			$body.='<dl class="dl-horizontal">';
 
-			if(@$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+			if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 				$ARRAYuserData4term=ARRAYuserData4term($arrayTerm["tema_id"]);
 				$termCreator=' ('.$ARRAYuserData4term["c_nombres"].' '.$ARRAYuserData4term["c_apellido"].')';
 				$termMod=' ('.$ARRAYuserData4term["m_nombres"].' '.$ARRAYuserData4term["m_apellido"].')';
@@ -2042,11 +2040,11 @@ function HTMLnavHeader() {
 
 	GLOBAL $CFG, $DBCFG;
 
-	if ((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) {
+	if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
     	$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"] = HTMLextraDataHeader($CFG);
 	}
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 	    $miCuenta = '<div class="dropdown">
 					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">
@@ -2133,14 +2131,14 @@ function HTMLjsInclude(){
 		    });
 	    </script>';
 
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
-//<!-- Load TinyMCE -->
- $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'tiny_mce4/tinymce.min.js"></script>';
-//<!-- /TinyMCE -->
+	  if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0)) {
+		//<!-- Load TinyMCE -->
+		 $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'tiny_mce4/tinymce.min.js"></script>';
+		//<!-- /TinyMCE -->
 
- $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />
-	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
-}
+		 $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />
+			<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
+	}
 
  $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
@@ -2158,9 +2156,11 @@ $rows.='<script type="text/javascript">
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
-//scritp to export form
-if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){
-$rows.='<script type=\'text/javascript\'>//<![CDATA[
+	//scritp to export form
+	if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
+		($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) &&
+	  	($_GET["doAdmin"]=='export')){
+		$rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
 					    var x = $(\'#dis\').val();
@@ -2177,8 +2177,9 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					});
 					});//]]>
 			</script>';
-};
-return $rows;
+	}
+
+	return $rows;
 }
 
 // specific note types for contextual term definition
@@ -2241,7 +2242,7 @@ function footer()
 
 	$lang = doMenuLang($metadata["arraydata"]["tema_id"]);
 
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 	    $contact = '
 	    	<li class="first leaf">
 				<a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top"><span class="glyphicon glyphicon-envelope glyphicon-fw"></span>Asistencia técnica *</a>

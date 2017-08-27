@@ -1723,9 +1723,10 @@ function HTMLformUpdateEndpoit(){
 	return $rows;
 }
 
-function HTMLformLogin($task_result){
-	if(is_array($task_result))
-	{
+function HTMLformLogin($task_result)
+{
+	$rows = '';
+	if (is_array($task_result)) {
 		$rows.='<div>'.$task_result["msg"].'</div>';
 	}
 
@@ -1754,7 +1755,8 @@ function HTMLformLogin($task_result){
 	return $rows;
 }
 
-function HTMLformRecoveryPassword($user_name=""){
+function HTMLformRecoveryPassword($user_name="")
+{
 	$rows='<form class="form-horizontal" id="myRecovery" name="myRecovery" action="login.php" method="post">
 <fieldset>
 <legend>'.LABEL_user_recovery_password.'</legend>

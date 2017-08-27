@@ -1167,42 +1167,44 @@ function currentBasePage($url)
 
 function sendMail($to_address,$subject,$message,$extra=array())
 {
+    GLOBAL $DBCFG;
 	require_once("mailer/PHPMailerAutoload.php");
 
 	$mail = new PHPMailer();
 
-/*
- * Exmple with SMTP from gmail
- *
-	$mail->IsSMTP();                                      // set mailer to use SMTP
-	$mail->Host = 'ssl://smtp.gmail.com';
-	$mail->Port = 465;
-	$mail->SMTPAuth = true;
-	$mail->Username = 'username@gmail.com';
-	$mail->Password = 'password';
-*/
+    // Exmple with SMTP from gmail
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = 587;
+    $mail->SMTPSecure = 'tls';
+    $mail->SMTPAuth = true;
+    $mail->Username = "vocabulariosBNM";
+    $mail->Password = "leopoldito";
 
-	$mail->From = 'tematres@'.string2url($_SESSION["CFGTitulo"]);
-	$mail->CharSet = "UTF-8";
-	$mail->AddAddress($to_address);
-	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
-	$mail->IsHTML(false);                                  // set email format to HTML
-	$mail->Subject = $subject;
-	$mail->Body    = $message;
+    //OR  Set PHPMailer to use the sendmail transport
+    //$mail->isSendmail();
 
-/*
- * Debug
- *
- $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
- // 1 = errors and messages
- // 2 = messages only
+    $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
+    $mail->CharSet = "UTF-8";
+    $mail->AddAddress($to_address);
+    $mail->WordWrap = 50;                                 // set word wrap to 50 characters
+    $mail->IsHTML(false);                                  // set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $message;
 
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	echo $mail->ErrorInfo;
-*/
- return ($mail->Send()) ? true  : false;
+    /*
+    * Debug
+    *
+    $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+    // 1 = errors and messages
+    // 2 = messages only
 
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+    echo $mail->ErrorInfo;
+    */
+
+    return ($mail->Send()) ? true  : false;
 }
 
 
