@@ -1292,9 +1292,6 @@ function HTMLlistaAlfabeticaUnica($letra="")
 	$sqlMenuAlfabetico = SQLlistaABC($letra);
 
 	if (SQLcount($sqlMenuAlfabetico)>0) {
-
-		$rows.='<ul class="pagination pagination-sm">';
-
 		while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 			$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
 
@@ -1302,32 +1299,31 @@ function HTMLlistaAlfabeticaUnica($letra="")
 			if(strlen($datosAlfabetico[0])>0)			{
 				$class = ($datosAlfabetico[1]==0)  ? '' : 'active';
 
-				if(!ctype_digit($datosAlfabetico[0]))				{
-					$menuAlfabetico.='<li class="'.$class.'">';
+				if (!ctype_digit($datosAlfabetico[0])) {
 					$menuAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">'.$datosAlfabetico[0].'</a>';
-					$menuAlfabetico.='</li>';
-				}				else				{
-					$menuNoAlfabetico='<li class="'.$class.'">';
-					$menuNoAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">0-9</a>';
-					$menuNoAlfabetico.='</li>';
+				} else {
+					$menuNoAlfabetico ='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">0-9</a>';
 				}
 			}
-		};//fin del while
+		}
 	}
 
-	$menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>';
+	$menuAlfabetico='
+		<div class="text-center">
+			<nav class="pagination pagination-sm">'.
+				$menuNoAlfabetico.
+				$menuAlfabetico.'
+			</nav>
+		</div>';
+
 	return $menuAlfabetico;
-};
-
-
+}
 
 /*
 All terms form one char
 */
 function HTMLterminosLetra($letra)
 {
-
-
 	$cantLetra=numTerms2Letter($letra);
 
 	$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
