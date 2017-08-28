@@ -1,11 +1,15 @@
 <?php
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 # Include para seleccionar include o función de visualizaicon de listas de términos #
 
 //Antes de desplegar cotenidos => Echo mensajes de error
@@ -104,7 +108,6 @@ elseif(($_GET[xsearch]=='1')){
 	if($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]!=='0') echo HTMLdisplayRandomTerm($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]);
 	if ($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]=='1') {
 		echo HTMLtopTerms($letra);
-		echo HTMLlistaAlfabeticaUnica($letra);
 	}
 	echo '</div>';
 }
