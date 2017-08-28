@@ -2119,7 +2119,7 @@ function HTMLnavHeader()
 function HTMLjsInclude(){
 
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
- $rows='<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+ $rows='<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		 <!-- Include all compiled plugins (below), or include individual files as needed -->
 		 <script src="'.T3_WEBPATH.'vendors/bootstrap/js/bootstrap.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>

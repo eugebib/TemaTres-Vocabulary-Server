@@ -2,18 +2,22 @@
 
 include("config.tematres.php");
 $metadata=do_meta_tag();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-    <?php echo HTMLheader($metadata);?>
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-  <?php echo     '<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>';?>
- </head>
- <body>
-  <?php if (is_array($metadata["arraydata"])) echo HTMLmodalTerm($metadata);?>
-</body>
+    <head>
+        <?php echo HTMLheader($metadata);?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="<?= T3_WEBPATH ?>vendors/bootstrap/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <?php if (is_array($metadata["arraydata"])) echo HTMLmodalTerm($metadata);?>
+    </body>
 </html>
+
 <?php
 #modal body for simple Term data
 function HTMLmodalTerm($arrayTermData){
