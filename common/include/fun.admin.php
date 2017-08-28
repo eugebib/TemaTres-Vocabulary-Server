@@ -3864,9 +3864,9 @@ function do_pdfAlpha2($params=array())
 	foreach ($terms as $term) {
 		if ($term['isMetaTerm'] == 0) {
 			if (isset($term['preferido'])) {
-				$pdf->SetFont('opensans','I',12);
+				$pdf->SetFont('opensans','I',10);
 				$pdf->MultiCell($w,6,latin1($term["term"]),0,'L');
-				$pdf->SetFont('opensans','',10);
+				$pdf->SetFont('opensans','',8);
 				$pdf->MultiCell($w,6,'   USE  '.latin1($term["preferido"]),0,'L');
 			} else {
 				$pdf->SetFont('opensans','B',12);
@@ -3973,7 +3973,20 @@ function getTermsxAlpha($params)
 	    }
 	}
 
-    $list = array_sort($list, 'term');
+    usort($list, function($a, $b) {
+    	$patterns = array(
+	        'a' => '(á|à|â|ä|Á|À|Â|Ä)',
+	        'e' => '(é|è|ê|ë|É|È|Ê|Ë)',
+	        'i' => '(í|ì|î|ï|Í|Ì|Î|Ï)',
+	        'o' => '(ó|ò|ô|ö|Ó|Ò|Ô|Ö)',
+	        'u' => '(ú|ù|û|ü|Ú|Ù|Û|Ü)'
+	    );
+
+	    $a = preg_replace(array_values($patterns), array_keys($patterns), $a['term']);
+	    $b = preg_replace(array_values($patterns), array_keys($patterns), $b['term']);
+
+	    return strcasecmp($a, $b);
+	});
 
     return $list;
 }
