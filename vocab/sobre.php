@@ -2,7 +2,7 @@
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
-# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
 # Distribuido bajo Licencia GNU Public License, versión 2          #
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
@@ -106,12 +106,16 @@ $top = getQtyXTop();
                             </a>'; ?>
                     </dd>
                 </div>
+
+                <?php if ($_SESSION['show_tree'] == 1) { ?>
                 <div class="flex">
-                    <dt><?= 'TÉRMINOS POR CATEGORÍA'; ?></dt>
+                    <dt>TÉRMINOS POR CATEGORÍA</dt>
                     <dd>
                         <div id="chart_div"></div>
                     </dd>
                 </div>
+                <?php } ?>
+
             	<?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_candidato] > 0): ?>
                     <div class="flex">
                     	<dt>
