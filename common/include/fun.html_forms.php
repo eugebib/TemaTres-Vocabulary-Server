@@ -590,7 +590,7 @@ function HTMLformAdvancedSearch($array)
 	    <form class="box form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">
 	      	<div class="box-title">
 	          	<span>'. ucfirst(LABEL_BusquedaAvanzada).'</span>
-	          	<input type="submit" id="boton" name="boton" class="btn btn-primary" value="Buscar">
+	          	<input type="submit" id="boton" name="boton" class="btn btn-primary" value="' . LABEL_Buscar . '">
 	          	<input type="hidden" name="xsearch" id="xsearch" value="1"/>
 	        </div>
 	        <div class="box-content">
@@ -684,7 +684,7 @@ function HTMLformAdvancedSearch($array)
 		</form>
 		<div class="push"></div>';
 
-	if ($_GET[boton]==LABEL_Buscar) {
+	if ($_GET['boton']==LABEL_Buscar) {
 		$rows.=HTMLadvancedSearchResult($array);
 	}
 
