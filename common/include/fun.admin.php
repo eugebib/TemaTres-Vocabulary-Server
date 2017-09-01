@@ -3884,6 +3884,11 @@ function do_pdfAlpha2($params=array())
 		}
 	}
 
+	if ($params["hasTopTerm"] > 0) {
+	    $topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
+	    $topTerm = $topTerm['tema'];
+	}
+
 	$filname = string2url($_SESSION[CFGTitulo].'-alf-'.$topTerm).'.pdf';
 
 	$pdf->Output('I',$filname);
