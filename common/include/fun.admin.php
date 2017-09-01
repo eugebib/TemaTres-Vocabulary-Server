@@ -3926,7 +3926,23 @@ function getTermsxAlpha($params)
 					'isMetaTerm' => (int) $term['isMetaTerm']
 		    	);
 		    	if (in_array('NA', (array) $params['includeNote'])) {
-		    		$array['NA'] = strip_tags(str_replace(array('[[', ']]'), '', (string) $term['nota']));
+		    		$note = strip_tags((string) $term['nota']);
+	    			while (strpos($note,"|")) {
+	    				$note = str_replace(
+	    					substr(
+	    						$note,
+	    						strpos($note, "|"),
+	    						strpos($note, "]]",strpos($note, "|"))-strpos($note, "|")+2),
+	    					'',
+	    					$note);
+	    			}
+	    			while (strpos($note,"[[") !== false) {
+	    				$note = str_replace(
+	    					array('[[', ']]'),
+	    					'',
+	    					$note);
+	    			}
+	    			$array['NA'] = $note;
 		    	}
 	    	    if (!in_array($array, $list)) {
 	    	    	$list[] = $array;
@@ -3960,7 +3976,23 @@ function getTermsxAlpha($params)
 				'isMetaTerm' => (int) $term['isMetaTerm']
 	    	);
 	    	if (in_array('NA', (array) $params['includeNote'])) {
-	    		$array['NA'] = strip_tags(str_replace(array('[[', ']]'), '', (string) $term['nota']));
+	    		$note = strip_tags((string) $term['nota']);
+    			while (strpos($note,"|")) {
+    				$note = str_replace(
+    					substr(
+    						$note,
+    						strpos($note, "|"),
+    						strpos($note, "]]",strpos($note, "|"))-strpos($note, "|")+2),
+    					'',
+    					$note);
+    			}
+    			while (strpos($note,"[[") !== false) {
+    				$note = str_replace(
+    					array('[[', ']]'),
+    					'',
+    					$note);
+    			}
+    			$array['NA'] = $note;
 	    	}
     	    if (!in_array($array, $list)) {
     	    	$list[] = $array;
