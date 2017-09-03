@@ -595,23 +595,11 @@ function fetchVocabularyData($vocabulary_id)
 			}
 			$listaCandidatos = explode("|",$listaCandidatos);
 			$similar         = new Qi_Util_Similar($listaCandidatos, $string);
-			$sugerencia      = $similar->sugestao();
+			$sugerencias     = $similar->sugestoes(10);
 		}
 
-		$evalSimilar = evalSimiliarResults($string, $sugerencia);
-
-		if ($sugerencia && $evalSimilar) {
-			$result["result"] = array("string"=>$sugerencia);
-		} else {
-			$result["result"] = array();
-		}
-
-		return $result;
+		return array('result' => $sugerencias);
 	}
-
-
-
-
 
 	// Desvuelve un array describiendo los servicios
 	function describeService($msg=array()){
