@@ -124,8 +124,8 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 			}
 
 			# Alta de término
-			if($_POST["alta_t"]=='new'){
-				$proc=createTerms(doValue($_POST,FORM_LABEL_termino),$_POST["isMetaTerm"]);
+			if ($_POST["alta_t"]=='new') {
+				$proc = createTerms(doValue($_POST,FORM_LABEL_termino),$_POST["isMetaTerm"]);
 
 				$tema=$proc["last_term_id"];
 
@@ -634,34 +634,24 @@ function actualizaArbolxTema($tema_id)
 }
 
 # ALTA DE TERMINOS
-
 function addTerm($string,$tesauro_id,$estado_id=13)
-
 {
+	GLOBAL $DBCFG;
+	GLOBAL $DB;
 
-  GLOBAL $DBCFG;
+	$titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-  GLOBAL $DB;
+	$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
+	  values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id));
 
-  $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
-
-  $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
-
-  $sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
-
-
-      values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id));
-
-
-  return $sql["cant"];
-
+	return $sql["cant"];
 }
 
 # ALTA Y MODIFICACION DE TERMINOS
 function abm_tema($do,$titu_tema,$tema_id="")
 {
 	GLOBAL $DBCFG;
-
 	GLOBAL $DB;
 
 	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
@@ -680,15 +670,16 @@ function abm_tema($do,$titu_tema,$tema_id="")
 		case 'alta':
 			$estado_id = (@$_POST["estado_id"]) ? $_POST["estado_id"] : '13';
 			$tema_id=addTerm($titu_tema,$tesauro_id,$estado_id);
-		break;
+			break;
+
 		case 'mod':
 			$tema_id=secure_data($tema_id,"int");
 			$titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 			$sql=SQLo("update","$DBCFG[DBprefix]tema set
 			tema=$titu_tema ,uid_final= ?,cuando_final=now() where tema_id= ?",
 			array($userId,$tema_id));
-		break;
-	};
+			break;
+	}
 
 	return $tema_id;
 }
@@ -3581,25 +3572,22 @@ function makeMetaTerms($terms_id=array()){
 }
 
 //Create many terms
-function createTerms($arrayStrings,$isMetaTerm=0){
-
-	$arrayTerminos=explode("\n",$arrayStrings);
+function createTerms($arrayStrings,$isMetaTerm=0)
+{
+	$arrayTerminos = explode("\n",$arrayStrings);
 
 	for($i=0; $i<sizeof($arrayTerminos);++$i){
 		//duplicate check policies
-		if($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==0){
+		if ($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"] == 0) {
 			$fetchTerm=checkDuplicateTerm($arrayTerminos[$i],$isMetaTerm);
-
-			if($fetchTerm["tema_id"]){
-					$arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
-			}else{
-
+			if ($fetchTerm["tema_id"]) {
+				$arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
+			} else {
 				$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]));
 				$tema=$new_termino;
 				if($isMetaTerm==1)	setMetaTerm($tema,1);
 			}
-		}else{
-
+		} else {
 			$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]));
 			$tema=$new_termino;
 			if($isMetaTerm==1)	setMetaTerm($tema,1);

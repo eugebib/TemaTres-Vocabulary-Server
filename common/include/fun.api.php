@@ -1,11 +1,14 @@
 <?php
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 # Abstraccion de funciones de consulta
 #
 // Be careful, access to this file is not protected
@@ -594,36 +597,23 @@ function fetchVocabularyData($vocabulary_id)
 
 		if(is_object($sqlSimilar))
 		{
-			while($arraySimilar=$sqlSimilar->FetchRow())
-			{
+			while($arraySimilar=$sqlSimilar->FetchRow()) {
 				$listaCandidatos.= $arraySimilar[tema].'|';
 			}
 
-			$listaCandidatos=explode("|",$listaCandidatos);
-			$similar = new Qi_Util_Similar($listaCandidatos, $string);
-			$sugerencia= $similar->sugestao();
+			$listaCandidatos = explode("|",$listaCandidatos);
+			$similar         = new Qi_Util_Similar($listaCandidatos, $string);
+			$sugerencias     = $similar->sugestoes(10);
 		}
 
-		$evalSimilar=evalSimiliarResults($string, $sugerencia);
-
-		if ($sugerencia && $evalSimilar)
-		{
-			$result["result"]= array("string"=>$sugerencia);
-		}
-		else
-		{
-			$result["result"]= array();
-		}
-
-		return $result;
+    	return array('result' => $sugerencias);
 	}
 
-
-
-
-
-	// Desvuelve un array describiendo los servicios
-	function describeService($msg=array()){
+	#
+	# Desvuelve un array describiendo los servicios
+	#
+	function describeService($msg=array())
+	{
 
 		GLOBAL $CFG;
 

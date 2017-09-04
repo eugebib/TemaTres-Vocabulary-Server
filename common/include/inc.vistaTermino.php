@@ -1,11 +1,14 @@
 <?php
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 #   Include para seleccionar include o función de formulario de edición
 
 //array de acciones posibles para asociar términos
@@ -49,9 +52,8 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
 		break;
 
 		case 'addTerm':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
-		break;
-
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			break;
 
 		case 'addRTnw':
 		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);

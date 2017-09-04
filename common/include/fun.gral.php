@@ -1,12 +1,13 @@
 <?php
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
 
 ###################################################################################
 ############################### FUNCIONES GENERALES ###############################
@@ -670,8 +671,19 @@ class Qi_Util_Similar
 
 	public function sugestoes($limit = null)
 	{
-		if ($limit === null) return $this->lista;
-		return array_slice($this->lista, 0, $limit);
+        $lista = array();
+
+        foreach ($this->lista as $sugerencia) {
+            if (evalSimiliarResults($this->palavra, $sugerencia)) {
+                $lista[] = $sugerencia;
+            }
+        }
+
+        if ($limit === null) {
+            return $lista;
+        }
+
+        return array_slice($lista, 0, $limit);
 	}
 
 	private function similar($a, $b)
@@ -699,24 +711,22 @@ class Qi_Util_Similar
 
 function evalSimiliarResults($string_a,$string_b)
 {
+    GLOBAL $CFG;
 
-GLOBAL $CFG;
+    $_MIN_DISTANCE=($CFG["_MIN_DISTANCE"]>0) ? $CFG["_MIN_DISTANCE"] : 6;
 
-$_MIN_DISTANCE=($CFG["_MIN_DISTANCE"]>0) ? $CFG["_MIN_DISTANCE"] : 6;
+    // Config values to evaluate distance between to strings (Levenstein distance)
+    $CFG["_COST_INST"] ='1';
+    $CFG["_COST_REP"] ='2';
+    $CFG["_COST_DEL"] ='3';
 
-// Config values to evaluate distance between to strings (Levenstein distance)
-$CFG["_COST_INST"] ='1';
-$CFG["_COST_REP"] ='2';
-$CFG["_COST_DEL"] ='3';
+    $evalSimilar=levenshtein($string_a,$string_b,$CFG["_COST_INST"],$CFG["_COST_REP"],$CFG["_COST_DEL"]);
 
-
-$evalSimilar=levenshtein($string_a,$string_b,$CFG["_COST_INST"],$CFG["_COST_REP"],$CFG["_COST_DEL"]);
-
-
-return ($evalSimilar<$_MIN_DISTANCE);
+    return ($evalSimilar<$_MIN_DISTANCE);
 }
 
-function outputCosas($line){
+function outputCosas($line)
+{
        global $time_start;
 
                 $time_now = time();

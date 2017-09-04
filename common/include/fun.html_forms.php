@@ -252,54 +252,58 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 - Alta de un t�rmino subordinado a un t�rmino.
 *
 */
-function HTMLformEditTerms($taskterm,$ARRAYtermino="0"){
+function HTMLformEditTerms ($taskterm,$ARRAYtermino="0")
+{
 	//SEND_KEY to prevent duplicated
 	session_start();
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	switch($taskterm)
-	{
+	switch($taskterm) {
 		case 'addTerm':// add term
-		$nombre_pantalla=LABEL_AgregarT;
-		$hidden='<input type="hidden"  name="alta_t" value="new" />';
-		$hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
-		$hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
-			<div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
-			</div>';
+			$nombre_pantalla=LABEL_AgregarT;
+			$hidden='<input type="hidden"  name="alta_t" value="new" />';
+			$hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
+			$hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
+				<div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
+				</div>';
 
-		$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-		$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-		break;
+			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+			break;
+
 		case 'editTerm'://Edici�n de un t�rmino $edit_id
-		$nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-		$vista_titulo_tema=$ARRAYtermino["titTema"];
-		$vista_desc_tema=$ARRAYtermino[descTema];
-		$hidden='<input type="hidden"  name="edit_id_tema" value="'.$ARRAYtermino["idTema"].'" />';
-		break;
+			$nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$vista_titulo_tema=$ARRAYtermino["titTema"];
+			$vista_desc_tema=$ARRAYtermino[descTema];
+			$hidden='<input type="hidden"  name="edit_id_tema" value="'.$ARRAYtermino["idTema"].'" />';
+			break;
+
 		case 'addNT':// add narowwer term
-		$nombre_pantalla=LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-		$hidden.='<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
-		$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-		$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
-		$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-		$t_relation='3';
-		break;
+			$nombre_pantalla=LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$hidden.='<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
+			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
+			$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+			$t_relation='3';
+			break;
+
 		case 'addUF'://Alta de un t�rmino no preferido a $id_uf
-		$nombre_pantalla=LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-		$hidden='<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
-		$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-		$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_AgregarUPexist).'">'.ucfirst(MENU_AgregarUPexist).'</a>';
-		$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-		$t_relation='4';
-		break;
+			$nombre_pantalla=LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$hidden='<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
+			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_AgregarUPexist).'">'.ucfirst(MENU_AgregarUPexist).'</a>';
+			$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+			$t_relation='4';
+			break;
+
 		case 'addRTnw'://Alta de un término RT
-		$nombre_pantalla=LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-		$hidden='<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
-		$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-		$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
-		$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-		$t_relation='2';
-		break;
-	};
+			$nombre_pantalla=LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$hidden='<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
+			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
+			$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+			$t_relation='2';
+			break;
+	}
 	$rows.='<div class="container" id="bodyText">';
 	$rows.='<div class="row">';
 	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
