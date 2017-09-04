@@ -858,8 +858,6 @@ function SQLdirectTerms($tema_id)
 		return $sql;
 	};
 
-
-
 #
 # TERMINOS TOPES
 #

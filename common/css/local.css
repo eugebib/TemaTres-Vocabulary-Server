@@ -601,3 +601,18 @@ footer p.text-muted {
     background: #f46353;
     color: white;
 }
+
+.Historico,
+.Historico a {
+    color: #578240;
+}
+
+.Region,
+.Region a {
+    color: #7C3D5C;
+}
+
+.Fisico,
+.Fisico a {
+    color: #124A97;
+}

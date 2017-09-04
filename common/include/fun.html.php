@@ -206,10 +206,10 @@ function doContextoTermino($idTema,$i_profundidad){
 			$row_NT.=($CFG["_SHOW_CODE"]=='1') ? ' '.$datosNT["code"].' ' : '';
 		}
 
-		$css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+		$css_class_MT=($datosNT["isMetaTerm"]==1) ? 'metaTerm' : '';
 		$label_MT=($datosNT["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
-		$row_NT.='<a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
+		$row_NT.='<a class="'.$css_class_MT.' '.$datosNT["rr_value"].'" title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
 	};
 
 	// Terminos TG, UF y TR
@@ -1100,38 +1100,39 @@ function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 	return array("html"=>$row_result,"count"=>$recordCount);
 }
 
-function HTMLverTE($tema_id,$i_profundidad,$i=""){
-
+function HTMLverTE($tema_id,$i_profundidad,$i="")
+{
 	GLOBAL $CFG;
+
 	$sql=SQLverTerminosE($tema_id);
-	$rows='<ul id="masTE'.$tema_id.'"  style="list-style:none; display: none">';
+	$rows='<ul id="masTE'.$tema_id.'" style="list-style:none; display: none">';
 	//Contador de profundidad de TE desde la raíz
 	$i_profundidad=($i_profundidad==0) ? 1 : $i_profundidad;
 	$i_profundidad=++$i_profundidad;
 
 	//Contador de profundidad de TE desde el TE base
 	$i=++$i;
-	while($array=$sql->FetchRow()){
-		if($array["id_te"]){
-			if($i<CFG_MAX_TREE_DEEP){
-				$link_next='  <a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span></a> ';
+	while ($array=$sql->FetchRow()) {
+		if ($array["id_te"]) {
+			if ($i<CFG_MAX_TREE_DEEP) {
+				$link_next='  <a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')"><span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span></a> ';
 				$link_next.=HTMLverTE($array["id_tema"],$i_profundidad,$i);
-			}		else {
+			} else {
 				$link_next='&nbsp; <a title="'.LABEL_verDetalle.TE_termino.' '.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'">&#x25ba;</a>';
 				//$link_next=JHTMLverTE($tema_id);
 			}
-		}else{
+		} else {
 			$link_next='';
-		};
+		}
 
-		$css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-
-		$label_MT=($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
+		$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+		$label_MT     = ($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
 		$rows.='<li class="listTE"><abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
 		$rows.=HTMLshowCode($array);
 		$rows.=' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
-	};
+	}
+
 	$rows.='</ul>';
 
 	return $rows;
@@ -1256,12 +1257,11 @@ function HTMLsugerirTermino($texto,$acumula_temas="0"){
 	return $rows;
 }
 
-
-/*
-Display top terms
-*/
-function HTMLtopTerms($letra=""){
-
+#
+# Display top terms
+#
+function HTMLtopTerms($letra="")
+{
 	GLOBAL $CFG;
 
 	$_TOP_TERMS_BROWSER=(in_array($CFG["_TOP_TERMS_BROWSER"], array(1,0))) ? $CFG["_TOP_TERMS_BROWSER"] : 0;
@@ -1269,20 +1269,20 @@ function HTMLtopTerms($letra=""){
 	$rows.='<div class="clearer-top"></div>';
 
 	//$_TOP_TERMS_BROWSER=1;
-	if($_TOP_TERMS_BROWSER==1){
+	if ($_TOP_TERMS_BROWSER==1) {
 		//Top terms
 		$sql=SQLverTopTerm();
 
-		while ($array = $sql->FetchRow()){
+		while ($array = $sql->FetchRow()) {
 			$rows.='<h2 class="TThtml">';
-				$rows.=HTMLshowCode($array);
-				$rows.=HTMLlinkTerm($array);
-				$rows.='  <a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id"].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span></a> ';
-				$rows.='</h2>' ;
-				$rows.=HTMLverTE($array["id"],1,0);
-			};
+			$rows.=HTMLshowCode($array);
+			$rows.=HTMLlinkTerm($array);
+			$rows.='  <a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id"].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span></a> ';
+			$rows.='</h2>' ;
+			$rows.=HTMLverTE($array["id"],1,0);
+		}
 
-	}else{
+	} else {
 		$rows.='<div id="treeTerm" data-url="suggest.php?node=TT"></div>';
 	}
 
@@ -1764,21 +1764,22 @@ function paginate_links( $args = '' ) {
 			return json_encode($arrayResponse);
 		};
 
-		/*
-		Retorna los datos, acorde al formato de jtree
-		*/
-		function getData4jtree($term_id=0){
-
+		#
+		# Retorna los datos, acorde al formato de jtree
+		#
+		function getData4jtree($term_id=0)
+		{
 			GLOBAL $CFG;
+
 			if(is_numeric($term_id)){
 					# display narrower terms
-					$sql=SQLverTerminosE($term_id);
-				}elseif ($term_id=='TT') {
-					# display top terms
-					$sql=SQLverTopTerm();
-				}else{
-					return;
-				}
+				$sql=SQLverTerminosE($term_id);
+			}elseif ($term_id=='TT') {
+				# display top terms
+				$sql=SQLverTopTerm();
+			}else{
+				return;
+			}
 
 			$arrayResponse=array();
 
@@ -1801,14 +1802,20 @@ function paginate_links( $args = '' ) {
 
 				$styleClassLink = ($term_id=='TT') ? 'TT' :'';
 
-				$link='<span class="TT">'.$pre_link.HTMLlinkTerm($array,array("style"=>$styleClassLink)).'</span>';
+				$link='<span class="TT ' . $array['rr_value'] . '">'.$pre_link.HTMLlinkTerm($array,array("style"=>$styleClassLink)).'</span>';
 
-				array_push($arrayResponse, array("label"=>"$link",
-				"id"=>"$array[tema_id]",
-				"load_on_demand"=>$load_on_demand));
+				array_push(
+					$arrayResponse,
+					array(
+						"label"          => "$link",
+						"id"             => "$array[tema_id]",
+						"load_on_demand" => $load_on_demand
+					)
+				);
 			}
+
 			return json_encode($arrayResponse);
-		};
+		}
 
 
 		#display metada about the_term
@@ -1948,7 +1955,6 @@ function HTMLduplicatedTermsAlert($arrayDuplicatedTerms){
 
 function HTMLlinkTerm($arrayTerm,$arg=array())
 {
-
 	$class=(@$arg["style"]) ? $arg["style"] : '';
 
 	$class.=($arrayTerm["isMetaTerm"]==1) ? ' metaTerm' : '';
@@ -1962,7 +1968,7 @@ function HTMLlinkTerm($arrayTerm,$arg=array())
 
 	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
 
-	return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>';
+	return '<a class="'.$class.' '.$datosNT["rr_value"].'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>';
 }
 
 
