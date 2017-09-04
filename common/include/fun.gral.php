@@ -1,12 +1,13 @@
 <?php
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
 
 ###################################################################################
 ############################### FUNCIONES GENERALES ###############################
@@ -593,8 +594,19 @@ class Qi_Util_Similar
 
 	public function sugestoes($limit = null)
 	{
-		if ($limit === null) return $this->lista;
-		return array_slice($this->lista, 0, $limit);
+        $lista = array();
+
+        foreach ($this->lista as $sugerencia) {
+            if (evalSimiliarResults($this->palavra, $sugerencia)) {
+                $lista[] = $sugerencia;
+            }
+        }
+
+        if ($limit === null) {
+            return $lista;
+        }
+
+        return array_slice($lista, 0, $limit);
 	}
 
 	private function similar($a, $b)
