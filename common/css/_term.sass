@@ -1,4 +1,26 @@
+#bodyText
+    h1
+        margin-bottom: 15px
+
+        &.metaTerm
+            background: #fff8bf 13px 50% no-repeat
+            border: 2px solid #ffd324
+            color: #eb830c
+            padding: 5px 11px 5px 20px
+
+            &::before
+                content: ""
+
+            &::after
+                content: "   (metatérmino)"
+
+
+// Pestañas
+
 #myTermTab
+
+    .nav-tabs>li
+        padding-bottom: 0px
 
     .nav-tabs > li > a
         border: 1px solid lightgray
@@ -9,3 +31,59 @@
 
     .nav-tabs > li.active
         font-weight: bold
+
+    .nav-tabs>li.active>a,
+    .nav-tabs>li.active>a:focus,
+    .nav-tabs>li.active>a:hover
+        background-color: #ddd
+
+
+// Pestaña término
+
+#theTerm
+    li
+        padding-top: 0
+        padding-bottom: 12px
+
+        &:last-child
+            padding-bottom: 0px
+
+    ul
+        padding-top: 10px
+
+    a[type="button"]
+        margin-right: 10px
+
+    a:nth-child(4)
+        padding-left: 10px
+
+
+// Breadcrumb
+
+.breadcrumb
+    background-color: #ddd
+
+    &>li+li:before
+        color: black
+        content: " | "
+
+
+// Editable term
+
+.editable_term,
+form.editable
+    display: flex
+    width: 100%
+    flex-wrap: wrap
+    margin-bottom: 20px
+
+.editable_term h3,
+.editable_term textarea,
+.editable_term input
+    flex-grow: 1
+
+
+// Notas
+
+#notas
+    word-wrap: break-word
