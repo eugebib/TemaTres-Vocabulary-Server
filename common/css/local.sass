@@ -1,4 +1,5 @@
 @import about
+@import admin
 @import alphanav
 @import footer
 @import forms
@@ -63,21 +64,17 @@ form.editable
 #bodyText h1
     margin-bottom: 15px
 
-
 #bodyText h1.metaTerm
     background: #fff8bf 13px 50% no-repeat
     border: 2px solid #ffd324
     color: #eb830c
     padding: 5px 11px 5px 20px
 
-
 #bodyText h1.metaTerm::before
     content: ""
 
-
 #bodyText h1.metaTerm::after
     content: "   (metatérmino)"
-
 
 #theTerm li
     padding-top: 0
@@ -164,6 +161,76 @@ form.upload
 .box-content input[type="radio"]
     transform: scale(2)
     margin: 15px
+
+.box-content .form-group
+    display: flex
+    align-items: baseline
+
+.dropdown-submenu>.dropdown-menu
+    width: 270px
+
+.tab-pane h4
+    margin-top: 20px
+
+#listaLetras li:not(:last-child)
+    margin-bottom: 10px
+
+.baja
+    color: red
+    font-weight: bolder
+
+.listTE
+    padding-bottom: 10px
+
+.square
+    list-style-type: square
+
+
+.list h3
+    margin-bottom: 30px
+    border-bottom: black solid 1px
+
+
+.square > li
+    margin-bottom: 15px
+
+
+.circle
+    list-style-type: circle
+
+
+.box
+    background-color: #cfdbe7
+    border-radius: 10px
+    padding: 20px
+    margin-bottom: 15px
+
+
+.box-title
+    font-size: 20px
+    height: 50px
+    margin-bottom: 20px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-bottom: 1px solid #333333
+
+
+.box-content > *
+    margin-bottom: 10px
+
+
+.box-content select,
+.box-content input[type="text"],
+.box-content input[type="search"]
+    height: 50px
+
+
+.box-content input[type="checkbox"],
+.box-content input[type="radio"]
+    transform: scale(2)
+    margin: 15px
+
 
 .box-content .form-group
     display: flex
