@@ -2083,7 +2083,7 @@ function HTMLnavHeader()
 					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-glyphicon glyphicon-question-sign" aria-hidden="true"></span><span class="text">  ' . MENU_Ayuda . '</span></span></a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
-							<a title="vocabularios@me.gov.ar" href="mailto:vocabularios@me.gov.ar" target="_top">' . ucfirst(MENU_Contact) . '</a>
+							<a title="vocabularios@educacion.gob.ar" href="mailto:vocabularios@educacion.gob.ar" target="_top">' . ucfirst(MENU_Contact) . '</a>
 						</li>'
 	                	. $manual . '
 					</ul>
