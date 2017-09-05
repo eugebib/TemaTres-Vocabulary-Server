@@ -1,0 +1,32 @@
+.pagination
+    width: 100%
+    display: flex
+    justify-content: space-around
+    flex-wrap: wrap
+    padding: .5rem
+    background-color: transparent
+    margin-bottom: 35px
+
+.pagination a
+    display: flex
+    // Center align the letters within each box
+    justify-content: center
+    padding: .5em
+    border-radius: 8px
+    font-size: 1.2em
+    line-height: 1
+    font-weight: 500
+    text-decoration: none
+    color: darkgray
+    flex-shrink: 0
+    flex-grow: 1
+    display: flex
+    justify-content: center
+
+.pagination a:hover
+    background: #ddd
+    color: #444
+
+.pagination .active
+    background: #f46353
+    color: white

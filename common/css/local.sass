@@ -1,0 +1,170 @@
+@import about
+@import alphanav
+@import footer
+@import forms
+@import header
+@import layout
+@import navbar
+@import relations
+@import term
+
+
+
+.flex
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+.flex input
+    flex-grow: 1
+
+fieldset h3
+    margin: 15px -15px 25px
+
+fieldset .btn
+    font-size: 14px
+
+#notas
+    word-wrap: break-word
+
+.breadcrumb>li+li:before
+    color: black
+    content: " | "
+
+
+.nav-tabs>li
+    padding-bottom: 0px
+
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover
+    background-color: #ddd
+
+
+.editable_term,
+form.editable
+    display: flex
+    width: 100%
+    flex-wrap: wrap
+    margin-bottom: 20px
+
+
+.editable_term h3,
+.editable_term textarea,
+.editable_term input
+    flex-grow: 1
+
+
+.breadcrumb
+    background-color: #ddd
+
+
+#bodyText h1
+    margin-bottom: 15px
+
+
+#bodyText h1.metaTerm
+    background: #fff8bf 13px 50% no-repeat
+    border: 2px solid #ffd324
+    color: #eb830c
+    padding: 5px 11px 5px 20px
+
+
+#bodyText h1.metaTerm::before
+    content: ""
+
+
+#bodyText h1.metaTerm::after
+    content: "   (metatérmino)"
+
+
+#theTerm li
+    padding-top: 0
+    padding-bottom: 12px
+
+
+#theTerm li:last-child
+    padding-bottom: 0px
+
+
+#theTerm ul
+    padding-top: 10px
+
+
+#theTerm a[type="button"]
+    margin-right: 10px
+
+
+#theTerm li a:nth-child(4)
+    padding-left: 10px
+
+
+div.upload
+    margin-top: 20px
+
+
+form.upload
+    display: flex
+
+
+.upload>*
+    flex-grow: 1
+    flex-basis: 0
+
+
+#listaLetras li,
+#listaBusca li
+    line-height: 35px
+
+
+.glyphicon-fw
+    width: 2.5em
+    text-align: center
+
+.selectlang button
+    background-color: transparent
+    border: 0
+    padding: 15px 14px
+    border-radius: 0
+
+.selectlang button:hover
+    background-color: #4E87C0
+
+#select-lang .bootstrap-select>.dropdown-toggle.bs-placeholder
+    color: white
+
+.jumbotron
+    font-size: 21px
+
+.box
+    background-color: #cfdbe7
+    border-radius: 10px
+    padding: 20px
+    margin-bottom: 15px
+
+.box-title
+    font-size: 20px
+    height: 50px
+    margin-bottom: 20px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-bottom: 1px solid #333333
+
+.box-content > *
+    margin-bottom: 10px
+
+.box-content select,
+.box-content input[type="text"],
+.box-content input[type="search"]
+    height: 50px
+
+.box-content input[type="checkbox"],
+.box-content input[type="radio"]
+    transform: scale(2)
+    margin: 15px
+
+.box-content .form-group
+    display: flex
+    align-items: baseline

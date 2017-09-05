@@ -1,0 +1,42 @@
+.sobre
+    border-bottom: 0px
+
+    h1
+        margin-bottom: 30px
+
+    .flex
+        border-bottom: 1px solid #36657d
+        padding: 10px 0px 10px 0px
+        align-items: stretch
+
+    dt,
+    dd
+        padding: 0px 10px
+
+    dt
+        width: 30%
+        background-color: transparent
+        color: #36657d
+        text-align: right
+
+    .flex dd
+        width: 70%
+        flex-grow: 1
+        text-align: left
+
+    .label
+        font-size: 14px
+        font-weight: lighter
+
+    @media (max-width: 425px)
+
+        .flex
+            display: block
+
+        .dt,
+        .flex dd
+            width: 100%
+
+        .dt
+            text-align: left
+            margin-bottom: 10px
