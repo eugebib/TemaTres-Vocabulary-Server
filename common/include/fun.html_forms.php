@@ -1,12 +1,14 @@
 <?php
 
-#   TemaTres : aplicación para la gestión de vocabularios controlados#       #
-#   TemaTres : web application to manage controlled vocabularies
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 # Funciones para presentar formularios HTML. #
 #
 
@@ -1725,28 +1727,22 @@ function HTMLformLogin($task_result)
 	if (is_array($task_result)) {
 		$rows.='<div>'.$task_result["msg"].'</div>';
 	}
-	$rows.='  <form class="form-horizontal form-signin" role="form" id="mylogin" name="mylogin" action="login.php" method="post">';
-	$rows.='<h2 class="form-signin-heading">'.ucfirst(LABEL_login).'</h2>';
-	$rows.='<div class="form-group"><label  class="sr-only" for="mail" accesskey="u">'.ucfirst(LABEL_mail).'</label>';
-	$rows.='<input type="email" class="form-control"  name="id_correo_electronico" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11"/>';
-	$rows.='</div>';
-	$rows.='<div class="form-group"><label for="id_password" class="sr-only" accesskey="p">'.ucfirst(LABEL_pass).'</label>';
-	$rows.='<input type="password" name="id_password" class="form-control" placeholder="'.ucfirst(LABEL_pass).'" required id="id_password" size="11"/>';
-	$rows.='	</div>';
-	$rows.='<div class="col-lg-offset-2 col-lg-10 style="margin-left:15em" align="center">';
-	$rows.='<input type="hidden"  name="task" value="login" />';
-	$rows.='<button class="btn btn-lg btn-primary btn-block" type="submit">'.LABEL_Enviar.'</button>';
-	$rows.='</div>';
-	$rows.='	<div class="form-group">
-		<div class="row">
-		<div class="col-lg-12">
-		<div class="text-center">
-		<a href="login.php?task=recovery" tabindex="5" class="forgot-password" title="'.LABEL_user_lost_password.'">'.LABEL_user_lost_password.'</a>
-		</div>
-		</div>
-		</div>
-		</div>	';
-	$rows.='</form>';
+  	$rows.='
+		<form class="form-horizontal form-signin" role="form" id="mylogin" name="mylogin" action="login.php" method="post">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-6">
+					<div class="form-login">
+						<h4>'.ucfirst(LABEL_login).'</h4>
+						<input type="email" name="id_correo_electronico" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11" />
+						<input type="password" name="id_password" id="userPassword" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_pass).'" required id="id_password" size="11" />
+						<div>
+							<button type="submit" class="btn btn-primary btn-md">'.LABEL_Enviar.' <i class="fa fa-sign-in"></i></button>
+							<a href="login.php?task=recovery" tabindex="5" class="pull-right" title="'.LABEL_user_lost_password.'">'.LABEL_user_lost_password.'</a>
+						</div>
+					</div>
+				</div>
+			</div>
+    	</form>';
 
 	return $rows;
 }
