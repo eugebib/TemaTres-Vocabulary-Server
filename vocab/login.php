@@ -2,23 +2,24 @@
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
-# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
 # Distribuido bajo Licencia GNU Public License, versión 2          #
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
 ####################################################################
 
-	include("config.tematres.php");
-	$metadata = do_meta_tag();
+include("config.tematres.php");
+$metadata = do_meta_tag();
 
-	if (($_GET["action"]=='rp') && ($_GET["key"])) {
-		$chek_key = check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
-		if ($chek_key["user_id"]>0) {
-			$task_result=reset_password($chek_key);
-		}
+if (($_GET["action"]=='rp') && ($_GET["key"])) {
+	$chek_key = check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
+	if ($chek_key["user_id"]>0) {
+		$task_result=reset_password($chek_key);
 	}
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
 	<head>
@@ -27,24 +28,26 @@
 	<body>     <!-- HTML code from Bootply.com editor -->
 		<?php echo HTMLnavHeader(); ?>
         <div id="wrap" class="container">
+
 			<?php
 				if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 				    require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
 				} else {
-					if ($_POST["task"]=='user_recovery') {
-						$task_result=recovery($_POST["id_correo_electronico_recovery"]);
+					if ($_POST["task"] == 'user_recovery') {
+						$task_result = recovery($_POST["id_correo_electronico_recovery"]);
 					}
-					if ((@$_GET["task"]) && ($_GET["task"]=='recovery')) {
+					if ((@$_GET["task"]) && ($_GET["task"] == 'recovery')) {
 						echo HTMLformRecoveryPassword();
 					} else {
-						if (($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
-							$task_result=array("msg"=>t3_messages('no_user'));
+						if (($_POST["task"] == 'login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+							$task_result = array("msg"=>t3_messages('no_user'));
 						}
 						echo HTMLformLogin($task_result);
 					};
- 				}// if session
+ 				}
 			?>
-		</div><!-- /.container -->
+
+		</div>
 		<?php echo footer(); ?>
 		<?php echo HTMLjsInclude();?>
     </body>
@@ -62,7 +65,8 @@
  * @param string $login The user login
  * @return object|WP_Error User's database row on success, error object for invalid keys
  */
-function check_password_reset_key($key, $login) {
+function check_password_reset_key($key, $login)
+{
 	$key = preg_replace('/[^a-z0-9]/i', '', $key);
 	if (empty( $key ) || !is_string( $key )) {
 		return t3_messages('invalid_key');
@@ -77,7 +81,8 @@ function check_password_reset_key($key, $login) {
 	return $ARRAYuser;
 }
 
-function recovery($user_login) {
+function recovery($user_login)
+{
 	GLOBAL $DBCFG;
 	$ARRAYuser = array();
 	$ARRAYuser = ARRAYdatosUserXmail($user_login);
