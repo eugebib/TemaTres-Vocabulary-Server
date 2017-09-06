@@ -1749,24 +1749,20 @@ function HTMLformLogin($task_result)
 
 function HTMLformRecoveryPassword($user_name="")
 {
-	$rows='<form class="form-horizontal" id="myRecovery" name="myRecovery" action="login.php" method="post">
-	<fieldset>
-	<legend>'.LABEL_user_recovery_password.'</legend>
-	<div class="form-group">
-	  <label class="col-md-4 control-label" for="id_correo_electronico_recovery" >'.ucfirst(LABEL_mail).'</label>
-	  <div class="col-md-4">
-	  <input id="id_correo_electronico_recovery" name="id_correo_electronico_recovery" placeholder="'.ucfirst(LABEL_mail).'" class="form-control input-md" required="" type="email">
-	  </div>
-	</div>
-	<div class="form-group">
-	  <div class="col-md-8 text-center">
-	    <button id="button1id" type="submit" name="button1id" class="btn btn-primary">'.LABEL_Enviar.'</button>
-	     <a href="login.php" class="btn btn-inverse">'.ucfirst(LABEL_Cancelar).'</a>
-	  </div>
-	</div>
-	<input type="hidden"  name="task" value="user_recovery" />
-	</fieldset>
-	</form>';
+	$rows ='
+		<form class="form-horizontal form-signin" role="form" id="myRecovery" name="myRecovery" action="login.php" method="post">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-6">
+					<div class="form-login">
+						<h4>'.ucfirst(LABEL_user_recovery_password).'</h4>
+						<input type="email" name="id_correo_electronico_recovery" name="id_correo_electronico_recovery" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11" />
+						<br>
+						<button id="button1id" name="button1id" type="submit" class="btn btn-primary btn-md">'.LABEL_Enviar.' <i class="fa fa-sign-in"></i></button>
+						<input type="hidden"  name="task" value="user_recovery" />
+					</div>
+				</div>
+			</div>
+    	</form>';
 
 	return $rows;
 }

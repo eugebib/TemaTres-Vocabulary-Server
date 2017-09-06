@@ -9,7 +9,8 @@
 ####################################################################
 
 include("config.tematres.php");
-$metadata=do_meta_tag();
+
+$metadata = do_meta_tag();
 
 if (($_GET["action"]=='rp') && ($_GET["key"])) {
 	$chek_key=check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
@@ -23,40 +24,32 @@ if (($_GET["action"]=='rp') && ($_GET["key"])) {
 
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
-</head>
+	<head>
+		<?php echo HTMLheader($metadata);?>
+	</head>
+	<body>
+		<?php echo HTMLnavHeader(); ?>
+		<div id="wrap" class="container">
 
-    <!-- HTML code from Bootply.com editor -->
+			<?php
+				if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+			        require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
+			    } else {
+			    	if ($_POST["task"]=='user_recovery') {
+			    		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
+			    	}
+					if ((@$_GET["task"]) && ($_GET["task"]=='recovery')) {
+						echo HTMLformRecoveryPassword();
+					} else {
+						if (($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+							$task_result=array("msg"=>t3_messages('no_user'));
+						}
+						echo HTMLformLogin($task_result);
+					}
+ 				}
+			?>
 
- <body>
-
-  <?php echo HTMLnavHeader(); ?>
-
-<div id="wrap" class="container">
-
-<?php
- if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-            require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
-    }else{
-
-	if($_POST["task"]=='user_recovery')	{
-		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
-	}
-
-	if ((@$_GET["task"]) && ($_GET["task"]=='recovery')) {
-		echo HTMLformRecoveryPassword();
-	} else {
-
-		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))		{
-			$task_result=array("msg"=>t3_messages('no_user'));
-		}
-		echo HTMLformLogin($task_result);
-	};
- }// if session
-?>
-</div><!-- /.container -->
-
+		</div>
         <?php echo footer(); ?>
         <?php echo HTMLjsInclude(); ?>
     </body>
