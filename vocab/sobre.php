@@ -107,7 +107,7 @@ $top = getQtyXTop();
                     </dd>
                 </div>
 
-                <?php if ($_SESSION['show_tree'] == 1) { ?>
+                <?php if ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) { ?>
                 <div class="flex">
                     <dt>TÉRMINOS POR CATEGORÍA</dt>
                     <dd>
