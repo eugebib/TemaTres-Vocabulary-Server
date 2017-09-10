@@ -1,13 +1,17 @@
 <?php
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 if ((stristr( $_SsRVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+
 # llamada de funciones de gestion de terminos
-#
 
 if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 
@@ -247,19 +251,19 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 	}
 
 	# Borrado de nota
-	if($_GET["taskNota"]=='rem')		{
+	if ($_GET["taskNota"]=='rem') {
 		$tema=abmNota('B',$_GET["idTema"],"","","",$_GET["idNota"]);
 	}
 
 	# Cambio de estado de un término
-	if(($_GET["estado_id"])&&($_GET["tema"]))	{
+	if (($_GET["estado_id"])&&($_GET["tema"])) {
 		$cambio_estado=cambio_estado($_GET["tema"],$_GET["estado_id"]);
 		$tema=$cambio_estado["tema_id"];
 		$MSG_ERROR_ESTADO=$cambio_estado["msg_error"];
 	}
 
 	#turn to metaterm or term
-	if(($_GET["taskterm"]=='metaTerm') && ($_GET["tema"]))	{
+	if (($_GET["taskterm"]=='metaTerm') && ($_GET["tema"])) {
 		$task=setMetaTerm($_GET["tema"],$_GET["mt_status"]);
 	}
 
@@ -270,75 +274,71 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 
 			case 'csv1': //advanced report
 				$sql=SQLadvancedTermReport($_GET);
-			break;
+				break;
 
 			case 'csv2': //free terms
 				$sql=SQLverTerminosLibres();
-			break;
+				break;
 
 			case 'csv3': //duplicated terms
 				$sql=SQLverTerminosRepetidos();
-			break;
+				break;
 
 			case 'csv4': //polit BT terms
 				$sql=SQLpoliBT();
-			break;
+				break;
 
 			case 'csv5': //candidate terms
 				$sql=SQLtermsXstatus($_SESSION["id_tesa"],"12");
-			break;
+				break;
 
 			case 'csv6': //rejected terms
 				$sql=SQLtermsXstatus($_SESSION["id_tesa"],"14");
-			break;
+				break;
 
 			case 'csv7': //preferred and accepted terms without hierarchical relationships
 				$sql=SQLtermsXcantNT();
-			break;
+				break;
 
 			case 'csv8': //preferred and accepted terms with words count
 				$sql=SQLtermsXcantWords($_SESSION["id_tesa"]);
-			break;
+				break;
 
 			case 'csv9': //meta terms
 				$sql=SQLtermsIsMetaTerms($_SESSION["id_tesa"]);
-			break;
+				break;
 
 			case 'csv10': //Terms with related terms
 				$sql=SQLtermsXrelatedTerms($_SESSION["id_tesa"]);
-			break;
+				break;
 
 			case 'csv11': //Terms with non prefered terms
 				$sql=SQLtermsXNonPreferedTerms($_SESSION["id_tesa"]);
-			break;
+				break;
 
 			case 'csv12': //Comparative report about mapped terms
 				$sql = SQLreportTargetTerms($_GET["tvocabs"]);
-			break;
+				break;
 
 			case 'csv13': //Preferred terms
 				$sql=SQLreportTerminosPreferidos();
-			break;
+				break;
 
 			case 'csv14': //Terms without note o note type
 				$sql = SQLreportNullNotes($_GET["note_type_null"]);
-			break;
+				break;
 
 			case 'csv15': //All accepted Terms (prefered and no-preferd without distinction)
 				$sql=SQLreportAllTerms($_SESSION["id_tesa"]);
-			break;
+				break;
 
 			case 'csv16': //All relations for all accepted terms
 			 	$sql=SQLreportAllRelations($_SESSION["id_tesa"]);
-			break;
+				break;
 
 			case 'csv17': //All notes for all accepted terms
 			 	$sql=SQLreportAllNotes($_SESSION["id_tesa"]);
-			break;
-
-			default :
-
-			break;
+				break;
 		}
 
 		//return sql2csv($sql,string2url($_SESSION["CFGTitulo"]).'.csv',$_GET["csv_encode"]);
@@ -1814,6 +1814,11 @@ function HTMLaddImages() {
 		</form>
 		<form class="upload" action="upload.php?img=cabecera" method="post" enctype="multipart/form-data">
 			<p>' . LABEL_AddHeadingPDF . '</p>
+			<input type="file" name="image" id="image" />
+			<input type="submit" value="' . ucfirst(LABEL_UploadImage) . '" name="submit" />
+		</form>
+		<form class="upload" action="upload.php?img=footer" method="post" enctype="multipart/form-data">
+			<p>' . LABEL_AddFooterPDF . '</p>
 			<input type="file" name="image" id="image" />
 			<input type="submit" value="' . ucfirst(LABEL_UploadImage) . '" name="submit" />
 		</form>

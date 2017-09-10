@@ -396,6 +396,7 @@ define("LABEL_URItypeEditor","editor de tipos de links");
 define("LABEL_AddImages","adicionar imagens");
 define("LABEL_AddLogo","Logotipo (max. 100 x 50 px)");
 define("LABEL_AddHeadingPDF","Cabeçalho PDF (max. 1265 x 246 px)");
+define("LABEL_AddFooterPDF","Rodapé PDF (máx. 1265 x 246 px)");
 define("LABEL_UploadImage","carregar imagem");
 define("LABEL_URIEditor","Gerenciar links relacionados ao termo");
 define("LABEL_URItypeDelete","excluir tipo de link");

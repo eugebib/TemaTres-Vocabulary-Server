@@ -397,7 +397,8 @@ define('FORM_JS_confirmDeleteTypeRelation','¿Realmente quiere eliminar este tip
 define("LABEL_URItypeEditor","editor de tipos de enlaces");
 define("LABEL_AddImages","agregar imágenes");
 define("LABEL_AddLogo","Logo (máx. 100 x 50 px)");
-define("LABEL_AddHeadingPDF","Cabecera PDF (máx. 1265 x 246 px)");
+define("LABEL_AddHeadingPDF","Cabecera para PDF (máx. 1265 x 246 px)");
+define("LABEL_AddFooterPDF","Footer para PDF (máx. 1265 x 246 px)");
 define("LABEL_UploadImage","subir imagen");
 define("LABEL_URIEditor","Gestionar enlaces relacionados al término");
 define("LABEL_URItypeDelete","eliminar tipo de enlace");
