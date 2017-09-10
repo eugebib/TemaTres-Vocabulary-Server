@@ -244,6 +244,8 @@ class PDF extends FPDF {
         if (file_exists(local_path . 'footer.png')) {
             $this->SetY(235);
             $this->Image(local_path . 'footer.png',null,null,190);
+        } else {
+            $this->Image(T3_ABSPATH.'common/images/footer.png',null,null,190);
         }
 
         $this->AddPage();

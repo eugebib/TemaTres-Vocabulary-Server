@@ -1,17 +1,20 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-#
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 include("config.tematres.php");
 $metadata=do_meta_tag();
 
-if(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] || $_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='2'){
+if (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] || $_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='2') {
 	loadPage('login.php');
-	};
+}
 
 //Acciones de gestion de usuarios
 if ($_POST["userTask"]=='A') {
@@ -32,12 +35,12 @@ if($_GET["usestado"]){
 if(($_POST["task_config"]=='configvocab')&&(is_numeric($_POST["vocabulario_id"]))){
 	abm_vocabulario("M",$_POST["vocabulario_id"]);
 	header("Location:admin.php?vocabulario_id=list");
-	};
+}
 
 if(($_POST["task_config"]=='configvocab')&&($_POST["vocabulario_id"]=='NEW')){
 	abm_vocabulario("A");
 	header("Location:admin.php?vocabulario_id=list");
-	};
+}
 
 
 if(($_POST["doAdmin"]=='addTargetVocabulary')){
@@ -94,6 +97,7 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 					if (is_numeric($_GET["vocabulario_id"])) {
 						require_once(T3_ABSPATH . 'common/include/inc.abmConfig.php');
 					}
+
 					if (($_GET["vocabulario_id"]=='list')||(count($_GET)<1)) {
 						echo HTMLlistaVocabularios();
 						echo HTMLlistaTargetVocabularios();

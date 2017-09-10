@@ -1,4 +1,5 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #

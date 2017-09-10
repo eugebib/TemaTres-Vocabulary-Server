@@ -1,47 +1,50 @@
 <?php
 
-    switch ($_GET['img']) {
-        case 'logo':
-            $width = 200;
-            $height = 100;
-        break;
+include("config.tematres.php");
 
-        case 'cabecera':
-            $width = 1265;
-            $height = 246;
-        break;
-    }
+switch ($_GET['img']) {
+    case 'logo':
+        $width = 200;
+        $height = 100;
+    break;
 
-    if ( ! $_FILES['image']['name'] || empty($_FILES['image']['name'])) {
-        header('Location:' . $T3_ABSPATH . '/vocab/admin.php?vocabulario_id=list&upload_code=1');
-        die;
-    }
+    case 'cabecera':
+    case 'footer':
+        $width = 1265;
+        $height = 246;
+    break;
+}
 
-    if ($_FILES['image']['error']) {
-        header('Location:' . $T3_ABSPATH . '/vocab/admin.php?vocabulario_id=list&upload_code=' . $_FILES['image']['error']);
-        die;
-    }
+if ( ! $_FILES['image']['name'] || empty($_FILES['image']['name'])) {
+    header('Location:admin.php?vocabulario_id=list&upload_code=1');
+    die;
+}
 
-    $ext = explode('.', $_FILES['image']['name']);
-    $ext = end($ext);
+if ($_FILES['image']['error']) {
+    header('Location:admin.php?vocabulario_id=list&upload_code=' . $_FILES['image']['error']);
+    die;
+}
 
-    if ($ext != 'png') {
-        header('Location:' . $T3_ABSPATH . '/vocab/admin.php?vocabulario_id=list&upload_code=2');
-        die;
-    }
+$ext = explode('.', $_FILES['image']['name']);
+$ext = end($ext);
 
-    if ($_FILES['image']['size'] > (1024000)) {
-        header('Location:' . $T3_ABSPATH . '/vocab/admin.php?vocabulario_id=list&upload_code=3');
-        die;
-    }
+if ($ext != 'png') {
+    header('Location:admin.php?vocabulario_id=list&upload_code=2');
+    die;
+}
 
-    $dim = getimagesize($_FILES['image']['tmp_name']);
+if ($_FILES['image']['size'] > (1024000)) {
+    header('Location:/admin.php?vocabulario_id=list&upload_code=3');
+    die;
+}
 
-    if ($dim[0] > $width || $dim[1] > $height) {
-        header('Location:' . $T3_ABSPATH . '/vocab/admin.php?vocabulario_id=list&upload_code=4');
-        die;
-    }
+$dim = getimagesize($_FILES['image']['tmp_name']);
 
-    move_uploaded_file($_FILES['image']['tmp_name'], $_GET['img'] . '.png');
+if ($dim[0] > $width || $dim[1] > $height) {
+    header('Location:admin.php?vocabulario_id=list&upload_code=4');
+    die;
+}
 
-    header('Location:' . $T3_ABSPATH . '/vocab/admin.php?vocabulario_id=list&upload_code=0');
+move_uploaded_file($_FILES['image']['tmp_name'], $_GET['img'] . '.png');
+
+header('Location:admin.php?vocabulario_id=list&upload_code=0');
