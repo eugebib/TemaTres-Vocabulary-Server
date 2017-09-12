@@ -1558,87 +1558,77 @@ function URL_exists($url){
 }
 //only for active users. retrive simple data about user
 
+function ARRAYUserData($user_id)
+{
+    GLOBAL $DBCFG;
 
-function ARRAYUserData($user_id){
+    $sql=SQL("select","
+            u.id as user_id,
+            u.apellido,
+            u.nombres,
+            u.orga,
+            u.mail,
+            u.nivel
+        FROM
+            $DBCFG[DBprefix]usuario u
+        WHERE
+            u.id='$user_id' and
+            u.estado=1
+    ");
 
-
-  GLOBAL $DBCFG;
-
-
-  $sql=SQL("select","u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel
-
-
-    from
-
-
-    $DBCFG[DBprefix]usuario u
-
-
-    where u.id='$user_id'
-
-
-    and u.estado=1");
-
-
-
-  return $sql->FetchRow();
-
-
+    return $sql->FetchRow();
 }
 
-
-//check specific task for specifi roles
-
+#
+# check specific task for specifi roles
+#
 function checkValidRol($arrayUser,$task)
-
 {
-
     if (!$arrayUser["nivel"]) {
-
         $arrayUser=ARRAYdatosUser($arrayUser["user_id"]);
-
     }
-
     if (!$arrayUser["nivel"]) {
-
         return false;
-
     }
 
     $adminTask  = array("adminReports","adminUsers","config","reports","terms","notes","termStatus");
-
     $editorTask = array("reports","terms","notes","termStatus");
 
     //check if it is a valid task
-
     if (!in_array($task, $adminTask)) {
-
         return false;
-
     }
 
     switch ($arrayUser["nivel"]) {
-
         case '1'://admin
-
             $result=in_array($task, $adminTask);
-
             break;
 
         case '2'://editor
-
             break;
 
         default:
-
             $result=false;
-
             break;
-
     }
-
 
     return $result;
 
 }
 
+//retrive array about URL usefuls in the URI= URL base of service, URL of the vocabulary, URL of the term
+function URIterm2array($URI_term)
+{
+    $ARRAY_URL_BASE=explode("services.php",$URI_term);
+
+    if(count($ARRAY_URL_BASE)>0){
+        return array(
+            "tterm_url"   => str_replace('services.php?task=fetchTerm&arg=', 'index.php?tema=', $URI_term),
+            "tterm_id"    => (int)substr(strrchr($URI_term,"="),1),
+            "URL_service" => $ARRAY_URL_BASE[0].'services.php',
+            "URL_vocab"   =>$ARRAY_URL_BASE[0]
+        );
+    } else {
+        return array();
+    }
+}
