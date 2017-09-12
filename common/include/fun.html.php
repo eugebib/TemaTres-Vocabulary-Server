@@ -1532,7 +1532,10 @@ function HTMLtargetTerms($tema_id)
 
 
 
-			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="'.$array["tterm_url"].'" target="_blank" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
+      //$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="'.$array["tterm_url"].'" target="_blank" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
+
+      $rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="modal.php?tema='.$tema_id.'&tterm_id='.$array["tterm_id"].'"  class="modalTrigger" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
+
 			$rows.=(($_GET["taskEdit"]=='checkDateTermsTargetVocabulary') && ($_GET["tterm_id"]==$array["tterm_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) ? HTMLcheckTargetTerm($array) : '';
 			$rows.='</li>';
 
