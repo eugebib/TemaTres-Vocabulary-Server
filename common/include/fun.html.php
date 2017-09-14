@@ -2072,9 +2072,11 @@ function HTMLnavHeader()
 	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) {
 	    $miCuenta = '<div class="dropdown">
 					<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>
-						<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>
+					<ul class="dropdown-menu dropdown-menu-right">';
+		if ($DBCFG["DBprefix"] != "bnm__demo_") {
+			$miCuenta .= '<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>';
+		}
+		$miCuenta .= '<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>
 					</ul>
 				</div>';
 	} else {
