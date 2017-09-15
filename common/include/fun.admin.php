@@ -2589,10 +2589,11 @@ $txt.=TXTverTE($arrayTema[id],"0");
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
 return sendFile("$txt","$filname");
-};
+}
 
 
-function TXTverTE($tema_id,$i_profundidad){
+function TXTverTE($tema_id,$i_profundidad)
+{
 
 GLOBAL $CFG;
 $i_profundidad=++$i_profundidad;
@@ -2613,8 +2614,8 @@ $sql=SQLverTerminosE($tema_id);
 			$txt.=TXTverTE($array[id_tema],$i_profundidad);
 		}else{
 		$txt.=$sangria.$array[tema]."\r\n";
-		};
-	};
+		}
+	}
 	return $txt;
 };
 
@@ -4001,10 +4002,80 @@ $txt.=TXTverTE($arrayTema["tema_id"],"0");
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
 return sendFile("$txt","$filname");
-};
+}
 
+#
+#  print systematic version on PDF
+#
+function do_pdfSist($params = array())
+{
+	global $CFG;
 
-//print alphabetic version on PDF
+	require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
+	require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
+
+	$pdf = new PDF();
+	$pdf->SetTitle(latin1($_SESSION["CFGTitulo"]));
+	$pdf->SetAuthor(latin1($_SESSION["CFGAutor"]));
+	$pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
+	$pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
+	$pdf->SetCreator($_SESSION["CFGVersion"]);
+
+	$pdf->PrintCover($params,1);
+
+	if ($CFG["intro"]) {
+		$pdf->PrintIntro();
+	}
+
+	if ($params['hasTopTerm'] == '') {
+		$sql=SQLverTopTerm();
+		while ($arrayTema=$sql->FetchRow()) {
+			#Mantener vivo el navegador
+			$time_now = time();
+			if ($time_start >= $time_now + 10) {
+				$time_start = $time_now;
+				header('X-pmaPing: Pong');
+			}
+
+			$txt.=$arrayTema["tema"]."\r\n";
+			$txt.=TXTverTE($arrayTema["id"],"0");
+		}
+	} else {
+		$txt=TXTverTE($params['hasTopTerm'],"0");
+		$topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
+		$topTerm = $topTerm['tema'];
+	}
+
+	$txt = str_replace(".\t", "     ", $txt);
+	$txt = utf8_decode($txt);
+
+	$pdf->AddFont('opensans','','opensans.php');
+	$pdf->SetMargins(20,20);
+	$pdf->AddPage();
+	$pdf->SetAutoPageBreak(0,10);
+	$pdf->footer = 1;
+	$pdf->SetFont('opensans','',12);
+
+	$lines = explode("\r\n", $txt);
+	$i = 1;
+	foreach ($lines as $line) {
+		if ($i == 33) {
+			$pdf->AddPage();
+			$i = 1;
+		}
+		$pdf->Cell(0,8,$line);
+		$pdf->Ln();
+		$i++;
+	}
+
+	$filname=string2url($_SESSION[CFGTitulo].'-sist-'.$topTerm).'.pdf';
+
+	$pdf->Output('I',$filname);
+}
+
+#
+#  print alphabetic version on PDF
+#
 function do_pdfAlpha($params=array())
 {
     GLOBAL $CFG;
