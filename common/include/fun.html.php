@@ -370,12 +370,11 @@ function HTMLmenuCustumRel($tema_id,$arrayDataRelation)
 	return $rows;
 }
 
-
-
-
-//home page for term
-function HTMLbodyTermino($array){
-
+#
+# home page for term
+#
+function HTMLbodyTermino($array)
+{
 	GLOBAL $MSG_ERROR_RELACION;
 	GLOBAL $CFG;
 
@@ -384,8 +383,8 @@ function HTMLbodyTermino($array){
 	//breadcrumb
 	$BT = SQLverTerminoRelaciones($array["idTema"]);
 	while ($bc = $BT->FetchRow()) {
-		if ($bc[t_relacion] == 3) {
-			$miga[] = $bc[tema_id];
+		if ($bc["t_relacion"] == 3) {
+			$miga[] = $bc["tema_id"];
 		}
 	}
 	if (count($miga) > 0) {
