@@ -112,9 +112,8 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 					if ($_GET["doAdmin"]=='bulkReplace') {
 						echo HTMLformBulkReplace($_POST);
 					}
-					if ($_GET["doAdmin"]=='glossConfig') {
+					if ($_GET["doAdmin"] == 'glossConfig') {
 						echo HTMLbulkGlossTerms($_GET);
-						echo HTMLformExportGlossary($_POST);
 					}
 					//Regenerate indice table
 					if ($_GET["doAdmin"]=='reindex') {

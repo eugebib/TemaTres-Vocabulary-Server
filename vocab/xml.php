@@ -11,56 +11,56 @@
 
 
 include("config.tematres.php");
-if ($_GET[zthesTema]) {
+if ($_GET["zthesTema"]) {
 	header('Content-Type: text/xml');
 	echo do_zthes(do_nodo_zthes($_GET[zthesTema]));
 }
-if ($_GET[skosTema]) {
+if ($_GET["skosTema"]) {
 	header('Content-Type: text/xml');
 	echo do_skos(do_nodo_skos($_GET[skosTema]));
 }
-if ($_GET[skosMeta] == 1) {
+if ($_GET["skosMeta"] == 1) {
 	header('Content-Type: text/xml');
 	echo do_skos("",true);
 }
-if ($_GET[skosNode]) {
+if ($_GET["skosNode"]) {
 	header('Content-Type: text/xml');
 	echo do_skosNode(do_nodo_skos($_GET[skosNode]));
 }
-if ($_GET[vdexTema]) {
+if ($_GET["vdexTema"]) {
 	header('Content-Type: text/xml');
 	echo do_VDEX($_GET[vdexTema]);
 }
-if ($_GET[bs8723Tema]) {
+if ($_GET["bs8723Tema"]) {
 	header('Content-Type: text/xml');
 	echo do_BS8723s(do_nodo_BS8723($_GET[bs8723Tema]));
 }
-if ($_GET[madsTema]) {
+if ($_GET["madsTema"]) {
 	header('Content-Type: text/xml');
 	echo do_mads($_GET[madsTema]);
 }
-if ($_GET[xtmTema]) {
+if ($_GET["xtmTema"]) {
 	header('Content-Type: text/xml');
 	return do_topicMap($_GET[xtmTema]);
 }
-if ($_GET[dcTema]) {
+if ($_GET["dcTema"]) {
 	header('Content-Type: text/xml');
 	return do_dublin_core($_GET[dcTema]);
 }
-if($_GET[jsonTema]) {
+if($_GET["jsonTema"]) {
 	header('Content-type: application/json');
 	echo do_json($_GET[jsonTema]);
 }
-if($_GET[jsonldTema]) {
+if($_GET["jsonldTema"]) {
     header('Content-type: application/json');
 	echo do_jsonld($_GET[jsonldTema]);
 }
-if ($_GET[rss]) {
+if ($_GET["rss"]) {
 	header('Content-Type: application/rss+xml');
 	return do_rss();
 }
-if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel] == '1') && ($_GET["dis"])) {
-	switch ($_GET[dis]) {
+if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
+	switch ($_GET["dis"]) {
 		case 'zline':
 			return doTotalZthes("line");
 		break;

@@ -2125,56 +2125,10 @@ function HTMLbulkReplaceResultsNotes($params)
 	return $rows;
 }
 
-function HTMLformExportGlossary()
-{
-	GLOBAL $CFG;
-	$rows.='<form class="" role="form" name="configGlossary" id="configGlossary" action="xml.php" method="get">';
-	$rows.='	<div class="row">
-	    <div class="col-sm-12">
-	        <legend>'.ucfirst(LABEL_configGlossary).'</legend>
-	    </div>
-	    <!-- panel  -->
-			<div class="col-lg-7">
-	        <div class="panel panel-default">
-	            <div class="panel-body form-horizontal"><div class="panel-heading">'.ucfirst(MSG_includeNotes).'</div>';
-	$sqlNoteType=SQLcantNotas();
-	while ($ARRAYnoteType=$sqlNoteType->FetchRow()) {
-		$i_note=++$i_note;
-		if ($ARRAYnoteType["cant"]>0) {
-			$rows.='<div class="form-group">
-			<div class="col-sm-4">
-			<label for="note4gloss'.$ARRAYnoteType["value_id"].'">'.$ARRAYnoteType["value"].' ('.$ARRAYnoteType["cant"].')</label>
-			</div>
-			<div class="col-sm-2">
-			<input name="note4gloss[]" type="checkbox" id="note4gloss'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["tipo_nota"].'" />
-				</div>
-			</div>';
-		}
-	}
-	$rows.='<div class="form-group alert alert-info">
-	<div class="col-sm-4" >
-	<label for="includeAltLabel">'.ucfirst(MSG__GLOSSincludeAltLabel).'</label>
-	</div>
-	<div class="col-sm-2">
-	<input name="includeAltLabel" type="checkbox" id="includeAltLabel" value="1" />
-		</div>
-	</div>';
-	$rows.='<div class="form-group">
-							<div class="col-sm-12 text-center">
-							<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-							</div>
-					</div>';
-	$rows.='<div class="col-sm-12 panel panel-default"><div class="panel-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';
-	$rows.='				</div>
-					</div>
-			</div>
-		</div> <!-- / panel  -->';
-	$rows.='<input type="hidden"  name="dis" id="dis" value="jglossary"/>';
-	$rows.='<input type="hidden"  name="task" id="task" value="exportGlossary"/>';
-	$rows.='</form>';
-
-	return $rows;
-}
+// function HTMLformExportGlossary()
+// {
+//	  PASADO A HTMLformExport
+// }
 
 function HTMLformExport()
 {
@@ -2182,7 +2136,7 @@ function HTMLformExport()
 	$LABEL_abctxt = MENU_ListaAbc.' (txt)';
 
 	$rows.='
-		<form class="box" role="form"  name="export" action="xml.php" method="get" target="_blank">
+		<form class="box" role="form" name="export" action="xml.php" method="get" target="_blank">
 
 			<div class="box-title">
 				<span>'. ucfirst(LABEL_export).'</span>
@@ -2191,13 +2145,29 @@ function HTMLformExport()
 
 		 	<div class="box-content">
 				<select class="form-control" id="dis" name="dis">'.
-					doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SistPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]").'
+					doSelectForm(array(
+						"jtxt#$LABEL_jtxt",
+						"txt#$LABEL_abctxt",
+						'spdf#'.LABEL_SistPDF,
+						'rpdf#'.LABEL_AlphaPDF,
+						'jglossary#JSON',
+						"moodfile#Moodle",
+						"zline#Zthes",
+						"rfile#Skos-Core",
+						"rxtm#TopicMap",
+						"BSfile#BS8723",
+						"madsFile#Metadata Authority Description Schema (MADS)",
+						"vfile#IMS Vocabulary Definition Exchange (VDEX)",
+						"wxr#WXR (Wordpress XML)",
+						"siteMap#SiteMap",
+						"rsql#SQL (Backup)"
+					), "$_GET[dis]").'
 				</select>';
 
-	$sqlTopTerm      = SQLverTopTerm();
+	$sqlTopTerm = SQLverTopTerm();
 	if (SQLcount($sqlTopTerm) > 0) {
 		while ($arrayTopTerms = $sqlTopTerm->FetchRow()) {
-			$formSelectTopTerms[] = $arrayTopTerms[tema_id].'#'.$arrayTopTerms[tema];
+			$formSelectTopTerms[] = $arrayTopTerms["tema_id"].'#'.$arrayTopTerms["tema"];
 		}
 		$rows.='
 				<div style="display:none;" id="txt_config">
@@ -2222,7 +2192,6 @@ function HTMLformExport()
 
 	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
 	if (count($arrayVocabStats["cant_notas"]) > 0) {
-			//$rows.= $rows_notes;
 		$rows .= '	<div class="form-group">
 						<input name="includeNote[]" type="checkbox" id="includeNoteNA" value="NA" />
 						<div class="col-sm-4">
@@ -2234,6 +2203,32 @@ function HTMLformExport()
 	}
 
 	$rows.=' 	</div>
+				<div style="display:none;" id="json">';
+
+	$sqlNoteType = SQLcantNotas();
+	while ($ARRAYnoteType = $sqlNoteType->FetchRow()) {
+		$i_note=++$i_note;
+		if ($ARRAYnoteType["cant"] > 0) {
+			$rows.='<div class="form-group">
+						<input name="note4gloss[]" type="checkbox" id="note4gloss'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["tipo_nota"].'" />
+						<div class="col-sm-4">
+							<label for="note4gloss'.$ARRAYnoteType["value_id"].'">
+								'.$ARRAYnoteType["value"].' ('.$ARRAYnoteType["cant"].')
+							</label>
+						</div>
+					</div>';
+		}
+	}
+
+	$rows.='		<div class="form-group danger">
+						<input name="includeAlt" type="checkbox" id="includeAlt" value="1" />
+						<div class="col-sm-4 label-alert">
+							<label for="includeAlt" accesskey="d">'.
+								ucfirst(MSG__GLOSSincludeAltLabel).'
+							</label>
+						</div>
+					</div>
+				</div>
 			</div>
 		</form>';
 

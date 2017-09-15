@@ -2194,11 +2194,17 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					        $(\'#txt_config\').hide();
 					        $(\'.rpdf\').hide();
 					    }
-					    if ((x == "txt") || (x == "rpdf")) {
+					    if (x == "txt" || x == "rpdf") {
 					        $(\'#txt_config2\').show();
 					    } else {
 					        $(\'#txt_config2\').hide();
 					    }
+					    if (x == "jglossary") {
+					        $(\'#json\').show();
+					    } else {
+					        $(\'#json\').hide();
+					    }
+
 					});
 					});//]]>
 			</script>';
