@@ -1976,8 +1976,10 @@ function ARRAYdatosUserXkey($user_login,$key){
 	return (is_object) ? $sql->FetchRow() : false;
 }
 
+#
 # Busca lista de términos para evaluar similitud de una expresión de búsqueda
-function SQLsimiliar($texto,$lista_temas_id="0")
+#
+function SQLsimiliar($texto, $lista_temas_id = "0")
 {
 	GLOBAL $DBCFG;
 	/*

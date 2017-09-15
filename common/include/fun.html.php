@@ -11,11 +11,13 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #                                                                  #
 ####################################################################
 
-# Funciones HTML. #
+# Funciones HTML
 
-# Armado de resultados de búsqueda
 #
-function resultaBusca($texto,$tipo=""){
+#  Armado de resultados de búsqueda
+#
+function resultaBusca($texto,$tipo="")
+{
 
 	GLOBAL $CFG;
 
@@ -54,16 +56,14 @@ function resultaBusca($texto,$tipo=""){
 
 			$acumula_temas.=$resulta_busca["id_definitivo"].'|';
 
-			if($ibusca=='1')
-			{
+			if ($ibusca=='1') {
 				//Guardar el primer término para ver si hay coincidencia exacta
 				$primerTermino=$resulta_busca["tema"];
 				$primerTermino_id=($resulta_busca["id_definitivo"]) ? $resulta_busca["id_definitivo"] : $resulta_busca["tema_id"];
 			}
 
 			//si hubo coicidencia exacta y están apagadas las sugerencias
-			if((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1)))
-			{
+			if((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1))) {
 				return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
 			}
 
@@ -73,10 +73,8 @@ function resultaBusca($texto,$tipo=""){
 			$styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
 			//Si no es un término preferido
-			if($resulta_busca["termino_preferido"])
-			{
-				switch($resulta_busca["t_relacion"])
-				{
+			if($resulta_busca["termino_preferido"]) {
+				switch($resulta_busca["t_relacion"]) {
 					case '4'://UF
 					$leyendaConector=USE_termino;
 					break;
@@ -117,8 +115,7 @@ function resultaBusca($texto,$tipo=""){
 		$row_result.='</div>'; //fin de div de búsqueda
 
 		//Si no hubo coincidencia exacta
-		if((strtoupper($primerTermino)!==trim(strtoupper($texto))) && ($_GET["sgs"]!='off'))
-		{
+		if ((strtoupper($primerTermino)!==trim(strtoupper($texto))) && ($_GET["sgs"]!='off')) {
 			$body.=HTMLsugerirTermino($texto,$acumula_temas);
 		}
 
@@ -1232,31 +1229,28 @@ function HTMLlistaTerminosFecha($limite="")
 	$rows.='</div>';
 
 	return $rows;
-};
+}
 
+function HTMLsugerirTermino($texto,$acumula_temas="0")
+{
+	$sqlSimilar = SQLsimiliar($texto,$acumula_temas);
 
-
-function HTMLsugerirTermino($texto,$acumula_temas="0"){
-
-	$sqlSimilar=SQLsimiliar($texto,$acumula_temas);
-
-	if(SQLcount($sqlSimilar)>0)
-	{
-		while($arraySimilar=$sqlSimilar->FetchRow()){
-			$listaCandidatos.= $arraySimilar[tema].'|';
+	if (is_object($sqlSimilar)) {
+		while($arraySimilar = $sqlSimilar->FetchRow()) {
+			$listaCandidatos .= $arraySimilar["tema"].'|';
 		}
-
-		$listaCandidatos=explode("|",$listaCandidatos);
-		$similar = new Qi_Util_Similar($listaCandidatos, $texto);
-		$sugerencia= $similar->sugestao();
-
-		$evalSimilar=evalSimiliarResults($texto, $sugerencia);
-
-		if ($sugerencia && ($evalSimilar))
-		{
-			$rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).' <em><strong><a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$sugerencia.'&amp;sgs=off" title="'.LABEL_verDetalle.$sugerencia.'">'.$sugerencia.'</a></strong></em> </h4>';
-		}
+		$listaCandidatos = explode("|", $listaCandidatos);
+		$similar         = new Qi_Util_Similar($listaCandidatos, $texto);
+		$sugerencias     = $similar->sugestoes(10);
 	}
+
+	$rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).'</h4>
+			<ul>';
+	foreach ($sugerencias as $sugerencia) {
+		$rows.='<li><em><strong><a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$sugerencia.'&amp;sgs=off" title="'.LABEL_verDetalle.$sugerencia.'">'.$sugerencia.'</a></strong></em></li>';
+	}
+	$rows .= '</ul>';
+
 	return $rows;
 }
 

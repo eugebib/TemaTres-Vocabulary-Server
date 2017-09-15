@@ -583,23 +583,24 @@ function fetchVocabularyData($vocabulary_id)
  	return $arrayResponse;
 }
 
-	//Devuelve un término con cadena similar para una una cadena de búsqueda
-	//array($tema_id,$tema)
-	function fetchSimilar($string)
-	{
-		$sqlSimilar = SQLsimiliar($string);
+#
+# Devuelve un término con cadena similar para una una cadena de búsqueda - array($tema_id,$tema)
+#
+function fetchSimilar($string)
+{
+	$sqlSimilar = SQLsimiliar($string);
 
-		if (is_object($sqlSimilar)) {
-			while($arraySimilar=$sqlSimilar->FetchRow()) {
-				$listaCandidatos.= $arraySimilar[tema].'|';
-			}
-			$listaCandidatos = explode("|",$listaCandidatos);
-			$similar         = new Qi_Util_Similar($listaCandidatos, $string);
-			$sugerencias     = $similar->sugestoes(10);
+	if (is_object($sqlSimilar)) {
+		while($arraySimilar = $sqlSimilar->FetchRow()) {
+			$listaCandidatos .= $arraySimilar["tema"].'|';
 		}
-
-		return array('result' => $sugerencias);
+		$listaCandidatos = explode("|", $listaCandidatos);
+		$similar         = new Qi_Util_Similar($listaCandidatos, $string);
+		$sugerencias     = $similar->sugestoes(10);
 	}
+
+	return array('result' => $sugerencias);
+}
 
 	// Desvuelve un array describiendo los servicios
 	function describeService($msg=array()){
@@ -760,18 +761,13 @@ function fetchVocabularyData($vocabulary_id)
 	// fin de la clase
 }
 
-
-#######################################################################
-
-
-
-function fetchVocabularyService($task,$arg,$output="xml")
+function fetchVocabularyService($task, $arg, $output = "xml")
 {
 
-	$evalParam=evalServiceParam($task,$arg);
+	$evalParam = evalServiceParam($task, $arg);
 
 	//Verificar servicio habilitado
-	if((CFG_SIMPLE_WEB_SERVICE !== "1") || (!$task)){
+	if (CFG_SIMPLE_WEB_SERVICE !== "1" || !$task) {
 		$service=new XMLvocabularyServices();
 		return array2xml($service-> describeService());
 

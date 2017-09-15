@@ -142,16 +142,18 @@ if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
 				"includeAlt"  => $_GET["includeAlt"]
 			);
 			echo do_pdfAlpha2($params);
-		break;
+			break;
+
 		case 'spdf':
 			$params = array("hasTopTerm" => $_GET["hasTopTerm"]);
 			echo do_pdfSist($params);
-		break;
+			break;
+
 		case 'jglossary':
 			header('Content-type: application/json');
 			$filname = string2url($_SESSION[CFGTitulo]).'.json';
 			//echo makeGlossary($_GET["note4gloss"],array("altTerms"=>$_GET["includeAltLabel"]));
 			return sendFile(makeGlossary($_GET["note4gloss"],array("altTerms"=>$_GET["includeAltLabel"])),"$filname");
-		break;
+			break;
 	}
 }
