@@ -2183,83 +2183,44 @@ function HTMLformExport()
 
 	$rows.='
 		<form class="box" role="form"  name="export" action="xml.php" method="get" target="_blank">
+
 			<div class="box-title">
 				<span>'. ucfirst(LABEL_export).'</span>
 	        	<button type="submit" class="btn btn-primary" id="boton" name="boton">'.ucfirst(FORM_LABEL_Descargar).'</button>
 			</div>
+
 		 	<div class="box-content">
 				<select class="form-control" id="dis" name="dis">'.
 					doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SistPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]").'
-				</select>
-				<div style="display:none;" id="skos_config">';
+				</select>';
 
-	$sqlTopTerm = SQLverTopTerm();
+	$sqlTopTerm      = SQLverTopTerm();
 	if (SQLcount($sqlTopTerm) > 0) {
 		while ($arrayTopTerms = $sqlTopTerm->FetchRow()) {
 			$formSelectTopTerms[] = $arrayTopTerms[tema_id].'#'.$arrayTopTerms[tema];
 		}
-		$rows.='	<div class="form-group">
+		$rows.='
+				<div style="display:none;" id="txt_config">
+					<div class="form-group">
 						<select class="form-control" id="hasTopTerm" name="hasTopTerm">
 							<option value="">Todas las categorías</option>'.
 							doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]").'
 						</select>
-					</div>';
+					</div>
+				</div>';
 	}
-	$rows.='	</div>
-				<div style="display:none;" id="txt_config">';
-	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
-	if (SQLcount($sqlTopTerm) > 0) {
-		$rows.='	<div class="form-group">
-						<select class="form-control" id="hasTopTerm" name="hasTopTerm">
-							<option value="">Todas las categorías</option>'.
-							doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]").'
-						</select>
-					</div>';
-	}
-	$rows.='		<div class="form-group rpdf">
+
+	$rows.='	<div style="display:none;" id="txt_config2">
+					<div class="form-group rpdf">
 						<input name="includeAlt" type="checkbox" id="includeAlt" value="1" />
 						<div class="col-sm-4">
-							<label for="includeAlt" accesskey="d">
-								Incluir términos alternativos
+							<label for="includeAlt" accesskey="d">'.
+								MSG__GLOSSincludeAltLabel.'
 							</label>
 						</div>
-					</div>
-				</div>
-				<div style="display:none;" id="txt_config2">';
-	//Evaluar si hay notas
-	// if (is_array($arrayVocabStats["cant_notas"])) {
-	// 	$LabelNB       = array('NB',LABEL_NB);
-	// 	$LabelNH       = array('NH',LABEL_NH);
-	// 	$LabelNA       = array('NA',LABEL_NA);
-	// 	$LabelNP       = array('NP',LABEL_NP);
-	// 	$LabelNC       = array('NC',LABEL_NC);
-	// 	$sqlNoteType   = SQLcantNotas();
-	// 	$arrayNoteType = array();
-	// 	while ($arrayNotes = $sqlNoteType->FetchRow()) {
-	// 		if ($arrayNotes[cant] > 0) {
-	// 			//nota privada no
-	// 			if ($arrayNotes["value_id"] !== '11') {
-	// 				$varNoteType = (in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[1],$LabelNH[1],$LabelNB[1],$LabelNP[1],$LabelNC[1]),$arrayNotes["value_id"]) : $arrayNotes["value"];
-	// 				$varNoteTypeCode = (in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[0],$LabelNH[0],$LabelNB[0],$LabelNP[0],$LabelNC[0]),$arrayNotes["value_id"]) : $arrayNotes["value_code"];
-	// 				$rows_notes.= '
-	// 					<div class="form-group">
-	// 						<div class="col-sm-4">
-	// 							<label for="includeNote'.$arrayNotes["value_id"].'" accesskey="d">'.
-	// 								ucfirst($varNoteType).'
-	// 							</label>
-	// 						</div>
-	// 						<input name="includeNote[]" type="checkbox" id="includeNote'.$arrayNotes["value_id"].'" value="'.$varNoteTypeCode.'" />
-	// 					</div>';
-	// 			}
-	// 		}
-	// 	}
-		// $rows.='				<div class="form-group">
-		// 							<div class="col-sm-4">
-		// 								<label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label>
-		// 							</div>
-		// 							<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />
-		// 						</div>';
-		/* Si hay m�s de un tipo de nota			 */
+					</div>';
+
+	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
 	if (count($arrayVocabStats["cant_notas"]) > 0) {
 			//$rows.= $rows_notes;
 		$rows .= '	<div class="form-group">
@@ -2269,23 +2230,11 @@ function HTMLformExport()
 								Incluir notas de alcance
 							</label>
 						</div>
-					</div>
-				</div>';
+					</div>';
 	}
-	//}
-	// $rows.='					<div class="form-group">
-	// 								<div class="col-sm-4">
-	// 									<label for="includeCreatedDate" accesskey="d">'.ucfirst(LABEL_Fecha).'</label>
-	// 								</div>
-	// 								<input name="includeCreatedDate" type="checkbox" id="includeCreatedDate" value="1" />
-	// 							</div>
-	// 							<div class="form-group">
-	// 								<div class="col-sm-4">
-	// 									<label for="includeModDate" accesskey="m">'.ucfirst(LABEL_lastChangeDate).'</label></div>
-	// 									<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />
-	// 								</div>
-	// 							</div>';
-	$rows.='</div>
+
+	$rows.=' 	</div>
+			</div>
 		</form>';
 
 	return $rows;

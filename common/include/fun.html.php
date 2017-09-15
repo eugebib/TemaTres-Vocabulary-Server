@@ -2187,7 +2187,7 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
 					    var x = $(\'#dis\').val();
-					    if ((x == "txt") || (x == "spdf") || (x == "rpdf")) {
+					    if (x == "txt" || x == "spdf" || x == "rpdf" || x == "rfile") {
 					        $(\'#txt_config\').show();
 					        $(\'.rpdf\').show();
 					    } else {
@@ -2198,11 +2198,6 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					        $(\'#txt_config2\').show();
 					    } else {
 					        $(\'#txt_config2\').hide();
-					    }
-					    if (x == "rfile") {
-					        $(\'#skos_config\').show();
-					    } else {
-					        $(\'#skos_config\').hide();
 					    }
 					});
 					});//]]>
