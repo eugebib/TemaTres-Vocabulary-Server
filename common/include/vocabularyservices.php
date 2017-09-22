@@ -257,10 +257,22 @@ function ttermFullMetadata($tterm_url)
     }
 
     return array(
-        "tvocab"  => $arrayTvocab,
-        "tterm"   => ARRAYttermData(getURLdata($tterm_url)),
-        "ttermNT" => $arrayTtermNT,
-        "ttermBT" => $arrayTtermBT,
-        "ttermRT" => $arrayTtermRT
+        "tvocab"        => $arrayTvocab,
+        "tterm"         => ARRAYttermData(getURLdata($tterm_url)),
+        "ttermNT"       => $arrayTtermNT,
+        "ttermBT"       => $arrayTtermBT,
+        "ttermRT"       => $arrayTtermRT,
+        "URL_ttermData" =>$URL_ttermData
     );
+}
+
+function vars2tterm_uri($tvocab_id,$tterm_id)
+{
+    $ARRAYtargetVocabulary = ARRAYtargetVocabulary($tvocab_id);
+
+    if (($ARRAYtargetVocabulary["tvocab_id"] > 0) && (is_numeric($tterm_id))) {
+        return $ARRAYtargetVocabulary["tvocab_uri_service"].'?task=fetchTerm&arg='.$tterm_id;
+    } else {
+        return false;
+    }
 }
