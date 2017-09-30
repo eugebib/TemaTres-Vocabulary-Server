@@ -2930,41 +2930,32 @@ alta y baja de relaciones de usuario
 
 function abm_rel_rel($do,$rel_id,$rel_type_id)
 {
-
 	GLOBAL $DBCFG;
 
 	//sanitize
-	$rel_id=secure_data($rel_id,"int");
-	$rel_type_id=secure_data($rel_type_id,"int");
+	$rel_id      = secure_data($rel_id,"int");
+	$rel_type_id = secure_data($rel_type_id,"int");
+	$userId      = $_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
-
-	switch ($do)
-		{
+	switch ($do) {
 		case 'ALTA':
 			//check if the type relation exist
-			$ARRAYdataRelation=ARRAYdataRelation($rel_id);
-
-			$ARRAYtypeRelations=ARRAYtypeRelations($ARRAYdataRelation["t_relacion"],$rel_type_id);
-
-			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1') {
-
-				$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
+			$ARRAYdataRelation  = ARRAYdataRelation($rel_id);
+			$ARRAYtypeRelations = ARRAYtypeRelations($ARRAYdataRelation["t_relacion"],$rel_type_id);
+			if (count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1') {
+				$sql = SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
 			}
-
-		break;
+			break;
 
 		case 'BAJA':
-
-			$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='NULL', cuando=now(),uid='$userId' where id='$rel_id'");
-		break;
+			$sql = SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id=NULL, cuando=now(),uid='$userId' where id='$rel_id'");
+			break;
 
 		default:
-		}
-return array("rel_id"=>$rel_id);
+	}
+
+	return array("rel_id"=>$rel_id);
 }
-
-
 
 //View notes type and edit/create/delete user-defined notes
 function HTMLformUserNotes(){
