@@ -29,11 +29,13 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
 
 		$src_txt= $_FILES["file"]["tmp_name"];
 
-
 		//tag separator
-		$separador=":";
+		$separador=(isset($CFG["IMP_TAG_SEPARATOR"])) ? $CFG["IMP_TAG_SEPARATOR"]: ":";
+
+		//tabulator
+		$tabulador=(isset($CFG["IMP_TAG_TABULATOR"])) ? $CFG["IMP_TAG_TABULATOR"]: "===";
+
 		$t_relacion='';
-		$tabulador='====';
 
 		//get for notes tag
 		$sqlNotesTag=SQLcantNotas();
