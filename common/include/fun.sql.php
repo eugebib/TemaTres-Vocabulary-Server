@@ -3818,3 +3818,71 @@ function SQLsrcnote($srcnote_id)
 		left join $DBCFG[DBprefix]src_relation r on srcn.scrnote_id=r.src_id
 		group by srcn.scrnote_id");
 }
+
+#
+# relations for acceptd terms from THE vocabulary since X date
+#
+function SQLrelationsSinceDate($sinceDate,$limit=50)
+{
+  GLOBAL $DBCFG;
+
+  $vocab_id=1;
+  $r2=TR_acronimo;
+  $r3=TG_acronimo.'/'.TE_acronimo;
+  $r4=UP_acronimo.'/'.USE_termino;
+
+$limit=(secure_data($limit,"int")) ? $limit : "50";
+$sql=SQL("select","t.tema_id as lterm_id,t2.tema_id rterm_id,
+ if(r.t_relacion=2,'$r2',if(r.t_relacion=3,'$r3','$r4')) as relType,
+ v.value_code as relSubType,
+ r.cuando as created
+   from $DBCFG[DBprefix]tema as t,
+   $DBCFG[DBprefix]tema as t2,
+   $DBCFG[DBprefix]tabla_rel as r
+   left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
+   where
+   t.tesauro_id='$vocab_id'
+    and t.estado_id='13'
+    and t.tema_id=r.id_mayor
+    and t2.tema_id=r.id_menor
+    and r.t_relacion in (2,3,4)
+   and r.cuando >='$sinceDate'
+    order by r.cuando desc
+   limit $limit");
+
+  return $sql;
+}
+
+#
+# terms mod/created since date
+#
+function SQLtermsSinceDate($sinceDate,$limit="50")
+{
+	GLOBAL $DBCFG;
+
+	$vocab_id=1;
+	$limit=(secure_data($limit,"int")) ? $limit : "50";
+	$sql=SQL("select","
+			t.tema_id,
+			t.code,
+			t.tema,
+			v.idioma,
+			t.isMetaTerm,
+			t.cuando,
+			t.cuando_final
+		FROM
+			$DBCFG[DBprefix]tema as t,
+			$DBCFG[DBprefix]config v
+		WHERE
+			t.estado_id='13' AND
+			t.tesauro_id='$vocab_id' AND
+			if(t.cuando_final is not null,t.cuando_final,t.cuando)>='$sinceDate'
+		ORDER BY
+			t.cuando_final,
+			t.cuando desc
+		LIMIT
+			$limit"
+	);
+
+	return $sql;
+}

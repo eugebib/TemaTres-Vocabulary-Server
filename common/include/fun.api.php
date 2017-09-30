@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -8,6 +8,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
 ####################################################################
+
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 
 # Abstraccion de funciones de consulta
 #
@@ -220,9 +222,9 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["string"]=$array["titTema"];
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
 			$result["result"]["term"]["date_create"]=$array["cuando"];
-
 			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 		}
+
 		return $result;
 	}
 
@@ -511,32 +513,74 @@ class XMLvocabularyServices {
 		return $result;
 	}
 
-
-
 	//Retrive random term data. You can filter terms with specific type of note
-	function randomTerm($note_type=""){
+	function randomTerm($note_type="")
+	{
+		$sql=SQLrandomTerms($note_type);
 
-			$sql=SQLrandomTerms($note_type);
+		$result["result"]= array();
 
-			if(is_object($sql)){
-
-			while($array=$sql->FetchRow()){
+		if(is_object($sql)){
+			while ($array=$sql->FetchRow()) {
 				$result["result"]["term"]["term_id"]=$array["term_id"];
 				$result["result"]["term"]["code"]=$array["code"];
 				$result["result"]["term"]["lang"]=$array["idioma"];
 				$result["result"]["term"]["string"]=$array["tema"];
 				$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
 				$result["result"]["term"]["date_create"]=$array["cuando"];
-				if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
+				if(($array["cuando_final"])>$array["cuando"]) {
+					$result["result"]["term"]["date_mod"] = ($array["cuando_final"]);
+				}
 			}
-				return $result;
+		}
 
-			}else{
-				$result["result"]= array();
-			}
+		return $result;
 	}
 
+	//Retrive term data about terms created or mod since date
+	function termsSinceDate($sinceDate)
+	{
+		$sql              =SQLtermsSinceDate($sinceDate,CFG_NUM_SHOW_TERMSxSTATUS);
+		$result["result"] = array();
 
+	    if(is_object($sql)){
+	      	while($array=$sql->FetchRow()){
+	        	$result["result"][$array["tema_id"]] = array(
+					"term_id"     => $array["tema_id"],
+					"code"        => $array["code"],
+					"lang"        => $array["idioma"],
+					"string"      => $array["tema"],
+					"isMetaTerm"  => $array["isMetaTerm"],
+					"date_create" => $array["cuando"],
+					"date_mod"    => ($array["cuando_final"]) ?  $array["cuando_final"] : $array["cuando"]
+				);
+			}
+		}
+
+		return $result;
+	}
+
+	//Retrive term relations data about relations created or mod since date
+	function relationsSinceDate($sinceDate)
+	{
+		$sql              =SQLrelationsSinceDate($sinceDate,CFG_NUM_SHOW_TERMSxSTATUS);
+		$result["result"] = array();
+
+		if(is_object($sql)){
+			while($array=$sql->FetchRow()){
+				$i=++$i;
+				$result["result"][]= array(
+					"lterm_id"=>$array["lterm_id"],
+					"rterm_id"=>$array["rterm_id"],
+					"relType"=>$array["relType"],
+					"relSubType"=>$array["relSubType"],
+					"created"=>$array["created"]
+				);
+			}
+		}
+
+		return $result;
+	}
 
 	// Devuelve lista de términos para una cadena inicial de busqueda = return terms beginning with string
 	// array(tema_id,string,no_term_string,relation_type_id,array(index),order)
@@ -760,8 +804,18 @@ function fetchVocabularyData($vocabulary_id)
 
 		$array['randomTerm']['action'] = 'Retrieves last random term data. Optionally you can filter terms with specific type of notes (use tag note, ex: NA for scope note)';
 		$array['randomTerm']['task'] = 'randomTerm';
-		$array['randomTerm']['arg'] = 'type note tag (optionl)';
+		$array['randomTerm']['arg'] = 'type note tag (optional)';
 		$array['randomTerm']['example'] = $_SESSION["CFGURL"].'services.php?task=randomTerm&arg=NA';
+
+		$array['termsSince']['action'] = 'Retrieve data about terms who was created or modified since given date';
+		$array['termsSince']['task'] = 'termsSince';
+		$array['termsSince']['arg'] = 'date from do you want to obtain data';
+		$array['termsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=termsSince&arg=2017-04-05';
+
+		$array['relationsSince']['action'] = 'Retrieve data about terminological relations who was created or modified since given date';
+		$array['relationsSince']['task'] = 'relationsSince';
+		$array['relationsSince']['arg'] = 'date from do you want to obtain data';
+		$array['relationsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=relationsSince&arg=2017-04-05';
 
 
 		return $array;
@@ -801,125 +855,89 @@ function fetchVocabularyService($task,$arg,$output="xml")
 
 		$service=new XMLvocabularyServices();
 		switch($task){
-			//array
 			case 'fetch':
-			$response = $service-> fetchExactTerm($arg);
-			break;
+				$response = $service-> fetchExactTerm($arg);
+				break;
 
-			//array
 			case 'search':
-			$response = $service-> fetchTermsBySearch($arg);
-			break;
+				$response = $service-> fetchTermsBySearch($arg);
+				break;
 
-			//array
 			case 'searchNotes':
-			$response = $service-> fetchTermsBySearchNotes($arg);
-			break;
+				$response = $service-> fetchTermsBySearchNotes($arg);
+				break;
 
-			//array
 			case 'suggest':
-			$response = $service-> fetchSuggested($arg);
-			break;
+				$response = $service-> fetchSuggested($arg);
+				break;
 
-			//array
 			case 'suggestDetails':
-			$response = $service-> fetchSuggestedDetails($arg);
-			break;
+				$response = $service-> fetchSuggestedDetails($arg);
+				break;
 
-			//array (tema_id,tema)
 			case 'fetchSimilar':
-			$response = $service-> fetchSimilar($arg);
-			break;
+				$response = $service-> fetchSimilar($arg);
+				break;
 
 			case 'fetchRelated':
-			// array (tema_id, tema,t_relacion_id)
-			$response = $service-> 	fetchRelatedTerms($arg);
-			break;
+				$response = $service-> 	fetchRelatedTerms($arg);
+				break;
 
 			case 'fetchAlt':
-			// array (tema_id, tema,t_relacion_id)
-			$response = $service-> 	fetchAltTerms($arg);
-			break;
-
+				$response = $service-> 	fetchAltTerms($arg);
+				break;
 
 			case 'fetchDown':
-			// Devuelve lista de temas especificos
-			// array (tema_id, tema,t_relacion_id, hasMoreDown)
-			$response = $service-> fetchTermDown($arg);
-			break;
-
+				$response = $service-> fetchTermDown($arg);
+				break;
 
 			case 'fetchUp':
-			// Devuelve arbol de temas genericos
-			// array(tema_id,string,relation_type_id,order)
-			$response = $service-> fetchTermUp($arg);
-			break;
+				$response = $service-> fetchTermUp($arg);
+				break;
 
 			case 'fetchTermFull':
-			// Devuelve detalles competos de un tema (tema + notas)
-			// array(tema_id,string,hasMoreUp,term_type,date_create,date_mod,numNotes)
-			break;
+				// array(tema_id,string,hasMoreUp,term_type,date_create,date_mod,numNotes)
+				break;
 
 			case 'fetchTerm':
-			// Devuelve detalles de un tema
-			// array(tema_id,string)
-			$response = $service-> fetchTermDetailsBrief($arg);
-			break;
+				$response = $service-> fetchTermDetailsBrief($arg);
+				break;
 
 			case 'fetchCode':
-			// Devuelve detalles de un tema
-			// array(tema_id,string)
-			$response = $service-> fetchCode($arg);
-			break;
+				$response = $service-> fetchCode($arg);
+				break;
 
 			case 'fetchNotes':
-			// Devuelve notas de un tema
-			// array(tema_id,string,note_id,note_type,note_lang,note_text)
-			$response = $service-> fetchTermNotes($arg);
-			break;
+				$response = $service-> fetchTermNotes($arg);
+				break;
 
 			case 'fetchTopTerms':
-			// Array de términos tope
-			// array(tema_id,string)
-			$response = $service-> fetchTopTerms($arg);
-			break;
+				$response = $service-> fetchTopTerms($arg);
+				break;
 
 			case 'fetchLast':
-			// Array de últimos términos creados
-			// array(tema_id,string)
-			$response = $service-> fetchLast();
-			break;
+				$response = $service-> fetchLast();
+				break;
 
 			case 'fetchDirectTerms':
-			// Array de términos vinculados directamente con el termino (TG,TR,UF)
-			// array(tema_id,string,relation_type_id)
-			$response = $service-> fetchDirectTerms($arg);
-			break;
+				$response = $service-> fetchDirectTerms($arg);
+				break;
 
 			case 'fetchTerms':
-			// Devuelve lista de términos para una lista separada por comas de tema_id
-			// array(tema_id,string)
-			$response = $service-> fetchTermsByIds($arg);
-			break;
+				$response = $service-> fetchTermsByIds($arg);
+				break;
 
 			case 'fetchRelatedTerms':
-			// Devuelve lista de términos relacionados para una lista separada por comas de tema_id
-			// array(tema_id,string)
-			$response = $service-> fetchRelatedTermsByIds($arg);
-			break;
+				$response = $service-> fetchRelatedTermsByIds($arg);
+				break;
 
 			case 'fetchTargetTerms':
-			// Devuelve lista de términos mapeados para un tema_id
-			// array(tema_id,string)
-			$response = $service-> fetchTargetTermsById($arg);
-			break;
+				$response = $service->fetchTargetTermsById($arg);
+				break;
 
 			case 'fetchURI':
-			// Devuelve lista de enlaces linkeados para un tema_id
-			// list of foreign links to term
-			// array(type link,link)
-			$response = $service-> fetchURI($arg);
-			break;
+				$response = $service-> fetchURI($arg);
+				break;
 
 			//~ case 'fetchSourceTermsURI':
 			//~ // Devuelve lista de términos propios que están mapeados para una URI provista por un término externo
@@ -929,40 +947,34 @@ function fetchVocabularyService($task,$arg,$output="xml")
 			//~ break;
 
 			case 'fetchSourceTerms':
-			// Devuelve lista de términos propios que están mapeados para un determinado término
-			// list of source terms who are mapped for a given term  provided by ANY target vocabulary.
-			// array(tema_id,string,code,lang,date_create,date_mod)
-			$response = $service-> fetchSourceTerms($arg);
-			break;
+				$response = $service-> fetchSourceTerms($arg);
+				break;
 
 			case 'letter':
-			// Array de términos que comienzan con una letra
-			// array(tema_id,string,no_term_string,relation_type_id)
-
-			// sanitice $letter
-			$arg=trim(urldecode($arg));
-			// comment this line for russian chars
-			//$arg=secure_data($arg,"alnum");
-
-			$response = $service-> fetchTermsByLetter($arg);
-			break;
-
+				$arg=trim(urldecode($arg));
+				$response = $service-> fetchTermsByLetter($arg);
+				break;
 
 			case 'fetchVocabularyData':
-			// Devuelve detalles del vocabularios
-			//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base)
-			$response = $service-> fetchVocabularyData("1");
-			break;
+				$response = $service-> fetchVocabularyData("1");
+				break;
 
 			case 'randomTerm':
-			// Devuelve detalles del vocabularios
-			//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base)
-			$response = $service-> randomTerm($arg);
-			break;
+				$response = $service-> randomTerm($arg);
+				break;
+
+			case 'termsSince':
+				$response = $service-> termsSinceDate($arg);
+				break;
+
+			case 'relationsSince':
+				$response = $service-> relationsSinceDate($arg);
+				break;
 
 			default:
-			$response = $service-> describeService();
-			break;
+				$response = $service-> describeService();
+				break;
+
 		}
 
 
@@ -1009,32 +1021,35 @@ function fetchVocabularyService($task,$arg,$output="xml")
 function evalServiceParam($task,$arg)
 {
 
-	$array_tasks=array("fetch"=>"string",
-	"search"=>"string",
-	"searchNotes"=>"string",
-	"suggest"=>"string",
-	"suggestDetails"=>"string",
-	"fetchSimilar"=>"string",
-	"fetchCode"=>"string",
-	"fetchRelated"=>"int",
-	"fetchAlt"=>"int",
-	"fetchDown"=>"int",
-	"fetchUp"=>"int",
-	"fetchTermFull"=>"int",
-	"fetchTerm"=>"int",
-	"fetchDirectTerms"=>"int",
-	"fetchNotes"=>"int",
-	"fetchURI"=>"int",
-	"fetchTopTerms"=>"NULL",
-	"fetchLast"=>"NULL",
-	"fetchVocabularyData"=>"NULL",
-	"fetchTerms"=>"array_int",
-	"fetchTargetTerms"=>"int",
-	"fetchSourceTerms"=>"string",
-	"fetchRelatedTerms"=>"array_int",
-	"randomTerm"=>"string",
-	"letter"=>"string"
-);
+	$array_tasks=array(
+		"fetch"               =>"string",
+		"search"              =>"string",
+		"searchNotes"         =>"string",
+		"suggest"             =>"string",
+		"suggestDetails"      =>"string",
+		"fetchSimilar"        =>"string",
+		"fetchCode"           =>"string",
+		"fetchRelated"        =>"int",
+		"fetchAlt"            =>"int",
+		"fetchDown"           =>"int",
+		"fetchUp"             =>"int",
+		"fetchTermFull"       =>"int",
+		"fetchTerm"           =>"int",
+		"fetchDirectTerms"    =>"int",
+		"fetchNotes"          =>"int",
+		"fetchURI"            =>"int",
+		"fetchTopTerms"       =>"NULL",
+		"fetchLast"           =>"NULL",
+		"fetchVocabularyData" =>"NULL",
+		"fetchTerms"          =>"array_int",
+		"fetchTargetTerms"    =>"int",
+		"fetchSourceTerms"    =>"string",
+		"fetchRelatedTerms"   =>"array_int",
+		"randomTerm"          =>"string",
+		"letter"              =>"string",
+		"termsSince"          =>"date",
+		"relationsSince"      =>"date"
+	);
 
 //eval task
 if(!array_key_exists($task,$array_tasks)){
@@ -1131,6 +1146,14 @@ switch($task){
 	$response = ((is_string($arg))&&(strlen($arg)==1)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
 	break;
 
+	case 'termsSince':
+		$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
+
+	case 'relationsSince':
+		$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
+
 	default:
 	$response =  array("task"=>$task,"arg"=>$arg) ;
 	break;
@@ -1210,22 +1233,25 @@ function evalArg($type,$arg)
 
 	switch ($type) {
 		case 'string':
-		$arg=(is_string($arg)) ? $arg : '';
-		break;
+			$arg=(is_string($arg)) ? $arg : '';
+			break;
 
 		case 'int':
-		$arg=secure_data($arg,"int");
-		break;
+			$arg=secure_data($arg,"int");
+			break;
+
+		case 'date':
+			$arg=check2Date($arg,"-");
+			break;
 
 		case 'array_int':
-		$arg=string2array4ID($arg);
-		break;
+			$arg=string2array4ID($arg);
+			break;
 
 		default :
-		$arg="";
-		break;
+			$arg="";
+			break;
 	}
 
 	return $arg;
 }
-?>
