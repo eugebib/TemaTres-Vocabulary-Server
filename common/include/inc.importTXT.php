@@ -20,20 +20,16 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		// sinon faire conversion automatique
 	}
 
-
-
-
-
-	if (($_POST['taskAdmin']=='importTag') && (file_exists($_FILES["file"]["tmp_name"])) )
-	{
+	if (($_POST['taskAdmin']=='importTag') && (file_exists($_FILES["file"]["tmp_name"]))) {
 
 		$src_txt= $_FILES["file"]["tmp_name"];
 
-
 		//tag separator
-		$separador=":";
+		$separador=(isset($CFG["IMP_TAG_SEPARATOR"])) ? $CFG["IMP_TAG_SEPARATOR"]: ":";
+		//tabulator
+		$tabulador=(isset($CFG["IMP_TAG_TABULATOR"])) ? $CFG["IMP_TAG_TABULATOR"]: "===";
+
 		$t_relacion='';
-		$tabulador='====';
 
 		//get for notes tag
 		$sqlNotesTag=SQLcantNotas();
@@ -85,12 +81,12 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 				//es una nota
 				if (in_array($label,$arrayTiposNotas)) {
-					
+
 					//re-redactar nota para prevenir signo de separación en notas
 					$note=implode($separador, array_slice($rwTerms, 1));
 
 					abmNota("A",$term_id,$label,"$thes_lang",trim($note));
-					$past_label=$label;										
+					$past_label=$label;
 				}
 				//es una relación terminológica
 				elseif (in_array($label,$arrayTiposTermino)) {

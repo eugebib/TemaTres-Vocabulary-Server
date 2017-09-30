@@ -98,6 +98,11 @@ define('CFG_SUGGESTxWORD',$_SESSION[$_SESSION["CFGURL"]]["CFG_SUGGESTxWORD"]);
 // Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
 $CFG["_TOP_TERMS_BROWSER"] ='0';
 
+// Define char to recognice tag separator in txt import procedure. default = ":"
+$CFG["IMP_TAG_SEPARATOR"]  =':';
+
+// Define char to recognice as tabulator, tabulator is char used in txt import procedure to asig to the term the same relation as previous relation. default = "==="
+$CFG["IMP_TAG_TABULATOR"]  ='===';
 
 /*  In almost cases, you don't need to touch nothing here!!
  *  Web path to the directory where are located
