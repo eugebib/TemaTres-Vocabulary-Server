@@ -617,14 +617,14 @@ function fetchVocabularyData($vocabulary_id)
 	$cant_term             = ARRAYcantTerms4Thes("1");
 
 	$arrayResponse["result"] = array(
-		'vocabulary_id' => $array[vocabulario_id],
-	    'title'         => $array[titulo],
-	    'author'        => $array[autor],
-	    'lang'          => $array[idioma],
-	    'scope'         => $array[cobertura],
-	    'keywords'      => $array[keywords],
-	    'uri'           => $array[url_base],
-	    'createDate'    => $array[cuando],
+		'vocabulary_id' => $array["vocabulario_id"],
+	    'title'         => $array["titulo"],
+	    'author'        => $array["autor"],
+	    'lang'          => $array["idioma"],
+	    'scope'         => $array["cobertura"],
+	    'keywords'      => $array["keywords"],
+	    'uri'           => $array["url_base"],
+	    'createDate'    => $array["cuando"],
 	    'lastMod'       => fetchlastMod(),
 	    'contributor'   => $ARRAYfetchValues["dc:contributor"]["value"],
 	    'adminEmail'    => $ARRAYfetchContactMail["value"],
@@ -644,10 +644,9 @@ function fetchVocabularyData($vocabulary_id)
 
 		$sqlSimilar=SQLsimiliar($string);
 
-		if(is_object($sqlSimilar))
-		{
-			while($arraySimilar=$sqlSimilar->FetchRow()) {
-				$listaCandidatos.= $arraySimilar[tema].'|';
+		if (is_object($sqlSimilar)) {
+			while ($arraySimilar=$sqlSimilar->FetchRow()) {
+				$listaCandidatos.= $arraySimilar["tema"].'|';
 			}
 
 			$listaCandidatos = explode("|",$listaCandidatos);
@@ -655,7 +654,7 @@ function fetchVocabularyData($vocabulary_id)
 			$sugerencias     = $similar->sugestoes(10);
 		}
 
-    	return array('result' => $sugerencias);
+		return array('result' => $sugerencias);
 	}
 
 	#
@@ -811,6 +810,7 @@ function fetchVocabularyData($vocabulary_id)
 		$array['randomTerm']['task'] = 'randomTerm';
 		$array['randomTerm']['arg'] = 'type note tag (optional)';
 		$array['randomTerm']['example'] = $_SESSION["CFGURL"].'services.php?task=randomTerm&arg=NA';
+
 		$array['termsSince']['action'] = 'Retrieve data about terms who was created or modified since given date';
 		$array['termsSince']['task'] = 'termsSince';
 		$array['termsSince']['arg'] = 'date from do you want to obtain data';
@@ -1056,95 +1056,102 @@ if(!array_key_exists($task,$array_tasks)){
 //eval arg
 $arg=evalArg($array_tasks[$task],$arg);
 
-switch($task){
+switch($task) {
 	case 'fetch':
-	$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'search':
-	$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'suggest':
-	$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'suggestDetails':
-	$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'similarTerm':
-	$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = ((is_string($arg))&&(strlen($arg)>=CFG_MIN_SEARCH_SIZE)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchCode':
-	$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchRelated':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchAlt':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchDown':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
-
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchUp':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchTermFull':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchTerm':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchDirectTerms':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchNotes':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchURI':
-	$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchTopTerms':
-	$response = array("task"=>$task,"arg"=>$arg);
-	break;
+		$response = array("task"=>$task,"arg"=>$arg);
+		break;
 
 	case 'fetchLast':
-	$response = array("task"=>$task,"arg"=>$arg);
-	break;
+		$response = array("task"=>$task,"arg"=>$arg);
+		break;
 
 	case 'randomTerm':
-	$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchTerms':
-	$response = (is_array(explode(',',$arg))) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_array(explode(',',$arg))) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'fetchRelatedTerms':
-	$response = (is_array(explode(',',$arg))) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = (is_array(explode(',',$arg))) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	case 'letter':
-	$response = ((is_string($arg))&&(strlen($arg)==1)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
-	break;
+		$response = ((is_string($arg))&&(strlen($arg)==1)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
+
+	case 'termsSince':
+		$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
+
+	case 'relationsSince':
+		$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+		break;
 
 	default:
-	$response =  array("task"=>$task,"arg"=>$arg) ;
-	break;
+		$response =  array("task"=>$task,"arg"=>$arg) ;
+		break;
 }
 
 return $response;
