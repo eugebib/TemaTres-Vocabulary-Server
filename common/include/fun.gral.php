@@ -1,12 +1,15 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
 
+#####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales   #
+#                                                                   #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar       #
+# Distribuido bajo Licencia GNU Public License,                     #
+# versión 2 (de junio de 1.991) Free Software Foundation            #
+#                                                                   #
+#####################################################################
+
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 
 ###################################################################################
 ############################### FUNCIONES GENERALES ###############################
@@ -1543,3 +1546,15 @@ function URIterm2array($URI_term){
 
 }
 
+function check2Date($stringDate,$char="-")
+{
+    $arrayDate  = explode('-', $stringDate);
+    if (count($arrayDate)!==3) {
+        return false;
+    }
+    if (checkdate($arrayDate[1], $arrayDate[2], $arrayDate[0])) {
+        return $stringDate;
+    }
+
+    return false;
+}
