@@ -1,22 +1,26 @@
 <?php
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
+
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 3.0 beta";
-
-$CFG["VersionWebService"]        = "1.5";
+$CFG["Version"] = "TemaTres 3.0";
+$CFG["VersionWebService"] = "1.6";
 
 // ID del Tesauro por DEFAULT
-$CFG["DFT_TESA"] ='1';
+$CFG["DFT_TESA"] = '1';
 
 //Config Sites availables for URL search
-$CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
+$CFG["SEARCH_URL_SITES"] = array("wikipedia","Google exacto","Google scholar","Google images","Google books");
 
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';
@@ -33,10 +37,7 @@ $CFG["_MIN_DISTANCE_"] ='6';
 // Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
 $CFG["_TOP_TERMS_BROWSER"] ='0';
 
-
-/*
-Define specific excluded characters from the alphabetic menu
- */
+// Define specific excluded characters from the alphabetic menu
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
 $arrayCFGs =array(	'CFG_PUBLISH'=>'1',

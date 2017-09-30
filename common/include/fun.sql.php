@@ -4153,275 +4153,156 @@ function SQLtermsInternalMapped($tema_id,$tesauro_id="")
 }
 
 #
-
-
 # Lista de términos preferentes (sin UF ni términos libres)
-
-
 #
-
-
-function SQLterms2map4char($char,$args = ''){
-
-
+function SQLterms2map4char($char,$args = '')
+{
   GLOBAL $DBCFG;
-
-
   GLOBAL $CFG;
 
-
-
   $char=(ctype_digit($char)) ? $char : secure_data($char,"ADOsql");
-
-
-
   $defaults=array("min"=>0,"limit"=>CFG_NUM_SHOW_TERMSxTRAD);
-
-
-
   $whereFilter="";
 
-
-
   if($args["filterEQ"]){
-
-
     //2 = show only EQ terms
-
-
     //1 = show only noEQ terms
-
-
     $whereFilter=($args["filterEQ"]==2) ? " and tt.tema_id is not null " : " and tt.tema_id is null ";
-
-
   }
 
-
-
   $args = t3_parse_args( $args, $defaults );
-
-
-
   extract($args, EXTR_SKIP);
-
-
-
   $min = 0  < (int) $min ? (int) $min : 0;
-
-
   $limit = CFG_NUM_SHOW_TERMSxTRAD <= (int) $limit ? (int) $limit : CFG_NUM_SHOW_TERMSxTRAD;
-
-
-
   $where=(ctype_digit($char)) ?  " LEFT(t.tema,1) REGEXP '[[:digit:]]' " : " LEFT(t.tema,1)=$char ";
-
-
-
   $sql=SQL("SELECT","t.tema_id,
-
-
   t.tema,
-
-
   t.estado_id,
-
-
   t.isMetaTerm,
-
-
   r.t_relacion,
-
-
   tt.tema as tterm,
-
-
   tt.tema_id as tterm_id,
-
-
   r.id as r_id
-
-
   from $DBCFG[DBprefix]tema as t
-
-
   left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4
-
-
   left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion in (5,6,7)
-
-
   left join $DBCFG[DBprefix]tema as tt on r.id_mayor=tt.tema_id
-
-
   where $where
-
-
   $whereFilter
-
-
   and uf.id is null
-
-
   and t.tesauro_id=1
-
-
   group by t.tema_id,tt.tema_id
-
-
   order by lower(t.tema),lower(tt.tema)
-
-
   limit $min,$limit");
 
-
   return $sql;
+}
 
-
-};
-
-
-
-
+#
 # cantidad de términos preferentes de una letra cotejados con un tvocab
-
-
-function SQLlistaABCPreferedTerms($letra=""){
-
-
-
+#
+function SQLlistaABCPreferedTerms($letra="")
+{
     GLOBAL $DBCFG;
-
-
     GLOBAL $CFG;
-
-
 
     $letra=secure_data($letra,"ADOsql");
 
-
-
     return SQL("select","ucase(LEFT(tema.tema,1)) as letra_orden,
-
-
     if(LEFT(tema.tema,1)=$letra, 1,0) as letra
-
-
     from $DBCFG[DBprefix]tema as tema
-
-
     left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=tema.tema_id and uf.t_relacion = 4
-
-
     where tema.estado_id='13'
-
-
     and tema.tesauro_id=1
-
-
     and uf.id is null
-
-
     group by letra_orden
-
-
     order by letra_orden");
-
-
-    ;
-
-
 }
 
-
-
-
-
 #
-
-
 # cantidad de términos preferentes de una letra cotejados con un tvocab
-
-
 #
-
-
-function numPrefTerms2Letter($tvocab_id,$letra){
-
-
-
+function numPrefTerms2Letter($tvocab_id,$letra)
+{
   GLOBAL $DBCFG;
 
-
-
   $tesauro_id= $_SESSION["id_tesa"];
-
-
-
   $letra_sanitizada=secure_data($letra,"ADOsql");
-
-
   $tvocab_id=secure_data($tvocab_id,"int");
-
-
-
   $where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)=$letra_sanitizada " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' ";
-
-
-
   $sql=SQL("select","count(distinct tema.tema_id) as cant ,
-
-
   count(tterm.tema_id) as cant_eq
-
-
   from $DBCFG[DBprefix]tema as tema
-
-
   left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=tema.tema_id and uf.t_relacion = 4
-
-
   left join $DBCFG[DBprefix]tabla_rel as eq on eq.id_menor=tema.tema_id
-
-
   left join $DBCFG[DBprefix]tema as tterm on eq.id_mayor=tterm.tema_id
-
-
   and tterm.tesauro_id=$tvocab_id
-
-
   where
-
-
   $where_letter
-
-
   and uf.id is null
-
-
   and tema.tesauro_id=$tesauro_id
-
-
   and tema.estado_id='13'");
 
-
-
   if(is_object($sql))  {
-
-
     $array=$sql->FetchRow();
 
-
     return array("cant"=>$array["cant"],"cant_eq"=>$array["cant_eq"]);
-
-
-    }  else  {
-
+    }
 
     return array("cant"=>0,"cant_eq"=>0);
-
-
-  }
-
-
 }
+
+#
+# relations for acceptd terms from THE vocabulary since X date
+#
+function SQLrelationsSinceDate($sinceDate,$limit=50)
+{
+  GLOBAL $DBCFG;
+
+  $vocab_id=1;
+  $r2=TR_acronimo;
+  $r3=TG_acronimo.'/'.TE_acronimo;
+  $r4=UP_acronimo.'/'.USE_termino;
+
+$limit=(secure_data($limit,"int")) ? $limit : "50";
+$sql=SQL("select","t.tema_id as lterm_id,t2.tema_id rterm_id,
+ if(r.t_relacion=2,'$r2',if(r.t_relacion=3,'$r3','$r4')) as relType,
+ v.value_code as relSubType,
+ r.cuando as created
+   from $DBCFG[DBprefix]tema as t,
+   $DBCFG[DBprefix]tema as t2,
+   $DBCFG[DBprefix]tabla_rel as r
+   left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
+   where
+   t.tesauro_id='$vocab_id'
+    and t.estado_id='13'
+    and t.tema_id=r.id_mayor
+    and t2.tema_id=r.id_menor
+    and r.t_relacion in (2,3,4)
+   and r.cuando >='$sinceDate'
+    order by r.cuando desc
+   limit $limit");
+
+  return $sql;
+}
+
+#
+# terms mod/created since date
+#
+function SQLtermsSinceDate($sinceDate,$limit="50")
+{
+  GLOBAL $DBCFG;
+
+  $vocab_id=1;
+  $limit=(secure_data($limit,"int")) ? $limit : "50";
+   $sql=SQL("select","t.tema_id,t.code,t.tema,v.idioma,t.isMetaTerm,t.cuando ,t.cuando_final
+   from $DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]config v
+ where t.estado_id='13'
+  and t.tesauro_id='$vocab_id'
+  and if(t.cuando_final is not null,t.cuando_final,t.cuando)>='$sinceDate'
+  order by t.cuando_final,t.cuando desc
+  limit $limit");
+
+  return $sql;
+}
+

@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -9,10 +9,12 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #                                                                  #
 ####################################################################
 
-###################################################################################
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
+
 ############################### FUNCIONES GENERALES ###############################
-###################################################################################
-###################################################################################
+
+
 // Funcion tomada de PHPBB: http://www.phpbb.com/
 // addslashes to vars if magic_quotes_gpc is off
 // this is a security precaution to prevent someone
@@ -1632,3 +1634,18 @@ function URIterm2array($URI_term)
         return array();
     }
 }
+
+function check2Date($stringDate,$char="-")
+{
+    $arrayDate = explode('-', $stringDate);
+    if (count($arrayDate)!==3) {
+        return false;
+    }
+    if (checkdate($arrayDate[1], $arrayDate[2], $arrayDate[0])) {
+        return $stringDate;
+    }
+
+    return false;
+}
+
+
