@@ -46,11 +46,11 @@ elseif($_GET[dcTema]){
 	header('Content-Type: text/xml');
 	return do_dublin_core($_GET[dcTema]);
 }
-elseif($_GET[jsonTema]){
+elseif($_GET["jsonTema"]){
   header('Content-type: application/json');
-	echo do_json($_GET[jsonTema]);
+	echo do_json($_GET["jsonTema"]);
 }
-elseif($_GET[jsonldTema]){
+elseif($_GET["jsonldTema"]){
     header('Content-type: application/json');
 	echo do_jsonld($_GET[jsonldTema]);
 }
@@ -153,7 +153,6 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 			break;
 
 		case 'spdf':
-			$params = array("hasTopTerm" => $_GET["hasTopTerm"]);
 			echo do_pdfSist($params);
 			break;
 

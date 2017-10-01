@@ -2594,13 +2594,12 @@ return sendFile("$txt","$filname");
 
 function TXTverTE($tema_id,$i_profundidad)
 {
+	GLOBAL $CFG;
+	$i_profundidad=++$i_profundidad;
 
-GLOBAL $CFG;
-$i_profundidad=++$i_profundidad;
+	$sql=SQLverTerminosE($tema_id);
 
-$sql=SQLverTerminosE($tema_id);
-
-//Contador de profundidad de TE desde la ra�z
+	//Contador de profundidad de TE desde la ra�z
 	while($array=$sql->FetchRow()){
 		//calculo de sangría
 		$sangria='';
@@ -2609,15 +2608,16 @@ $sql=SQLverTerminosE($tema_id);
 			};
 
 		//si tiene TEs
-		if($array[id_te]){
-			$txt.=$sangria.$array[tema]."\r\n";
-			$txt.=TXTverTE($array[id_tema],$i_profundidad);
+		if ($array["id_te"]){
+			$txt.=$sangria.$array["code"].' - '. $array["tema"]."\r\n";
+			$txt.=TXTverTE($array["id_tema"],$i_profundidad);
 		}else{
-		$txt.=$sangria.$array[tema]."\r\n";
+		$txt.=$sangria.$array["code"].' - '. $array["tema"]."\r\n";
 		}
 	}
+
 	return $txt;
-};
+}
 
 
 
@@ -4024,23 +4024,17 @@ function do_pdfSist($params = array())
 		$pdf->PrintIntro();
 	}
 
-	if ($params['hasTopTerm'] == '') {
-		$sql=SQLverTopTerm();
-		while ($arrayTema=$sql->FetchRow()) {
-			#Mantener vivo el navegador
-			$time_now = time();
-			if ($time_start >= $time_now + 10) {
-				$time_start = $time_now;
-				header('X-pmaPing: Pong');
-			}
-
-			$txt.=$arrayTema["tema"]."\r\n";
-			$txt.=TXTverTE($arrayTema["id"],"0");
+	$sql=SQLverTopTerm();
+	while ($arrayTema = $sql->FetchRow()) {
+		#Mantener vivo el navegador
+		$time_now = time();
+		if ($time_start >= $time_now + 10) {
+			$time_start = $time_now;
+			header('X-pmaPing: Pong');
 		}
-	} else {
-		$txt=TXTverTE($params['hasTopTerm'],"0");
-		$topTerm = ARRAYverTerminoBasico($params["hasTopTerm"]);
-		$topTerm = $topTerm['tema'];
+
+		$txt.=$arrayTema["code"].' - '.$arrayTema["tema"]."\r\n";
+		$txt.=TXTverTE($arrayTema["id"],"0");
 	}
 
 	$txt = str_replace(".\t", "     ", $txt);
