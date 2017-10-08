@@ -19,72 +19,52 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 // addslashes to vars if magic_quotes_gpc is off
 // this is a security precaution to prevent someone
 // trying to break out of a SQL statement.
-//
 
-function PHP_magic_quotes(){
+$_GET=XSSpreventArray($_GET);
 
-if( !get_magic_quotes_gpc() )
+function PHP_magic_quotes()
 {
-        if( is_array($_GET) )
-        {
-                while( list($k, $v) = each($_GET) )
-                {
-                        if( is_array($_GET[$k]) )
-                        {
-                                while( list($k2, $v2) = each($_GET[$k]) )
-                                {
-                                        $_GET[$k][$k2] = addslashes($v2);
-                                }
-                                @reset($_GET[$k]);
-                        }
-                        else
-                        {
-                                $_GET[$k] = addslashes($v);
-                        }
+    if (!get_magic_quotes_gpc()) {
+        if (is_array($_GET)) {
+            while (list($k, $v) = each($_GET)) {
+                if (is_array($_GET[$k])) {
+                    while (list($k2, $v2) = each($_GET[$k])) {
+                        $_GET[$k][$k2] = addslashes($v2);
+                    }
+                    @reset($_GET[$k]);
+                } else {
+                    $_GET[$k] = addslashes($v);
                 }
-                @reset($_GET);
+            }
+            @reset($_GET);
         }
-
-        if( is_array($_POST) )
-        {
-                while( list($k, $v) = each($_POST) )
-                {
-                        if( is_array($_POST[$k]) )
-                        {
-                                while( list($k2, $v2) = each($_POST[$k]) )
-                                {
-                                        $_POST[$k][$k2] = addslashes($v2);
-                                }
-                                @reset($_POST[$k]);
-                        }
-                        else
-                        {
-                                $_POST[$k] = addslashes($v);
-                        }
+        if( is_array($_POST) ) {
+            while( list($k, $v) = each($_POST) ) {
+                if( is_array($_POST[$k]) ) {
+                    while( list($k2, $v2) = each($_POST[$k]) ) {
+                        $_POST[$k][$k2] = addslashes($v2);
+                    }
+                    @reset($_POST[$k]);
+                } else {
+                    $_POST[$k] = addslashes($v);
                 }
-                @reset($_POST);
+            }
+            @reset($_POST);
         }
-
-        if( is_array($HTTP_COOKIE_VARS) )
-        {
-                while( list($k, $v) = each($HTTP_COOKIE_VARS) )
-                {
-                        if( is_array($HTTP_COOKIE_VARS[$k]) )
-                        {
-                                while( list($k2, $v2) = each($HTTP_COOKIE_VARS[$k]) )
-                                {
-                                        $HTTP_COOKIE_VARS[$k][$k2] = addslashes($v2);
-                                }
-                                @reset($HTTP_COOKIE_VARS[$k]);
-                        }
-                        else
-                        {
-                                $HTTP_COOKIE_VARS[$k] = addslashes($v);
-                        }
+        if( is_array($HTTP_COOKIE_VARS) ) {
+            while( list($k, $v) = each($HTTP_COOKIE_VARS) ) {
+                if( is_array($HTTP_COOKIE_VARS[$k]) ) {
+                    while( list($k2, $v2) = each($HTTP_COOKIE_VARS[$k]) ) {
+                        $HTTP_COOKIE_VARS[$k][$k2] = addslashes($v2);
+                    }
+                    @reset($HTTP_COOKIE_VARS[$k]);
+                } else {
+                    $HTTP_COOKIE_VARS[$k] = addslashes($v);
                 }
-                @reset($HTTP_COOKIE_VARS);
+            }
+            @reset($HTTP_COOKIE_VARS);
         }
-}
+    }
 }
 
 
@@ -598,7 +578,8 @@ class Qi_Util_Similar
         $lista = array();
         foreach ($this->lista as $sugerencia) {
             if (evalSimiliarResults($this->palavra, $sugerencia)) {
-                $lista[] = $sugerencia;
+                //$lista[] = $sugerencia;
+                $lista[] = array('string' => $sugerencia);
             }
         }
 
@@ -729,24 +710,30 @@ function latin1($txt) {
 convierte una cadena a utf8
 * http://gmt-4.blogspot.com/2008/04/conversion-de-unicode-y-latin1-en-php-5.html
 */
-function utf8($txt) {
- $encoding = mb_detect_encoding($txt, 'ASCII,UTF-8,ISO-8859-1');
- if ($encoding == "ISO-8859-1") {
-     $txt = utf8_encode($txt);
- }
- return $txt;
+function utf8($txt)
+{
+    $encoding = mb_detect_encoding($txt, 'ASCII,UTF-8,ISO-8859-1');
+    if ($encoding == "ISO-8859-1") {
+        $txt = utf8_encode($txt);
+    }
+
+    return $txt;
 }
 
 
-function XSSprevent($string){
+function XSSprevent($string)
+{
+    //$string = str_replace ( array ('"',"'" ), array ('',''), $string );
+    $string=htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
-  require_once 'htmlpurifier/HTMLPurifier.auto.php';
+    require_once 'htmlpurifier/HTMLPurifier.auto.php';
 
-	$config = HTMLPurifier_Config::createDefault();
-	$purifier = new HTMLPurifier($config);
-	$clean_string = $purifier->purify($string);
+    $config = HTMLPurifier_Config::createDefault();
+    //$config->set('HTML.Allowed', '');
+    $purifier = new HTMLPurifier($config);
+    $clean_string = $purifier->purify($string);
 
-	return $clean_string;
+    return $clean_string;
 }
 
 
