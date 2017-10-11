@@ -168,6 +168,10 @@ body {
   min-height: initial;
   padding: 10px; }
 
+li a {
+  padding: 5px;
+  display: inline-block; }
+
 .navbar {
   min-height: initial; }
   .navbar .container-fluid {
@@ -290,6 +294,26 @@ body {
   .relations div {
     flex: 1 0 auto;
     border: 1px solid black; }
+
+.notEquivalent,
+.notApplicable,
+.isMetaterm,
+.estado_termino14 {
+  color: #9b0d0d;
+  background-color: transparent; }
+
+li .notEquivalent,
+li .notApplicable,
+li .isMetaterm,
+li .estado_termino14 {
+  padding: 5px;
+  width: 100%; }
+  li .notEquivalent:hover,
+  li .notApplicable:hover,
+  li .isMetaterm:hover,
+  li .estado_termino14:hover {
+    color: white;
+    background-color: #ec2222; }
 
 #myTermTab .nav-tabs > li > a {
   border: 1px solid lightgray;

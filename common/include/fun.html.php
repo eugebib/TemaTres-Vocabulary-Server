@@ -67,40 +67,49 @@ function resultaBusca($texto,$tipo=""){
 				return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
 			}
 
-			$leyendaTerminoLibre=($resulta_busca[esTerminoLibre]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
+			$leyendaTerminoLibre    = ($resulta_busca[esTerminoLibre]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
 
-			$styleClassLink= ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca[estado_id] : '';
-			$styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '';
+			$styleClassLink         = ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca[estado_id] : '';
+			$styleClassLinkMetaTerm = '';
+			if ($resulta_busca["isMetaTerm"]=='1') {
+				$styleClassLinkMetaTerm = 'metaTerm';
+				$title                  = ucfirst(NOTE_isMetaTerm) . ' - ';
+			}
+			if ($resulta_busca["notEquivalent"]=='1') {
+				$styleClassLinkMetaTerm = 'notEquivalent';
+				$title                  = ucfirst(LABEL_NotEquivalent) . ' - ';
+			}
+			if ($resulta_busca["notApplicable"]=='1') {
+				$styleClassLinkMetaTerm = 'notApplicable';
+				$title                  = ucfirst(LABEL_NotApplicable) . ' - ';
+			}
 
 			//Si no es un término preferido
-			if($resulta_busca["termino_preferido"])
-			{
-				switch($resulta_busca["t_relacion"])
-				{
+			if ($resulta_busca["termino_preferido"]) {
+				switch ($resulta_busca["t_relacion"]) {
 					case '4'://UF
-					$leyendaConector=USE_termino;
-					break;
+						$leyendaConector=USE_termino;
+						break;
 
 					case '5'://Tipo relacion término equivalente parcialmente
-					$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-					break;
+						$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
+						break;
 
 					case '6'://Tipo relacion término equivalente
-					$leyendaConector='<abbr title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
-					break;
+						$leyendaConector='<abbr title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
+						break;
 
 					case '7'://Tipo relacion término no equivalente
-					$leyendaConector='<abbr title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
-					break;
+						$leyendaConector='<abbr title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
+						break;
 
 					case '8'://Tipo relacion término equivalente inexacta
-					$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-					break;
+						$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
+						break;
 				}
 
 
-				if ((in_array($resulta_busca["rr_code"],$CFG["HIDDEN_EQ"])) && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))
-				{
+				if ((in_array($resulta_busca["rr_code"],$CFG["HIDDEN_EQ"])) && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 					$row_result.= '<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a></li>'."\r\n" ;
 				}else{
 					$row_result.= '<li><em><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["tema_id"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a> </li>'."\r\n" ;
@@ -370,11 +379,11 @@ function HTMLmenuCustumRel($tema_id,$arrayDataRelation)
 	return $rows;
 }
 
-
-
-
-//home page for term
-function HTMLbodyTermino($array){
+#
+# home page for term
+#
+function HTMLbodyTermino($array)
+{
 
 	GLOBAL $MSG_ERROR_RELACION;
 	GLOBAL $CFG;
@@ -431,10 +440,21 @@ function HTMLbodyTermino($array){
 	$body.='</div>';
 	# fin Div miga de pan
 
-	if($array["isMetaTerm"]==1)	{
-		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
-		//$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
-	}	else	{
+	if ($array["isMetaTerm"]==1)	{
+		$class = 'metaTerm';
+		$title = NOTE_isMetaTerm;
+	}
+	if ($array["notEquivalent"] == 1)  {
+		$class = 'notEquivalent';
+		$title = ucfirst(LABEL_NotEquivalent);
+	}
+	if ($array["notApplicable"] == 1)  {
+		$class = 'notApplicable';
+		$title = ucfirst(LABEL_NotApplicable);
+	}
+	if ($class)  {
+		$body.=' <h1 class="' . $class . '" title="' . $title . '" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
+	} else {
 		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
 	}
 	//div oculto para eliminar término
@@ -1331,13 +1351,11 @@ function HTMLlistaAlfabeticaUnica($letra="")
 	return $menuAlfabetico;
 }
 
-/*
-All terms form one char
-*/
+#
+# All terms form one char
+#
 function HTMLterminosLetra($letra)
 {
-
-
 	$cantLetra=numTerms2Letter($letra);
 
 	$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
@@ -1409,26 +1427,38 @@ function HTMLterminosLetra($letra)
 				}
 
 				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[tema_id].'&amp;/'.string2url($datosLetra[tema]).'">'.$datosLetra[tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$datosLetra[tema].'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[termino_preferido].'</a></li>'."\r\n" ;
-			}
-			else
-			{
-				$styleClassLink= ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
-				$styleClassLinkMetaTerm= ($datosLetra["isMetaTerm"]=='1') ? 'metaTerm' : '';
+			} else {
+				$styleClassLink         = ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
+				$styleClassLinkMetaTerm = '';
+				$title = '';
 
-				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a></li>'."\r\n" ;
+				if ($datosLetra["isMetaTerm"]=='1') {
+					$styleClassLinkMetaTerm = 'metaTerm';
+					$title = ucfirst(NOTE_isMetaTerm) . ' - ';
+				}
+
+				if ($datosLetra["notEquivalent"]=='1') {
+					$styleClassLinkMetaTerm = 'notEquivalent';
+					$title = ucfirst(LABEL_NotEquivalent) . ' - ';
+				}
+
+				if ($datosLetra["notApplicable"]=='1') {
+					$styleClassLinkMetaTerm = 'notApplicable';
+					$title = ucfirst(LABEL_NotApplicable) . ' - ';
+				}
+
+				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'. $title . LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a></li>'."\r\n" ;
 			}
-		};
+		}
+
 		$terminosLetra.='   </ol>';
 		$terminosLetra.='</div>';
-	};
-
+	}
 
 	$terminosLetra.='<div class="row">'.$paginado_letras.'</div>';
 
 	return $terminosLetra;
 }
-
-
 
 #
 # Armado de resultados de búsqueda avanzada

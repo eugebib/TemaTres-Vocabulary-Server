@@ -658,8 +658,10 @@ function addTerm($string, $tesauro_id, $estado_id=13, $notEquivalent, $notApplic
 	return $sql["cant"];
 }
 
+#
 # ALTA Y MODIFICACION DE TERMINOS
-function abm_tema($do,$titu_tema,$tema_id="", $notEquivalent, $notApplicable)
+#
+function abm_tema($do, $titu_tema, $tema_id = "", $notEquivalent = 0, $notApplicable = 0)
 {
 	GLOBAL $DBCFG;
 	GLOBAL $DB;

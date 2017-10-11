@@ -200,6 +200,8 @@ function SQLbuscaSimple($texto)
 			relaciones.t_relacion,
 			temasPreferidos.tema as termino_preferido,
 			tema.isMetaTerm,
+			tema.notEquivalent,
+			tema.notApplicable,
 			if($text=tema.tema,1,0) as rank,
 			i.indice,
 			v.value_id as rel_rel_id,
@@ -597,6 +599,8 @@ function ARRAYverDatosTermino($tema_id)
 		tema.cuando_final,
 		tema.uid_final,
 		tema.isMetaTerm,
+		tema.notEquivalent,
+		tema.notApplicable,
 		relaciones.id_mayor,
 		tema.estado_id,
 		v.value_code as estado_code,
@@ -629,6 +633,8 @@ function ARRAYverDatosTermino($tema_id)
 		$arrayDatos["uid_final"]=$array["uid_final"];
 		$arrayDatos["last"]=$array["last"];
 		$arrayDatos["isMetaTerm"]=$array["isMetaTerm"];
+		$arrayDatos["notEquivalent"] =$array["notEquivalent"];
+		$arrayDatos["notApplicable"] =$array["notApplicable"];
 	}
 	$arrayNotas=array();
 	$sqlNotas=SQLdatosTerminoNotas($tema_id);
@@ -1139,6 +1145,8 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 	tema.tema,
 	tema.estado_id,
 	tema.isMetaTerm,
+	tema.notEquivalent,
+	tema.notApplicable,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido
 	from $DBCFG[DBprefix]tema as tema
