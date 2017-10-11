@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -8,6 +8,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
 ####################################################################
+
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 
 # Include para seleccionar include o función de visualizaicon de listas de términos #
 
@@ -34,8 +36,9 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 	$search_string=XSSprevent($search_string);
 	echo resultaBusca($search_string,$_GET["tipo"]);
 
-} elseif( //Mostrar ficha de termino o crear término
-	(is_numeric($metadata["arraydata"]["tema_id"])) ||
+} elseif ( //Mostrar ficha de termino o crear término
+	(is_numeric($metadata["arraydata"]["tema_id"]) && $metadata["arraydata"]["estado_id"] != '14' && $metadata["arraydata"]["notEquivalent"] == '0' && $metadata["arraydata"]["notApplicable"] == '0') ||
+	(is_numeric($metadata["arraydata"]["tema_id"]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) ||
 	($_GET["taskterm"]=='addTerm') ||
 	($_GET["taskterm"]=='addTermSuggested')) {
 

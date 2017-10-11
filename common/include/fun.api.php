@@ -216,13 +216,15 @@ function fetchExactTerm($string)
 		$array=ARRAYverTerminoBasico($tema_id);
 
 		if(is_array($array)){
-			$result["result"]["term"]["term_id"]=$array["idTema"];
-			$result["result"]["term"]["tema_id"]=$array["idTema"];
-			$result["result"]["term"]["code"]=$array["code"];
-			$result["result"]["term"]["lang"]=$array["idioma"];
-			$result["result"]["term"]["string"]=$array["titTema"];
-			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
-			$result["result"]["term"]["date_create"]=$array["cuando"];
+			$result["result"]["term"]["term_id"]       = $array["idTema"];
+			$result["result"]["term"]["tema_id"]       = $array["idTema"];
+			$result["result"]["term"]["code"]          = $array["code"];
+			$result["result"]["term"]["lang"]          = $array["idioma"];
+			$result["result"]["term"]["string"]        = $array["titTema"];
+			$result["result"]["term"]["isMetaTerm"]    = $array["isMetaTerm"];
+			$result["result"]["term"]["notEquivalent"] = $array["notEquivalent"];
+			$result["result"]["term"]["notApplicable"] = $array["notApplicable"];
+			$result["result"]["term"]["date_create"]   = $array["cuando"];
 
 			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 		}
@@ -425,7 +427,8 @@ function fetchTargetTermsById($tema_id)
 
 	// Array de términos que comienzan con una letra
 	// array(tema_id,string,no_term_string,relation_type_id)
-	function fetchTermsByLetter($letter){
+	function fetchTermsByLetter($letter)
+	{
 
 		$cantLetra=numTerms2Letter($letter);
 
@@ -434,14 +437,16 @@ function fetchTargetTermsById($tema_id)
 		while($array=$sql->FetchRow())
 		{
 			$i=++$i;
-			$result["result"][$array[id_definitivo]]= array(
-				"term_id"=>$array[id_definitivo],
-				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
-				"isMetaTerm"=>$array["isMetaTerm"],
-				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
-				"relation_type_id"=>$array[t_relacion]
-			);
-		};
+			if ($array["notEquivalent"] == '0' & $array["notApplicable"] == '0') {
+				$result["result"][$array["id_definitivo"]]= array(
+					"term_id"=>$array["id_definitivo"],
+					"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
+					"isMetaTerm"=>$array["isMetaTerm"],
+					"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
+					"relation_type_id"=>$array["t_relacion"]
+				);
+			}
+		}
 		return $result;
 	}
 
@@ -451,18 +456,20 @@ function fetchTargetTermsById($tema_id)
 	function fetchTermsBySearch($string){
 
 
-		$sql=SQLbuscaSimple($string);
+		$sql=APISQLbuscaSimple($string);
 
 		while($array=$sql->FetchRow()){
 			$i=++$i;
-			$arrayIndex=explode('|',$array[indice]);
-			$result["result"][$array[id_definitivo]]= array(
-				"term_id"=>$array[id_definitivo],
-				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
+			$arrayIndex=explode('|',$array["indice"]);
+			$result["result"][$array["id_definitivo"]]= array(
+				"term_id"=>$array["id_definitivo"],
+				"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"],
+				"notEquivalent"  =>$array["notEquivalent"],
+				"notApplicable"  =>$array["notApplicable"],
 				"relation_code"=>$array["rr_code"],
-				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
-				"index"=>$array[indice],
+				"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
+				"index"=>$array["indice"],
 				"order" => $i
 			);
 		};

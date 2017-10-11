@@ -187,7 +187,8 @@ function SQLbuscaSimple($texto)
 	}
 
 	//Control de estados
-	$where = (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
+	$where = (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' and tema.notEquivalent='0' and tema.notApplicable='0' " : "";
+
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
 
@@ -1100,18 +1101,20 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 	return $sql;
 };
 
-	#
-	# Lista PAGINADA de términos de una letra
-	#
-	function SQLmenuABCpages($letra,$args = ''){
+#
+# Lista PAGINADA de términos de una letra
+#
+function SQLmenuABCpages($letra,$args = '')
+{
 
-		GLOBAL $DBCFG;
-		GLOBAL $CFG;
+	GLOBAL $DBCFG;
+	GLOBAL $CFG;
 
-		$letra=(ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
+	$letra=(ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
 
-		$defaults=array("min"=>0,
-		"limit"=>50
+	$defaults = array(
+		"min"   => 0,
+		"limit" => 50
 	);
 
 	$args = t3_parse_args( $args, $defaults );
@@ -1125,14 +1128,12 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 
 	$where="";
 
-	if(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
-	{
+	if(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 		//Control de estados
-		$where=" and tema.estado_id='13' ";
+		$where = " and tema.estado_id='13' and tema.notEquivalent='0' and tema.notApplicable='0' ";
 
 		//hide hidden equivalent terms
-		if(count($CFG["HIDDEN_EQ"])>0)
-		{
+		if(count($CFG["HIDDEN_EQ"])>0) {
 			$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
 			$hidden_labels='\''.$hidden_labels.'\'';
 			$leftJoin="left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
@@ -3281,7 +3282,9 @@ function SQLtargetTerms($tema_id,$tterm_id="0")
 		t2tt.tterm_uri,
 		t2tt.tterm_string,
 		t2tt.cuando,
-		t2tt.cuando_last
+		t2tt.cuando_last,
+		t2tt.notEquivalent,
+		t2tt.notApplicable
 	from
 		$DBCFG[DBprefix]tvocab tv,
 		$DBCFG[DBprefix]term2tterm t2tt

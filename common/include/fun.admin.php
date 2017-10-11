@@ -739,14 +739,19 @@ function abm_target_tema($do,$tema_id,$tvocab_id,$tgetTerm_id,$tterm_id="0")
 			$arrayTterm["tterm_uri"]=$arrayVocab["tvocab_uri_service"].'?task=fetchTerm&arg='.$tgetTerm_id;
 
 			$arrayTterm["tterm_url"]=$arrayVocab["tvocab_url"].'?tema='.$tgetTerm_id;
+			$arrayTterm["notEquivalent"] = (integer) $dataTterm->result->term->notEquivalent;
+			$arrayTterm["notApplicable"] = (integer) $dataTterm->result->term->notApplicable;
 
 			$arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string),get_magic_quotes_gpc());
 
-			$sql=SQLo("insert","into $DBCFG[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
-						values (?,?,?,?,$arrayTterm[tterm_string],now(),?)",
-						array($tema_id,$arrayVocab[tvocab_id],$arrayTterm[tterm_url],$arrayTterm[tterm_uri],$userId));
+			$sql=SQLo("insert",
+				"into $DBCFG[DBprefix]term2tterm
+				(tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid,notEquivalent,notApplicable)
+				values (?,?,?,?,$arrayTterm[tterm_string],now(),?,?,?)",
+				array($tema_id,$arrayVocab["tvocab_id"],$arrayTterm["tterm_url"],$arrayTterm["tterm_uri"],$userId,$arrayTterm["notEquivalent"],$arrayTterm["notApplicable"])
+			);
 
-			$target_relation_id=$sql[cant];
+			$target_relation_id=$sql["cant"];
 
 			break;
 
