@@ -452,8 +452,14 @@ define('LABEL_user_lost_password','¿Has perdido tu contraseña?');
 define('LABEL_includeMetaTerm','Incluir meta-términos');
 define('NOTE_isMetaTerm','Es un meta-término.');
 define('NOTE_isMetaTermNote','Un meta-término es un término que NO debe utilizarse para la indización. Es un término que describe otros términos. Ej: Términos guía, Facetas, Categorías, etc.');
+
 define('LABEL_turnOffMetaTerm','no es un meta-término');
 define('LABEL_turnOnMetaTerm','es un meta-término');
+define('LABEL_turnOffnotEquivalent','sí existe equivalencia');
+define('LABEL_turnOnnotEquivalent','no existe equivalencia');
+define('LABEL_turnOffnotApplicable','sí se aplica en el ámbito educativo');
+define('LABEL_turnOnnotApplicable','no se aplica en el ámbito educativo');
+
 define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
 define('LABEL_relatedTerms','términos relacionados');

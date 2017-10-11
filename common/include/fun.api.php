@@ -16,7 +16,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 // Be careful, access to this file is not protected
 if (stristr( $_SERVER['REQUEST_URI'], "fun.api.php") ) die("no access");
 
-require(T3_ABSPATH . 'common/fun.api.sql.php');
+require(T3_ABSPATH . 'common/include/fun.api.sql.php');
 
 class XMLvocabularyServices
 {
@@ -227,8 +227,7 @@ function fetchExactTerm($string)
 			$result["result"]["term"]["notEquivalent"] = $array["notEquivalent"];
 			$result["result"]["term"]["notApplicable"] = $array["notApplicable"];
 			$result["result"]["term"]["date_create"]   = $array["cuando"];
-
-			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
+			$result["result"]["term"]["date_mod"]      = ($array["cuando_final"]) ?  $array["cuando_final"] : $array["cuando"];
 		}
 		return $result;
 	}

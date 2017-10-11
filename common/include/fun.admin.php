@@ -263,8 +263,8 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 	}
 
 	#turn to metaterm or term
-	if (($_GET["taskterm"]=='metaTerm') && ($_GET["tema"])) {
-		$task=setMetaTerm($_GET["tema"],$_GET["mt_status"]);
+	if (($_GET["taskterm"]=='metaTerm' || $_GET["taskterm"]=='notEquivalent' || $_GET["taskterm"]=='notApplicable') && ($_GET["tema"])) {
+	  	$task=setMetaTerm($_GET["tema"], $_GET["taskterm"], $_GET["mt_status"]);
 	}
 
 	# function to select wich report download
@@ -3370,19 +3370,36 @@ function do_target_temaXcode($tema_id,$code,$tvocab_id)
 	return array("tterm_id"=>$target_relation_id);
 }
 
-
-
-function setMetaTerm($term_id,$flag=0)
+function setMetaTerm($term_id,$specialtype,$flag=0)
 {
 	GLOBAL $DBCFG;
 
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 	// 	check valid data
 	$tema_id=secure_data($tema_id,"int");
 	$flag=(in_array($flag, array(1,0))) ? $flag : 0;
 
-	$sql=SQL("update","$DBCFG[DBprefix]tema set isMetaTerm='$flag', uid_final='$userId',cuando_final=now()
-						where tema_id='$term_id' and tesauro_id=1");
+	if ($flag == 1) {
+		if ($specialtype == 'notEquivalent') {
+			$change = 'notEquivalent="1", notApplicable="0"';
+		}
+		if ($specialtype == 'notApplicable') {
+			$change = 'notEquivalent="0", notApplicable="1"';
+		}
+	} else {
+		$change = $specialtype.'="0"';
+	}
+
+	$sql=SQL("update","
+			$DBCFG[DBprefix]tema
+  		SET
+		    $change,
+	    	uid_final='$userId',
+	    	cuando_final=now()
+	  	WHERE
+	  		tema_id='$term_id' and
+	  		tesauro_id=1
+	");
 
 	return array("tema_id"=>$term_id);
 }

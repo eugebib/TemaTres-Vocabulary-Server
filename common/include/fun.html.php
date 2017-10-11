@@ -453,7 +453,8 @@ function HTMLbodyTermino($array)
 		$title = ucfirst(LABEL_NotApplicable);
 	}
 	if ($class)  {
-		$body.=' <h1 class="' . $class . '" title="' . $title . '" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
+		$body.=' <h1 class="' . $class . '" title="' . $title . '" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>
+		<p><em>' . $title . '</em></p>';
 	} else {
 		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
 	}
@@ -677,15 +678,33 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 	$row.=$link_estado;
 
 	if($isValidTerm){
-		if($array_tema["isMetaTerm"]==1)		{
-			$label_task_meta_term=LABEL_turnOffMetaTerm;
-			$task_meta_term=0;
-		}		else		{
-			$label_task_meta_term=LABEL_turnOnMetaTerm;
-			$task_meta_term=1;
+		if ($array_tema["notEquivalent"] == 1) {
+			$label_task_not_equivalent = LABEL_turnOffnotEquivalent;
+			$task_not_equivalent       = 0;
+		} else {
+			$label_task_not_equivalent = LABEL_turnOnnotEquivalent;
+			$task_not_equivalent       = 1;
 		}
 
-		$row.='<li><a title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>';
+		if ($array_tema["notApplicable"] == 1) {
+			$label_task_not_applicable = LABEL_turnOffnotApplicable;
+			$task_not_applicable       = 0;
+		} else {
+			$label_task_not_applicable = LABEL_turnOnnotApplicable;
+			$task_not_applicable       = 1;
+		}
+
+		$row.='
+			<li>
+				<a title="'.$label_task_not_equivalent.'" href="'.URL_BASE.'index.php?taskterm=notEquivalent&amp;mt_status='.$task_not_equivalent.'&amp;tema='.$array_tema["idTema"].'">'.
+				ucfirst($label_task_not_equivalent).'
+				</a>
+			</li>
+			<li>
+				<a title="'.$label_task_not_applicable.'" href="'.URL_BASE.'index.php?taskterm=notApplicable&amp;mt_status='.$task_not_applicable.'&amp;tema='.$array_tema["idTema"].'">'.
+				ucfirst($label_task_not_applicable).'
+				</a>
+			</li>';
 	}
 
 
