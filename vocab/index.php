@@ -1,4 +1,5 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -10,30 +11,31 @@
 
 include("config.tematres.php");
 $metadata=do_meta_tag();
- /*term reporter*/
-if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]))
-{
-	return wichReport($_GET[task]);
+
+#
+# term reporter
+#
+if (($_GET["mod"] == 'csv') && (substr($_GET["task"],0,3) == 'csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+    return wichReport($_GET[task]);
 }
-$search_string ='';
+
 $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,FORM_LABEL_buscar)) : '';
+
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
- </head>
- <body>
 
-  <?php echo HTMLnavHeader(); ?>
+    <head>
+        <?php echo HTMLheader($metadata);?>
+    </head>
 
-<div id="wrap" class="container">
+    <body>
+        <?php echo HTMLnavHeader(); ?>
+        <div id="wrap" class="container">
+            <?php require_once(T3_ABSPATH . 'common/include/inc.inicio.php'); ?>
+        </div>
 
-<?php
-	require_once(T3_ABSPATH . 'common/include/inc.inicio.php');
-?>
-
-</div><!-- /.container -->
 		<?php echo footer(); ?>
         <?php echo HTMLjsInclude();?>
     </body>

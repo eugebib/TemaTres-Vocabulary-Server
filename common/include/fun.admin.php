@@ -129,7 +129,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
 
 			# Alta de término
 			if ($_POST["alta_t"]=='new') {
-				$proc = createTerms(doValue($_POST,FORM_LABEL_termino),$_POST["isMetaTerm"]);
+				$proc = createTerms(doValue($_POST,FORM_LABEL_termino),$_POST["isMetaTerm"], $_POST["notEquivalent"], $_POST["notApplicable"]);
 
 				$tema=$proc["last_term_id"];
 
@@ -634,22 +634,32 @@ function actualizaArbolxTema($tema_id)
 }
 
 # ALTA DE TERMINOS
-function addTerm($string,$tesauro_id,$estado_id=13)
+function addTerm($string, $tesauro_id, $estado_id=13, $notEquivalent, $notApplicable)
 {
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
 	$titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+	if (!$notEquivalent) {
+	  	$notEquivalent = 0;
+	}
+	if (!$notApplicable) {
+	  	$notApplicable = 0;
+	}
 
-	$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
-	  values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id));
+	$sql = SQLo("insert", "
+		into $DBCFG[DBprefix]tema
+		(tema,tesauro_id,uid,cuando,estado_id,cuando_estado,notEquivalent,notApplicable)
+		values (?,?,?,now(),?,now(),?,?)",
+		array($string,$tesauro_id,$userId,$estado_id,$notEquivalent,$notApplicable)
+	);
 
 	return $sql["cant"];
 }
 
 # ALTA Y MODIFICACION DE TERMINOS
-function abm_tema($do,$titu_tema,$tema_id="")
+function abm_tema($do,$titu_tema,$tema_id="", $notEquivalent, $notApplicable)
 {
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
@@ -669,7 +679,7 @@ function abm_tema($do,$titu_tema,$tema_id="")
 	switch($do) {
 		case 'alta':
 			$estado_id = (@$_POST["estado_id"]) ? $_POST["estado_id"] : '13';
-			$tema_id=addTerm($titu_tema,$tesauro_id,$estado_id);
+			$tema_id   = addTerm($titu_tema, $tesauro_id, $estado_id, $notEquivalent, $notApplicable);
 			break;
 
 		case 'mod':
@@ -3567,8 +3577,10 @@ function makeMetaTerms($terms_id=array()){
 	return array("terms"=>$i_term, "error"=>$i_term-$i_task,"success"=>$i_task);
 }
 
-//Create many terms
-function createTerms($arrayStrings,$isMetaTerm=0)
+#
+# Create many terms
+#
+function createTerms($arrayStrings, $isMetaTerm = 0, $notEquivalent = 0, $notApplicable = 0)
 {
 	$arrayTerminos = explode("\n",$arrayStrings);
 
@@ -3584,7 +3596,7 @@ function createTerms($arrayStrings,$isMetaTerm=0)
 				if($isMetaTerm==1)	setMetaTerm($tema,1);
 			}
 		} else {
-			$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]));
+			$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]), "", $notEquivalent, $notApplicable);
 			$tema=$new_termino;
 			if($isMetaTerm==1)	setMetaTerm($tema,1);
 		}

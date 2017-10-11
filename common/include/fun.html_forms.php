@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -9,9 +9,12 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #                                                                  #
 ####################################################################
 
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
 # Funciones para presentar formularios HTML
 
-function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm=""){
+function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
+{
 	if(count($ARRAYterm_id)==0) return HTMLformVerTerminosLibres();
 	//list terms_id
 	foreach ($ARRAYterm_id as $term_id) {
@@ -93,7 +96,8 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm=""){
 	return $rows;
 }
 
-function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
+function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
+{
 	GLOBAL $new_relacion;
 	$link_term=HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
 	switch ($taskterm){
@@ -261,10 +265,15 @@ function HTMLformEditTerms ($taskterm,$ARRAYtermino="0")
 	switch($taskterm) {
 		case 'addTerm':// add term
 			$nombre_pantalla=LABEL_AgregarT;
-			$hidden='<input type="hidden"  name="alta_t" value="new" />';
-			$hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
-			$hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
-				<div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
+			$hidden =
+				'<input type="hidden" name="alta_t" value="new" />
+				<div>
+					<input type="checkbox" name="notEquivalent" id="notEquivalent" value="1" alt="'.ucfirst(LABEL_NotEquivalent).'" />
+					<label for="notEquivalent" accesskey="e">'.ucfirst(LABEL_NotEquivalent).'</label>
+				</div>
+				<div>
+					<input type="checkbox" name="notApplicable" id="notApplicable" value="1" alt="'.ucfirst(LABEL_NotApplicable).'" />
+					<label for="notApplicable" accesskey="e">'.ucfirst(LABEL_NotApplicable).'</label>
 				</div>';
 
 			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
@@ -308,16 +317,17 @@ function HTMLformEditTerms ($taskterm,$ARRAYtermino="0")
 	$rows.='<div class="container" id="bodyText">';
 	$rows.='<div class="row">';
 	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-	$rows.='<form class="form-horizontal col-xs-12 col-md-8" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
-		<fieldset>
-		<h3>'.$nombre_pantalla.'</h3>
-		<div class="form-group form-group-chk">
-		<label for="'.FORM_LABEL_termino .'" accesskey="t">'.LABEL_CrearTermino.'</label>
-		'.$extra_button.'
-		<textarea class="form-control" type="text" required autofocus rows="2" cols="60" name="'.FORM_LABEL_termino.'" id="addTerms">'.$vista_titulo_tema.'</textarea>';
-	$rows.=$help_rows;
-	$rows.=$extra_tag;
-	$rows.='</div>';
+	$rows.='
+		<form class="form-horizontal col-xs-12 col-md-8" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
+			<fieldset>
+				<h3>'.$nombre_pantalla.'</h3>
+				<div class="form-group form-group-chk">
+					<label for="'.FORM_LABEL_termino .'" accesskey="t">'.LABEL_CrearTermino.'</label>
+					'.$extra_button.'
+					<textarea class="form-control" type="text" required autofocus rows="2" cols="60" name="'.FORM_LABEL_termino.'" id="addTerms">'.$vista_titulo_tema.'</textarea>'.
+					$help_rows.
+					$hidden.
+				'</div>';
 
 		if(in_array($t_relation,array(2,3,4)))
 		{
@@ -342,7 +352,6 @@ function HTMLformEditTerms ($taskterm,$ARRAYtermino="0")
 			$rows.='<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>';
 			$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
 		$rows.='</div>';
-		$rows.=$hidden;
 		$rows.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
 		$rows.='  </fieldset>';
 		$rows.='</form>';

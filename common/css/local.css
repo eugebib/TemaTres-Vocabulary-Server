@@ -109,6 +109,9 @@ footer {
   width: 100%;
   max-width: initial; }
 
+#alta_t .form-group-chk input[type="checkbox"] {
+  display: inline-block; }
+
 .form-login {
   background-color: #EDEDED;
   padding: 20px;

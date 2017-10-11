@@ -1,8 +1,9 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
-# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
 # Distribuido bajo Licencia GNU Public License, versión 2          #
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
@@ -230,6 +231,8 @@ define("NC_acronimo","NC");
 define("LABEL_Candidato","término candidato");
 define("LABEL_Aceptado","término aceptado");
 define("LABEL_Rechazado","término rechazado");
+define("LABEL_NotEquivalent","no existe equivalencia");
+define("LABEL_NotApplicable","no se aplica en el ámbito educativo");
 define("LABEL_Ultimos_aceptados","aceptados recientes");
 define("MSG_ERROR_ESTADO","Estado no aceptable");
 define("LABEL_Candidatos","términos candidatos");
