@@ -16,6 +16,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 // Be careful, access to this file is not protected
 if (stristr( $_SERVER['REQUEST_URI'], "fun.api.php") ) die("no access");
 
+require(T3_ABSPATH . 'common/fun.api.sql.php');
+
 class XMLvocabularyServices
 {
 
@@ -213,7 +215,7 @@ function fetchExactTerm($string)
 	// array(tema_id,string)
 	function fetchTermDetailsBrief($tema_id){
 
-		$array=ARRAYverTerminoBasico($tema_id);
+		$array=APIARRAYverTerminoBasico($tema_id);
 
 		if(is_array($array)){
 			$result["result"]["term"]["term_id"]       = $array["idTema"];

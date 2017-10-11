@@ -772,13 +772,16 @@ function abm_target_tema($do,$tema_id,$tvocab_id,$tgetTerm_id,$tterm_id="0")
 			$arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string),get_magic_quotes_gpc());
 
 			$sql=SQLo("update","$DBCFG[DBprefix]term2tterm set
-			tterm_string=$arrayTterm[tterm_string],
-			cuando_last=now(),
-			uid=?
-			where tterm_id=? and tema_id=? and tvocab_id=? limit 1",
-			array($userId,$tterm_id,$tema_id,$tvocab_id));
+				tterm_string=$arrayTterm[tterm_string],
+				cuando_last=now(),
+				uid=?
+				notEquivalent=?,
+				notApplicable=?
+				where tterm_id=? and tema_id=? and tvocab_id=? limit 1",
+				array($userId,(int) $dataTterm->result->term->notEquivalent,(int) $dataTterm->result->term->notApplicable,$tterm_id,$tema_id,$tvocab_id)
+			);
 
-			$target_relation_id=$sql[cant];
+			$target_relation_id=$sql["cant"];
 
 			break;
 			};
