@@ -1897,12 +1897,13 @@ function paginate_links( $args = '' ) {
 
 		}
 
-function HTMLdeepStats(){
+function HTMLdeepStats()
+{
 
 	$sql=SQLTermDeep();
 
 
-	$rows.='<div class="table-responsive col-xs-6 col-md-4">
+	$rows.='<div class="table-responsive">
 	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL.'">
 	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
 	  <tbody>';
@@ -2030,7 +2031,8 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 
 
 
-function HTMLheader($metadata){
+function HTMLheader($metadata)
+{
 
  $rows='   <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -2040,7 +2042,7 @@ function HTMLheader($metadata){
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
     <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
     <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>

@@ -1,3 +1,109 @@
+.about
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr))
+    grid-template-rows: repeat(auto-fit, minmax(50px, 1fr))
+    grid-auto-flow: dense
+    grid-gap: 10px
+
+    &>div
+        color: white
+        padding: 10px
+        background-color: $azulOscuro
+
+        &:nth-child(3n+2)
+            background-color: #3F92D2
+
+        &:nth-child(3n+3)
+            background-color: #25567B
+
+        &.span2
+            grid-column: span 2
+
+        &.span3
+            grid-column: span 3
+
+        &.vspan2
+            grid-row: span 2
+
+        &.vspan3
+            grid-row: span 3
+
+        &.grid
+            display: grid
+            grid-gap: 5px
+            grid-template-rows: repeat(auto-fit, 1fr)
+
+            div
+                padding: 10px
+                background-color: white
+                color: $azulOscuro
+                display: flex
+                justify-content: center
+                align-items: center
+                flex-flow: column
+                text-align: center
+
+                p
+                    margin-bottom: 0
+
+                a
+                    color: $azulOscuro
+
+        h3
+            padding-bottom: 30px
+            font-weight: 600
+
+        h4
+            padding-bottom: 20px
+            font-weight: 500
+
+        h5
+            padding-bottom: 10px
+            font-weight: 400
+
+        ul
+            padding-bottom: 20px
+
+        a
+            color: white
+
+        .btn
+            width: 100%
+
+        .about
+            line-height: 180%
+            text-align: justify
+
+            &:not(:last-child)
+                padding-bottom: 20px
+
+        .uri
+            font-size: 30px
+            word-break: break-all
+
+        .table-responsive
+            max-width: calc(100% - 24px)
+            overflow-x: hidden
+
+            tbody tr:hover
+                color: $azulOscuro
+
+    @media (max-width: 675px)
+        &>div
+            grid-template-columns: 90%
+
+            &.span3,
+                grid-column: span 2
+
+            .uri
+                font-size: 20px
+
+    @media (max-width: 500px)
+        &>div
+            &.span2,
+            &.span3,
+                grid-column: span 1
+
 .sobre
     border-bottom: 0px
 

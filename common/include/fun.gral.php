@@ -945,7 +945,8 @@ function SQLcount($object)
 }
 
 
-function loadConfigValues($renew="0"){
+function loadConfigValues($renew="0")
+{
 
 	GLOBAL $arrayCFGs;
 

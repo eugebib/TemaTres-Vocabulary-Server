@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -8,6 +8,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
 ####################################################################
+
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 
 # Gestion de sesiones #
 
@@ -69,8 +71,8 @@ if ($_GET["setLang"]) {
 $_SESSION["CFGIdioma"] = ($_SESSION["CFGIdioma"]) ? $_SESSION["CFGIdioma"] : $idiomas_disponibles[0][2];
 
 //NO hay idioma, idioma por default ES
-if (!$_SESSION[$_SESSION["CFGURL"]][lang]) {
-	$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
+if (!$_SESSION[$_SESSION["CFGURL"]]["lang"]) {
+	$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
 }
 
 //prevent missing language file

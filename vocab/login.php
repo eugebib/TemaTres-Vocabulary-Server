@@ -10,7 +10,7 @@
 ####################################################################
 
 include("config.tematres.php");
-dd($_POST);
+
 $metadata = do_meta_tag();
 
 if (($_GET["action"]=='rp') && ($_GET["key"])) {

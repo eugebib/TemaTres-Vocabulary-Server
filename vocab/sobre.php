@@ -11,184 +11,182 @@
 include("config.tematres.php");
 $metadata = do_meta_tag();
 
-$top = getQtyXTop();
+$top              = getQtyXTop();
+$resumen          = ARRAYresumen($_SESSION["id_tesa"],"G","");
+$fecha_crea       = do_fecha($_SESSION["CFGCreacion"]);
+$fecha_mod        = do_fecha($_SESSION["CFGlastMod"]);
+$ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo LANG;?>">
+<html lang="<?= LANG ?>">
 
     <head>
-        <?php echo HTMLheader($metadata);?>
+        <?= HTMLheader($metadata) ?>
     </head>
 
     <body>
-        <?php echo HTMLnavHeader(); ?>
-        <div class="container sobre">
-            <?php
-                $resumen=ARRAYresumen($_SESSION["id_tesa"],"G","");
-                $fecha_crea=do_fecha($_SESSION["CFGCreacion"]);
-                $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
-                $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
-            ?>
+        <?= HTMLnavHeader() ?>
 
-            <h1><?= LABEL_Info;?></h1>
-            <dl>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Autor, 'UTF-8');?></dt>
-                    <dd><?php echo $_SESSION[CFGAutor];?> </dd>
-                </div>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_URI, 'UTF-8');?></dt>
-                    <dd><?php echo $_SESSION[CFGURL];?> </dd>
-                </div>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Idioma, 'UTF-8');?></dt>
-                    <dd><?php echo $_SESSION[CFGIdioma];?></dd>
-                </div>
-                <?php if ($ARRAYmailContact["value"]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(FORM_LABEL__contactMail, 'UTF-8');?></dt>
-                        <dd><?php echo $ARRAYmailContact["value"];?></dd>
-                    </div>
-                <?php endif; ?>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Fecha, 'UTF-8');?></dt>
-                    <dd><?php echo $fecha_crea[dia].'/'.$fecha_crea[mes].'/'.$fecha_crea[ano];?></dd>
-                </div>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_lastChangeDate, 'UTF-8');?></dt>
-                    <dd><?php echo $fecha_mod[dia].'/'.$fecha_mod[mes].'/'.$fecha_mod[ano];;?>
-                </div>
-                <?php if ($_SESSION[CFGKeywords]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_Keywords, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGKeywords];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if ($_SESSION[CFGTipo]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_TipoLenguaje, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGTipo];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if ($_SESSION[CFGCobertura]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_Cobertura, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGCobertura];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if ($_SESSION[CFGDerechos]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_Derechos, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGDerechos];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if (CFG_ENABLE_SPARQL==1) : ?>
-                    <div class="flex">
-                        <dt><?= mb_strtoupper(LABEL_SPARQLEndpoint);?></dt>
-                        <dd><a href="<?= URL_BASE;?>sparql.php" title="<?= LABEL_SPARQLEndpoint;?>"><?= $_SESSION["CFGURL"];?>sparql.php</a></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if (CFG_SIMPLE_WEB_SERVICE == 1) : ?>
-                    <div class="flex">
-                        <dt>API</dt>
-                        <dd><a href="<?= URL_BASE;?>services.php" title="API"><?= $_SESSION["CFGURL"];?>services.php</a></dd>
-                    </div>
-                <?php endif; ?>
-                <div class="flex">
-                    <dt><?= mb_strtoupper(LABEL_Terminos, 'UTF-8');?></dt>
-                    <dd>
-                        <?= $resumen[cant_total]; ?>
-                        <?= '<a class="label label-info pull-right" href="'.URL_BASE.'index.php?s=n" title="'.mb_strtoupper(LABEL_showNewsTerm, 'UTF-8').'">
-                                <span class="glyphicon glyphicon-fire"></span> ' .
-                                mb_strtoupper(LABEL_showNewsTerm, 'UTF-8').'
-                            </a>'; ?>
-                    </dd>
+        <div class="container">
+            <div class="about">
+
+                <div class="span2 vspan2">
+                    <h3><?= $_SESSION["CFGTitulo"] ?></h3>
+
+                    <?php if ($_SESSION["CFGCobertura"]) : ?>
+                        <p class="about"><?= $_SESSION["CFGCobertura"] ?></p>
+                    <?php endif ?>
+
+                    <?php if ($_SESSION["CFGTipo"] || $_SESSION["CFGKeywords"]) : ?>
+                        <p class="about">
+                            <?= ($_SESSION["CFGTipo"]) ? mb_strtoupper($_SESSION["CFGTipo"]) : '' ?><?= ($_SESSION["CFGTipo"] && $_SESSION["CFGKeywords"]) ? ', ' : '' ?><?= ($_SESSION["CFGKeywords"]) ? mb_strtoupper($_SESSION["CFGKeywords"]) : ''?>
+                        </p>
+                    <?php endif ?>
+
                 </div>
 
-                <?php if ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) { ?>
-                <div class="flex">
-                    <dt>TÉRMINOS POR CATEGORÍA</dt>
-                    <dd>
-                        <div id="chart_div"></div>
-                    </dd>
+                <div>
+                    <h4><?= mb_strtoupper(LABEL_Autor, 'UTF-8') ?></h4>
+                    <p><?= $_SESSION["CFGAutor"] ?></p>
+                    <?php if ($ARRAYmailContact["value"]) : ?>
+                        <p><?= $ARRAYmailContact["value"] ?></p>
+                    <?php endif ?>
                 </div>
-                <?php } ?>
 
-            	<?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_candidato] > 0): ?>
-                    <div class="flex">
-                    	<dt>
-                            <?= mb_strtoupper(LABEL_Candidatos, 'UTF-8');?>
-                        </dt>
-                        <dd>
-                            <a href="'.URL_BASE.'index.php?estado_id=12">
-                                <?= $resumen[cant_candidato];?>
-                            </a>
-                        </dd>
+                <?php if ($_SESSION["CFGDerechos"]) : ?>
+                    <div>
+                        <h4><?= mb_strtoupper(LABEL_Derechos, 'UTF-8') ?></h4>
+                        <p><?= $_SESSION["CFGDerechos"] ?></p>
                     </div>
-                <?php endif;?>
-                <?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_rechazado] > 0): ?>
-        		    <div class="flex">
-                        <dt><?= mb_strtoupper(LABEL_Rechazados, 'UTF-8');?></dt>
-                        <dd><a href="'.URL_BASE.'index.php?estado_id=14"><?= $resumen[cant_rechazado];?></a></dd>
+                <?php endif ?>
+
+                <div class="span3">
+                    <h4>ENLACES</h4>
+                    <p class='uri'><?= mb_strtoupper(LABEL_URI, 'UTF-8') ?>: <a href="<?= $_SESSION[CFGURL] ?>"><?= $_SESSION[CFGURL] ?></a></p>
+
+                    <?php if (CFG_ENABLE_SPARQL == 1) : ?>
+                        <p class='uri'><?= mb_strtoupper(LABEL_SPARQLEndpoint) ?>: <a href="<?= URL_BASE ?>sparql.php" title="<?= LABEL_SPARQLEndpoint ?>"><?= $_SESSION["CFGURL"] ?>sparql.php</a></p>
+                    <?php endif ?>
+
+                    <?php if (CFG_SIMPLE_WEB_SERVICE == 1) : ?>
+                        <p class='uri'>API: <a href="<?= URL_BASE ?>services.php" title="API"><?= $_SESSION["CFGURL"] ?>services.php</a></p>
+                    <?php endif ?>
+
+                </div>
+
+                <div class='grid'>
+                    <div>
+                        <h5><?= mb_strtoupper(LABEL_Fecha, 'UTF-8') ?></h5>
+                        <p><?= $fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"] ?></p>
                     </div>
-                <?php endif;?>
-                <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1): ?>
-                    <div class="flex">
-                        <dt><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8');?></dt>
-                        <dd style="padding: 0px;"><?= HTMLdeepStats();?></dd>
+                    <div>
+                        <h5><?= mb_strtoupper(LABEL_lastChangeDate, 'UTF-8') ?></h5>
+                        <p><?= $fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"] ?></p>
                     </div>
-                <?php endif; ?>
-                <?php if($resumen[cant_rel] > 0): ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_RelTerminos, 'UTF-8');?></dt>
-                        <dd><?php echo $resumen[cant_rel];?></dd>
+                </div>
+
+                <div class="grid vspan2">
+                    <div>
+                        <p><?= $resumen["cant_total"] ?> <?= LABEL_Terminos ?></p>
                     </div>
-                <?php endif; ?>
-                <?php if($resumen[cant_up] > 0): ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_TerminosUP, 'UTF-8');?></dt>
-                        <dd><?php echo $resumen[cant_up];?></dd>
+
+                    <?php if ($resumen["cant_up"] > 0) : ?>
+                        <div>
+                            <p><?= $resumen["cant_up"] ?> <?= LABEL_TerminosUP ?></p>
+                        </div>
+                    <?php endif ?>
+
+                    <?php if ($resumen["cant_rel"] > 0) : ?>
+                        <div>
+                            <p><?= $resumen["cant_rel"] ?> <?= LABEL_RelTerminos ?></p>
+                        </div>
+                    <?php endif ?>
+
+                    <?php if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"] == '1') : ?>
+                        <?php if ($resumen["cant_candidato"] > 0) : ?>
+                            <div>
+                                <a href="<?= URL_BASE ?>index.php?estado_id=12">
+                                    <?= $resumen["cant_candidato"] ?> <?= $resumen["cant_candidato"] == 1 ? LABEL_Candidato : LABEL_Candidatos ?>
+                                </a>
+                            </div>
+                        <?php endif ?>
+
+                        <?php if ($resumen["cant_rechazado"] > 0) : ?>
+                            <div>
+                                <a href="<?= URL_BASE ?>index.php?estado_id=14">
+                                    <?= $resumen["cant_rechazado"] ?> <?= $resumen["cant_rechazado"] == 1 ? LABEL_Rechazado : LABEL_Rechazados ?>
+                                </a>
+                            </div>
+                        <?php endif ?>
+                    <?php endif ?>
+                </div>
+
+                <?php if (is_array($resumen["cant_notas"])) : ?>
+                    <div class="grid vspan2">
+                        <?php foreach ($resumen["cant_notas"] as $key => $value) : ?>
+                            <div>
+                                <p><?= $value ?> <?= strtolower($key) ?></p>
+                            </div>
+                        <?php endforeach ?>
                     </div>
-                <?php endif; ?>
-                <?php
-                if (is_array($resumen["cant_notas"])) {
-                    $sqlNoteType=SQLcantNotas();
-                    $arrayNoteType=array();
-                    while ($array=$sqlNoteType->FetchRow()) {
-    			  		if($array[cant]>0) {
-    			  		 	echo '<div class="flex"><dt>';
-    				  		echo (in_array($array["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(mb_strtoupper(LABEL_NA, 'UTF-8'),mb_strtoupper(LABEL_NH, 'UTF-8'),mb_strtoupper(LABEL_NB, 'UTF-8'),mb_strtoupper(LABEL_NP, 'UTF-8'),mb_strtoupper(LABEL_NC, 'UTF-8')),$array["value_id"]) : $array["value"];
-    				    	echo '</dt><dd> '.$array[cant].'</dd></div>';
-    			  		}
-                    };
-                }
-                if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
-                    //es admin y quiere ver un usuario
-                    if (($_GET[user_id]) &&	($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1)) {
-                        echo doBrowseTermsFromUser(secure_data($_GET[user_id],$_GET[ord]));
-                        //no es admin y quiere verse a si mismo
-                    } elseif($_GET[user_id]) {
-                        echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]][ssuser_id],"sql"),secure_data($_GET[ord],"sql"));
+                <?php endif ?>
+
+                <div>
+                    <h4>ÚLTIMOS</h4>
+                    <ul>
+                    <?php foreach ($resumen['ultimos'] as $value) : ?>
+                        <li><a href="<?= URL_BASE ?>index.php&tema=<?= $value['tema_id'] ?>"><?= $value['tema'] ?></a></li>
+                    <?php endforeach ?>
+                    </ul>
+                    <a class="btn btn-warning" href="<?= URL_BASE ?>index.php?s=n" title="<?= mb_strtoupper(LABEL_showNewsTerm, 'UTF-8') ?>">
+                        <?= mb_strtoupper(LABEL_showNewsTerm, 'UTF-8')?>
+                    </a>
+                </div>
+
+                <?php if ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) : ?>
+                    <div class="span2 vspan2">
+                        <h4>TÉRMINOS POR CATEGORÍA</h4>
+                        <div id="chart_div" style="background-color: white;"></div>
+                    </div>
+                <?php endif ?>
+
+                <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1) : ?>
+                    <div class="span2 vspan3">
+                        <h4><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8') ?></h4>
+                        <?= HTMLdeepStats() ?>
+                    </div>
+                <?php endif ?>
+
+<!--                 <?php if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+
+                    if (($_GET["user_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1)) { ?>
+                        <div class="span3">
+                            <?= doBrowseTermsFromUser(secure_data($_GET["user_id"],$_GET["ord"])) ?>
+                        </div>
+
+                    <?php } elseif($_GET["user_id"]) {
+                        echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"],"sql"),secure_data($_GET[ord],"sql"));
                         //quiere ver un año
                     } elseif($_GET[y]) {
-                        echo doBrowseTermsFromDate(secure_data($_GET[m],"sql"),secure_data($_GET[y],"sql"),secure_data($_GET[ord],"sql"));
+                        echo doBrowseTermsFromDate(secure_data($_GET["m"],"sql"),secure_data($_GET["y"],"sql"),secure_data($_GET["ord"],"sql"));
                     } else {
-                		//ver lista agregada
-                		echo doBrowseTermsByDate();
+                        //ver lista agregada
+                        echo doBrowseTermsByDate();
                     }
-                };
-                ?>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Version, 'UTF-8'); ?></dt>
-                    <dd><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></dd>
+                } ?> -->
+
+                <div>
+                    <h5><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h5>
+                    <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?= $CFG["Version"] ?></a>
                 </div>
-            </dl>
+
+            </div>
         </div>
 
-        <?php echo footer(); ?>
-        <?php echo HTMLjsInclude(); ?>
+        <?= footer() ?>
+        <?= HTMLjsInclude() ?>
 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">

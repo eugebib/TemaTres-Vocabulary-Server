@@ -30,15 +30,15 @@ function SQLcantTR($tipo,$idUser=""){
 	from $DBCFG[DBprefix]tabla_rel as relaciones
 	$clausula
 	group by relaciones.t_relacion");
-	return $sql;
-};
 
+	return $sql;
+}
 
 #
 # Cantidad de términos generales y por usuarios
 #
-function SQLcantTerminos($tipo,$idUser=""){
-
+function SQLcantTerminos($tipo,$idUser="")
+{
 	GLOBAL $DBCFG;
 
 	$idUser=secure_data($idUser,"int");
@@ -51,7 +51,7 @@ function SQLcantTerminos($tipo,$idUser=""){
 	left join $DBCFG[DBprefix]tema as c on tema.tema_id=c.tema_id and c.estado_id='12'
 	left join $DBCFG[DBprefix]tema as r on tema.tema_id=r.tema_id and r.estado_id='14'
 	$clausula");
-};
+}
 
 
 #
@@ -1522,7 +1522,8 @@ function SQLlistTermsfromDate($month,$year,$ord=""){
 #
 # lista de términos recientes
 #
-function SQLlastTerms($limit="50"){
+function SQLlastTerms($limit="50")
+{
 
 	GLOBAL $DBCFG;
 	GLOBAL $CFG;
@@ -1664,49 +1665,49 @@ function SQLlistTermsfromUser($id_user,$ord=""){
 	return $sql;
 }
 
-
 #
-# Resúmen de datos del tesauro
+# Resumen de datos del tesauro
 #
-function ARRAYresumen($id_tesa,$tipo,$idUser=""){
+function ARRAYresumen($id_tesa,$tipo,$idUser="")
+{
+	$sql_cant_rel = SQLcantTR($tipo,$idUser);
 
-
-	$sql_cant_rel=SQLcantTR($tipo,$idUser);
-
-	while($cant_rel=$sql_cant_rel->FetchRow()){
-		if($cant_rel[0]=='2')
-		{
+	while ($cant_rel=$sql_cant_rel->FetchRow()) {
+		if($cant_rel[0]=='2') {
 			$cant_terminos_relacionados=$cant_rel[1];
-		}
-		elseif($cant_rel[0]=='4')
-		{
+		} elseif($cant_rel[0]=='4') {
 			$cant_terminos_up=$cant_rel[1];
-		};
-	};
+		}
+	}
 
 	$sql_cant_term=SQLcantTerminos($tipo,$idUser);
 	$cant_term=$sql_cant_term->FetchRow();
 
+	$sqlCantNotas = SQLcantNotas();
+	$cant_notas = array();
+	while ($array = $sqlCantNotas->FetchRow()) {
+		$note_type = in_array($array["value_id"],array(8,9,10,11,15)) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NAs, LABEL_NHs, LABEL_NBs, LABEL_NPs, LABEL_NCs),$array["value_id"]) : $array["value"];
 
-	$sqlCantNotas=SQLcantNotas();
-	while ($arrayCantNotas=$sqlCantNotas->FetchRow())
-	{
-		$cant_notas[$arrayCantNotas[tipo_nota]] = $arrayCantNotas["cant"];
+		$cant_notas[$note_type] = $array["cant"];
 	}
-
 
 	$ARRAYcant_term2tterm=ARRAYcant_term2tterm();
 
-	$resumen=array("cant_rel"=>$cant_terminos_relacionados,
-	"cant_up"=>$cant_terminos_up,
-	"cant_total"=>$cant_term["cant"],
-	"cant_candidato"=>$cant_term["cant_candidato"],
-	"cant_rechazado"=>$cant_term["cant_rechazado"],
-	"cant_notas"=>$cant_notas,
-	"cant_term2tterm"=>$ARRAYcant_term2tterm["cant"]
-);
-return $resumen;
-};
+	$ultimos = SQLlastTerms(5);
+
+	$resumen = array(
+		"cant_rel"        => $cant_terminos_relacionados,
+		"cant_up"         => $cant_terminos_up,
+		"cant_total"      => $cant_term["cant"],
+		"cant_candidato"  => $cant_term["cant_candidato"],
+		"cant_rechazado"  => $cant_term["cant_rechazado"],
+		"cant_notas"      => $cant_notas,
+		"cant_term2tterm" => $ARRAYcant_term2tterm["cant"],
+		"ultimos"		  => $ultimos
+	);
+
+	return $resumen;
+}
 
 
 #
@@ -3669,7 +3670,7 @@ function fetchlastMod($value_code="")
 
 	$array= $sql->FetchRow();
 
-	return $array[last];
+	return $array["last"];
 }
 
 //Retrieve last update of SPARQL endpoint
