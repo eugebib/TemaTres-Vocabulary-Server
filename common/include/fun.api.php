@@ -358,16 +358,18 @@ function fetchExactTerm($string)
 				"isMetaTerm"=>$array["isMetaTerm"]
 			);
 		};
-		return $result;
-	}
 
-// Devuelve lista de términos mapeados para un tema_id
-// array(tema_id,string)
+	return $result;
+}
+
+#
+# Devuelve lista de términos mapeados para un tema_id --- array(tema_id,string)
+#
 function fetchTargetTermsById($tema_id)
 {
 	$sql = SQLtargetTerms($tema_id);
 
-	while($array=$sql->FetchRow()) {
+	while ($array=$sql->FetchRow()) {
 		preg_match('/([0-9]+)$/', $array['tterm_uri'], $matches);
 		$result["result"][$array['tterm_id']]= array(
 			"string"                  => $array['tterm_string'],
@@ -377,7 +379,9 @@ function fetchTargetTermsById($tema_id)
 			"term_id"				  => $matches[0],
 			"target_vocabulary_label" => $array['tvocab_label'],
 			"target_vocabulary_tag"   => $array['tvocab_tag'],
-			"target_vocabulary_title" => $array['tvocab_title']
+			"target_vocabulary_title" => $array['tvocab_title'],
+			"notApplicable"			  => $array['notApplicable'],
+			"notEquivalent"			  => $array['notEquivalent']
 		);
 	}
 

@@ -1097,10 +1097,11 @@ function HTMLformTargetVocabulary($tvocab_id="0")
 			return $rows;
 }
 
-/*
-Asociaci�n con datos provistos por web services terminol�gicos TemaTres
-*/
-function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0"){
+#
+# Asociación con datos provistos por web services terminológicos TemaTres
+#
+function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
+{
 	GLOBAL $CFG;
 	$sql=SQLtargetVocabulary("1");
 	$rows='<div class="container" id="bodyText">';
@@ -1111,12 +1112,10 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0"){
 	} else {
 		//Hay vobularios de referencia
 		$array_vocabularios=array();
-		while($array=$sql->FetchRow())
-		{
-			if($array[vocabulario_id]!=='1')
-			{
+		while($array=$sql->FetchRow()) {
+			if($array["vocabulario_id"]!=='1') {
 				//vocabularios que no sean el vocabulario principal
-				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
+				array_push($array_vocabularios,$array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
 			}
 		};
 		$arrayOptions=(strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
@@ -1173,17 +1172,20 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0"){
 		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
 		switch ($_GET["search_by"]) {
 			case 'string':
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=search&arg='.urlencode($string2search));
-			break;
+				$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
+				break;
+
 			case 'code':
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=fetchCode&arg='.urlencode($ARRAYtermino["code"]));
-			break;
+				$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchCode&arg='.urlencode($ARRAYtermino["code"]));
+				break;
+
 			case 'reverse':
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
-			break;
+				$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
+				break;
+
 			default :
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=search&arg='.urlencode($string2search));
-			break;
+				$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
+				break;
 		}
 
 		$rows.=HTMLtargetVocabularySearchResult($dataTerm,$_GET[string2search],$arrayVocab,$ARRAYtermino["idTema"]);

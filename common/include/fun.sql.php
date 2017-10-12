@@ -3231,9 +3231,9 @@ function ARRAYtargetVocabulary($tvocab_id)
 	return $sql->FetchRow();
 }
 
-/*
-data about target vocabularies providers
-*/
+#
+# Data about target vocabularies providers
+#
 function SQLtargetVocabulary($tvocab_status="1",$tvocab_id="0")
 {
 	GLOBAL $DBCFG;
@@ -3246,7 +3246,7 @@ function SQLtargetVocabulary($tvocab_status="1",$tvocab_id="0")
 
 	$where.= ($tvocab_id>0) ? " and tv.tvocab_id='$tvocab_id' " : "";
 
-	return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
+	$results = SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
 	tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.tvocab_status,tv.cuando,tv.uid,
 	count(t2t.tterm_id) as cant
 	from $DBCFG[DBprefix]tvocab tv
@@ -3254,6 +3254,8 @@ function SQLtargetVocabulary($tvocab_status="1",$tvocab_id="0")
 	$where
 	group by tv.tvocab_id
 	order by tv.tvocab_tag,tv.tvocab_title");
+
+	return $results;
 }
 
 
@@ -3266,7 +3268,7 @@ function SQLtargetTerms($tema_id,$tterm_id="0")
 
 	$where    = ($tterm_id>0) ? " and t2tt.tterm_id ='$tterm_id' " : "";
 
-	return SQL("select","
+	$results = SQL("select","
 		tv.tvocab_id,
 		tv.tvocab_label,
 		tv.tvocab_tag,
@@ -3296,6 +3298,8 @@ function SQLtargetTerms($tema_id,$tterm_id="0")
 		tv.tvocab_tag,
 		t2tt.tterm_string"
 	);
+
+	return $results;
 }
 
 
