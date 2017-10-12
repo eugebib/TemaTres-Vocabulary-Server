@@ -1,6 +1,4 @@
 <?php
-// don't load directly
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
@@ -11,16 +9,22 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #                                                                  #
 ####################################################################
 
-# Funciones HTML. #
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || (!defined('T3_ABSPATH'))) {
+	die("no access");
+}
 
+####################################################################
+#                          Funciones HTML                          #
+####################################################################
+
+#
 # Armado de resultados de búsqueda
 #
-function resultaBusca($texto,$tipo=""){
-
+function resultaBusca($texto, $tipo = "")
+{
 	GLOBAL $CFG;
 
 	$texto=XSSprevent(html2txt($texto));
-
 
 	//Anulación de sugerencia de términos
 	$sgs=$_GET["sgs"];
@@ -125,24 +129,14 @@ function resultaBusca($texto,$tipo=""){
 		$row_result.='</ul>';
 		$row_result.='</div>'; //fin de div de búsqueda
 
-		//Si no hubo coincidencia exacta
-		if((strtoupper($primerTermino)!==trim(strtoupper($texto))) && ($_GET["sgs"]!='off'))
-		{
-			$body.=HTMLsugerirTermino($texto,$acumula_temas);
-		}
-
 		$result_suplementaTG=HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$texto);
 		$result_suplementaTR=HTMLbusquedaExpandidaTR($acumula_temas,$texto);
 
-
-
-		if($result_suplementaTG["count"]>0)
-		{
+		if($result_suplementaTG["count"]>0) {
 			$row_resultTGmenu='<li><a href="#suplementaTG" data-toggle="tab">'.ucfirst(LABEL_resultados_suplementarios).' ('.$result_suplementaTG["count"].')</a></li>';
 			$row_resultTG='<div class="tab-pane fade" id="suplementaTG">'.$result_suplementaTG["html"].'</div>';
 		}
-		if($result_suplementaTR["count"]>0)
-		{
+		if($result_suplementaTR["count"]>0) {
 			$row_resultTRmenu='<li><a href="#suplementaTR" data-toggle="tab">'.ucfirst(LABEL_resultados_relacionados).' ('.$result_suplementaTR["count"].')</a></li>';
 			$row_resultTR='<div class="tab-pane fade" id="suplementaTR">'.$result_suplementaTR["html"].'</div>';
 		}
@@ -162,19 +156,15 @@ function resultaBusca($texto,$tipo=""){
 
 
 		$body.='</div>';//fin de fiv de tabs
-	}
-	elseif(strlen($texto)>=CFG_MIN_SEARCH_SIZE)// Si no hay resultados y la expresión es mayor al mínimo
-	{
-		//sugerir o mostrar que no hay resultados
+	} elseif(strlen($texto)>=CFG_MIN_SEARCH_SIZE) {
+		// Si no hay resultados y la expresión es mayor al mínimo, sugerir o mostrar que no hay resultados
 		$body.=HTMLsugerirTermino($texto);
-	};// fin de if result
+	}
 
-	$body.='</div></div>'; //container;
+	$body.='</div></div>';
 	return $body;
-};
+}
 
-
-#######################################################################
 
 #
 #  ARMADOR DE HTML CON DATOS DEL TERMINO
@@ -1277,10 +1267,11 @@ function HTMLlistaTerminosFecha($limite="")
 	return $rows;
 }
 
+
 #
 # Display similar terms
 #
-function HTMLsugerirTermino($texto,$acumula_temas="0")
+function HTMLsugerirTermino($texto, $acumula_temas = "0")
 {
 	$sqlSimilar = SQLsimiliar($texto,$acumula_temas);
 
@@ -1293,14 +1284,16 @@ function HTMLsugerirTermino($texto,$acumula_temas="0")
 		$sugerencias     = $similar->sugestoes(10);
 	}
 
-	$rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).'</h4>
-			<ul>';
-	foreach ($sugerencias as $sugerencia) {
-		$rows.='<li><em><strong><a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$sugerencia.'&amp;sgs=off" title="'.LABEL_verDetalle.$sugerencia.'">'.$sugerencia.'</a></strong></em></li>';
-	}
-	$rows .= '</ul>';
+	if (count($sugerencias) > 0) {
+		$rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).'</h4>
+				<ul>';
+		foreach ($sugerencias as $sugerencia) {
+			$rows.='<li><em><strong><a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$sugerencia['string'].'&amp;sgs=off" title="'.LABEL_verDetalle.$sugerencia['string'].'">'.$sugerencia['string'].'</a></strong></em></li>';
+		}
+		$rows .= '</ul>';
 
-	return $rows;
+		return $rows;
+	}
 }
 
 #
