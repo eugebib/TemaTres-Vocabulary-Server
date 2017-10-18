@@ -774,7 +774,7 @@ function abm_target_tema($do,$tema_id,$tvocab_id,$tgetTerm_id,$tterm_id="0")
 			$sql=SQLo("update","$DBCFG[DBprefix]term2tterm set
 				tterm_string=$arrayTterm[tterm_string],
 				cuando_last=now(),
-				uid=?
+				uid=?,
 				notEquivalent=?,
 				notApplicable=?
 				where tterm_id=? and tema_id=? and tvocab_id=? limit 1",
