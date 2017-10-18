@@ -1475,32 +1475,32 @@ function HTMLterminosLetra($letra)
 #
 # Armado de resultados de búsqueda avanzada
 #
-function HTMLadvancedSearchResult($array){
-
+function HTMLadvancedSearchResult($array)
+{
 	//Ctrol lenght string
-	$array[xstring]=trim($array[xstring]);
+	$array["xstring"] = trim(XSSprevent($array["xstring"]));
 
-	if(strlen(trim($array[xstring]))>=CFG_MIN_SEARCH_SIZE)
-	{
-		$sql= SQLadvancedSearch($array);
+	if(strlen(trim($array[xstring]))>=CFG_MIN_SEARCH_SIZE) {
 
+		$sql          = SQLadvancedSearch($array);
 
-		$sql_cant=SQLcount($sql);
+		$sql_cant     = SQLcount($sql);
 
-		$classMensaje= ($sql_cant>0) ? 'info' : 'danger';
+		$classMensaje = ($sql_cant>0) ? 'info' : 'danger';
 
 		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array[xstring]).'</em>"</strong></p>';
-	}
-	else
-	{
-		$sql_cant='0';
+
+	} else {
+
+		$sql_cant     = '0';
+
 		$resumeResult = '<p id="adsearch" class="error">'.sprintf(MSG_minCharSerarch,stripslashes($array[xstring]),strlen($array[xstring]),CFG_MIN_SEARCH_SIZE-1).'</p>';
+
 	}
 
 	$body.=$resumeResult;
 
-	if($sql_cant>0)
-	{
+	if($sql_cant>0) {
 		$row_result.='<div id="listaBusca"><ul class="list-unstyled" >';
 
 		while($resulta_busca=$sql->FetchRow()){
