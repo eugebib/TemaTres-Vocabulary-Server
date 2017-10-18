@@ -231,7 +231,7 @@ define("NC_acronimo","NC");
 define("LABEL_Candidato","término candidato");
 define("LABEL_Aceptado","término aceptado");
 define("LABEL_Rechazado","término rechazado");
-define("LABEL_NotEquivalent","no existe equivalencia");
+define("LABEL_NotEquivalent","no hay equivalencia");
 define("LABEL_NotApplicable","no se aplica en el ámbito educativo");
 define("LABEL_Ultimos_aceptados","aceptados recientes");
 define("MSG_ERROR_ESTADO","Estado no aceptable");
@@ -455,8 +455,8 @@ define('NOTE_isMetaTermNote','Un meta-término es un término que NO debe utiliz
 
 define('LABEL_turnOffMetaTerm','no es un meta-término');
 define('LABEL_turnOnMetaTerm','es un meta-término');
-define('LABEL_turnOffnotEquivalent','sí existe equivalencia');
-define('LABEL_turnOnnotEquivalent','no existe equivalencia');
+define('LABEL_turnOffnotEquivalent','sí hay equivalencia');
+define('LABEL_turnOnnotEquivalent','no hay equivalencia');
 define('LABEL_turnOffnotApplicable','sí se aplica en el ámbito educativo');
 define('LABEL_turnOnnotApplicable','no se aplica en el ámbito educativo');
 
