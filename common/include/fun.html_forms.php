@@ -268,6 +268,10 @@ function HTMLformEditTerms ($taskterm,$ARRAYtermino="0")
 			$hidden =
 				'<input type="hidden" name="alta_t" value="new" />
 				<div>
+					<input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" />
+					<label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label>
+				</div>
+				<div>
 					<input type="checkbox" name="notEquivalent" id="notEquivalent" value="1" alt="'.ucfirst(LABEL_NotEquivalent).'" />
 					<label for="notEquivalent" accesskey="e">'.ucfirst(LABEL_NotEquivalent).'</label>
 				</div>
