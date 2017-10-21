@@ -30,11 +30,11 @@ function resultaBusca($texto, $tipo = "")
 	$sgs=$_GET["sgs"];
 
 	//Ctrol lenght string
-	if((strlen($texto)>=CFG_MIN_SEARCH_SIZE) || ($tipo=='E'))	{
+	if ((strlen($texto)>=CFG_MIN_SEARCH_SIZE) || ($tipo=='E')) {
 		$sql= ($tipo=='E') ? SQLbuscaExacta("$texto") : SQLbuscaSimple("$texto");
 		$sql_cant=SQLcount($sql);
 		$classMensaje= ($sql_cant>0) ? 'information' : 'warning';
-	}	else	{
+	} else {
 		$sql_cant='0';
 		$resumeResult = '<p class="alert alert-danger" role="alert">'.sprintf(MSG_minCharSerarch,stripslashes($texto),strlen($texto),CFG_MIN_SEARCH_SIZE-1).'</p>';
 	}
@@ -51,23 +51,21 @@ function resultaBusca($texto, $tipo = "")
 		$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($texto).'</em>"</strong></p>';
 		$row_result.='<ul>';
 
-		while($resulta_busca=$sql->FetchRow()){
+		while ($resulta_busca=$sql->FetchRow()) {
 
 			$ibusca=++$ibusca;
 			$acumula_indice.=$resulta_busca["indice"];
 
 			$acumula_temas.=$resulta_busca["id_definitivo"].'|';
 
-			if($ibusca=='1')
-			{
+			if($ibusca=='1') {
 				//Guardar el primer término para ver si hay coincidencia exacta
 				$primerTermino=$resulta_busca["tema"];
 				$primerTermino_id=($resulta_busca["id_definitivo"]) ? $resulta_busca["id_definitivo"] : $resulta_busca["tema_id"];
 			}
 
 			//si hubo coicidencia exacta y están apagadas las sugerencias
-			if((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1)))
-			{
+			if((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1))) {
 				return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
 			}
 
@@ -77,10 +75,8 @@ function resultaBusca($texto, $tipo = "")
 			$styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
 			//Si no es un término preferido
-			if($resulta_busca["termino_preferido"])
-			{
-				switch($resulta_busca["t_relacion"])
-				{
+			if ($resulta_busca["termino_preferido"]) {
+				switch($resulta_busca["t_relacion"]) {
 					case '4'://UF
 					$leyendaConector=strtolower(USE_termino);
 					break;
@@ -103,8 +99,7 @@ function resultaBusca($texto, $tipo = "")
 				}
 
 
-				if ((in_array($resulta_busca["rr_code"],$CFG["HIDDEN_EQ"])) && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))
-				{
+				if ((in_array($resulta_busca["rr_code"],$CFG["HIDDEN_EQ"])) && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 					$row_result.= '<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a></li>'."\r\n" ;
 				}else{
 					$row_result.= '<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["tema"].'</a>   &#8594;  <strong>'.$resulta_busca["codeP"].'</strong></li>'."\r\n" ;
