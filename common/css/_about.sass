@@ -1,13 +1,13 @@
 .about
     display: grid
-    grid-template-columns: repeat(auto-fit, minmax(200px,1fr))
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
     grid-template-rows: repeat(auto-fit, minmax(50px, 1fr))
     grid-auto-flow: dense
     grid-gap: 10px
 
     &>div
         color: white
-        padding: 10px
+        padding: 15px
         background-color: $azulOscuro
 
         &:nth-child(3n+2)
@@ -82,7 +82,9 @@
             word-break: break-all
 
         .table-responsive
+            width: 80%
             max-width: calc(100% - 24px)
+            margin: 0 auto
             overflow-x: hidden
 
             tbody tr:hover

@@ -7,7 +7,7 @@
   grid-gap: 10px; }
   .about > div {
     color: white;
-    padding: 10px;
+    padding: 15px;
     background-color: #193848; }
     .about > div:nth-child(3n+2) {
       background-color: #3F92D2; }
@@ -62,7 +62,9 @@
       font-size: 30px;
       word-break: break-all; }
     .about > div .table-responsive {
+      width: 80%;
       max-width: calc(100% - 24px);
+      margin: 0 auto;
       overflow-x: hidden; }
       .about > div .table-responsive tbody tr:hover {
         color: #193848; }
