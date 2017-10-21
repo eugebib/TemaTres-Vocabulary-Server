@@ -2191,8 +2191,6 @@ function HTMLformExportGlossary(){
 
 function HTMLformExport()
 {
-	$LABEL_jtxt   = MENU_ListaSis.' (txt)';
-	$LABEL_abctxt = MENU_ListaAbc.' (txt)';
 
 	$rows.='
 		<form class="box" role="form"  name="export" action="xml.php" method="get" target="_blank">
@@ -2202,7 +2200,7 @@ function HTMLformExport()
 			</div>
 		 	<div class="box-content">
 				<select class="form-control" id="dis" name="dis">'.
-					doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SistPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]").'
+					doSelectForm(array("txt#TXT",'rpdf#PDF',"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]").'
 				</select>
 				<div style="display:none;" id="skos_config">';
 
