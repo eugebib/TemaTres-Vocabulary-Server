@@ -2351,23 +2351,20 @@ function SQLadvancedSearch($array)
 	GLOBAL $DB;
 
 	//sanitice string
-	$array[xstring]=($array[isExactMatch]=='1') ? $DB->qstr(trim($array[xstring]),get_magic_quotes_gpc()) : $DB->qstr(trim("%$array[xstring]%"),get_magic_quotes_gpc());
-
+	$array["xstring"]=($array["isExactMatch"]=='1') ? $DB->qstr(trim($array["xstring"]),get_magic_quotes_gpc()) : $DB->qstr(trim("%$array[xstring]%"),get_magic_quotes_gpc());
 
 	#has top term X
-	$array[hasTopTerm]=secure_data($array[hasTopTerm],"int");
+	$array["hasTopTerm"]=secure_data($array["hasTopTerm"],"int");
 
-	if($array[hasTopTerm]>0)
-	{
-		$size_i=strlen($array[hasTopTerm])+2;
+	if ($array["hasTopTerm"]>0) {
+		$size_i=strlen($array["hasTopTerm"])+2;
 		$from=",$DBCFG[DBprefix]indice tti";
 		$where="	and t.tema_id=tti.tema_id";
 		$where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
 	}
 
-	$array[hasNote]=$DB->qstr(trim($array[hasNote]),get_magic_quotes_gpc());
-	if(strlen($array[hasNote])>2)
-	{
+	$array["hasNote"]=$DB->qstr(trim($array["hasNote"]),get_magic_quotes_gpc());
+	if(strlen($array["hasNote"])>2) {
 		$from.=",$DBCFG[DBprefix]notas n";
 		$where.="		and n.id_tema=t.tema_id";
 		$where.="		and n.tipo_nota=$array[hasNote]";
@@ -2375,8 +2372,7 @@ function SQLadvancedSearch($array)
 
 	#time filter
 	$array[fromDate]=secure_data($array[fromDate],"int");
-	if($array[fromDate])
-	{
+	if($array[fromDate]) {
 
 		$array[fromDate]=date_format(date_create($array[fromDate].'01'),'Y-m-d');
 		$where.="		and (t.cuando between '$array[fromDate]' and now())";
@@ -2445,15 +2441,28 @@ function SQLadvancedSearch($array)
 		break;
 	}
 
-	return SQL("select","t.tema_id,t.tema,t.cuando,t.cuando_final,t.estado_id,t.isMetaTerm $select
-	from $DBCFG[DBprefix]tema t
-	$from
-	where
-	$initial_where
-	$where
-	group by t.tema_id
-	$having
-	order by t.tema");
+	return SQL("select","
+			t.tema_id,
+			t.tema,
+			t.cuando,
+			t.cuando_final,
+			t.estado_id,
+			t.isMetaTerm,
+			t.notEquivalent,
+			t.notApplicable
+			$select
+		FROM
+			$DBCFG[DBprefix]tema t
+			$from
+		WHERE
+			$initial_where
+			$where
+		GROUP BY
+			t.tema_id
+			$having
+		ORDER BY
+			t.tema"
+	);
 }
 
 

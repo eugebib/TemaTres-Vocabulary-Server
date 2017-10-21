@@ -1480,15 +1480,13 @@ function HTMLadvancedSearchResult($array)
 	//Ctrol lenght string
 	$array["xstring"] = trim(XSSprevent($array["xstring"]));
 
-	if(strlen(trim($array[xstring]))>=CFG_MIN_SEARCH_SIZE) {
+	if (strlen(trim($array["xstring"])) >= CFG_MIN_SEARCH_SIZE) {
 
 		$sql          = SQLadvancedSearch($array);
 
 		$sql_cant     = SQLcount($sql);
 
 		$classMensaje = ($sql_cant>0) ? 'info' : 'danger';
-
-		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array[xstring]).'</em>"</strong></p>';
 
 	} else {
 
@@ -1498,58 +1496,60 @@ function HTMLadvancedSearchResult($array)
 
 	}
 
-	$body.=$resumeResult;
-
 	if($sql_cant>0) {
 		$row_result.='<div id="listaBusca"><ul class="list-unstyled" >';
 
-		while($resulta_busca=$sql->FetchRow()){
+		while($resulta_busca=$sql->FetchRow()) {
 
-			$ibusca=++$ibusca;
-			$css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] || ($resulta_busca["notEquivalent"] == 0 && $resulta_busca["notApplicable"] == 0)) {
+				$ibusca=++$ibusca;
+				$css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 
-			//Si no es un término preferido
-			if($resulta_busca[uf_tema_id])
-			{
-				switch($resulta_busca[t_relacion])
+				//Si no es un término preferido
+				if($resulta_busca[uf_tema_id])
 				{
-					case '4':					//UF
-					$leyendaConector=USE_termino;
-					break;
+					switch($resulta_busca[t_relacion])
+					{
+						case '4':					//UF
+						$leyendaConector=USE_termino;
+						break;
 
-					case '5'://Tipo relacion término equivalente parcialmente
-					$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-					break;
+						case '5'://Tipo relacion término equivalente parcialmente
+						$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
+						break;
 
-					case '6'://Tipo relacion término equivalente
-					$leyendaConector='<abbr title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
-					break;
+						case '6'://Tipo relacion término equivalente
+						$leyendaConector='<abbr title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
+						break;
 
-					case '7'://Tipo relacion término no equivalente
-					$leyendaConector='<abbr title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
-					break;
+						case '7'://Tipo relacion término no equivalente
+						$leyendaConector='<abbr title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
+						break;
 
-					case '8'://Tipo relacion término equivalente inexacta
-					$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-					break;
+						case '8'://Tipo relacion término equivalente inexacta
+						$leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
+						break;
+					}
+
+					$row_result.='<li><em><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca[uf_tema_id].'&amp;/'.string2url($resulta_busca[uf_tema]).'">'.$resulta_busca[uf_tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca[tema_id].'">'.$resulta_busca[tema].'</a> </li>'."\r\n" ;
 				}
-
-				$row_result.='<li><em><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca[uf_tema_id].'&amp;/'.string2url($resulta_busca[uf_tema]).'">'.$resulta_busca[uf_tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca[tema_id].'">'.$resulta_busca[tema].'</a> </li>'."\r\n" ;
+				else // es un término preferido
+				{
+					$row_result.='<li>'.HTMLlinkTerm($resulta_busca).'</li>' ;
+				}
+			} else {
+				$sql_cant--;
 			}
-			else // es un término preferido
-			{
-				$row_result.='<li>'.HTMLlinkTerm($resulta_busca).'</li>' ;
-			}
 
-		};//fin del while
+		}
 		$row_result.='</ul>';
 		$row_result.='</div>';
 
+		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array[xstring]).'</em>"</strong></p>';
 
-	};// fin de if result
+	}
 
-
-	return $body.$row_result;
+	return $resumeResult.$row_result;
 }
 
 /*
