@@ -550,7 +550,7 @@ function borra_r($id_r)
 
 	$dator = $sql_dator->FetchRow();
 
-	switch ($dator[t_relacion]) {
+	switch ($dator["t_relacion"]) {
 		case '2':
 			$sql_id_delete=SQL("select","$DBCFG[DBprefix]tabla_rel.id
 				from $DBCFG[DBprefix]tabla_rel
@@ -602,17 +602,17 @@ function generaIndices($tema_id){
 	$tema_id=secure_data($tema_id,"int");
 
 	$indice_temas=bucle_arriba($tema_id.'|',$tema_id);
-	return $indice_temas;
-};
 
+	return $indice_temas;
+}
 
 
 #
 # actualiza la situacion de tema en el arbol/indice
 #
-function actualizaArbolxTema($tema_id){
+function actualizaArbolxTema($tema_id)
+{
 	GLOBAL $DBCFG;
-
 	$tema_id=secure_data($tema_id,"int");
 	$este_tema_id=$tema_id;
 	//Obtengo una cadena separada con | con el arbol inverso de un tema
@@ -625,15 +625,17 @@ function actualizaArbolxTema($tema_id){
 		}
 	//Saco el ultimo caracter
 	$esteindice=substr($indice[$este_tema_id],1);
+	$sql = SQL("insert","
+		INTO
+			$DBCFG[DBprefix]indice
+		VALUES
+			('$tema_id','$esteindice')
+		ON DUPLICATE KEY UPDATE
+			indice='$esteindice'
+	");
 
-	$sql=SQL("insert","into $DBCFG[DBprefix]indice values ('$tema_id','$esteindice')");
-
-	if(@$sql[error])		{
-		$sql=SQL("update","$DBCFG[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
-		}
-
-return $tema_id;
-};
+	return $tema_id;
+}
 
 
 #

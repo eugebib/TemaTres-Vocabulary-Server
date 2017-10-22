@@ -42,9 +42,9 @@ elseif(
 	require_once(T3_ABSPATH . 'common/include/inc.vistaTermino.php');
 }
 //Vista de términos según estados
-elseif(is_numeric($_GET[estado_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
+elseif(is_numeric($_GET["estado_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 	echo '<div class="container" id="bodyText">';
-	echo HTMLlistaTerminosEstado($_GET[estado_id],CFG_NUM_SHOW_TERMSxSTATUS);
+	echo HTMLlistaTerminosEstado($_GET["estado_id"],CFG_NUM_SHOW_TERMSxSTATUS);
 	echo '</div>';
 }
 //Vista de términos según estados
@@ -54,13 +54,13 @@ elseif($_GET["s"]=='n'){
 	echo '</div>';
 }
 //Vista de busqueda avanzada
-elseif(($_GET[xsearch]=='1')){
+elseif(($_GET["xsearch"]=='1')){
 	echo '<div class="container" id="bodyText">';
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
 }
 //Vista de reporteador
-elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
+elseif(($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 	echo '<div id="bodyText">';
 	echo HTMLformSimpleTermReport($_GET);
 
@@ -71,7 +71,7 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 	echo HTMLformMappedTermReport($_GET);
 
 	echo '</div>';
-} elseif (($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET["verT"])) {
+} elseif (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["verT"])) {
 	echo '<div class="container" id="bodyText">';
 	switch ($_GET[verT]) {
 		case 'L':
@@ -101,4 +101,3 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 	}
 	echo '</div>';
 }
-?>
