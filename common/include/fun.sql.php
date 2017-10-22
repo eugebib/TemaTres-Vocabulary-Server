@@ -228,8 +228,6 @@ function SQLbuscaSimple($texto)
 		where
 			tema.tema like $text
 			$where
-		group by
-			id_definitivo
 		order by
 			rank desc,lower(tema.tema)"
 	);
