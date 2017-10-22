@@ -31,9 +31,9 @@ function resultaBusca($texto, $tipo = "")
 
 	//Ctrol lenght string
 	if((strlen($texto)>=CFG_MIN_SEARCH_SIZE) || ($tipo=='E'))	{
-		$sql= ($tipo=='E') ? SQLbuscaExacta("$texto") : SQLbuscaSimple("$texto");
-		$sql_cant=SQLcount($sql);
-		$classMensaje= ($sql_cant>0) ? 'information' : 'warning';
+		$sql          = ($tipo=='E') ? SQLbuscaExacta("$texto") : SQLbuscaSimple("$texto");
+		$sql_cant     = SQLcount($sql);
+		$classMensaje = ($sql_cant>0) ? 'information' : 'warning';
 	}	else	{
 		$sql_cant='0';
 		$resumeResult = '<p class="alert alert-danger" role="alert">'.sprintf(MSG_minCharSerarch,stripslashes($texto),strlen($texto),CFG_MIN_SEARCH_SIZE-1).'</p>';
@@ -45,21 +45,20 @@ function resultaBusca($texto, $tipo = "")
 
 	if($sql_cant==0) $body.= '<p class="alert alert-danger" role="alert"><strong>0</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($texto).'</em>"</strong></p>';
 
-	if($sql_cant>0){
-		$row_result.='<div class="tab-pane fade in active" id="results">';
+	if ($sql_cant>0) {
+		$row_result.='
+			<div class="tab-pane fade in active" id="results">
+				<p class="alert alert-info" role="alert">
+					<strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($texto).'</em>"</strong>
+				</p>
+				<ul>';
 
-		$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($texto).'</em>"</strong></p>';
-		$row_result.='<ul>';
-
-		while($resulta_busca=$sql->FetchRow()){
-
+		while ($resulta_busca=$sql->FetchRow()) {
 			$ibusca=++$ibusca;
 			$acumula_indice.=$resulta_busca["indice"];
-
 			$acumula_temas.=$resulta_busca["id_definitivo"].'|';
 
-			if($ibusca=='1')
-			{
+			if($ibusca=='1') {
 				//Guardar el primer término para ver si hay coincidencia exacta
 				$primerTermino=$resulta_busca["tema"];
 				$primerTermino_id=($resulta_busca["id_definitivo"]) ? $resulta_busca["id_definitivo"] : $resulta_busca["tema_id"];
