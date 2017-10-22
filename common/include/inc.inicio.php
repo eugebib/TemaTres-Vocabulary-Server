@@ -44,11 +44,11 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 
 	require_once(T3_ABSPATH . 'common/include/inc.vistaTermino.php');
 
-} elseif (is_numeric($_GET[estado_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) {
+} elseif (is_numeric($_GET["estado_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 
 	//Vista de términos según estados
 	echo '<div class="container" id="bodyText">';
-	echo HTMLlistaTerminosEstado($_GET[estado_id],CFG_NUM_SHOW_TERMSxSTATUS);
+	echo HTMLlistaTerminosEstado($_GET["estado_id"],CFG_NUM_SHOW_TERMSxSTATUS);
 	echo '</div>';
 
 } elseif($_GET["s"]=='n') {
@@ -58,14 +58,14 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 	echo HTMLlistaTerminosFecha();
 	echo '</div>';
 
-} elseif(($_GET[xsearch]=='1')) {
+} elseif(($_GET["xsearch"]=='1')) {
 
 	//Vista de busqueda avanzada
 	echo '<div class="container" id="bodyText">';
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
 
-} elseif (($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) {
+} elseif (($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 
 	echo '<div id="bodyText">'.
 			HTMLformSimpleTermReport($_GET).

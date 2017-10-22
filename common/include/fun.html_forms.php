@@ -582,14 +582,16 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
 }
 
 
-/* Advanced search form */
+#
+# Advanced search form
+#
 function HTMLformAdvancedSearch($array)
 {
 	GLOBAL $CFG;
 
 	$array           = XSSpreventArray($array);
 	$arrayWS         = array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
-	$arrayVocabStats = ARRAYresumen($_SESSION[id_tesa],"G","");
+	$arrayVocabStats = ARRAYresumen($_SESSION["id_tesa"],"G","");
 
 	if($arrayVocabStats["cant_up"]>0){
 		array_push($arrayWS,'uf#'.ucfirst(LABEL_esNoPreferido));

@@ -2416,7 +2416,7 @@ function SQLadvancedSearch($array)
 		break;
 
 		case 'c':// code
-		$initial_where=($array[isExactMatch]=='1') ? " t.code= $array[xstring] " : " t.code like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " t.code= $array[xstring] " : " t.code like $array[xstring] ";
 		break;
 
 		case 'n':// note
@@ -2426,11 +2426,11 @@ function SQLadvancedSearch($array)
 		$from.=	"	,$DBCFG[DBprefix]notas ns";
 		$where.="	and t.tema_id=ns.id_tema";
 
-		$initial_where.=($array[isExactMatch]=='1') ? " (ns.nota=$array[xstring] or ns.nota='$array[xstring4html]')  " : " ns.nota like $array[xstring] ";
+		$initial_where.=($array["isExactMatch"]=='1') ? " (ns.nota=$array[xstring] or ns.nota='$array[xstring4html]')  " : " ns.nota like $array[xstring] ";
 		break;
 
 		case 'tgt':// target term from target vocabulary (foreign term)
-		$initial_where=($array[isExactMatch]=='1') ? " tt.tterm_string= $array[xstring] " : " tt.tterm_string like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " tt.tterm_string= $array[xstring] " : " tt.tterm_string like $array[xstring] ";
 		$from.=	"	,$DBCFG[DBprefix]term2tterm tt";
 		$where.="	and t.tema_id=tt.tema_id";
 		break;
