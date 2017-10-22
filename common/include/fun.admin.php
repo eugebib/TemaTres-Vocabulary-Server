@@ -623,12 +623,14 @@ function actualizaArbolxTema($tema_id)
 		}
 	//Saco el ultimo caracter
 	$esteindice=substr($indice[$este_tema_id],1);
-
-	$sql=SQL("insert","into $DBCFG[DBprefix]indice values ('$tema_id','$esteindice')");
-
-	if(@$sql[error])		{
-		$sql=SQL("update","$DBCFG[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
-		}
+	$sql = SQL("insert","
+		INTO
+			$DBCFG[DBprefix]indice
+		VALUES
+			('$tema_id','$esteindice')
+		ON DUPLICATE KEY UPDATE
+			indice='$esteindice'
+	");
 
 	return $tema_id;
 }
