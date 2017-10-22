@@ -242,8 +242,6 @@ function SQLbuscaSimple($texto)
 			(((tema.tema like $text)
 			or tema.code like '%$texto%')
 			$where)
-		group by
-			id_definitivo
 		order by
 			rank desc,lower(tema.tema)"
 	);
