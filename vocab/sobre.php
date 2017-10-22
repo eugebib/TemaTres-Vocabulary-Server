@@ -76,7 +76,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
                 </div>
 
-                <div class='grid'>
+                <div class='grid vspan2'>
                     <div>
                         <h5><?= mb_strtoupper(LABEL_Fecha, 'UTF-8') ?></h5>
                         <p><?= $fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"] ?></p>
@@ -87,7 +87,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </div>
                 </div>
 
-                <div class="grid vspan2">
+                <div class="grid vspan2 span2">
                     <div>
                         <p><?= $resumen["cant_total"] ?> <?= LABEL_Terminos ?></p>
                     </div>
@@ -133,7 +133,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </div>
                 <?php endif ?>
 
-                <div>
+                <div class="span2 vspan2">
                     <h4>ÚLTIMOS</h4>
                     <ul>
                     <?php foreach ($resumen['ultimos'] as $value) : ?>
@@ -178,7 +178,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                 } ?> -->
 
                 <div>
-                    <h5><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h5>
+                    <h4><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h4>
                     <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?= $CFG["Version"] ?></a>
                 </div>
 
