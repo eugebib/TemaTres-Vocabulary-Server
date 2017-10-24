@@ -173,24 +173,22 @@ function doContextoTermino($idTema,$i_profundidad){
 	while ($datosNT=$sqlNT->FetchRow()){
 		$int=++$int;
 
-		if($datosNT["id_te"]){
+		if ($datosNT["id_te"]) {
 			$link_next=' <a href="javascript:expand(\''.$datosNT["id_tema"].'\')" title="'.LABEL_verDetalle.' '.$datosNT[tema].'"><span id="expandTE'.$datosNT["id_tema"].'">&#x25ba;</span><span id="contraeTE'.$datosNT["id_tema"].'" style="display: none">&#x25bc;</span></a>';
 			$link_next.=HTMLverTE($datosNT["id_tema"],$i_profundidad);
-		}else{
+		} else {
 			$link_next='';
-		};
+		}
 
 		//editor de relaciones
-		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+		if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 			$td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			$row_NT.=' <li  id="t'.$datosNT[id_tema].'">'.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ';
 
 			//Editor de código
 			$row_NT.=($CFG["_USE_CODE"]=='1') ? '<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$datosNT["id_tema"].'">'.$datosNT["code"].'</div>' : '';
 
-		}
-		else
-		{
+		} else {
 			$row_NT.=' <li id="t'.$datosNT["id_tema"].'"><abbr class="thesacronym" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].$i_profundidad.'</abbr> ';
 			//ver  código
 			$row_NT.=($CFG["_SHOW_CODE"]=='1') ? ' '.$datosNT["code"].' ' : '';
@@ -213,7 +211,7 @@ function doContextoTermino($idTema,$i_profundidad){
 		}else{
 			$td_delete='';
 			$classAcrnoyn='thesacronym';
-		};
+		}
 
 		#Change to metaTerm attributes
 		if(($datosTotalRelacionados["BT_isMetaTerm"]==1))
@@ -1114,12 +1112,14 @@ function HTMLverTE($tema_id,$i_profundidad,$i="")
 			$link_next='';
 		}
 
-		$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-		$label_MT     = ($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
+		$css_class = ($array["rr_value"]) ? $array["rr_value"] : '';
+		$css_class.= ($array["isMetaTerm"]==1) ? 'metaTerm' : '';
+		$label_MT  = ($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
+
 
 		$rows.='<li class="listTE"><abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
 		$rows.=HTMLshowCode($array);
-		$rows.=' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
+		$rows.=' <a class="'.$css_class.'" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
 	}
 
 	$rows.='</ul>';
