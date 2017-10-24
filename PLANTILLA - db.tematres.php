@@ -87,4 +87,11 @@ if ( !defined('T3_ABSPATH') )
     /** Use to define specific local path for common/include directory */
     //~ define('T3_ABSPATH', '/home/my_name/tematres/');
 
-?>
+function dd($data)
+{
+    echo '<pre>';
+    var_dump($data);
+    echo '</pre>';
+    die();
+}
+

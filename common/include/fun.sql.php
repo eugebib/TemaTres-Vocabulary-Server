@@ -787,7 +787,8 @@ function SQLdirectTerms($tema_id)
 	#
 	# lista de términos ACEPTADOS totales (prederidos, no preferidos y mapeados) con el tema_id del referido
 	#
-	function SQLlistaTemas($top_term_id="0"){
+	function SQLlistaTemas($top_term_id="0")
+	{
 
 		GLOBAL $DBCFG;
 
@@ -811,12 +812,46 @@ function SQLdirectTerms($tema_id)
 		group by tema.tema_id
 		order by lower(tema.tema)");
 		return $sql;
-	};
+	}
 
+
+	function SQLlistaTemas2($top_term_id = 0)
+	{
+		$list = array();
+		if ($top_term_id == 0) {
+			$top = SQLverTopTerm();
+			while ($term = $top->FetchRow()) {
+				$list[] = $term['id'];
+			}
+		} else {
+			$list = array($top_term_id);
+		}
+
+		$count = 1;
+		for ($i=0; $i < $count; $i++) {
+	    	$terms = SQLterms4alpha($list[$i]);
+	    	while ($term = $terms->FetchRow()) {
+	    	    #Mantener vivo el navegador
+	    	    $time_now = time();
+	    	    if ($time_start >= $time_now + 10) {
+	    	        $time_start = $time_now;
+	    	        header('X-pmaPing: Pong');
+	    	    }
+	    	    if (!in_array($term['id'], $list)) {
+	    	    	$list[] = $term['id'];
+	    	    }
+		    }
+	    	$count = count($list);
+		}
+
+	    return $list;
+	}
 
 	#
 	# prefered descendant terms for given term_id
-	function SQLterm2down($term_id){
+	#
+	function SQLterm2down($term_id)
+	{
 
 		GLOBAL $DBCFG;
 
@@ -1198,13 +1233,14 @@ function SQLbuscaTerminosSimple($string,$limit="20"){
 	order by lower(t.tema)
 	limit 0,$limit");
 	return $sql;
-};
+}
 
 
 #
 # Lista de Ids de términos válidos y aceptados (sin UF ni términos libres)
 #
-function SQLIdTerminosValidos(){
+function SQLIdTerminosValidos()
+{
 	GLOBAL $DBCFG;
 
 	$thes_id=secure_data($_SESSION[id_tesa],"int");
@@ -1221,7 +1257,7 @@ function SQLIdTerminosValidos(){
 	order by lower(tema.tema)");
 
 	return $sql;
-};
+}
 
 
 #

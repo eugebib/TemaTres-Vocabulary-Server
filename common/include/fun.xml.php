@@ -309,15 +309,14 @@ function do_nodo_moodle($tema_id){
 	$output.='    	</ENTRY>';
 
 	return  $output;
-};
-
+}
 
 
 #
 # FUNCION PARA ARMAR RDF SKOS
 #
-function do_skos($nodos_skos,$top_terms="false"){
-
+function do_skos($nodos_skos,$top_terms="false")
+{
 	GLOBAL $CFG;
 
 	$_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
@@ -332,16 +331,15 @@ function do_skos($nodos_skos,$top_terms="false"){
 	*/
 	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
 
-	if ($top_terms=='true')
-	{
-		# Top term del esquema
-		$sqlTT=SQLverTopTerm();
+	// if ($top_terms == 'true')  {
+	// 	# Top term del esquema
+	// 	$sqlTT=SQLverTopTerm();
 
-		while ($arrayTT=$sqlTT->FetchRow()){
-			$skos_TT.='<skos:hasTopConcept rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$arrayTT[id].'"/>';
-		};
+	// 	while ($arrayTT=$sqlTT->FetchRow()){
+	// 		$skos_TT.='<skos:hasTopConcept rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$arrayTT[id].'"/>';
+	// 	}
+	// }
 
-	};//fin top terms
 	header ('content-type: text/xml');
 	$meta_tag.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
 	$meta_tag.='<rdf:RDF';
@@ -374,7 +372,7 @@ function do_skos($nodos_skos,$top_terms="false"){
 	$meta_tag.='</rdf:RDF>';
 
 	return $meta_tag;
-};
+}
 
 #
 # FUNCION PARA ARMAR RDF NODO SKOS
@@ -420,7 +418,8 @@ function do_skosNode($nodos_skos,$top_terms="false"){
 #
 # Arma nodos Skos
 #
-function do_nodo_skos($idTema){
+function do_nodo_skos($idTema)
+{
 
 	GLOBAL $CFG;
 

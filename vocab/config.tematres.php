@@ -131,10 +131,3 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
   require_once(T3_ABSPATH . 'common/include/fun.admin.php');
 }
 
-function dd($data)
-{
-    echo '<pre>';
-    var_dump($data);
-    echo '</pre>';
-    die();
-}

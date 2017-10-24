@@ -74,8 +74,9 @@ if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
 			return doTotalSkos("line");
 		break;
 		case 'rfile':
-			$params = array("hasTopTerm"=>$_GET["hasTopTermSKOS"]);
-			return doTotalSkos("file",$params);
+			// $params = array("hasTopTerm"=>$_GET["hasTopTerm"]);
+			// return doTotalSkos("file",$params);
+			return doSkos($_GET["hasTopTerm"]);
 		break;
 		case 'vfile':
 			return doTotalVDEX("file");

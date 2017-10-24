@@ -2132,9 +2132,6 @@ function HTMLbulkReplaceResultsNotes($params)
 
 function HTMLformExport()
 {
-	$LABEL_jtxt   = MENU_ListaSis.' (txt)';
-	$LABEL_abctxt = MENU_ListaAbc.' (txt)';
-
 	$rows.='
 		<form class="box" role="form" name="export" action="xml.php" method="get" target="_blank">
 
@@ -2146,9 +2143,9 @@ function HTMLformExport()
 		 	<div class="box-content">
 				<select class="form-control" id="dis" name="dis">'.
 					doSelectForm(array(
-						"jtxt#$LABEL_jtxt",
-						"txt#$LABEL_abctxt",
-						'spdf#'.LABEL_SistPDF,
+						"jtxt#".MENU_ListaSis." (txt)",
+						"txt#".MENU_ListaAbc." (txt)",
+						"spdf#".LABEL_SistPDF,
 						'rpdf#'.LABEL_AlphaPDF,
 						'jglossary#JSON',
 						"moodfile#Moodle",

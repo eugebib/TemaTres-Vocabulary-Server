@@ -1983,6 +1983,22 @@ function doTotalSkos($tipoEnvio,$params=array())
 	}
 }
 
+
+function doSkos($topTerm)
+{
+	$list = SQLlistaTemas2($topTerm);
+
+	foreach ($list as $term) {
+		$skosNodos .= do_nodo_skos($term);
+	}
+
+	$meta_tag = do_skos($skosNodos, $topTerm);
+	$filname  = string2url($_SESSION["CFGTitulo"]).'.rdf';
+
+	return sendFile("$meta_tag","$filname");
+}
+
+
 function doTotalMoodle($params=array())
 {
 	$time_start = time();
