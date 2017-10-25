@@ -1646,18 +1646,22 @@ function SQLlistaTema_id($lista_temas_id){
 	$csv_temas_id=string2array4ID($lista_temas_id);
 
 	return SQL("select","t.tema_id as tema_id,t.tema,t.isMetaTerm from $DBCFG[DBprefix]tema t where t.tema_id in ($csv_temas_id) $where order by t.tema");
-};
+}
+
 
 #
 # sql de datos de tesauro
 #
-function SQLdatosVocabulario($vocabulario_id=""){
+function SQLdatosVocabulario($vocabulario_id="")
+{
 	GLOBAL $DBCFG;
-	if(@$vocabulario_id){
+	if (@$vocabulario_id) {
 		$where=" where id='$vocabulario_id'";
 	}
+
 	return SQL("select","id as vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config $where order by vocabulario_id");
-};
+}
+
 
 #
 # internal target vocabularies (pivot map relations)

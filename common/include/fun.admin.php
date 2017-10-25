@@ -1533,33 +1533,39 @@ function HTMLlistaVocabularios()
 {
 	$sql = SQLdatosVocabulario(1);
 
-	$rows.='<div class="table-responsive"> ';
-	$rows.='<h3>'.ucfirst(LABEL_lcConfig).' </h3>';
-	$rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
-	$rows.='<thead>';
-	$rows.='<tr>';
-	$rows.='<th>'.ucfirst(LABEL_Titulo).'</th>';
-	$rows.='<th>'.ucfirst(LABEL_Autor).'</th>';
-	$rows.='<th>'.ucfirst(LABEL_tipo_vocabulario).'</th>';
-	$rows.='</tr>';
-	$rows.='</thead>';
-	$rows.='<tbody>';
+	$rows.='<div class="table-responsive">
+			<h3>'.ucfirst(LABEL_lcConfig).'</h3>
+			<table class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_lcConfig.'">
+				<thead>
+					<tr>
+						<th>'.ucfirst(LABEL_Titulo).'</th>
+						<th>'.ucfirst(LABEL_Autor).'</th>
+						<th>'.ucfirst(LABEL_tipo_vocabulario).'</th>
+					</tr>
+				</thead>
+				<tbody>';
 
-	while($array=$sql->FetchRow()){
-		$fecha_alta=do_fecha($listaUsers[cuando]);
-		$rows.='<tr>';
-		$rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array[vocabulario_id].'" title="'.MENU_DatosTesauro.' '.$array[titulo].'">'.$array[titulo].'</a> / '.$array[idioma].'</td>';
-		$rows.='<td class="izq">'.$array[autor].'</td>';
-		if($array[vocabulario_id]=='1'){
-			$rows.='<td>'.LABEL_vocabulario_principal.'</td>';
-			}else{
-			$rows.='<td>'.LABEL_vocabulario_referencia.'</td>';
-			}
+	while ($array=$sql->FetchRow()) {
 
-		$rows.='</tr>';
-		};
+		$tipo = ($array["vocabulario_id"]=='1') ? LABEL_vocabulario_principal : LABEL_vocabulario_referencia;
 
-	$rows.='</tbody>
+		$rows.='	<tr>
+						<td class="izq">
+							<a href="admin.php?vocabulario_id='.$array[vocabulario_id].'" title="'.MENU_DatosTesauro.' '.$array[titulo].'">'.
+								$array[titulo].'
+							</a>
+						</td>
+						<td class="izq">'.
+							$array[autor].'
+						</td>
+						<td>
+							'.$tipo.'
+						</td>
+					</tr>';
+	}
+
+	$rows.='	</tbody>
+			</table>
 		</div>';
 
 	return $rows;
@@ -1574,7 +1580,7 @@ function HTMLlistaInternalTargetVocabularios()
 	$sql = SQLinternalTargetVocabs();
 
 	$rows.='<div class="table-responsive"> ';
-	$rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+	$rows.='<h3>'.ucfirst(LABEL_vocabularios_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
 
 	if(SQLcount($sql)>0)  {
 
@@ -1634,7 +1640,7 @@ function HTMLlistaTargetVocabularios()
 
 
 	$rows.='<div class="table-responsive"> ';
-	$rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
+	$rows.='<h3>'.ucfirst(LABEL_vocabularios_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 
 
 	if(SQLcount($sql)>0){
