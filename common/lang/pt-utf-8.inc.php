@@ -203,6 +203,7 @@ define("FORM_LABEL_relacion_vocabulario","equivalência");
 define("FORM_LABEL_nombre_vocabulario","vocabulário de referência");
 define("FORM_LABEL_nombre_vocabularios","vocabulários de referência");
 define("LABEL_vocabulario_referencia","vocabulário de referência");
+define("LABEL_vocabularios_referencia","vocabulários de referência");
 define("LABEL_NO_vocabulario_referencia","não existe vocabulários de referência para se estabelecer uma relação terminológica");
 define("FORM_LABEL_tipo_equivalencia","tipo de equivalência");
 define("LABEL_vocabulario_principal","vocabulário");
@@ -324,6 +325,7 @@ v 1.2
 */
 define('LABEL_relacion_vocabularioWebService',"relação com termo de um vocabulário alvo remoto");
 define('LABEL_vocabulario_referenciaWS',"vocabulário alvo remoto (web services)");
+define('LABEL_vocabularios_referenciaWS',"vocabulários alvo remoto (web services)");
 define('LABEL_TargetVocabularyWS',"vocabulário alvo remoto (web services)");
 define('LABEL_tvocab_label',"nome para referência");
 define('LABEL_tvocab_tag',"etiqueta para referência");

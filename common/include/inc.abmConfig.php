@@ -208,19 +208,46 @@ $rows.='	<div class="row">
 												$rows.='<div class="form-group">
 																		<div class="col-sm-12 text-right">
 																		<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-																		<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
-																		</div>
-																</div>';
+																		            <a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
+
+
+																		//editor for target vocabularies
+
+																		if ($array_vocabulario["vocabulario_id"]!=='1') {
+
+																		  $rows.='            <input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
+
+																		}
+
 
 
 												$rows.='				</div>
 																</div>
-														</div>';
+																      </div>
 
-											$rows.='</div> <!-- / panel  -->';
-												$rows.='<input type="hidden" name="vocabulario_id" id="vocabulario_id" value="'.$array_vocabulario["vocabulario_id"].'"/>';
-												$rows.='<input type="hidden" name="task_config" id="task_config" value="configvocab"/>';
-												$rows.='</form>';
+																    </div>
+
+																    <input type="hidden" name="vocabulario_id" id="vocabulario_id" value="'.$array_vocabulario["vocabulario_id"].'"/>
+
+																    <input type="hidden" name="task_config" id="task_config" value="configvocab"/>
+
+																  </form>';
+
+
+																if ($array_vocabulario["vocabulario_id"]!=='1') {
+
+																  $rows.= '
+
+																  <form id="delete-tvocab" name="delete-tvocab" action="admin.php?vocabulario_id=3" method="post">
+
+																    <input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/>
+
+																    <input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/>
+
+																  </form>';
+
+																}
+
 
 													echo $rows;
 ?>

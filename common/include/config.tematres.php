@@ -158,11 +158,3 @@ $CFG["_HTMLinDATA"] = 1;
 
 # Reporte de errores pero no de noticias (variables no inicializadas)
 error_reporting(E_ALL ^ E_NOTICE);
-
-function dd()
-{
-    array_map(function($x) {
-        var_dump($x);
-    }, func_get_args());
-    die;
-}
