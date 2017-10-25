@@ -1287,39 +1287,40 @@ function check_password($password,$hash)
  *
  * Update password for user
  */
-function setPassword($user_id,$user_pass,$to_hash=0){
-	GLOBAL $DBCFG;
-	$user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
-	$sql_update_pass=SQLo("update","$DBCFG[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
-	return;
-};
+function setPassword($user_id,$user_pass,$to_hash=0)
+{
+    GLOBAL $DBCFG;
+    $user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
+    $sql_update_pass=SQLo("update","$DBCFG[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
 
-/*
- *
- * Sanitice unidimensional arrays
- */
-function XSSpreventArray($array){
-
-	if( is_array($array) )	{
-		while( list($k, $v) = each($array) )		{
-						$array[$k] = XSSprevent($v);		}
-		@reset($array);
-	}
-	else	{
-			$array=array();
-	};
-
-return $array;
+    return;
 }
 
 
+#
+# Sanitice arrays
+#
+function XSSpreventArray($array)
+{
+    if (is_array($array)) {
+        while (list($k, $v) = each($array) ) {
+            $array[$k] = is_array($v) ? XSSpreventArray($v) : XSSprevent($v);
+        }
+        @reset($array);
+    } else {
+        $array=array();
+    }
+
+    return $array;
+}
 
 
 /*
 * Function from http://www.bin-co.com/php/scripts/array2json/
 *
 */
-function array2json(array $arr){
+function array2json(array $arr)
+{
 if(function_exists('json_encode')) return json_encode($arr); //Lastest versions of PHP already has this functionality.
 $parts = array();
 $is_list = false;
