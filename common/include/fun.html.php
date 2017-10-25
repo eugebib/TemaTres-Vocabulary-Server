@@ -520,6 +520,7 @@ function HTMLmainMenu() {
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
 			<ul class="dropdown-menu dropdown-menu-change">
+				<li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=addTermSuggested">'.ucfirst(LABEL__getForRecomendation).'</a></li>
 				<li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
 				<li class="dropdown dropdown-submenu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a>
