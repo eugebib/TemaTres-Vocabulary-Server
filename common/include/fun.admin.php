@@ -974,7 +974,7 @@ function admin_users($do,$user_id="")
 #
 # # # # funciones de administracion # # # #
 #
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
+if (in_array($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel], array('1', '3'))) {
 
 #ABM source notes for terms and notes
 function abm_srcnotes($do,$srcnote_id="0",$data=array())
