@@ -21,68 +21,67 @@ $arrayTaskExistTerms=array("addBT","addRT","addFreeUF","addFreeNT");
 if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 	switch ($_GET["taskterm"]) {
 		case 'addBT':
-		echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
+			echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
 		break;
 
 		case 'addRT':
-		echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
+			echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
 		break;
 
 		case 'addFreeUF':
-		echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
+			echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
 		break;
 
 		case 'addFreeNT':
-		echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
+			echo HTMLformAssociateExistTerms($_GET[taskterm],$metadata["arraydata"],$term_id);
 		break;
 
 		case 'addEQ':
-		echo HTMLformAltaEquivalenciaTermino(ARRAYverDatosTermino($tema));
+			echo HTMLformAltaEquivalenciaTermino(ARRAYverDatosTermino($tema));
 		break;
 
 		case 'editNote':
-		require_once(T3_ABSPATH . 'common/include/inc.abmNota.php');
+			require_once(T3_ABSPATH . 'common/include/inc.abmNota.php');
 		break;
 
 		case 'addNT':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
 
 		case 'addUF':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
 
 		case 'addTerm':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
 
-
 		case 'addRTnw':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
 
 		case 'editTerm':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
 
 		case 'findTargetTerm':
-		echo HTMLformAssociateTargetTerms($metadata["arraydata"]);
+			echo HTMLformAssociateTargetTerms($metadata["arraydata"]);
 		break;
 
 		case 'findSuggestionTargetTerm':
-		echo HTMLformSuggestTermsXRelations($metadata["arraydata"]);
+			echo HTMLformSuggestTermsXRelations($metadata["arraydata"]);
 		break;
 
 		case 'addTermSuggested':
-		echo HTMLformSuggestTerms($metadata["arraydata"]);
+			echo HTMLformSuggestTerms($metadata["arraydata"]);
 		break;
 
 		case 'addURI':
-		echo HTMLformURI4term($metadata["arraydata"]);
+			echo HTMLformURI4term($metadata["arraydata"]);
 		break;
 
 		default:
-		echo HTMLbodyTermino($metadata["arraydata"]);
+			echo HTMLbodyTermino($metadata["arraydata"]);
 	}
 
 } elseif($metadata["arraydata"]) {
