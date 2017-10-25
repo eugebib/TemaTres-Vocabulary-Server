@@ -1659,11 +1659,43 @@ function SQLdatosVocabulario($vocabulario_id=""){
 	return SQL("select","id as vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config $where order by vocabulario_id");
 };
 
+#
+# internal target vocabularies (pivot map relations)
+#
+function SQLinternalTargetVocabs($vocabulario_id="")
+{
+	GLOBAL $DBCFG;
+	if(@$vocabulario_id){
+		$where=" and tv.id='$vocabulario_id'";
+	}
+	return SQL("select","tv.id as tvocab_id,tv.titulo,tv.autor,tv.idioma,tv.cobertura,tv.keywords,tv.tipo,tv.cuando,tv.url_base ,
+		count(tt.tema_id) as cant
+		from $DBCFG[DBprefix]config tv
+		 left join  $DBCFG[DBprefix]tema tt on tt.tesauro_id=tv.id
+		where tv.id!=1
+		$where
+		group by tv.id
+		order by tv.titulo");
+}
+
+
+#
+# datos de tesauro
+#
+function ARRAYvocabulario($vocabulario_id)
+{
+	GLOBAL $DBCFG;
+	$vocabulario_id=secure_data($vocabulario_id,"int");
+	$sql=SQLdatosVocabulario($vocabulario_id);
+	return (is_object($sql)) ? $sql->FetchRow() : array();
+}
+
 
 #
 # sql de datos inversos de un UF o todos los UF
 #
-function SQLterminosValidosUF($tema_id="0"){
+function SQLterminosValidosUF($tema_id="0")
+{
 	GLOBAL $DBCFG;
 
 	$tema_id=secure_data($tema_id,"int");

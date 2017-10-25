@@ -1,8 +1,9 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
-# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
 # Distribuido bajo Licencia GNU Public License, versión 2          #
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
@@ -36,6 +37,11 @@ if(($_POST["task_config"]=='configvocab')&&(is_numeric($_POST["vocabulario_id"])
 	abm_vocabulario("M",$_POST["vocabulario_id"]);
 	header("Location:admin.php?vocabulario_id=list");
 	};
+
+if ($_POST["task_config"]=='rem_tvocab') {
+	abm_vocabulario("B",$_POST["internal_tvocab_id"]);
+	header("Location:admin.php?vocabulario_id=list");
+}
 
 if(($_POST["task_config"]=='configvocab')&&($_POST["vocabulario_id"]=='NEW')){
 	abm_vocabulario("A");
@@ -104,14 +110,15 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 		}
 
 
-	if(($_GET["vocabulario_id"]=='list')||(count($_GET)<1)){
+	if (($_GET["vocabulario_id"]=='list')||(count($_GET)<1)) {
 		echo HTMLlistaVocabularios();
+		echo HTMLlistaInternalTargetVocabularios();
 		echo HTMLlistaTargetVocabularios();
         echo HTMLaddImages();
 		echo HTMLformUserNotes();
 		echo HTMLformUserRelations();
 		echo HTMLformURIdefinition();
-		};
+	}
 
 	//Formulario de exportación
 	if($_GET["doAdmin"]=='export'){
