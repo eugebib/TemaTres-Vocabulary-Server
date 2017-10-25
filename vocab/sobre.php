@@ -223,7 +223,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
 function getQtyXTop()
 {
-    $filename = T3_ABSPATH . DIRECTORY_SEPARATOR . 'vocab' .DIRECTORY_SEPARATOR . 'qtyXTop';
+    $filename = T3_ABSPATH . 'vocab' .DIRECTORY_SEPARATOR . 'qtyXTop';
     if (file_exists($filename)) {
         $cache = file_get_contents($filename);
         $json  = json_decode($cache, true);
