@@ -724,7 +724,7 @@ function utf8($txt)
 function XSSprevent($string)
 {
     //$string = str_replace ( array ('"',"'" ), array ('',''), $string );
-    $string=htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $string=htmlentities($string, ENT_QUOTES | 'ENT_HTML5', 'UTF-8');
 
     require_once 'htmlpurifier/HTMLPurifier.auto.php';
 

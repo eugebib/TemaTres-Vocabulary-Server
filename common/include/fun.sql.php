@@ -879,22 +879,37 @@ function SQLverTopTerm()
 	GLOBAL $DBCFG;
 
 	//Control de estados
-	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and TT.estado_id='13' " : $where="";
+	$where = (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and TT.estado_id='13' " : "";
 
-	$sql=SQL("select","TT.tema_id as id,TT.tema,TT.code,TT.tema_id,TT.isMetaTerm,c.idioma,c.titulo
-	from $DBCFG[DBprefix]tabla_rel as relaciones,
-	$DBCFG[DBprefix]config as c,
-	$DBCFG[DBprefix]tema as TT
-	left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
-	and no_menor.t_relacion='3'
-	where
-	TT.tema_id=relaciones.id_mayor
-	$where
-	and relaciones.t_relacion='3'
-	and no_menor.id is null
-	and c.id=TT.tesauro_id
-	group by TT.tema_id
-	order by lower(TT.code),lower(TT.tema)");
+	$sql = SQL("select","
+			TT.tema_id as id,
+			TT.tema,
+			TT.code,
+			TT.tema_id,
+			TT.isMetaTerm,
+			c.idioma,
+			c.titulo
+		FROM
+			$DBCFG[DBprefix]tabla_rel as relaciones,
+			$DBCFG[DBprefix]config as c,
+			$DBCFG[DBprefix]tema as TT
+		LEFT JOIN
+			$DBCFG[DBprefix]tabla_rel as no_menor
+		ON
+			no_menor.id_menor=TT.tema_id AND
+			no_menor.t_relacion='3'
+		WHERE
+			TT.tema_id=relaciones.id_mayor
+			$where AND
+			relaciones.t_relacion='3' AND
+			no_menor.id is null AND
+			c.id=TT.tesauro_id
+		GROUP BY
+			TT.tema_id
+		ORDER BY
+			lower(TT.code),
+			lower(TT.tema)
+	");
 
 	return $sql;
 }

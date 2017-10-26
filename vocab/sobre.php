@@ -11,7 +11,7 @@
 include("config.tematres.php");
 $metadata = do_meta_tag();
 
-$top              = getQtyXTop();
+$top              = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXTop() : null;
 $resumen          = ARRAYresumen($_SESSION["id_tesa"],"G","");
 $fecha_crea       = do_fecha($_SESSION["CFGCreacion"]);
 $fecha_mod        = do_fecha($_SESSION["CFGlastMod"]);
@@ -116,7 +116,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     <h4>ÚLTIMOS</h4>
                     <ul>
                     <?php foreach ($resumen['ultimos'] as $value) : ?>
-                        <li><a href="<?= URL_BASE ?>index.php&tema=<?= $value['tema_id'] ?>"><?= $value['tema'] ?></a></li>
+                        <li><a href="<?= URL_BASE ?>index.php?tema=<?= $value['tema_id'] ?>"><?= $value['tema'] ?></a></li>
                     <?php endforeach ?>
                     </ul>
                     <a class="btn btn-warning" href="<?= URL_BASE ?>index.php?s=n" title="<?= mb_strtoupper(LABEL_showNewsTerm, 'UTF-8') ?>">
@@ -124,14 +124,14 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </a>
                 </div>
 
-                <?php if ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) : ?>
+                <?php if ($top) : ?>
                     <div class="span2 vspan2">
                         <h4>TÉRMINOS POR CATEGORÍA</h4>
                         <div id="chart_div" style="background-color: white;"></div>
                     </div>
                 <?php endif ?>
 
-                <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1) : ?>
+                <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $top) : ?>
                     <div class="vspan3">
                         <h4><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8') ?></h4>
                         <?= HTMLdeepStats() ?>
@@ -214,7 +214,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
 function getQtyXTop()
 {
-    $filename = T3_ABSPATH . 'vocab' .DIRECTORY_SEPARATOR . 'qtyXTop';
+    $filename = local_path . 'qtyXTop';
     if (file_exists($filename)) {
         $cache = file_get_contents($filename);
         $json  = json_decode($cache, true);
@@ -224,18 +224,22 @@ function getQtyXTop()
     }
 
     $topes = SQLverTopTerm();
-    while ($tope = $topes->FetchRow()) {
-        $top .= '["'.$tope['tema'].'", '.cantChildTerms($tope['id']).'],';
+    if ($topes) {
+        while ($tope = $topes->FetchRow()) {
+            $top .= '["'.$tope['tema'].'", '.cantChildTerms($tope['id']).'],';
+        }
+
+        $file = fopen($filename, "w");
+        fwrite($file, json_encode(
+            array(
+                'time' => time(),
+                'html' => $top,
+            )
+        ));
+        fclose($file);
+
+        return $top;
     }
 
-    $file = fopen($filename, "w");
-    fwrite($file, json_encode(
-        array(
-            'time' => time(),
-            'html' => $top,
-        )
-    ));
-    fclose($file);
-
-    return $top;
+    return null;
 }
