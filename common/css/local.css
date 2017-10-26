@@ -21,6 +21,8 @@
       grid-row: span 2; }
     .about > div.vspan3 {
       grid-row: span 3; }
+    .about > div.vspan4 {
+      grid-row: span 4; }
     .about > div.grid {
       display: grid;
       grid-gap: 5px;
@@ -66,8 +68,13 @@
       max-width: calc(100% - 24px);
       margin: 0 auto;
       overflow-x: hidden; }
+      .about > div .table-responsive table {
+        table-layout: fixed; }
       .about > div .table-responsive tbody tr:hover {
         color: #193848; }
+      .about > div .table-responsive tr,
+      .about > div .table-responsive th {
+        vertical-align: middle; }
   @media (max-width: 675px) {
     .about > div {
       grid-template-columns: 90%; }
@@ -319,6 +326,11 @@ body {
   align-items: center; }
   .flex input {
     flex-grow: 1; }
+
+.v-center {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
 
 #listaLetras li,
 #listaBusca li {

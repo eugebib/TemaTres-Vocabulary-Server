@@ -28,6 +28,9 @@
         &.vspan3
             grid-row: span 3
 
+        &.vspan4
+            grid-row: span 4
+
         &.grid
             display: grid
             grid-gap: 5px
@@ -87,8 +90,15 @@
             margin: 0 auto
             overflow-x: hidden
 
+            table
+                table-layout: fixed
+
             tbody tr:hover
                 color: $azulOscuro
+
+            tr,
+            th
+                vertical-align: middle
 
     @media (max-width: 675px)
         &>div

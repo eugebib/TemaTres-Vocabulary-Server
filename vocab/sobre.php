@@ -32,7 +32,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
         <div class="container">
             <div class="about">
 
-                <div class="span2 vspan2">
+                <div class="span2 vspan4">
                     <h3><?= $_SESSION["CFGTitulo"] ?></h3>
 
                     <?php if ($_SESSION["CFGCobertura"]) : ?>
@@ -45,24 +45,10 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                         </p>
                     <?php endif ?>
 
+                    <p>Creado el <?= $fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"] ?>. Actualizado al <?= $fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"] ?>.</p>
                 </div>
 
-                <div>
-                    <h4><?= mb_strtoupper(LABEL_Autor, 'UTF-8') ?></h4>
-                    <p><?= $_SESSION["CFGAutor"] ?></p>
-                    <?php if ($ARRAYmailContact["value"]) : ?>
-                        <p><?= $ARRAYmailContact["value"] ?></p>
-                    <?php endif ?>
-                </div>
-
-                <?php if ($_SESSION["CFGDerechos"]) : ?>
-                    <div>
-                        <h4><?= mb_strtoupper(LABEL_Derechos, 'UTF-8') ?></h4>
-                        <p><?= $_SESSION["CFGDerechos"] ?></p>
-                    </div>
-                <?php endif ?>
-
-                <div class="span3">
+                <div class="span3 vspan2">
                     <h4>ENLACES</h4>
                     <p class='uri'><?= mb_strtoupper(LABEL_URI, 'UTF-8') ?>: <a href="<?= $_SESSION[CFGURL] ?>"><?= $_SESSION[CFGURL] ?></a></p>
 
@@ -73,63 +59,56 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     <?php if (CFG_SIMPLE_WEB_SERVICE == 1) : ?>
                         <p class='uri'>API: <a href="<?= URL_BASE ?>services.php" title="API"><?= $_SESSION["CFGURL"] ?>services.php</a></p>
                     <?php endif ?>
-
                 </div>
 
-                <div class='grid vspan2'>
-                    <div>
-                        <h5><?= mb_strtoupper(LABEL_Fecha, 'UTF-8') ?></h5>
-                        <p><?= $fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"] ?></p>
-                    </div>
-                    <div>
-                        <h5><?= mb_strtoupper(LABEL_lastChangeDate, 'UTF-8') ?></h5>
-                        <p><?= $fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"] ?></p>
-                    </div>
+                <div class="vspan2">
+                    <h4><?= mb_strtoupper(LABEL_Autor, 'UTF-8') ?></h4>
+                    <p><?= $_SESSION["CFGAutor"] ?></p>
+                    <?php if ($ARRAYmailContact["value"]) : ?>
+                        <p><?= $ARRAYmailContact["value"] ?></p>
+                    <?php endif ?>
                 </div>
 
-                <div class="grid vspan2 span2">
-                    <div>
+                <div class="vspan3 v-center">
+                    <div class="text-center">
                         <p><?= $resumen["cant_total"] ?> <?= LABEL_Terminos ?></p>
-                    </div>
 
-                    <?php if ($resumen["cant_up"] > 0) : ?>
-                        <div>
+                        <?php if ($resumen["cant_up"] > 0) : ?>
                             <p><?= $resumen["cant_up"] ?> <?= LABEL_TerminosUP ?></p>
-                        </div>
-                    <?php endif ?>
-
-                    <?php if ($resumen["cant_rel"] > 0) : ?>
-                        <div>
-                            <p><?= $resumen["cant_rel"] ?> <?= LABEL_RelTerminos ?></p>
-                        </div>
-                    <?php endif ?>
-
-                    <?php if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"] == '1') : ?>
-                        <?php if ($resumen["cant_candidato"] > 0) : ?>
-                            <div>
-                                <a href="<?= URL_BASE ?>index.php?estado_id=12">
-                                    <?= $resumen["cant_candidato"] ?> <?= $resumen["cant_candidato"] == 1 ? LABEL_Candidato : LABEL_Candidatos ?>
-                                </a>
-                            </div>
                         <?php endif ?>
 
-                        <?php if ($resumen["cant_rechazado"] > 0) : ?>
-                            <div>
-                                <a href="<?= URL_BASE ?>index.php?estado_id=14">
-                                    <?= $resumen["cant_rechazado"] ?> <?= $resumen["cant_rechazado"] == 1 ? LABEL_Rechazado : LABEL_Rechazados ?>
-                                </a>
-                            </div>
+                        <?php if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"] == '1') : ?>
+                            <?php if ($resumen["cant_candidato"] > 0) : ?>
+                                <p>
+                                    <a href="<?= URL_BASE ?>index.php?estado_id=12">
+                                        <?= $resumen["cant_candidato"] ?> <?= $resumen["cant_candidato"] == 1 ? LABEL_Candidato : LABEL_Candidatos ?>
+                                    </a>
+                                </p>
+                            <?php endif ?>
+
+                            <?php if ($resumen["cant_rechazado"] > 0) : ?>
+                                <p>
+                                    <a href="<?= URL_BASE ?>index.php?estado_id=14">
+                                        <?= $resumen["cant_rechazado"] ?> <?= $resumen["cant_rechazado"] == 1 ? LABEL_Rechazado : LABEL_Rechazados ?>
+                                    </a>
+                                </p>
+                            <?php endif ?>
                         <?php endif ?>
-                    <?php endif ?>
+
+                        <?php if ($resumen["cant_rel"] > 0) : ?>
+                            <p><?= $resumen["cant_rel"] ?> <?= LABEL_relatedTerms ?></p>
+                        <?php endif ?>
+
+                    </div>
                 </div>
 
                 <?php if (is_array($resumen["cant_notas"])) : ?>
-                    <div class="grid vspan2">
-                        <?php foreach ($resumen["cant_notas"] as $key => $value) : ?>
-                            <div>
+                    <div class="vspan3 v-center">
+                        <div class="text-center">
+                            <?php foreach ($resumen["cant_notas"] as $key => $value) : ?>
                                 <p><?= $value ?> <?= strtolower($key) ?></p>
-                            </div>
-                        <?php endforeach ?>
+                            <?php endforeach ?>
+                        </div>
                     </div>
                 <?php endif ?>
 
@@ -153,7 +132,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                 <?php endif ?>
 
                 <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1) : ?>
-                    <div class="span2 vspan3">
+                    <div class="vspan3">
                         <h4><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8') ?></h4>
                         <?= HTMLdeepStats() ?>
                     </div>
@@ -176,6 +155,13 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                         echo doBrowseTermsByDate();
                     }
                 } ?> -->
+
+                <?php if ($_SESSION["CFGDerechos"]) : ?>
+                    <div>
+                        <h4><?= mb_strtoupper(LABEL_Derechos, 'UTF-8') ?></h4>
+                        <p><?= $_SESSION["CFGDerechos"] ?></p>
+                    </div>
+                <?php endif ?>
 
                 <div>
                     <h4><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h4>
@@ -215,6 +201,11 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                 var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                 chart.draw(data, options);
             }
+
+            $(window).resize(function(){
+              drawChart();
+            });
+
         </script>
     </body>
 </html>

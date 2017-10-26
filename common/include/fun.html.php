@@ -1899,22 +1899,34 @@ function HTMLdeepStats()
 	$sql=SQLTermDeep();
 
 
-	$rows.='<div class="table-responsive">
-	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL.'">
-	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
-	  <tbody>';
-		while($array=$sql->FetchRow())			{
-			$rows.='<tr><td class="centrado">'.ucfirst(LABEL_deepLevel).' '.$array["tdeep"].'</td><td class="centrado">'.$array["cant"].'</td>';
-		};
-		$rows.='</tbody>
-		</table>
+	$rows.='
+		<div class="table-responsive">
+	  		<table class="table table-bordered table-condensed table-hover" summary="'.LABEL.'">
+	  			<thead>
+	  				<tr>
+	  					<th class="text-center">'.ucfirst(LABEL_deepLevel).'</th>
+	  					<th class="text-center">'.ucfirst(LABEL_cantTerms).'</th>
+	  				</tr>
+	  			</thead>
+	  			<tbody>';
+
+	while ($array=$sql->FetchRow()) {
+		$rows.='	<tr>
+						<td class="text-center">'.ucfirst(LABEL_deepLevel).' '.$array["tdeep"].'</td>
+						<td class="text-center">'.$array["cant"].'</td>
+					</tr>';
+	}
+
+	$rows.='	</tbody>
+			</table>
 		</div>';
 
-		return $rows;
-
+	return $rows;
 }
 
-function HTMLshowCode($arrayTerm){
+
+function HTMLshowCode($arrayTerm)
+{
 
 	GLOBAL $CFG;
 	//Editor de código
