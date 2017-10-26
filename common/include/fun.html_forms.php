@@ -403,7 +403,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary=array()){
             <div class="panel panel-default">
                 <div class="panel-body form-horizontal">
 								<div class="form-group">
-								<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
+								<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL_vocabulario_referencia).'</label>
 										<div class="col-sm-9">
 												<select class="form-control" id="tvocab_id" name="tvocab_id">
 												'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
@@ -505,7 +505,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
             <div class="panel panel-default">
                 <div class="panel-body form-horizontal">
 								<div class="form-group">
-								<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
+								<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL_vocabulario_referencia).'</label>
 										<div class="col-sm-9">
 												<select class="form-control" id="tvocab_id" name="tvocab_id">
 												'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
@@ -1137,7 +1137,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 		        <div class="panel panel-default">
 		            <div class="panel-body form-horizontal">
 		            <div class="form-group">
-		            <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
+		            <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL_vocabulario_referencia).'</label>
 		                <div class="col-sm-9">
 		                    <select class="form-control" id="tvocab_id" name="tvocab_id">
 		                    '.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
@@ -1344,7 +1344,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
 			        <div class="panel panel-default">
 			            <div class="panel-body form-horizontal">
 			            <div class="form-group">
-			            <label for="'.ref_vocabulario_id.'" accesskey="v" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
+			            <label for="'.ref_vocabulario_id.'" accesskey="v" class="col-sm-3 control-label">'.ucfirst(LABEL_vocabulario_referencia).'</label>
 			                <div class="col-sm-9">
 			                    <select class="form-control" id="ref_vocabulario_id" name="ref_vocabulario_id">
 			                    '.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'

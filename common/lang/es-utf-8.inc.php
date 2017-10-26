@@ -200,8 +200,6 @@ define("LABEL_URL_busqueda","Buscar %s en: ");
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","relación con otro vocabulario");
 define("FORM_LABEL_relacion_vocabulario","equivalencia");
-define("FORM_LABEL_nombre_vocabulario","vocabulario de referencia");
-define("FORM_LABEL_nombre_vocabularios","vocabularios de referencia");
 define("LABEL_vocabulario_referencia","vocabulario de referencia");
 define("LABEL_vocabularios_referencia","vocabularios de referencia");
 define("LABEL_NO_vocabulario_referencia","no se encuentran vocabularios de referencia para establer relación terminológica");
