@@ -249,7 +249,7 @@ define("LABEL_Cancelar","cancelar");
 define("LABEL_Guardar","salvar");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinar a um termo existente");
-define("MENU_AgregarUPexist","Associar a um termo existente não preferido");
+define("MENU_AgregarUPexist","Associar um termo existente (livre)");
 define("LABEL_existAgregarUP","Adicionar termo UF para %s");
 define("LABEL_existAgregarTE","Adicionar termo específico para %s ");
 define("MSG_minCharSerarch","A expressão de busca <i>%s</i> tem somente <strong>%s </strong> caracteres. Precisa ser maior que <strong>%s</strong> caracteres");

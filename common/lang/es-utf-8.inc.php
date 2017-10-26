@@ -250,7 +250,7 @@ define("LABEL_Cancelar","cancelar");
 define("LABEL_Guardar","guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinar un término libre");
-define("MENU_AgregarUPexist","Asociar un término no-preferido (libre)");
+define("MENU_AgregarUPexist","Asociar un término existente (libre)");
 define("LABEL_existAgregarUP","Asociar un término no-preferido %s");
 define("LABEL_existAgregarTE","Subordinar un término a %s ");
 define("MSG_minCharSerarch","La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
