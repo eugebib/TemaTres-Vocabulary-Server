@@ -2,19 +2,18 @@
     margin: 25px 0
     margin-bottom: 15px
 
-#bodyText h1.metaTerm
-    background: #fff8bf 13px 50% no-repeat
-    border: 2px solid #ffd324
-    color: #eb830c
-    padding: 5px 11px 5px 20px
+    &.metaTerm
+        background: #fff8bf 13px 50% no-repeat
+        border: 2px solid #ffd324
+        color: #eb830c
+        padding: 5px 11px 5px 20px
 
+        &::before
+            content: ""
 
-#bodyText h1.metaTerm::before
-    content: ""
+        &::after
+            content: "   (metatérmino)"
 
-
-#bodyText h1.metaTerm::after
-    content: "   (metatérmino)"
 
 // Pestañas
 
@@ -91,3 +90,9 @@ form.editable
 
 #notas
     word-wrap: break-word
+
+
+
+#wrap .baja
+    color: red
+    font-weight: bolder

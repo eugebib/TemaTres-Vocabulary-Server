@@ -71,7 +71,8 @@ function resultaBusca($texto, $tipo = "")
 
 			$leyendaTerminoLibre=($resulta_busca[esTerminoLibre]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
 
-			$styleClassLink= ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca[estado_id] : '';
+			$styleClassLink = ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca[estado_id] : '';
+			$styleClassLink .= (strpos($resulta_busca["tema"], "[Baja")) ? ' baja' : '';
 			$styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
 			//Si no es un término preferido
@@ -1333,11 +1334,9 @@ function HTMLterminosLetra($letra)
 
 	$pag= secure_data($_GET["p"]);
 
-	if($cantLetra>0)
-	{
+	if($cantLetra>0) {
 
-		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS)
-		{
+		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS) {
 
 
 			$paginado_letras=paginate_links( array(
@@ -1390,10 +1389,9 @@ function HTMLterminosLetra($letra)
 				}
 
 				$terminosLetra.='<li><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[tema].'</a>   &#8594;   <strong>'.$datosLetra["codeP"].'</strong></li>'."\r\n" ;
-			}
-			else
-			{
-				$styleClassLink= ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
+			} else {
+				$styleClassLink = ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
+				$styleClassLink.= (strpos($datosLetra["tema"], "[Baja")) ? ' baja' : '';
 				$styleClassLinkMetaTerm= ($datosLetra["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
 				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a>  &#8594;  <strong>'.$datosLetra["code"].'</strong></li>'."\r\n" ;
