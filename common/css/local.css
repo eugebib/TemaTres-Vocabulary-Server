@@ -315,6 +315,12 @@ li .estado_termino14 {
     color: white;
     background-color: #ec2222; }
 
+table tr.notEquivalent:hover, table tr.notApplicable:hover, table tr.isMetaterm:hover, table tr.estado_termino14:hover {
+  background-color: #ec2222;
+  color: white; }
+  table tr.notEquivalent:hover a, table tr.notApplicable:hover a, table tr.isMetaterm:hover a, table tr.estado_termino14:hover a {
+    color: white; }
+
 #myTermTab .nav-tabs > li > a {
   border: 1px solid lightgray;
   border-bottom: 0; }

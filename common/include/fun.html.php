@@ -1226,42 +1226,50 @@ function HTMLlistaTerminosEstado($estado_id,$limite="")
 };
 
 
-function HTMLlistaTerminosFecha($limite="")
+function HTMLlistaTerminosFecha($limite = "")
 {
-
 	//Descripcion de estados
-	$arrayEstados=array("12"=>LABEL_Candidatos,"13"=>LABEL_Aceptados,"14"=>LABEL_Rechazados);
+	$arrayEstados = array("12"=>LABEL_Candidatos,"13"=>LABEL_Aceptados,"14"=>LABEL_Rechazados);
+	$sql          = SQLlastTerms($limite);
 
+	$rows ='
+		<div>
+			<h3>'.ucfirst(LABEL_newsTerm).'</h3>';
 
-		$sql=SQLlastTerms($limite);
+	if (SQLcount($sql)>0) {
+		$rows.='
+			<div class="table-responsive">
+				<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>'.ucfirst(LABEL_Termino).'</th>
+							<th>'.ucfirst(LABEL_lastChangeDate).'</th>
+						</tr>
+					</thead>
+					<tbody>';
 
-		$rows.='<div><h3>'.ucfirst(LABEL_newsTerm).'</h3>';
+		while ($array = $sql->FetchRow()) {
+			$class = ($array["isMetaTerm"]==1) ? " metaTerm" : '';
+			$class.= ($array["notEquivalent"]==1) ? " notEquivalent" : '';
+			$class.= ($array["notApplicable"]==1) ? " notApplicable" : '';
 
-		if(SQLcount($sql)>0){
-			$rows.='<div class="table-responsive"> ';
-			$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
-			<thead>
-			<tr>
-				<th>'.ucfirst(LABEL_Termino).'</th>
-				<th>'.ucfirst(LABEL_lastChangeDate).'</th>
-			</tr>
-			</thead>
-			<tbody>';
+			$fecha = (@$array["cuando_final"]) ? $array["cuando_final"] : $array["cuando"];
 
-			while ($array = $sql->FetchRow()){
-				$css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$fecha=(@$array["cuando_final"]) ? $array["cuando_final"] : $array["cuando"];
-				$rows.= '<tr>';
-				$rows.=  '     	<td><a class="estado_termino'.$array[estado_id].'" title="'.$array[tema].'" href="'.URL_BASE.'index.php?tema='.$array[tema_id].'&tipo=E">'.$array[tema].'</a></td>';
-				$rows.=  '      <td>'.$fecha.'</td>';
-				$rows.=  ' </tr>';
+			$rows.= '	<tr class="estado_termino'.$array["estado_id"].$class.'">
+							<td>
+								<a title="'.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'&tipo=E">'.$array["tema"].'</a>
+							</td>
+							<td>'.$fecha.'</td>
+						</tr>';
+		}
 
-			};
-			$rows.='        </tbody>		</table>';
-			$rows.='        </div>';
+		$rows.='    </tbody>
+				</table>
+			</div>';
 	}
 
-	$rows.='</div>';
+	$rows.='
+		</div>';
 
 	return $rows;
 }
