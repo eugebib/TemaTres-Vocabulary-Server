@@ -1,4 +1,5 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -9,9 +10,11 @@
 ####################################################################
 
 include("config.tematres.php");
-$metadata = do_meta_tag();
+
+$metadata         = do_meta_tag();
 
 $top              = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXTop() : null;
+$level            = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXLevel() : null;
 $resumen          = ARRAYresumen($_SESSION["id_tesa"],"G","");
 $fecha_crea       = do_fecha($_SESSION["CFGCreacion"]);
 $fecha_mod        = do_fecha($_SESSION["CFGlastMod"]);
@@ -69,7 +72,14 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     <?php endif ?>
                 </div>
 
-                <div class="vspan3 v-center">
+                <?php if ($top) : ?>
+                    <div class="span2 vspan2">
+                        <h4>TÉRMINOS POR CATEGORÍA</h4>
+                        <div id="category_div" style="background-color: white;"></div>
+                    </div>
+                <?php endif ?>
+
+                <div class="vspan2 v-center">
                     <div class="text-center">
                         <p><?= $resumen["cant_total"] ?> <?= LABEL_Terminos ?></p>
 
@@ -103,7 +113,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                 </div>
 
                 <?php if (is_array($resumen["cant_notas"])) : ?>
-                    <div class="vspan3 v-center">
+                    <div class="vspan2 v-center">
                         <div class="text-center">
                             <?php foreach ($resumen["cant_notas"] as $key => $value) : ?>
                                 <p><?= $value ?> <?= strtolower($key) ?></p>
@@ -124,17 +134,10 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </a>
                 </div>
 
-                <?php if ($top) : ?>
-                    <div class="span2 vspan2">
-                        <h4>TÉRMINOS POR CATEGORÍA</h4>
-                        <div id="chart_div" style="background-color: white;"></div>
-                    </div>
-                <?php endif ?>
-
                 <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $top) : ?>
-                    <div class="vspan3">
+                    <div class="span3 vspan2">
                         <h4><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8') ?></h4>
-                        <?= HTMLdeepStats() ?>
+                        <div id="level_div" style="background-color: white;"></div>
                     </div>
                 <?php endif ?>
 
@@ -181,6 +184,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
             function drawChart()
             {
+                //Categories
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Categoría');
                 data.addColumn('number', 'Slices');
@@ -198,12 +202,26 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     sliceVisibilityThreshold: 0
                 };
 
-                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                var chart = new google.visualization.PieChart(document.getElementById('category_div'));
                 chart.draw(data, options);
+
+                //Levels
+                var data2 = new google.visualization.DataTable();
+                data2.addColumn('string', 'Nivel');
+                data2.addColumn('number', 'Cantidad');
+                data2.addRows([<?= $level ?>]);
+
+                var options2 = {
+                    backgroundColor: 'transparent',
+                    legend: { position: 'none' }
+                };
+
+                var chart2 = new google.visualization.ColumnChart(document.getElementById('level_div'));
+                chart2.draw(data2, options2);
             }
 
             $(window).resize(function(){
-              drawChart();
+                drawChart();
             });
 
         </script>
@@ -239,6 +257,38 @@ function getQtyXTop()
         fclose($file);
 
         return $top;
+    }
+
+    return null;
+}
+
+function getQtyXLevel()
+{
+    $filename = local_path . 'qtyXLevel';
+    if (file_exists($filename)) {
+        $cache = file_get_contents($filename);
+        $json  = json_decode($cache, true);
+        if ($json['time'] > time() - 86400) {
+            return $json['html'];
+        }
+    }
+
+    $levels = SQLTermDeep();
+    if ($levels) {
+        while ($l = $levels->FetchRow()) {
+            $level .= '["'.$l['tdeep'].'", '.$l['cant'].'],';
+        }
+
+        $file = fopen($filename, "w");
+        fwrite($file, json_encode(
+            array(
+                'time' => time(),
+                'html' => $level,
+            )
+        ));
+        fclose($file);
+
+        return $level;
     }
 
     return null;

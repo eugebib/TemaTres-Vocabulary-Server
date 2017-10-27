@@ -2252,6 +2252,7 @@ function ARRAYCodeDetailed($code)
 	return $sql->FetchRow();
 }
 
+
 #
 # Retrive summary about deep terms
 #
@@ -2261,11 +2262,17 @@ function SQLTermDeep($tema_id="0")
 
 	$w=($tema_id>0) ? " where i.tema_id='$tema_id'" : "";
 
-	return SQL("select","LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep, count(*) as cant
-	from $DBCFG[DBprefix]indice i
-	$w
-	group by tdeep
-	order by tdeep");
+	return SQL("select","
+			LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep,
+			count(*) as cant
+		FROM
+			$DBCFG[DBprefix]indice i
+			$w
+		GROUP BY
+			tdeep
+		ORDER BY
+			tdeep
+	");
 }
 
 #
