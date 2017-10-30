@@ -4005,14 +4005,14 @@ function getTermsxAlpha($params)
 	    	    if (!in_array($array, $list)) {
 	    	    	$list[] = $array;
 	    	    }
-		        if (isset($term['noPreferido']) && $params['includeAlt']) {
+	    		if ( ! in_array($array['id'], array_column($list, 'id'))) {
 			    	$array = array(
 						'id'        => (int) $term['UPId'],
 						'term'      => (string) $term['noPreferido'],
 						'preferido' => (string) $term['tema']
 			    	);
 			    }
-			    if (!in_array($array, $list)) {
+	    		if ( ! in_array($array['id'], array_column($list, 'id'))) {
 			    	$list[] = $array;
 			    }
 		    }
@@ -4052,7 +4052,7 @@ function getTermsxAlpha($params)
     			}
     			$array['NA'] = $note;
 	    	}
-    	    if (!in_array($array, $list)) {
+	    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
     	    	$list[] = $array;
     	    }
 	        if (isset($term['noPreferido']) && $params['includeAlt']) {
@@ -4062,7 +4062,7 @@ function getTermsxAlpha($params)
 					'preferido' => (string) $term['tema']
 		    	);
 		    }
-		    if (!in_array($array, $list)) {
+	    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
 		    	$list[] = $array;
 		    }
 	    }
@@ -4119,4 +4119,32 @@ function array_sort($array, $on, $order=SORT_ASC)
     }
 
     return $new_array;
+}
+
+// función array_column ---> borrar con php nuevo
+if (! function_exists('array_column')) {
+    function array_column(array $input, $columnKey, $indexKey = null) {
+        $array = array();
+        foreach ($input as $value) {
+            if ( !array_key_exists($columnKey, $value)) {
+                trigger_error("Key \"$columnKey\" does not exist in array");
+                return false;
+            }
+            if (is_null($indexKey)) {
+                $array[] = $value[$columnKey];
+            }
+            else {
+                if ( !array_key_exists($indexKey, $value)) {
+                    trigger_error("Key \"$indexKey\" does not exist in array");
+                    return false;
+                }
+                if ( ! is_scalar($value[$indexKey])) {
+                    trigger_error("Key \"$indexKey\" does not contain scalar value");
+                    return false;
+                }
+                $array[$value[$indexKey]] = $value[$columnKey];
+            }
+        }
+        return $array;
+    }
 }
