@@ -15,7 +15,7 @@ $metadata         = do_meta_tag();
 
 $top              = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXTop() : null;
 $level            = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXLevel() : null;
-$resumen          = ARRAYresumen($_SESSION["id_tesa"],"G","");
+$resumen          = do_stats($_SESSION["id_tesa"]);
 $fecha_crea       = do_fecha($_SESSION["CFGCreacion"]);
 $fecha_mod        = do_fecha($_SESSION["CFGlastMod"]);
 $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
@@ -112,12 +112,12 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </div>
                 </div>
 
-                <?php if (is_array($resumen["cant_notas"])) : ?>
+                <?php if ( ! empty($resumen["cant_notas"]) && is_array($resumen["cant_notas"])) : ?>
                     <div class="vspan2 v-center">
                         <div class="text-center">
                             <?php foreach ($resumen["cant_notas"] as $key => $value) : ?>
-                                <p><?= $value ?> <?= strtolower($key) ?></p>
-                            <?php endforeach ?>
+                                    <p><?= $value ?> <?= strtolower($key) ?></p>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 <?php endif ?>
@@ -292,4 +292,19 @@ function getQtyXLevel()
     }
 
     return null;
+}
+
+function do_stats($session)
+{
+    $resumen = ARRAYresumen($session,"G","");
+    foreach ($resumen['cant_notas'] as $key => $value) {
+        if ($value == 0) {
+            unset($resumen['cant_notas'][$key]);
+        }
+    }
+    if (empty($resumen['cant_notas'])) {
+        $resumen['cant_notas'] = null;
+    }
+
+    return $resumen;
 }
