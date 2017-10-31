@@ -376,8 +376,9 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 	session_start();
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
 	$sql=SQLtargetVocabulary("1");
-	$rows='<div class="container" id="bodyText">';
-	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?taskterm=addTerm" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
+
+	$rows = '<div class="container" id="bodyText">';
+
 	if (SQLcount($sql)=='0') {
 		//No hay vocabularios de referencia, solo vocabulario principal
 		$rows.=HTMLalertNoTargetVocabulary();
@@ -392,47 +393,30 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 		}
 		$searchType=(!$_GET["tvocab_id"]) ? 1 : $_GET["searchType"];
 		$string2search = XSSprevent(trim($_GET[string2search]));
-		$rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
-		$rows.='	<div class="row">
-        	<div class="col-sm-12">
-            <legend>'.ucfirst(LABEL_EditorTermino).'</legend>
-        	</div>
-	        <!-- panel  -->
-	        <div class="col-lg-7">
-	            <h4>'.ucfirst(LABEL__getForRecomendation).'</h4>
-	            <div class="panel panel-default">
-	                <div class="panel-body form-horizontal">
-									<div class="form-group">
-									<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
-											<div class="col-sm-9">
-													<select class="form-control" id="tvocab_id" name="tvocab_id">
-													'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
-													</select>
-											</div>
-									</div>
-	                    <div class="form-group">
-	                        <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
-	                        <div class="col-sm-9">
-	                            <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="'.$string2search.'">
-	                        </div>
-	                    </div>
-											<div class="form-group">
-											<input type="checkbox" name="searchType" id="searchType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1,$searchType,'checked').'  />
-											<div class="col-sm-4">
-											<label for="searchType">'.ucfirst(LABEL_esFraseExacta).'</label>
-												</div>
-											</div>
-	                    <div class="form-group">
-	                        <div class="col-sm-12 text-right">
-													 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
-													  <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?taskterm=addTerm&tema=0\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div> <!-- / panel  -->';
-		$rows.='<input type="hidden" name="taskterm" value="addTermSuggested"/>';
-		$rows.='</form>';
+
+		$rows.='
+			<form class="box form-horizontal" role="form" id="alta_tt" name="alta_tt" action="index.php#suggestResult" method="get">
+				<div class="box-title">
+				    <span>'. ucfirst(LABEL__getForRecomendation).'</span>
+				    <div>
+					    <input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>
+					    <input type="button" class="btn btn-link" role="button" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>
+
+					</div>
+				</div>
+				<div class="box-content">
+                    <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="'.$string2search.'">
+					<select class="form-control" id="tvocab_id" name="tvocab_id">
+						<option value="">Seleccionar '.FORM_LABEL_nombre_vocabulario.'</option>
+						'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
+					</select>
+					<div class="form-group">
+						<input type="checkbox" name="isExactMatch" id="isExactMatch" value="1" '.do_check('1',$_GET["isExactMatch"],"checked").'/>
+							'.ucfirst(LABEL_esFraseExacta).'
+					</div>
+				</div>
+	            <input type="hidden" name="taskterm" value="addTermSuggested"/>
+	        </form>';
 	}
 	if (($string2search) && ($_GET["tvocab_id"])) {
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
