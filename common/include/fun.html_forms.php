@@ -273,20 +273,20 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino="0")
 	$_SESSION['SEND_KEY'] = md5(uniqid(rand(), true));
 	switch ($taskterm) {
 		case 'addTerm':// add term
-			$nombre_pantalla=LABEL_AgregarT;
-			$hidden='<input type="hidden"  name="alta_t" value="new" />';
+			$nombre_pantalla = LABEL_AgregarT;
+			$hidden = '<input type="hidden"  name="alta_t" value="new" />';
 			$options = '
 				<li class="list-group-item list-group-item-material">
                     <div class="material-switch pull-right">
                         <input id="estado_id" name="estado_id" value="12" type="checkbox"/>
-                        <label for="estado_id" class="label-info"></label>
+                        <label for="estado_id" class="label-warning"></label>
                     </div>
                     '.ucfirst(LABEL_Candidato).'
                 </li>
 				<li class="list-group-item list-group-item-material">
                     <div class="material-switch pull-right">
                         <input id="isMetaTerm" name="isMetaTerm" value="1" type="checkbox"/>
-                        <label for="isMetaTerm" class="label-info"></label>
+                        <label for="isMetaTerm" class="label-warning"></label>
                     </div>'
                     .ucfirst(LABEL_meta_term).': '.NOTE_isMetaTermNote.'
                 </li>';
@@ -300,31 +300,58 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino="0")
 			$hidden='<input type="hidden"  name="edit_id_tema" value="'.$ARRAYtermino["idTema"].'" />';
 		break;
 
-		case 'addNT':// add narowwer term
-			$nombre_pantalla=LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-			$hidden.='<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
-			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
-			$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-			$t_relation='3';
+		case 'addNT':// add narrower term
+			$nombre_pantalla = LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$hidden = '<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
+			$help_rows ='<p>'.HELP_variosTerminos.'</p>';
+			$t_relation ='3';
+
+			$extra_button ='
+				<div class="extra">
+					También puede
+					<a class="btn btn-warning" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.
+						ucfirst(MENU_selectExistTerm).'
+					</a>
+					<a class="btn btn-warning" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.ucfirst(LABEL__getForRecomendation).'">'.
+						ucfirst(LABEL__getForRecomendation).'
+					</a>
+				</div>';
 		break;
 
 		case 'addUF'://Alta de un t�rmino no preferido a $id_uf
-			$nombre_pantalla=LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-			$hidden='<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
-			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_AgregarUPexist).'">'.ucfirst(MENU_AgregarUPexist).'</a>';
-			$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+			$nombre_pantalla = LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$hidden = '<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
+			$help_rows ='<p>'.HELP_variosTerminos.'</p>';
 			$t_relation='4';
+
+			$extra_button ='
+				<div class="extra">
+					También puede
+					<a class="btn btn-warning" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_AgregarUPexist).'">'.
+						ucfirst(MENU_AgregarUPexist).'
+					</a>
+					<a class="btn btn-warning" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.ucfirst(LABEL__getForRecomendation).'">'.
+						ucfirst(LABEL__getForRecomendation).'
+					</a>
+				</div>';
 		break;
 
 		case 'addRTnw'://Alta de un término RT
-			$nombre_pantalla=LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-			$hidden='<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
-			$help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-			$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
-			$extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+			$nombre_pantalla = LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+			$hidden = '<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
+			$help_rows ='<p>'.HELP_variosTerminos.'</p>';
 			$t_relation='2';
+
+			$extra_button ='
+				<div class="extra">
+					También puede
+					<a class="btn btn-warning" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.
+						ucfirst(MENU_selectExistTerm).'
+					</a>
+					<a class="btn btn-warning" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.ucfirst(LABEL__getForRecomendation).'">'.
+						ucfirst(LABEL__getForRecomendation).'
+					</a>
+				</div>';
 		break;
 	}
 
@@ -333,11 +360,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino="0")
 			<form class="box form-horizontal" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
 				<div class="box-title">
 				    <span>'. ucfirst($nombre_pantalla).'</span>
-				    <div>
-					    <input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>
-					    <input type="button" class="btn btn-link" role="button" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>
-
-					</div>
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>
 				</div>
 				<div class="box-content">'.
 					$help_rows.'
@@ -352,11 +375,10 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino="0")
 				$arraySelectTypeRelations[]=$ARRAYtypeRelations[rel_rel_id].'#'.$ARRAYtypeRelations[rr_value];
 				$neutralLabel=LABELrelTypeSYS($ARRAYtypeRelations[t_relation]);
 			}
-			$rows.='<div class="form-group"><label for="rel_rel_id" accesskey="r">'.ucfirst(LABEL_relationSubType).'<span class="small">('.LABEL_optative.')</span></label>';
-			$rows.='<select class="form-control" id="t_rel_rel_id" name="t_rel_rel_id"><option>'.ucfirst(LABEL_seleccionar).'</option>';
-			$rows.=doSelectForm($arraySelectTypeRelations,"");
-			$rows.='</select>';
-			$rows.='</div>';
+			$rows.='<select class="form-control" id="t_rel_rel_id" name="t_rel_rel_id">
+						<option>'.ucfirst(LABEL_seleccionar).' '.LABEL_relationSubType.' ('.LABEL_optative.')</option>'.
+						doSelectForm($arraySelectTypeRelations,"").'
+					</select>';
 		}
 	}
 

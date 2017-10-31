@@ -283,6 +283,9 @@ fieldset .btn {
   display: flex;
   align-items: baseline; }
 
+.extra {
+  margin-top: 50px; }
+
 .list-group-item-material {
   background-color: transparent;
   border: none;

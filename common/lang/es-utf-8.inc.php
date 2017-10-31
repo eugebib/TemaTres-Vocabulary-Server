@@ -53,9 +53,9 @@ define("LABEL_CrearTermino","Agregar nuevo/s término/s");
 define("LABEL_NotaAlcance","Nota de alcance");
 define("LABEL_AgregarT","Alta de término");
 define("LABEL_AgregarTG","Subordinar %s a término superior");
-define("LABEL_AgregarTE","Alta de un término subordinado a ");
-define("LABEL_AgregarUP","Alta de un término equivalente para ");
-define("LABEL_AgregarTR","Alta de término relacionado con ");
+define("LABEL_AgregarTE","Creación de un NUEVO término subordinado a ");
+define("LABEL_AgregarUP","Creación de un NUEVO término equivalente para ");
+define("LABEL_AgregarTR","Creación de un NUEVO término relacionado con ");
 define("LABEL_EliminarTE","Eliminar término");
 define("LABEL_Detalle","detalles");
 define("LABEL_VerDetalles","ver detalles del término");
@@ -243,7 +243,7 @@ define("LABEL_Cancelar","cancelar");
 define("LABEL_Guardar","guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinar un término libre");
-define("MENU_AgregarUPexist","Asociar un término no-preferido (libre)");
+define("MENU_AgregarUPexist","Relacionar un término existente (libre)");
 define("LABEL_existAgregarUP","Asociar un término no-preferido %s");
 define("LABEL_existAgregarTE","Subordinar un término a %s ");
 define("MSG_minCharSerarch","La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
@@ -462,7 +462,7 @@ define('MSG__disable_endpoint','El punto de consulta SPARQL se encuentra deshabi
 define('MSG__need2setup_endpoint','El punto de consulta SPARQL necesita ser actualizado. Contacte al administrador');
 define('LABEL_SPARQLEndpoint','Punto de consulta SPARQL');
 define('LABEL_AgregarRTexist','asociar un término asociado existente con ');
-define('MENU_selectExistTerm','seleccionar término existente');
+define('MENU_selectExistTerm','relacionar un término existente');
 define("TT_terminos","Términos tope");
 ## v1.72
 define('MSG__warningDeleteTerm','El término <i>%s</i> será <strong>ELIMINADO</strong>.');
