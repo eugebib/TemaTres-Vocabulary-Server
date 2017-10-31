@@ -55,19 +55,76 @@ fieldset
     align-items: center
     border-bottom: 1px solid #333333
 
-.box-content > *
-    margin-bottom: 10px
+.box-content
 
-.box-content select,
-.box-content input[type="text"],
-.box-content input[type="search"]
-    height: 50px
+    & > *
+        margin-bottom: 10px
 
-.box-content input[type="checkbox"],
-.box-content input[type="radio"]
-    transform: scale(2)
-    margin: 15px
+    select,
+    input[type="text"],
+    input[type="search"]
+        height: 50px
 
-.box-content .form-group
-    display: flex
-    align-items: baseline
+    //input[type="checkbox"],
+    //input[type="radio"]
+    //    transform: scale(2)
+    //    margin: 15px
+
+    .big-checkbox
+        width: 30px
+        height: 30px
+
+    .form-group
+        display: flex
+        align-items: baseline
+
+
+// Checkbox
+
+.list-group-item-material
+    background-color: transparent
+    border: none
+    margin-bottom: 0
+
+.material-switch > input[type="checkbox"]
+    display: none
+
+.material-switch > label
+    cursor: pointer
+    height: 0px
+    position: relative
+    width: 40px
+
+.material-switch > label::before
+    background: rgb(0, 0, 0)
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5)
+    border-radius: 8px
+    content: ''
+    width: 40px
+    height: 16px
+    margin-top: -8px
+    position:absolute
+    opacity: 0.3
+    transition: all 0.4s ease-in-out
+    display: block
+
+.material-switch > label::after
+    background: rgb(255, 255, 255)
+    border-radius: 16px
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3)
+    content: ''
+    height: 24px
+    left: -4px
+    margin-top: -8px
+    position: absolute
+    top: -4px
+    transition: all 0.3s ease-in-out
+    width: 24px
+
+.material-switch > input[type="checkbox"]:checked + label::before
+    background: inherit
+    opacity: 0.5
+
+.material-switch > input[type="checkbox"]:checked + label::after
+    background: inherit
+    left: 20px

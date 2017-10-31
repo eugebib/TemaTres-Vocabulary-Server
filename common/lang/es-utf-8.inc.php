@@ -444,7 +444,7 @@ define('LABEL_user_lost_password','¿Has perdido tu contraseña?');
 ## v1.7
 define('LABEL_includeMetaTerm','Incluir meta-términos');
 define('NOTE_isMetaTerm','Es un meta-término.');
-define('NOTE_isMetaTermNote','Un meta-término es un término que NO debe utilizarse para la indización. Es un término que describe otros términos. Ej: Términos guía, Facetas, Categorías, etc.');
+define('NOTE_isMetaTermNote','es un término que describe otros términos. NO debe utilizarse para la indización.');
 define('LABEL_turnOffMetaTerm','no es un meta-término');
 define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');

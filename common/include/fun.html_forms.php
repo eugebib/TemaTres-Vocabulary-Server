@@ -276,14 +276,20 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino="0")
 			$nombre_pantalla=LABEL_AgregarT;
 			$hidden='<input type="hidden"  name="alta_t" value="new" />';
 			$options = '
-			  	<div class="form-group">
-				    <input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'">
-				    '.ucfirst(LABEL_Candidato).'
-			  	</div>
-			  	<div class="form-group">
-				    <input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'">
-				    '.ucfirst(LABEL_meta_term).': '.NOTE_isMetaTermNote.'
-				</div>';
+				<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="estado_id" name="estado_id" value="12" type="checkbox"/>
+                        <label for="estado_id" class="label-info"></label>
+                    </div>
+                    '.ucfirst(LABEL_Candidato).'
+                </li>
+				<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="isMetaTerm" name="isMetaTerm" value="1" type="checkbox"/>
+                        <label for="isMetaTerm" class="label-info"></label>
+                    </div>'
+                    .ucfirst(LABEL_meta_term).': '.NOTE_isMetaTermNote.'
+                </li>';
 			$help_rows ='<p>'.HELP_variosTerminos.'</p>';
 		break;
 

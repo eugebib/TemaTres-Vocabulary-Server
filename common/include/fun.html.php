@@ -2038,28 +2038,30 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 }
 
 
-
 function HTMLheader($metadata)
 {
+	$rows='
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	    <link href="'.T3_WEBPATH.'vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
+	    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
+	    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
+	    <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
+	    <link href="https://fonts.googleapis.com/css?family=Montserrat|Anton|Work+Sans|Open+Sans|Roboto" rel="stylesheet">
 
- $rows='   <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="'.T3_WEBPATH.'vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="'.T3_WEBPATH.'vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
-    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
-    <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat|Anton|Work+Sans|Open+Sans|Roboto" rel="stylesheet">
+	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	    <!--[if lt IE 9]>
+	    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->'.
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->';
-    $rows.=$metadata["metadata"];
- $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
-  <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+	    $metadata["metadata"].'
+
+		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
+  		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+
 	return $rows;
 }
 
