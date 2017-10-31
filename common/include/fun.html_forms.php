@@ -109,23 +109,30 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
 function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 {
 	GLOBAL $new_relacion;
+
 	$link_term = HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
+
 	switch ($taskterm) {
 		case 'addRT':
 			$nombre_pantalla = ucfirst(LABEL_AgregarRTexist) . ' ' . $link_term;
 		break;
+
 		case 'addBT':
 			$nombre_pantalla = sprintf(LABEL_AgregarTG,$link_term);
 		break;
+
 		case 'addFreeUF':
 			$nombre_pantalla = sprintf(LABEL_existAgregarUP,$link_term);
 		break;
+
 		case 'addFreeNT':
 			$nombre_pantalla = sprintf(LABEL_existAgregarTE,$link_term);
 		break;
+
 		case 'addNT':
 			$nombre_pantalla = sprintf(MENU_selectExistTerm,$link_term);
 		break;
+
 		default:
 			'';
 	}
@@ -162,19 +169,22 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 		}
 	}
 	if ($cant_result > 0) {
-		$rows_busca.= '<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >';
-		$rows_busca.= '<div class="flex">
-			    <input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"><button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>
-			    </div>';
-		$rows_busca.= '<div class="table-responsive"> ';
-		$rows_busca.= '<table class="table table-striped table-bordered table-condensed table-hover"">';
-		$rows_busca.= '<thead>
-			<tr><th>';
-		$rows_busca.= '</th><th>'.ucfirst(LABEL_Termino).'</th>
-			<th>'.ucfirst(LABEL_Fecha).'</th>
-			</tr>
-			</thead>
-			<tbody class="searchable">';
+		$rows_busca.= '
+			<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >
+				<div class="flex">
+					<input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"><button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>
+			    </div>
+			    <div class="table-responsive">
+			    	<table class="table table-striped table-bordered table-condensed table-hover"">
+			    		<thead>
+							<tr>
+								<th></th>
+								<th>'.ucfirst(LABEL_Termino).'</th>
+								<th>'.ucfirst(LABEL_Fecha).'</th>
+							</tr>
+						</thead>
+						<tbody class="searchable">';
+
 		while ($resulta_busca = $sql_busca->FetchRow()) {
 			$css_class_MT = ($resulta_busca["isMetaTerm"] == 1) ? ' class="metaTerm" ' : '';
 			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
@@ -229,31 +239,37 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 			});
 		});
 		</script>';
-	$rows.='<div class="container" id="bodyText">
-		<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.' ('.$ARRAYtermino["tema"].')">'.LABEL_Anterior.'</a>
-		<h3>'.LABEL_EditorTermino.'</h3>';
+
+	$rows .= '<div class="container" id="bodyText">';
+
 	if ($new_relacion["log"] == true) {
 		$rows.='<p class="success">'.ucfirst(LABEL_saved).'</p>';
 	}
-	$rows.=' <form class="form-inline" role="form" name="busca_rel" action="index.php?taskterm='.$taskterm.'&amp;tema='.$ARRAYtermino["idTema"].'" method="post">';
-	$rows.='  <fieldset>
-		<legend>'.$nombre_pantalla.'</legend>
-		<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>
-		<button type="submit" class="btn btn-primary">'.ucfirst(LABEL_Buscar).'</button>
-		<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_termsNoBT).'</button>
-		<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=free\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>';
-	if (in_array($taskterm, array('addBT', 'addFreeNT'))) {
-		$rows.=' <button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=tt\'"/>'.ucfirst(LABEL_TTTerms).'</button>';
+
+	$rows .='
+		<form class="box form-horizontal" role="form" name="busca_rel" index.php?taskterm='.$taskterm.'&amp;tema='.$ARRAYtermino["idTema"].'" method="post">
+			<div class="box-title">
+				<span>'. ucfirst($nombre_pantalla).'</span>
+				<div>
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Buscar.'"/>
+					<button type="button" class="btn btn-warning" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>
+				</div>
+			</div>
+			<div class="box-content">
+				<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>';
+
+	if (in_array($taskterm, array('addBT'))) {
+		$rows.='<div class="extra">
+					<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=tt\'"/>'.ucfirst(LABEL_TTTerms).'</button>
+				</div>';
 	}
-	$rows.='	 <button type="button" class="btn btn-default" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.ucfirst(LABEL_Cancelar).'</button>
-		<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
-		<input type="hidden" name="taskterm" value="'.$taskterm.'"/>
-		</form>';
-		//if(in_array($taskterm, array("addFreeUF","addFreeNT"))) 		$rows.='<p class="text-warning">'.LABEL_helpSearchFreeTerms.'</p>';
-		$rows.='</fieldset>';
-		//$rows.=$search_leyenda;
-		$rows.=$rows_busca;
-		$rows.='   </div>';
+
+	$rows.='	<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
+				<input type="hidden" name="taskterm" value="'.$taskterm.'"/>
+			</div>
+		</form>'.
+		$rows_busca.'
+	</div>';
 
 	return $rows;
 }
@@ -402,8 +418,9 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 	GLOBAL $CFG;
 	//SEND_KEY to prevent duplicated
 	session_start();
-	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$sql=SQLtargetVocabulary("1");
+
+	$_SESSION['SEND_KEY'] = md5(uniqid(rand(), true));
+	$sql                  = SQLtargetVocabulary("1");
 
 	$rows = '<div class="container" id="bodyText">';
 
@@ -426,11 +443,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 			<form class="box form-horizontal" role="form" id="alta_tt" name="alta_tt" action="index.php#suggestResult" method="get">
 				<div class="box-title">
 				    <span>'. ucfirst(LABEL__getForRecomendation).'</span>
-				    <div>
-					    <input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>
-					    <input type="button" class="btn btn-link" role="button" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>
-
-					</div>
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Buscar.'"/>
 				</div>
 				<div class="box-content">
                     <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="'.$string2search.'">
@@ -438,10 +451,13 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 						<option value="">Seleccionar '.FORM_LABEL_nombre_vocabulario.'</option>
 						'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
 					</select>
-					<div class="form-group">
-						<input type="checkbox" name="isExactMatch" id="isExactMatch" value="1" '.do_check('1',$_GET["isExactMatch"],"checked").'/>
-							'.ucfirst(LABEL_esFraseExacta).'
-					</div>
+					<li class="list-group-item list-group-item-material">
+	                    <div class="material-switch pull-right">
+	                        <input id="isExactMatch" name="isExactMatch" value="1" type="checkbox" '.do_check('1',$_GET["isExactMatch"],"checked").'/>
+	                        <label for="isExactMatch" class="label-warning"></label>
+	                    </div>
+	                    '.ucfirst(LABEL_esFraseExacta).'
+	                </li>
 				</div>
 	            <input type="hidden" name="taskterm" value="addTermSuggested"/>
 	        </form>';
@@ -1301,10 +1317,10 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
 	$rows='<div class="container" id="bodyText">';
 	$rows.='<script type="text/javascript">$("#form-tvocab").validate({});</script>';
-	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
 	if (SQLcount($sql)=='1') {
 		//No hay vocabularios de referencia, solo vocabulario principal
 		$rows.=HTMLalertNoTargetVocabularyPivotModel();
+
 	} else {
 		//Hay vobularios de referencia
 		$array_vocabularios=array();
@@ -1569,51 +1585,33 @@ function HTMLformURI4term($ARRAYtermino)
 {
 	//SEND_KEY to prevent duplicated
 	session_start();
-	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$SQLURIdefinition=SQLURIdefinition();
+
+	$_SESSION['SEND_KEY'] = md5(uniqid(rand(), true));
+	$SQLURIdefinition     = SQLURIdefinition();
+
 	if (SQLcount($SQLURIdefinition)>0) {
 		while ($ARRAYURIdefinition=$SQLURIdefinition->FetchRow()) {
 			$arraySelectURItype[]=$ARRAYURIdefinition["uri_type_id"].'#'.$ARRAYURIdefinition["uri_value"];
 		}
-		$rows.='<div class="container" id="bodyText">';
-		$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-		$rows.='<form class="" role="form" name="altaURI" id="altaURI" action="index.php" method="post">';
-		$rows.='	<div class="row">
-		    <div class="col-sm-12">
-		        <legend>'.ucfirst(LABEL_URIEditor).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</legend>
-		    </div>
-		    <!-- panel  -->
-		    <div class="col-lg-7">
-		        <div class="panel panel-default">
-		            <div class="panel-body form-horizontal">
-		            <div class="form-group">
-								<label for="uri_type_id" class="col-sm-3 control-label accesskey="u">'.ucfirst(LABEL_URItype).'</label>
-		                <div class="col-sm-9">
-		                    <select class="form-control" id="uri_type_id" name="uri_type_id">
-		                    '.doSelectForm($arraySelectURItype,"").'
-		                    </select>
-		                </div>
+
+		$rows.='
+			<div class="container" id="bodyText">
+				<form class="box form-horizontal" role="form" id="altaURI" name="altaURI" action="index.php" method="post">
+					<div class="box-title">
+					    <span>'.ucfirst(LABEL_URIEditor).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</span>
+						<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>
+					</div>
+					<div class="box-content">
+						<select class="form-control" id="uri_type_id" name="uri_type_id">
+							<option>'.ucfirst(LABEL_seleccionar).' '.LABEL_URItype.'</option>'.
+							doSelectForm($arraySelectURItype,"").'
+						</select>
+                        <input type="text" class="form-control" placeholder="'.ucfirst(LABEL_URI2termURL).'" type="url" required autofocus id="uri" name="uri"/>
 		            </div>
-		                <div class="form-group">
-		                    <label for="uri" class="col-sm-3 control-label">'.ucfirst(LABEL_URI2termURL).'</label>
-		                    <div class="col-sm-9">
-		                        <input type="text" class="form-control"  type="url" required autofocus id="uri" name="uri"/>
-		                    </div>
-		                </div>
-		                </div>
-		                <div class="form-group">
-		                    <div class="col-sm-12 text-right">
-		                     <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
-		                      <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div> <!-- / panel  -->';
-		$rows.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
-		$rows.='<input type="hidden"  name="tema_id" value="'.$ARRAYtermino["idTema"].'" />';
-		$rows.='<input type="hidden"  name="taskURI" value="addURI" />';
-		$rows.='</form>';
+		            <input type="hidden" name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>
+		            <input type="hidden" name="tema_id" value="'.$ARRAYtermino["idTema"].'" />
+		            <input type="hidden" name="taskURI" value="addURI" />
+		        </form>';
 	}
 	$rows.='</div>';
 
@@ -1944,7 +1942,7 @@ function HTMLalertNoTargetVocabulary()
 function HTMLalertNoTargetVocabularyPivotModel()
 {
 	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
-		$help_msg='<a href="admin.php?vocabulario_id=0" title="'.ucfirst(LABEL_vocabulario_referencia).'">'.ucfirst(LABEL_vocabulario_referencia).'</a>.';
+		$help_msg='Agregar <a href="admin.php?vocabulario_id=0" title="'.ucfirst(LABEL_vocabulario_referencia).'">'.LABEL_vocabulario_referencia.'</a>.';
 	} else {
 		$help_msg=ucfirst(MSG_contactAdmin).'.';
 	}
