@@ -486,17 +486,18 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary=ar
 {
 	//SEND_KEY to prevent duplicated
 	session_start();
-	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$sql=SQLtargetVocabulary("1");
-	$rows='<div class="container" id="bodyText">';
-	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-	$rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</h3>';
+	$_SESSION['SEND_KEY'] = md5(uniqid(rand(), true));
+	$sql                  = SQLtargetVocabulary("1");
+	$rows                 = '
+		<div class="container" id="bodyText">';
+
 	if (SQLcount($sql)=='0') {
 		//No hay vocabularios de referencia, solo vocabulario principal
-		$rows.=HTMLalertNoTargetVocabulary();
+		$rows .= HTMLalertNoTargetVocabulary();
+
 	} else {
 		//Hay vobularios de referencia
-		$array_vocabularios=array();
+		$array_vocabularios = array();
 		while ($array=$sql->FetchRow()) {
 			if ($array[vocabulario_id]!=='1') {
 				//vocabularios que no sean el vocabulario principal
@@ -504,91 +505,79 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary=ar
 			}
 		}
 		//Configurar opcion búsqueda por código
-		$arrayOptions= array('3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino),'2#'.ucfirst(TR_termino));
+		$arrayOptions  = array('3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino),'2#'.ucfirst(TR_termino));
 		$string2search = ($_GET[string2search]) ? XSSprevent(trim($_GET[string2search])) : $ARRAYtermino["titTema"];
-		$searchType=(!$_GET["tvocab_id"]) ? 1 : $_GET["searchType"];
-		$rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
-		$rows.='	<div class="row">
-	        <div class="col-sm-12">
-	            <legend>'.ucfirst(LABEL_EditorTermino).'</legend>
-	        </div>
-	        <!-- panel  -->
-	        <div class="col-lg-7">
-	            <h4>'.ucfirst(LABEL__getForRecomendation).'</h4>
-	            <div class="panel panel-default">
-	                <div class="panel-body form-horizontal">
-									<div class="form-group">
-									<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
-											<div class="col-sm-9">
-													<select class="form-control" id="tvocab_id" name="tvocab_id">
-													'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
-													</select>
-											</div>
-									</div>
-									<div class="form-group">
-									<label for="t_relation" class="col-sm-3 control-label">'.ucfirst(LABEL_relationSubType).'</label>
-											<div class="col-sm-9">
-													<select class="form-control" id="t_relation" name="t_relation">
-													'.doSelectForm($arrayOptions,$_GET["t_relation"]).'
-													</select>
-											</div>
-									</div>
-	                    <div class="form-group">
-	                        <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
-	                        <div class="col-sm-9">
-	                            <input type="text" class="form-control"  type="search" required autofocus id="string2search" name="string2search" value="'.$string2search.'">
-	                        </div>
+		$searchType    = (!$_GET["tvocab_id"]) ? 1 : $_GET["searchType"];
+		$rows         .= '
+			<form class="box form-horizontal" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">
+				<div class="box-title">
+				    <span>'. ucfirst(LABEL__getForRecomendationFor).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</span>
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Buscar.'"/>
+				</div>
+				<div class="box-content">
+					<select class="form-control" id="tvocab_id" name="tvocab_id">
+						<option>'.ucfirst(LABEL_seleccionar).' '.FORM_LABEL_nombre_vocabulario.'</option>'.
+						doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
+					</select>
+					<select class="form-control" id="t_relation" name="t_relation">
+						<option>'.ucfirst(LABEL_seleccionar).' '.LABEL_relationSubType.'</option>'.
+						doSelectForm($arrayOptions,$_GET["t_relation"]).'
+					</select>
+            		<input type="text" class="form-control"  type="search" required autofocus id="string2search" name="string2search" value="'.$string2search.'">
+					<li class="list-group-item list-group-item-material">
+	                    <div class="material-switch pull-right">
+	                        <input id="searchType" name="searchType" value="1" type="checkbox" '.do_check(1,$searchType,'checked').'/>
+	                        <label for="searchType" class="label-warning"></label>
 	                    </div>
-											<div class="form-group">
-											<input type="checkbox" name="searchType" id="searchType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1,$searchType,'checked').'  />
-											<div class="col-sm-4">
-											<label for="searchType">'.ucfirst(LABEL_esFraseExacta).'</label>
-												</div>
-											</div>
-	                    <div class="form-group">
-	                        <div class="col-sm-12 text-right">
-													 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
-													  <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div> <!-- / panel  -->';
-		$rows.='<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>';
-		$rows.='<input type="hidden" name="taskterm" value="findSuggestionTargetTerm"/>';
-		$rows.='</form>';
+	                    '.ucfirst(LABEL_esFraseExacta).'
+	                </li>
+	        	</div>
+        		<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
+        		<input type="hidden" name="taskterm" value="findSuggestionTargetTerm"/>
+	        </form>';
 	}
-	$rows.='</div>';
-	$t_relation=(in_array($_GET["t_relation"], array("4","3","2","0"))) ? $_GET["t_relation"] : '';
+
+	$rows      .= '</div>';
+	$t_relation = (in_array($_GET["t_relation"], array("4","3","2","0"))) ? $_GET["t_relation"] : '';
+
 	if (($string2search) && ($_GET["tvocab_id"])) {
-		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
-		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
-		$task=($_GET["searchType"]==1) ? 'fetch' : 'search';
-		$dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
+		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php');
+		$arrayVocab = ARRAYtargetVocabulary($_GET["tvocab_id"]);
+		$task       = ($_GET["searchType"]==1) ? 'fetch' : 'search';
+		$dataTterm  = getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
+
 		if ($dataTterm->resume->cant_result > "0") {
-			$array_terms=array();
+			$array_terms = array();
+
 			foreach ($dataTterm->result->term as $value) {
-				array_push($array_terms, array("term_id"=>(int) $value->term_id,
-				"string"=>(string) $value->string));
-				$tterms_id.=(int) $value->term_id.',';
+				array_push($array_terms, array(
+					"term_id" => (int) $value->term_id,
+					"string"  => (string) $value->string
+				));
+				$tterms_id .= (int) $value->term_id.',';
 			}
 		}
 		switch ($t_relation) {
 			case '2'://RT
 				$arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"],'fetchRelated',$array_terms);
 			break;
+
 			case '3'://BT/NT
 				$arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"],'fetchDown',$array_terms);
 			break;
+
 			case '4'://UF
 				$arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"],'fetchAlt',$array_terms);
 			break;
+
 			default :
 			break;
 		}
-		$rows.=HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string2search,$arrayVocab,$ARRAYtermino["idTema"]);
+
+		$rows .= HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string2search,$arrayVocab,$ARRAYtermino["idTema"]);
 	}//fin de if buscar
-	$rows.='   </div>';
+
+	$rows.='</div>';
 
 	return $rows;
 }
@@ -1127,12 +1116,15 @@ Asociaci�n con datos provistos por web services terminol�gicos TemaTres
 function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 {
 	GLOBAL $CFG;
-	$sql=SQLtargetVocabulary("1");
-	$rows='<div class="container" id="bodyText">';
-	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
+
+	$sql  = SQLtargetVocabulary("1");
+	$rows = '
+		<div class="container" id="bodyText">';
+
 	if (SQLcount($sql)=='0') {
 		//No hay vocabularios de referencia, solo vocabulario principal
-		$rows.=HTMLalertNoTargetVocabulary();
+		$rows .= HTMLalertNoTargetVocabulary();
+
 	} else {
 		//Hay vobularios de referencia
 		$array_vocabularios=array();
@@ -1142,54 +1134,32 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
 			}
 		}
-		$arrayOptions=(strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
-		$display=(in_array($_GET[search_by],array('reverse','code'))) ? 'style="display: none;"' : '';
+		$arrayOptions  = (strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
+		$display       = (in_array($_GET["search_by"],array('reverse','code'))) ? 'style="display: none;"' : '';
 		$string2search = ($_GET[string2search]) ? XSSprevent($_GET[string2search]) : $ARRAYtermino["titTema"];
-		$rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php" method="get">';
-		$rows.='	<div class="row">
-		    <div class="col-sm-12">
-		        <legend>'.ucfirst(LABEL_relacion_vocabulario).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</legend>
-		    </div>
-		    <!-- panel  -->
-		    <div class="col-lg-7">
-		        <div class="panel panel-default">
-		            <div class="panel-body form-horizontal">
-		            <div class="form-group">
-		            <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
-		                <div class="col-sm-9">
-		                    <select class="form-control" id="tvocab_id" name="tvocab_id">
-		                    '.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
-		                    </select>
-		                </div>
-		            </div>';
-		//Configurar opcion búsqueda por código
-		$rows.='<div class="form-group">
-		<label for="search_by" class="col-sm-3 control-label">'.ucfirst(LABEL_selectMapMethod).'</label>
-				<div class="col-sm-9">
-						<select class="form-control" id="search_by" name="search_by" onChange="mostrar(this.value);">
-						'.doSelectForm($arrayOptions,$_GET["search_by"]).'
-						</select>
+
+		$rows .= '
+			<form class="box form-horizontal" role="form" name="alta_tt" id="alta_tt" action="index.php" method="get">
+				<div class="box-title">
+				    <span>Relacionar '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).' '.LABEL_otro_vocabulario.'</span>
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Buscar.'"/>
 				</div>
-		</div>';
-		$rows.='<div id="by_string" class="form-group" '.$display.'>
-		                    <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
-		                    <div class="col-sm-9">
-		                        <input type="text" class="form-control" required type="search" required id="string2search" name="string2search" value="'.$string2search.'">
-		                    </div>
-            </div>
-		                <div class="form-group">
-		                    <div class="col-sm-12 text-right">
-		                     <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
-		                      <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div> <!-- / panel  -->';
-		$rows.='<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
-				<input type="hidden" name="taskterm" value="findTargetTerm"/>';
-		$rows.='</form>';
+				<div class="box-content">
+					<select class="form-control" id="tvocab_id" name="tvocab_id">
+						<option>'.ucfirst(LABEL_seleccionar).' '.FORM_LABEL_nombre_vocabulario.'</option>'.
+						doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
+					</select>
+					<select class="form-control" id="search_by" name="search_by" onChange="mostrar(this.value);">
+						<option>'.ucfirst(LABEL_seleccionar).' '.LABEL_mapMethod.'</option>'.
+						doSelectForm($arrayOptions,$_GET["search_by"]).'
+					</select>
+            		<input type="text" '.$display.' class="form-control" required type="search" required id="by_string" name="string2search" value="'.$string2search.'">
+		    	</div>
+	    		<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
+				<input type="hidden" name="taskterm" value="findTargetTerm"/>
+			</form>';
 	}
+
 	$rows.='</div>';
 	if (($string2search) && ($_GET["tvocab_id"])) {
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;

@@ -55,21 +55,19 @@ elseif($_GET["s"]=='n'){
 	echo '</div>';
 }
 //Vista de busqueda avanzada
-elseif(($_GET[xsearch]=='1')){
+elseif(($_GET["xsearch"]=='1')){
 	echo '<div class="container" id="bodyText">';
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
-} elseif (($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) {
+} elseif (($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) {
+
 	echo '<div id="bodyText">';
 	echo HTMLformSimpleTermReport($_GET);
-
 	echo HTMLformAdvancedTermReport($_GET);
-
 	echo HTMLformNullNotesTermReport($_GET);
-
 	echo HTMLformMappedTermReport($_GET);
-
 	echo '</div>';
+
 } elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')){
 	if($_POST["task"]=='map4localTargetVocab'){
 	    $tasks=addLocalTargetTerms($_POST["tvocab_id"],$_POST);

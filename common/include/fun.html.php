@@ -2279,7 +2279,7 @@ function footer()
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
 	    $contact = '
 	    	<li class="first leaf">
-				<a title="vocabularios@educacion.gob.ar" href="mailto:vocabularios@educacion.gob.ar" target="_top"><span class="glyphicon glyphicon-envelope glyphicon-fw"></span>Asistencia técnica *</a>
+				<a title="vocabularios@educacion.gob.ar" href="mailto:vocabularios@educacion.gob.ar" target="_top"><span class="glyphicon glyphicon-envelope glyphicon-fw"></span>Asistencia técnica</a>
 			</li>';
 		if ($DBCFG["help"]) {
 		    $help = '
