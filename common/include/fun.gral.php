@@ -1033,8 +1033,7 @@ function doLastModified($thes_change=false)
 	$sqlNotes=SQL("update"," $DBCFG[DBprefix]values set value='$lastNoteMod' where value_type='DATESTAMP' and value_code='NOTE_CHANGE'");
 
 
-	if($thes_change==true)
-	{
+	if ($thes_change==true) {
 		$sql=SQL("update"," $DBCFG[DBprefix]values set value='now()' where  value_type='DATESTAMP' and value_code='THES_CHANGE'");
 	}
 }

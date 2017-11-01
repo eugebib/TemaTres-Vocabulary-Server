@@ -4,6 +4,7 @@
     grid-template-rows: repeat(auto-fit, minmax(50px, 1fr))
     grid-auto-flow: dense
     grid-gap: 10px
+    margin-bottom: 40px
 
     &>div
         color: white
@@ -21,6 +22,9 @@
 
         &.span3
             grid-column: span 3
+
+        &.span5
+            grid-column: span 5
 
         &.vspan2
             grid-row: span 2
@@ -73,12 +77,13 @@
         .btn
             width: 100%
 
-        .about
-            line-height: 180%
-            text-align: justify
+        &.about-title
+            p
+                line-height: 180%
+                text-align: justify
 
-            &:not(:last-child)
-                padding-bottom: 20px
+                &:not(:last-child)
+                    padding-bottom: 10px
 
         .uri
             font-size: 30px
@@ -105,6 +110,7 @@
             grid-template-columns: 90%
 
             &.span3,
+            &.span5
                 grid-column: span 2
 
             .uri
@@ -115,46 +121,3 @@
             &.span2,
             &.span3,
                 grid-column: span 1
-
-.sobre
-    border-bottom: 0px
-
-    h1
-        margin-bottom: 30px
-
-    .flex
-        border-bottom: 1px solid #36657d
-        padding: 10px 0px 10px 0px
-        align-items: stretch
-
-    dt,
-    dd
-        padding: 0px 10px
-
-    dt
-        width: 30%
-        background-color: transparent
-        color: #36657d
-        text-align: right
-
-    .flex dd
-        width: 70%
-        flex-grow: 1
-        text-align: left
-
-    .label
-        font-size: 14px
-        font-weight: lighter
-
-    @media (max-width: 425px)
-
-        .flex
-            display: block
-
-        .dt,
-        .flex dd
-            width: 100%
-
-        .dt
-            text-align: left
-            margin-bottom: 10px

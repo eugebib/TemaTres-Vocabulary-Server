@@ -11,6 +11,8 @@
 
 include("config.tematres.php");
 
+doLastModified();
+
 $metadata         = do_meta_tag();
 
 $top              = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXTop() : null;
@@ -35,16 +37,16 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
         <div class="container">
             <div class="about">
 
-                <div class="span2 vspan4">
+                <div class="span2 vspan3 about-title">
                     <h3><?= $_SESSION["CFGTitulo"] ?></h3>
 
                     <?php if ($_SESSION["CFGCobertura"]) : ?>
-                        <p class="about"><?= $_SESSION["CFGCobertura"] ?></p>
+                        <p><?= $_SESSION["CFGCobertura"] ?></p>
                     <?php endif ?>
 
                     <?php if ($_SESSION["CFGTipo"] || $_SESSION["CFGKeywords"]) : ?>
-                        <p class="about">
-                            <?= ($_SESSION["CFGTipo"]) ? mb_strtoupper($_SESSION["CFGTipo"]) : '' ?><?= ($_SESSION["CFGTipo"] && $_SESSION["CFGKeywords"]) ? ', ' : '' ?><?= ($_SESSION["CFGKeywords"]) ? mb_strtoupper($_SESSION["CFGKeywords"]) : ''?>
+                        <p>
+                            <?= ($_SESSION["CFGTipo"]) ? mb_strtoupper($_SESSION["CFGTipo"]) : '' ?><?= ($_SESSION["CFGTipo"] && $_SESSION["CFGKeywords"]) ? ', ' : '' ?><?= ($_SESSION["CFGKeywords"]) ? mb_strtoupper($_SESSION["CFGKeywords"], 'UTF-8') : ''?>
                         </p>
                     <?php endif ?>
 
@@ -64,12 +66,11 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     <?php endif ?>
                 </div>
 
-                <div class="vspan2">
+                <div class="span2">
                     <h4><?= mb_strtoupper(LABEL_Autor, 'UTF-8') ?></h4>
-                    <p><?= $_SESSION["CFGAutor"] ?></p>
-                    <?php if ($ARRAYmailContact["value"]) : ?>
-                        <p><?= $ARRAYmailContact["value"] ?></p>
-                    <?php endif ?>
+                    <p class="text-left">
+                        <?= $_SESSION["CFGAutor"] ?> <?= ($ARRAYmailContact["value"]) ?: '' ?>
+                    </p>
                 </div>
 
                 <?php if ($top) : ?>
@@ -166,7 +167,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </div>
                 <?php endif ?>
 
-                <div>
+                <div class="span5">
                     <h4><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h4>
                     <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?= $CFG["Version"] ?></a>
                 </div>

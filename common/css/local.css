@@ -4,7 +4,8 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));
   grid-auto-flow: dense;
-  grid-gap: 10px; }
+  grid-gap: 10px;
+  margin-bottom: 40px; }
   .about > div {
     color: white;
     padding: 15px;
@@ -17,6 +18,8 @@
       grid-column: span 2; }
     .about > div.span3 {
       grid-column: span 3; }
+    .about > div.span5 {
+      grid-column: span 5; }
     .about > div.vspan2 {
       grid-row: span 2; }
     .about > div.vspan3 {
@@ -55,11 +58,11 @@
       color: white; }
     .about > div .btn {
       width: 100%; }
-    .about > div .about {
+    .about > div.about-title p {
       line-height: 180%;
       text-align: justify; }
-      .about > div .about:not(:last-child) {
-        padding-bottom: 20px; }
+      .about > div.about-title p:not(:last-child) {
+        padding-bottom: 10px; }
     .about > div .uri {
       font-size: 30px;
       word-break: break-all; }
@@ -78,46 +81,13 @@
   @media (max-width: 675px) {
     .about > div {
       grid-template-columns: 90%; }
-      .about > div.span3 {
+      .about > div.span3, .about > div.span5 {
         grid-column: span 2; }
       .about > div .uri {
         font-size: 20px; } }
   @media (max-width: 500px) {
     .about > div.span2, .about > div.span3 {
       grid-column: span 1; } }
-
-.sobre {
-  border-bottom: 0px; }
-  .sobre h1 {
-    margin-bottom: 30px; }
-  .sobre .flex {
-    border-bottom: 1px solid #36657d;
-    padding: 10px 0px 10px 0px;
-    align-items: stretch; }
-  .sobre dt,
-  .sobre dd {
-    padding: 0px 10px; }
-  .sobre dt {
-    width: 30%;
-    background-color: transparent;
-    color: #36657d;
-    text-align: right; }
-  .sobre .flex dd {
-    width: 70%;
-    flex-grow: 1;
-    text-align: left; }
-  .sobre .label {
-    font-size: 14px;
-    font-weight: lighter; }
-  @media (max-width: 425px) {
-    .sobre .flex {
-      display: block; }
-    .sobre .dt,
-    .sobre .flex dd {
-      width: 100%; }
-    .sobre .dt {
-      text-align: left;
-      margin-bottom: 10px; } }
 
 div.upload {
   margin-top: 20px; }

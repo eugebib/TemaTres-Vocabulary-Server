@@ -3689,13 +3689,18 @@ function fetchlastMod($value_code="")
 	GLOBAL $DBCFG;
 	GLOBAL $CFG;
 
-	$where=in_array($value_code,array('THES_CHANGE','TTERM_CHANGE','TERM_CHANGE','NOTE_CHANGE')) ? " and v.value_code='$value_code' " : "";
+	$where = in_array($value_code,array('THES_CHANGE','TTERM_CHANGE','TERM_CHANGE','NOTE_CHANGE')) ? " and v.value_code='$value_code' " : "";
 
-	$sql=SQL("select","max(v.value) last from $DBCFG[DBprefix]values v
-	where v.value_type='DATESTAMP'
-	$where");
+	$sql = SQL("select","
+			max(v.value) last
+		FROM
+			$DBCFG[DBprefix]values v
+		WHERE
+			v.value_type='DATESTAMP'
+			$where
+	");
 
-	$array= $sql->FetchRow();
+	$array = $sql->FetchRow();
 
 	return $array["last"];
 }

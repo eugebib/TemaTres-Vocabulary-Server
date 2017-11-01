@@ -2044,7 +2044,7 @@ function HTMLheader($metadata)
 	    <link href="'.T3_WEBPATH.'vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
 	    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
 	    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
-	    <link href="'.T3_WEBPATH.'css/local.css?v=2" rel="stylesheet">
+	    <link href="'.T3_WEBPATH.'css/local.css?v=3" rel="stylesheet">
 	    <link href="https://fonts.googleapis.com/css?family=Montserrat|Anton|Work+Sans|Open+Sans|Roboto" rel="stylesheet">
 
 	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

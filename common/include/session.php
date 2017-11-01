@@ -47,22 +47,21 @@ if(!is_object($SQL_CFG_LC)){
 $CFG_LC=$SQL_CFG_LC->FetchRow();
 $derechos=$SQL_derechos->FetchRow();
 
-$_SESSION["id_tesa"]      =$CFG_LC[0];
-$_SESSION["CFGTitulo"]    =$CFG_LC[1];
-$_SESSION["CFGAutor"]     =$CFG_LC[2];
-$_SESSION["CFGIdioma"]    =$CFG_LC[3];
-$_SESSION["CFGCobertura"] =$CFG_LC[4];
-$_SESSION["CFGKeywords"]  =$CFG_LC[5];
-$_SESSION["CFGTipo"]      =$CFG_LC[6];
-$_SESSION["CFGCreacion"]  =$CFG_LC[7];
-$_SESSION["CFGURL"]       =$CFG_LC[8];
-$_SESSION["CFGPolijerarquia"]  =$CFG_LC[9];
-$_SESSION["CFGVersion"]   =$CFG[Version];
-$_SESSION["CFGDerechos"]      =$derechos[0];
+$_SESSION["id_tesa"]          = $CFG_LC[0];
+$_SESSION["CFGTitulo"]        = $CFG_LC[1];
+$_SESSION["CFGAutor"]         = $CFG_LC[2];
+$_SESSION["CFGIdioma"]        = $CFG_LC[3];
+$_SESSION["CFGCobertura"]     = $CFG_LC[4];
+$_SESSION["CFGKeywords"]      = $CFG_LC[5];
+$_SESSION["CFGTipo"]          = $CFG_LC[6];
+$_SESSION["CFGCreacion"]      = $CFG_LC[7];
+$_SESSION["CFGURL"]           = $CFG_LC[8];
+$_SESSION["CFGPolijerarquia"] = $CFG_LC[9];
+$_SESSION["CFGVersion"]       = $CFG[Version];
+$_SESSION["CFGDerechos"]      = $derechos[0];
 
 //Load config values
 loadConfigValues(1);
-
 
 if ($_GET["setLang"]) {
 	$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
@@ -82,15 +81,13 @@ if (in_array($_SESSION[$_SESSION["CFGURL"]]["lang"],$idiomas_disponibles))	{
 	require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles[en][1]);
 }
 
+if ($_GET["cmdlog"] == substr(md5(date("Ymd")),"5","10")) {
+	//Save stadistics
+	$stats=doLastModified();
+	unset($_SESSION[$_SESSION["CFGURL"]]);
 
-if($_GET["cmdlog"]==substr(md5(date("Ymd")),"5","10")){
-
-//Save stadistics
-$stats=doLastModified();
-unset($_SESSION[$_SESSION["CFGURL"]]);
-
-header("Location:index.php");
-};
+	header("Location:index.php");
+}
 
 if($_POST["id_correo_electronico"]){
 
