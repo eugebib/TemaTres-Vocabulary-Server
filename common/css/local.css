@@ -276,15 +276,22 @@ fieldset .btn {
 .box-content input[type="text"],
 .box-content input[type="search"] {
   height: 50px; }
-.box-content .big-checkbox {
-  width: 30px;
-  height: 30px; }
 .box-content .form-group {
   display: flex;
   align-items: baseline; }
-
-.extra {
+.box-content button {
+  margin: 15px 0 0 0; }
+.box-content .extra {
   margin-top: 50px; }
+
+.checkbutton {
+  display: flex; }
+  .checkbutton div {
+    flex-grow: 1; }
+  .checkbutton button {
+    align-self: flex-end;
+    margin-left: 30px;
+    margin-bottom: 10px; }
 
 .list-group-item-material {
   background-color: transparent;

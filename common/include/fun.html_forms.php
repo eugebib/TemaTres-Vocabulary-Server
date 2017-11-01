@@ -460,7 +460,8 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 	                </li>
 				</div>
 	            <input type="hidden" name="taskterm" value="addTermSuggested"/>
-	        </form>';
+	        </form>
+	        <div class="push"></div>';
 	}
 	if (($string2search) && ($_GET["tvocab_id"])) {
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
@@ -482,8 +483,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 		}
 		//null for t_relation
 		$t_relation=0;
-		$rows.='   </div>';//row
-		$rows.=HTMLformTargetVocabularySuggested($arrayTtermData,$t_relation,$string2search,$arrayVocab,$ARRAYtermino["idTema"]);
+		$rows .= HTMLformTargetVocabularySuggested($arrayTtermData,$t_relation,$string2search,$arrayVocab,$ARRAYtermino["idTema"]);
 	}//fin de if buscar
 	$rows.='   </div>';//container
 
@@ -636,12 +636,18 @@ function HTMLformAdvancedSearch($array)
 					doSelectForm($arrayWS,"$_GET[ws]").'
 				</select>';
 	}
-	$rows.=' 	<div class="form-group">
-					<input type="checkbox" name="isExactMatch" id="isExactMatch" value="1" '.do_check('1',$_GET["isExactMatch"],"checked").'/>
-					'.ucfirst(LABEL_esFraseExacta).'
-				</div>
-				<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.ucfirst(LABEL_Opciones).'</button>';
-	$rows.='	<div class="collapse" id="masOpcionesBusqueda">';
+	$rows.=' 	<button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.
+					ucfirst(LABEL_Opciones).'
+				</button>
+				<div class="collapse" id="masOpcionesBusqueda">
+					<li class="list-group-item list-group-item-material">
+	                    <div class="material-switch pull-right">
+	                        <input id="isExactMatch" name="isExactMatch" value="1" type="checkbox" '.do_check('1',$_GET["isExactMatch"],"checked").'/>
+	                        <label for="isExactMatch" class="label-warning"></label>
+	                    </div>
+	                    '.ucfirst(LABEL_esFraseExacta).'
+	                </li>';
+
 	//Evaluar si hay top terms
 	$sqlTopTerm = SQLverTopTerm();
 	if (SQLcount($sqlTopTerm)>0) {
@@ -1232,73 +1238,74 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 	GLOBAL $CFG;
 	//SEND_KEY to prevent duplicated
 	session_start();
-	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$label_relation=ucfirst(arrayReplace(array('0','2','3','4'),array(LABEL_Termino,TR_termino,TE_termino,UP_termino),$t_relation));
-	$rows.='<h3 id="suggestResult">'.FixEncoding($arrayVocab["tvocab_title"]).' ('.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>';
+
+	$_SESSION['SEND_KEY'] = md5(uniqid(rand(), true));
+	$label_relation       = ucfirst(arrayReplace(array('0','2','3','4'),array(LABEL_Termino,TR_termino,TE_termino,UP_termino),$t_relation));
+
 	if (count($arrayTterm) > 0) {
-		$rows.='<form role="form" name="select_multi_term" action="index.php" method="post">';
-		$rows.='	<div class="row">
-		    <div class="col-lg-10">
-		        <legend class="alert alert-info"> '.$label_relation.': '.count($arrayTterm).' '.MSG_ResultBusca.' <i>'.$string_search.'</i></legend>
-		    </div>
-		    <!-- panel  -->
-		    <div class="col-lg-10">
-		        <div class="panel panel-default">
-		            <div class="panel-body form-horizontal">';
-		$rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
-		$rows.='<div class="table-responsive"> ';
-		$rows.='<table class="table table-striped table-bordered table-condensed table-hover">
-		<thead>
-		<tr>
-			<th align="center"></th>
-			<th>'.ucfirst(LABEL_Termino).'</th>
-		</tr>
-		</thead>
-		<tbody class="searchable">';
+		$rows.='
+			<form role="form-horizontal" name="select_multi_term" action="index.php" method="post">
+		        <p class="alert alert-info">'.
+        			count($arrayTterm).' '.MSG_ResultBusca.' <i>'.$string_search.'</i> en el <strong>'.FixEncoding($arrayVocab["tvocab_title"]).'</strong>
+        		</p>
+				<input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered table-condensed table-hover">
+						<thead>
+							<tr>
+								<th align="center"></th>
+								<th>'.ucfirst(LABEL_Termino).'</th>
+							</tr>
+						</thead>
+						<tbody class="searchable">';
+
 		foreach ($arrayTterm as $value) {
-			$rows.= '<tr>';
-			$rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
-			$rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="'.$arrayVocab["tvocab_url"].'?tema='.$value["source_term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
-			$rows.=  '</tr>';
+			$rows .= '		<tr>
+								<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>
+								<td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="'.$arrayVocab["tvocab_url"].'?tema='.$value["source_term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>
+							</tr>';
 		}
-		$rows.='        </tbody>		</table>';
-		$rows.='        </div>';
+
+		$rows.='        </tbody>
+					</table>
+				</div>
+				<div class="checkbutton">';
+
 		if ($t_relation!=="4") {
 			$ARRAYuriReference=ARRAYfetchValue("URI_TYPE","exactMatch");
-			$rows.='<div class="form-group">
-			<input type="checkbox" name="addLinkReference" id="addLinkReference" value="'.$ARRAYuriReference["value_id"].'" alt="'.ucfirst(LABEL_addExactLink).'" />
-			<div class="col-sm-4">
-			<label for="addLinkReference">'.ucfirst(LABEL_addExactLink).'</label>
-				</div>
-			</div>';
-			$rows.='<div class="form-group">
-			<input type="checkbox" name="addMappReference" id="addMappReference" value="1" alt="'.ucfirst(LABEL_addMapLink).' ('.ucfirst($arrayVocab["tvocab_label"]).'" checked />
-			<div class="col-sm-4">
-			<label for="addMappReference">'.ucfirst(LABEL_addMapLink).'</label>
-				</div>
-			</div>';
-			$rows.='<div class="form-group">
-			<input type="checkbox" name="addNoteReference" id="addNoteReference" value="1" alt="'.ucfirst(LABEL_addSourceNote).'" checked  />
-			<div class="col-sm-4">
-			<label for="addNoteReference">'.ucfirst(LABEL_addSourceNote).'</label>
-				</div>
-			</div>';
+			$rows.='<div>
+						<li class="list-group-item list-group-item-material">
+		                    <div class="material-switch pull-right">
+		                        <input id="addLinkReference" name="addLinkReference" value="'.$ARRAYuriReference["value_id"].'" type="checkbox" alt="'.ucfirst(LABEL_addExactLink).'"/>
+		                        <label for="addLinkReference" class="label-warning"></label>
+		                    </div>
+		                    '.ucfirst(LABEL_addExactLink).'
+		                </li>
+						<li class="list-group-item list-group-item-material">
+		                    <div class="material-switch pull-right">
+		                        <input id="addMappReference" name="addMappReference" value="1" type="checkbox" alt="'.ucfirst(LABEL_addMapLink).' ('.ucfirst($arrayVocab["tvocab_label"]).'" checked/>
+		                        <label for="addMappReference" class="label-warning"></label>
+		                    </div>
+		                    '.ucfirst(LABEL_addMapLink).'
+		                </li>
+						<li class="list-group-item list-group-item-material">
+		                    <div class="material-switch pull-right">
+		                        <input id="addNoteReference" name="addNoteReference" value="1" type="checkbox" alt="'.ucfirst(LABEL_addSourceNote).'" checked/>
+		                        <label for="addNoteReference" class="label-warning"></label>
+		                    </div>
+		                    '.ucfirst(LABEL_addSourceNote).'
+		                </li>
+		            </div>';
 		}
-		$rows.='	<div class="form-group">
-				<div class="col-sm-12 text-center">
-				<button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
-				 <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
+
+		$rows.='	<button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
 				</div>
-			</div>
-		</div>
-		</div>
-		</div> <!-- / panel  -->';
-		$rows.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
-		$rows.='<input type="hidden"  name="tema" value="'.$tema_id.'" />';
-		$rows.='<input type="hidden" id="t_relation" name="t_relation" value="'.$t_relation.'"/>';
-		$rows.='<input type="hidden" id="taskterm" name="taskterm" value="addSuggestedTerms"/>';
-		$rows.='<input type="hidden" name="tvocab_id" name="tvocab_id" value="'.$arrayVocab["tvocab_id"].'"/>';
-		$rows.='</form>';
+				<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>
+				<input type="hidden"  name="tema" value="'.$tema_id.'" />
+				<input type="hidden" id="t_relation" name="t_relation" value="'.$t_relation.'"/>
+				<input type="hidden" id="taskterm" name="taskterm" value="addSuggestedTerms"/>
+				<input type="hidden" name="tvocab_id" name="tvocab_id" value="'.$arrayVocab["tvocab_id"].'"/>
+			</form>';
 	} else {
 		$rows.='<p class="alert alert-danger"> '.$label_relation.': '.count($arrayTterm).' '.MSG_ResultBusca.' <i>'.$string_search.'</i></p>';
 	}
@@ -1931,7 +1938,7 @@ function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array())
 function HTMLalertNoTargetVocabulary()
 {
 	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
-		$help_msg='<a href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a>.';
+		$help_msg='<a href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addOne).'</a>.';
 	} else {
 		$help_msg=ucfirst(MSG_contactAdmin).'.';
 	}
@@ -1942,7 +1949,7 @@ function HTMLalertNoTargetVocabulary()
 function HTMLalertNoTargetVocabularyPivotModel()
 {
 	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
-		$help_msg='Agregar <a href="admin.php?vocabulario_id=0" title="'.ucfirst(LABEL_vocabulario_referencia).'">'.LABEL_vocabulario_referencia.'</a>.';
+		$help_msg='<a href="admin.php?vocabulario_id=0" title="'.ucfirst(LABEL_vocabulario_referencia).'">'.ucfirst(LABEL_addOne).'</a>.';
 	} else {
 		$help_msg=ucfirst(MSG_contactAdmin).'.';
 	}

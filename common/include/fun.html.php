@@ -520,8 +520,8 @@ function HTMLmainMenu() {
 		<div class="dropdown">
 			<a href="#" class="link link-dropdown" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).'</a>
 			<ul class="dropdown-menu dropdown-menu-change">
-				<li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=addTermSuggested">'.ucfirst(LABEL__getForRecomendation).'</a></li>
 				<li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+				<li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=addTermSuggested">'.ucfirst(LABEL__getForRecomendation).'</a></li>
 				<li class="dropdown dropdown-submenu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a>
 					<ul class="dropdown-menu">
@@ -1423,32 +1423,24 @@ function HTMLterminosLetra($letra)
 #
 # Armado de resultados de búsqueda avanzada
 #
-function HTMLadvancedSearchResult($array){
-
+function HTMLadvancedSearchResult($array)
+{
 	//Ctrol lenght string
-	$array[xstring]=trim($array[xstring]);
+	$array["xstring"]=trim($array["xstring"]);
 
-	if(strlen(trim($array[xstring]))>=CFG_MIN_SEARCH_SIZE)
-	{
-		$sql= SQLadvancedSearch($array);
-
-
-		$sql_cant=SQLcount($sql);
-
-		$classMensaje= ($sql_cant>0) ? 'info' : 'danger';
-
-		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array[xstring]).'</em>"</strong></p>';
-	}
-	else
-	{
-		$sql_cant='0';
+	if (strlen(trim($array["xstring"])) >= CFG_MIN_SEARCH_SIZE) {
+		$sql          = SQLadvancedSearch($array);
+		$sql_cant     = SQLcount($sql);
+		$classMensaje = ($sql_cant>0) ? 'info' : 'danger';
+		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array["xstring"]).'</em>"</strong></p>';
+	} else {
+		$sql_cant     = '0';
 		$resumeResult = '<p id="adsearch" class="error">'.sprintf(MSG_minCharSerarch,stripslashes($array[xstring]),strlen($array[xstring]),CFG_MIN_SEARCH_SIZE-1).'</p>';
 	}
 
 	$body.=$resumeResult;
 
-	if($sql_cant>0)
-	{
+	if ($sql_cant>0) {
 		$row_result.='<div id="listaBusca"><ul class="list-unstyled" >';
 
 		while($resulta_busca=$sql->FetchRow()){
@@ -2052,7 +2044,7 @@ function HTMLheader($metadata)
 	    <link href="'.T3_WEBPATH.'vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
 	    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
 	    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
-	    <link href="'.T3_WEBPATH.'css/local.css" rel="stylesheet">
+	    <link href="'.T3_WEBPATH.'css/local.css?v=2" rel="stylesheet">
 	    <link href="https://fonts.googleapis.com/css?family=Montserrat|Anton|Work+Sans|Open+Sans|Roboto" rel="stylesheet">
 
 	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
