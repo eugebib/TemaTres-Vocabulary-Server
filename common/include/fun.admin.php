@@ -3970,7 +3970,7 @@ function getTermsxAlpha($params)
 	    $count = count($list);
 
 		for ($i=0; $i < $count; $i++) {
-	    	$terms = SQLterms4alpha($list[$i]['id'], $params);
+	    	$terms = SQLterms4alpha($list[$i]['id']);
 	    	while ($term = $terms->FetchRow()) {
 	    	    #Mantener vivo el navegador
 	    	    $time_now = time();
@@ -4019,7 +4019,7 @@ function getTermsxAlpha($params)
 		    $count = count($list);
 	    }
 	} else {
-		$terms = SQLterms4alpha(0, $params);
+		$terms = SQLterms4alpha(0);
 		$list = array();
     	while ($term = $terms->FetchRow()) {
     	    #Mantener vivo el navegador
@@ -4124,6 +4124,7 @@ function array_sort($array, $on, $order=SORT_ASC)
 // función array_column ---> borrar con php nuevo
 if (! function_exists('array_column')) {
     function array_column(array $input, $columnKey, $indexKey = null) {
+    	ini_set('max_execution_time', 50);
         $array = array();
         foreach ($input as $value) {
             if ( !array_key_exists($columnKey, $value)) {
@@ -4132,8 +4133,7 @@ if (! function_exists('array_column')) {
             }
             if (is_null($indexKey)) {
                 $array[] = $value[$columnKey];
-            }
-            else {
+            } else {
                 if ( !array_key_exists($indexKey, $value)) {
                     trigger_error("Key \"$indexKey\" does not exist in array");
                     return false;

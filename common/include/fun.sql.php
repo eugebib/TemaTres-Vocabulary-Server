@@ -4063,7 +4063,7 @@ function SQLsrcnote($srcnote_id)
 		group by srcn.scrnote_id");
 }
 
-function SQLterms4alpha($id, $params)
+function SQLterms4alpha($id)
 {
 	GLOBAL $DBCFG;
 
