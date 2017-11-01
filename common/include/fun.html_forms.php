@@ -2171,7 +2171,7 @@ function HTMLformExport()
 						<input name="includeAlt" type="checkbox" id="includeAlt" value="1" />
 						<div class="col-sm-4">
 							<label for="includeAlt" accesskey="d">'.
-								MSG__GLOSSincludeAltLabel.'
+								ucfirst(MSG__GLOSSincludeAltLabel).'
 							</label>
 						</div>
 					</div>';
@@ -2181,8 +2181,8 @@ function HTMLformExport()
 		$rows .= '	<div class="form-group">
 						<input name="includeNote[]" type="checkbox" id="includeNoteNA" value="NA" />
 						<div class="col-sm-4">
-							<label for="includeNoteNA" accesskey="d">
-								Incluir notas de alcance
+							<label for="includeNoteNA" accesskey="d">'.
+								ucfirst(LABEL_include_data).' '.strtolower(LABEL_NAs).'
 							</label>
 						</div>
 					</div>';
