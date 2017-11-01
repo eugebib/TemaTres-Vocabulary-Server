@@ -1242,7 +1242,11 @@ function HTMLsugerirTermino($texto, $acumula_temas = "0")
 		$rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).'</h4>
 				<ul>';
 		foreach ($sugerencias as $sugerencia) {
-			$rows.='<li><em><strong><a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$sugerencia['string'].'&amp;sgs=off" title="'.LABEL_verDetalle.$sugerencia['string'].'">'.$sugerencia['string'].'</a></strong></em></li>';
+			$rows.='<li>
+						<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$sugerencia['string'].'&amp;sgs=off" title="'.LABEL_verDetalle.$sugerencia['string'].'">
+							<em><strong>'.mb_strtolower($sugerencia['string'], "utf8").'</strong></em>
+						</a>
+					</li>';
 		}
 		$rows .= '</ul>';
 
@@ -2279,7 +2283,7 @@ function footer()
 	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) {
 	    $contact = '
 	    	<li class="first leaf">
-				<a title="vocabularios@educacion.gob.ar" href="mailto:vocabularios@educacion.gob.ar" target="_top"><span class="glyphicon glyphicon-envelope glyphicon-fw"></span>Asistencia técnica</a>
+				<a title="vocabularios@educacion.gob.ar" href="mailto:vocabularios@educacion.gob.ar" target="_top"><span class="glyphicon glyphicon-envelope glyphicon-fw"></span>Asistencia técnica *</a>
 			</li>';
 		if ($DBCFG["help"]) {
 		    $help = '
