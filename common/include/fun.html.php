@@ -1079,14 +1079,16 @@ function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 		}
 	}
 	return array("html"=>$row_result,"count"=>$recordCount);
-};
+}
 
 
-function HTMLverTE($tema_id,$i_profundidad,$i=""){
+
+function HTMLverTE($tema_id,$i_profundidad,$i="")
+{
 
 	GLOBAL $CFG;
-	$sql=SQLverTerminosE($tema_id);
-	$rows='<ul id="masTE'.$tema_id.'"  style="list-style:none; display: none">';
+	$sql  = SQLverTerminosE($tema_id);
+	$rows = '<ul id="masTE'.$tema_id.'"  style="list-style:none; display: none">';
 	//Contador de profundidad de TE desde la raíz
 	$i_profundidad=($i_profundidad==0) ? 1 : $i_profundidad;
 	$i_profundidad=++$i_profundidad;
@@ -1095,11 +1097,14 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 	$i=++$i;
 	while($array=$sql->FetchRow()){
 		if($array["id_te"]){
-			if($i<CFG_MAX_TREE_DEEP){
-				$link_next='  <a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span></a> ';
-				$link_next.=HTMLverTE($array["id_tema"],$i_profundidad,$i);
-			}		else {
-				$link_next='&nbsp; <a title="'.LABEL_verDetalle.TE_termino.' '.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'">&#x25ba;</a>';
+			if ($i<CFG_MAX_TREE_DEEP) {
+				$link_next = '
+					<a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')">
+						<span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span>
+					</a>'.
+					HTMLverTE($array["id_tema"],$i_profundidad,$i);
+			} else {
+				$link_next = '&nbsp; <a title="'.LABEL_verDetalle.TE_termino.' '.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'">&#x25ba;</a>';
 				//$link_next=JHTMLverTE($tema_id);
 			}
 		}else{
@@ -1264,13 +1269,16 @@ function HTMLtopTerms($letra="")
 		//Top terms
 		$sql=SQLverTopTerm();
 
-		while ($array = $sql->FetchRow()){
-			$rows.='<h2 class="TThtml">';
-				$rows.=HTMLshowCode($array);
-				$rows.=HTMLlinkTerm($array);
-				$rows.='  <a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id"].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span></a> ';
-				$rows.='</h2>' ;
-				$rows.=HTMLverTE($array["id"],1,0);
+		while ($array = $sql->FetchRow()) {
+			$rows .= '
+				<h2 class="TThtml">'.
+					HTMLshowCode($array).
+					HTMLlinkTerm($array).'
+					<a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')">
+						<span id ="expandTE'.$array["id"].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span>
+					</a>
+				/h2>'.
+				HTMLverTE($array["id"],1,0);
 			};
 
 	}else{
@@ -1752,7 +1760,7 @@ function paginate_links( $args = '' ) {
 		/*
 		Retorna los datos, acorde al formato de jtree
 		*/
-		function getData4jtree($term_id=0){
+		function getData4jtree($term_id=0) {
 
 			GLOBAL $CFG;
 			if(is_numeric($term_id)){
@@ -1786,11 +1794,20 @@ function paginate_links( $args = '' ) {
 
 				$styleClassLink = ($term_id=='TT') ? 'TT' :'';
 
-				$link='<span class="TT">'.$pre_link.HTMLlinkTerm($array,array("style"=>$styleClassLink)).'</span>';
+				$link = '
+					<span class="TT">'.
+						$pre_link.
+						HTMLlinkTerm($array,array("style"=>$styleClassLink)).'
+					</span>';
 
-				array_push($arrayResponse, array("label"=>"$link",
-				"id"=>"$array[tema_id]",
-				"load_on_demand"=>$load_on_demand));
+				array_push(
+					$arrayResponse,
+					array(
+						"label"          => "$link",
+						"id"             => "$array[tema_id]",
+						"load_on_demand" => $load_on_demand
+					)
+				);
 			}
 			return json_encode($arrayResponse);
 		};
@@ -1938,7 +1955,14 @@ function HTMLlinkTerm($arrayTerm, $arg = array())
 	$class.=($arrayTerm["isMetaTerm"]==1) ? ' metaTerm' : '';
 	$url_parts=parse_url($_SESSION["CFGURL"]);
 	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
-	return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>';
+
+	$datosUF = SQLdirectTerms($arrayTerm["tema_id"], '4');
+	$equivalentes = '';
+	foreach ($datosUF as $rel) {
+		$equivalentes .= ' - '.$rel['uf_tema'];
+	}
+
+	return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].$equivalentes.'</a>';
 }
 
 
@@ -2000,26 +2024,33 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 
 
 
-function HTMLheader($metadata){
+function HTMLheader($metadata)
+{
+	$rows = '
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="noindex, nofollow">
 
- $rows='   <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="robots" content="noindex, nofollow">
-    <link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
-    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
-    <link href="'.T3_WEBPATH.'css/local.css?v=1" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->';
-    $rows.=$metadata["metadata"];
- $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
-  <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+		<link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
+		<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
+
+		<link href="'.T3_WEBPATH.'css/local.css?v=2" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->'.
+
+		$metadata["metadata"].'
+
+		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
+		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+
 	return $rows;
 }
 

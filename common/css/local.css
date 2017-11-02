@@ -424,6 +424,12 @@ form.editable {
   color: red;
   font-weight: bolder; }
 
+[aria-level]:not([aria-level="1"]) .TT {
+  display: flex;
+  font-size: 17px; }
+  [aria-level]:not([aria-level="1"]) .TT a {
+    margin-left: 10px; }
+
 .flex {
   display: flex;
   justify-content: space-between;
