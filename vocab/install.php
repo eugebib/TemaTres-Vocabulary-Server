@@ -1,4 +1,5 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -8,39 +9,41 @@
 #                                                                  #
 ####################################################################
 
-	if (!defined('T3_WEBPATH')) {
-		define('T3_WEBPATH', getURLbaseInstall().'../common/');
-	}
+if (!defined('T3_WEBPATH')) {
+	define('T3_WEBPATH', getURLbaseInstall().'../common/');
+}
 
-	$CFG["_CHAR_ENCODE"] ='utf-8';
+$CFG["_CHAR_ENCODE"] ='utf-8';
 
-	$page_encode = (in_array($CFG["_CHAR_ENCODE"],array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
+$page_encode = (in_array($CFG["_CHAR_ENCODE"],array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
 
-	header('Content-type: text/html; charset='.$page_encode);
+header('Content-type: text/html; charset='.$page_encode);
 
-	//1. check if config file exist
-	if (!file_exists('db.tematres.php')) {
-		return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>') ;
-	} else {
-		include('db.tematres.php');
-		require_once(T3_ABSPATH . 'common/include/config.tematres.php');
-	}
+//1. check if config file exist
+if (!file_exists('db.tematres.php')) {
+	return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>') ;
+} else {
+	include('db.tematres.php');
+	require_once(T3_ABSPATH . 'common/include/config.tematres.php');
+}
 
-	//Config lang
-	$lang          = '';
-	$tematres_lang = '';
-	$lang_install  = (isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
-	$lang = $tematres_lang = (in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
-	require_once(T3_ABSPATH . 'common/lang/'.$lang.'-utf-8.inc.php');
+//Config lang
+$lang          = '';
+$tematres_lang = '';
+$lang_install  = $_GET["lang_install"] ?: 'es';
+$lang          = $tematres_lang = (in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
+require_once(T3_ABSPATH . 'common/lang/'.$lang.'-utf-8.inc.php');
 
-function message($mess) {
+function message($mess)
+{
 	echo "" ;
 	echo $mess ;
 	echo "<br/>" ;
 }
 
 #Return base URL of the current URL or instance of vocabulary
-function getURLbaseInstall() {
+function getURLbaseInstall()
+{
 	$s        = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
 	$protocol = substr(strtolower($_SERVER["SERVER_PROTOCOL"]), 0, strpos(strtolower($_SERVER["SERVER_PROTOCOL"]), "/")) . $s;
 	$port     = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
@@ -505,20 +508,18 @@ function HTMLformInstall($lang_install) {
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="<?php echo T3_WEBPATH;?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-		<link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="<?= T3_WEBPATH ?>vendors/bootstrap-submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
+		<link href="<?= T3_WEBPATH ?>css/t3style.css" rel="stylesheet">
 
-	  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	    <!-- Include all compiled plugins (below), or include individual files as needed -->
-	    <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
-		<link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jqtree.css" />
-		<script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-		<script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/bootstrap-tabcollapse.js"></script>
-		<link type="text/css" src="<?php echo T3_WEBPATH;?>bootstrap/forms/css/styles.css"/>
-		<script type="text/javascript" src="<?php echo T3_WEBPATH;?>forms/jquery.validate.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="<?= T3_WEBPATH ?>css/jquery.autocomplete.css" />
+		<link rel="stylesheet" type="text/css" href="<?= T3_WEBPATH ?>css/jqtree.css" />
+		<script type="text/javascript" src="<?= T3_WEBPATH ?>vendors/bootstrap-submenu/js/bootstrap-submenu.min.js"></script>
+		<script type="text/javascript" src="<?= T3_WEBPATH ?>vendors/bootstrap-tabcollapse.js"></script>
+		<link type="text/css" src="<?= T3_WEBPATH ?>bootstrap/forms/css/styles.css"/>
+		<script type="text/javascript" src="<?= T3_WEBPATH ?>forms/jquery.validate.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -527,16 +528,17 @@ function HTMLformInstall($lang_install) {
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<?php echo $metadata["metadata"]; ?>
+		<?= $metadata["metadata"] ?>
 
-		<link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
-		<link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
+		<link rel="icon" type="image/x-icon" href="<?= T3_WEBPATH ?>images/tematres.ico"  />
+		<link rel="shortcut icon" type="image/x-icon" href="<?= T3_WEBPATH ?>images/tematres.ico"  />
 	</head>
+
 	<body>
 		<div class="container">
 			<div class="header">
 				<h1>
-					<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
+					<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?= T3_WEBPATH ?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
 					<?php echo $install_message["101"];?>
 				</h1>
 	 		</div>
@@ -574,7 +576,7 @@ function HTMLformInstall($lang_install) {
 		<div class="push"></div>
 		<div id="footer" class="footer">
 				<div class="container">
-				<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
+				<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?= T3_WEBPATH ?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
 				<strong><?php echo LABEL_Version ?>: </strong>
 				<span class="footerCol2"><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></span>
 			</div>

@@ -1,8 +1,9 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
-# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
 # Distribuido bajo Licencia GNU Public License, versión 2          #
 # (de junio de 1.991) Free Software Foundation                     #
 #                                                                  #
@@ -41,7 +42,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 
 	$(function() {
 	 $(".editable_textarea").editable("searcher.php", {
-		  indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif"/>',
+		  indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif"/>',
 		  placeholder : '[<?php echo LABEL_CODE;?>]',
 		  tooltip : '<?php echo LABEL_ClickEditar;?>',
 		  id   : 'code_tema_id',
@@ -59,7 +60,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	  });
 
 	 $(".edit_area_term").editable("searcher.php", {
-		  indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif"/>',
+		  indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif"/>',
 		  tooltip : '<?php echo LABEL_ClickEditar;?>',
 		  id   : 'edit_tema_id',
 		  name : 'edit_tema',
@@ -95,7 +96,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 
 		?>
 	  $(".editable_selectTE").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+		indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif">',
 		data   : '<?php print json_encode($arrayCustumRelations["TE"]); ?>',
 		id   : 'edit_rel_id',
 		name : 'rel_rel_id',
@@ -110,7 +111,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 			}
 		});
 	  $(".editable_select3").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+		indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif">',
 		data   : '<?php print json_encode($arrayCustumRelations["3"]); ?>',
 		id   : 'edit_rel_id',
 		name : 'rel_rel_id',
@@ -122,7 +123,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 			}
 		});
 	  $(".editable_select2").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+		indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif">',
 		data   : '<?php print json_encode($arrayCustumRelations["2"]); ?>',
 		id   : 'edit_rel_id',
 		name : 'rel_rel_id',
@@ -134,7 +135,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 			}
 		});
 	  $(".editable_select4").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+		indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif">',
 		data   : '<?php print json_encode($arrayCustumRelations["4"]); ?>',
 		id   : 'edit_rel_id',
 		name : 'rel_rel_id',

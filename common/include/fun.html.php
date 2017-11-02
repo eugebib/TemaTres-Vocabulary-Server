@@ -2027,29 +2027,30 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 function HTMLheader($metadata)
 {
 	$rows = '
-		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="robots" content="noindex, nofollow">
+		<meta name="robots" content="noindex, nofollow">'.
+		$metadata["metadata"].'
 
-		<link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
-		<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto">
 
-		<link href="'.T3_WEBPATH.'css/local.css?v=2" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+		<link rel="stylesheet" href="' . T3_WEBPATH . 'vendors/bootstrap-submenu/css/bootstrap-submenu.min.css">
+		<link rel="stylesheet" href="' . T3_WEBPATH . 'css/t3style.css">
+		<link rel="stylesheet" href="' . T3_WEBPATH . 'css/jquery.autocomplete.css">
+		<link rel="stylesheet" href="' . T3_WEBPATH . 'css/jqtree.css">
+		<link rel="stylesheet" href="' . T3_WEBPATH . 'css/local.css?v=2">
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->'.
+		<![endif]-->
 
-		$metadata["metadata"].'
+		<link rel="icon" type="image/x-icon" href="' . T3_WEBPATH . 'images/tematres.ico">
+		<link rel="shortcut icon" type="image/x-icon" href="' . T3_WEBPATH . 'images/tematres.ico">
 
-		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
-		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+		<script src="https://use.fontawesome.com/a9256a563c.js"></script>';
 
 	return $rows;
 }
@@ -2058,7 +2059,6 @@ function HTMLheader($metadata)
 
 function HTMLnavHeader()
 {
-
 	GLOBAL $CFG, $DBCFG;
 
 	if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
@@ -2131,53 +2131,49 @@ function HTMLnavHeader()
 
 
 
-function HTMLjsInclude(){
+function HTMLjsInclude()
+{
+ 	$rows = '
+ 		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
 
-  #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
- $rows='<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-		 <!-- Include all compiled plugins (below), or include individual files as needed -->
-		 <script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
-
-		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
-		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/bootstrap-tabcollapse.js"></script>
-		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>
+		<script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap-submenu/js/bootstrap-submenu.min.js"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap-tabcollapse.js"></script>
 		<script>
 		    $(".toggle").on("click", function() {
 	            $(".toggle").parent().parent().parent().toggleClass("active");
 		    });
 	    </script>';
 
-	  if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0)) {
-		//<!-- Load TinyMCE -->
-		 $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'tiny_mce4/tinymce.min.js"></script>';
-		//<!-- /TinyMCE -->
-
-		 $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />
-			<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
+	if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0)) {
+		$rows .= '
+			<link rel="stylesheet" type="text/css" href="' . T3_WEBPATH . 'jq/theme/ui.all.css" media="screen"/>
+			<script type="text/javascript" src="' . T3_WEBPATH . 'vendors/tiny_mce4/tinymce.min.js"></script>
+			<script type="text/javascript" src="' . T3_WEBPATH . 'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
 	}
 
- $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
+ 	$rows .= '
+ 		<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>';
 
- if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
- 	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
+ 	if ($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en') {
+ 		$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
+ 	}
 
-$rows.='<script type="text/javascript">
-	  	$("#myTermTab").tabCollapse();
-	  	$(".dropdown-submenu > a").submenupicker();
+	$rows .='
+		<script type="text/javascript">
+		  	$("#myTermTab").tabCollapse();
+		  	$(".dropdown-submenu > a").submenupicker();
+		  	$(".termDefinition").popover();
+			$("#popoverOption").popover({ trigger: "hover"});
+			$(".autoGloss").tooltip();
+	  	</script>';
 
-	  	$(".termDefinition").popover();
-		$("#popoverOption").popover({ trigger: "hover"});
-		$(".autoGloss").tooltip(options);
-	  </script>';
-
-	//scritp to export form
+	//script to export form
 	if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
 		($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) &&
 	  	($_GET["doAdmin"]=='export')){
@@ -2204,50 +2200,61 @@ $rows.='<script type="text/javascript">
 }
 
 // specific note types for contextual term definition
-function TXTtermDefinition($array,$noteType=array("DF","NA","SN")){
-
-if(count($array["notas"])==0) return;
-
-for($iNota=0; $iNota<(count($array["notas"])); ++$iNota){
-
-	if($array["notas"][$iNota]["id"]){
-		if((in_array($array["notas"][$iNota]["tipoNota"], $noteType)) && ($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])){
-			$body.=html2txt($array["notas"][$iNota]["nota"]).' ';
-
-			}
-		};// fin del for
-	};
-return $body;
-};
-
-
-function HTMLdisplayRandomTerm($noteType="NA"){
-
-$sql=SQLrandomTerms($noteType);
-
-
-if(is_object($sql)){
-	$arrayTerm=$sql->FetchRow();
-	$ARRAYdatosTermino=ARRAYverDatosTermino($arrayTerm["term_id"]);
-	for($iNota=0; $iNota<(count($ARRAYdatosTermino["notas"])); ++$iNota){
-
-		if(($ARRAYdatosTermino["notas"][$iNota]["tipoNota"]==$noteType) && ($ARRAYdatosTermino["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])){
-			$notes.=wiki2link($ARRAYdatosTermino["notas"][$iNota]["nota"]).' ';
-		};// fin del for
+function TXTtermDefinition($array,$noteType=array("DF","NA","SN"))
+{
+	if (count($array["notas"])==0) {
+		return;
 	}
 
-$rows='<div class="jumbotron">';
-$rows.='  <h2>'.ucfirst($arrayTerm["tema"]).'</h2>';
-$rows.='  <p style="text-align: justify" class="glossNote">'.$notes.'</p>';
-$rows.='  <p><a class="btn btn-primary btn-lg" href="'.URL_BASE.'index.php?tema='.$arrayTerm["term_id"].'" role="button" title="'.ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"].'">'.ucfirst(LABEL_Detalle).'</a></p>';
-$rows.='</div>';
+	for ($iNota=0; $iNota<(count($array["notas"])); ++$iNota) {
+		if ($array["notas"][$iNota]["id"]) {
+		 	if ((in_array($array["notas"][$iNota]["tipoNota"], $noteType)) && ($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])) {
+				$body.=html2txt($array["notas"][$iNota]["nota"]).' ';
+			}
+		}
+	}
+
+	return $body;
 }
 
-if($iNota>0) return $rows;
+
+
+function HTMLdisplayRandomTerm($noteType="NA")
+{
+	$sql=SQLrandomTerms($noteType);
+
+	if (is_object($sql)) {
+		$arrayTerm         =$sql->FetchRow();
+		$ARRAYdatosTermino =ARRAYverDatosTermino($arrayTerm["term_id"]);
+
+		for ($iNota=0; $iNota<(count($ARRAYdatosTermino["notas"])); ++$iNota) {
+			if (($ARRAYdatosTermino["notas"][$iNota]["tipoNota"]==$noteType) && ($ARRAYdatosTermino["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])) {
+				$notes.=wiki2link($ARRAYdatosTermino["notas"][$iNota]["nota"]).' ';
+			}
+		}
+
+		$rows = '
+			<div class="jumbotron">
+				<h2>'.ucfirst($arrayTerm["tema"]).'</h2>
+				<p style="text-align: justify" class="glossNote">'.$notes.'</p>
+				<p>
+					<a class="btn btn-primary btn-lg" href="'.URL_BASE.'index.php?tema='.$arrayTerm["term_id"].'" role="button" title="'.ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"].'">'.
+						ucfirst(LABEL_Detalle).'
+					</a>
+				</p>
+			</div>';
+	}
+
+	if ($iNota>0) {
+		return $rows;
+	}
 }
 
 
-//redact extra link and image for header
+
+#
+# redact extra link and image for header
+#
 function HTMLextraDataHeader($CFG)
 {
     if (strlen($CFG["HEADER_EXTRA"]["LINK_URL"]) > 0) {
@@ -2256,6 +2263,8 @@ function HTMLextraDataHeader($CFG)
 
     return '<img src="logo.png" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
 }
+
+
 
 function footer()
 {
@@ -2304,30 +2313,47 @@ function footer()
 	return $rows;
 }
 
-//select target vocabulary in trad module
-function HTMLselectTargetVocabulary($tvocab_id=""){
-	$sql=SQLinternalTargetVocabs();
-	if(SQLcount($sql)=='0'){
-			//No hay vocabularios de referencia, solo vocabulario principal
-			$rows.=HTMLalertNoTargetVocabularyPivotModel($tvocab_id);
+
+
+#
+# select target vocabulary in trad module
+#
+function HTMLselectTargetVocabulary($tvocab_id="")
+{
+	$sql = SQLinternalTargetVocabs();
+
+	if (SQLcount($sql)=='0'){
+		//No hay vocabularios de referencia, solo vocabulario principal
+		$rows = HTMLalertNoTargetVocabularyPivotModel($tvocab_id);
 	} else {
-		$rows.='<table class="table table-striped table-bordered table-condensed table-hover">
-		<thead>
-		<tr>
-			<th>'.ucfirst(LABEL_vocabulario_referencia).'</th>
-			<th>'.ucfirst(LABEL_cantTerms).'</th>
-		</tr>
-		</thead>
-		<tbody>';
-		while ($array = $sql->FetchRow()){
-			$rows.= '<tr>';
-			$rows.=  '     <td><a href="'.URL_BASE.'index.php?mod=trad&amp;tvocab_id='.$array["tvocab_id"].'" title="'.$array["titulo"].'">'.$array["titulo"].'</a> ('.strtoupper($array["idioma"]).')</td>';
-			$rows.=  '      <td>'.$array["cant"].'</td>';
-			$rows.=  '</tr>';
-		};
-		$rows.='        </tbody></table>';
-		$rows.='</div>';
+		$rows = '
+			<table class="table table-striped table-bordered table-condensed table-hover">
+				<thead>
+					<tr>
+						<th>'.ucfirst(LABEL_vocabulario_referencia).'</th>
+						<th>'.ucfirst(LABEL_cantTerms).'</th>
+					</tr>
+				</thead>
+				<tbody>';
+
+		while ($array = $sql->FetchRow()) {
+			$rows .= '
+					<tr>
+						<td>
+							<a href="'.URL_BASE.'index.php?mod=trad&amp;tvocab_id='.$array["tvocab_id"].'" title="'.$array["titulo"].'">'.$array["titulo"].'</a> ('.strtoupper($array["idioma"]).')
+						</td>
+						<td>'.
+							$array["cant"].'
+						</td>
+					</tr>';
+		}
+
+		$rows .= '
+		       </tbody>
+		    </table>
+		</div>';
 	}
+
 	return $rows;
 }
 
