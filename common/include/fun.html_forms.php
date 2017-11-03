@@ -955,10 +955,13 @@ function HTMLformSimpleTermReport($array)
 					doSelectForm($arraySimpleReports,"$_GET[task]").'
 				</select>';
 	if ($CFG["_CHAR_ENCODE"]=='utf-8') {
-		$rows.='<div class="form-group">
-					<input type="checkbox" name="csv_encode" id="csv_encodeSimple" value="latin1" checked>
-					<label for="csv_encodeSimple">'.ucfirst(LABEL_encode).' latin1</label>
-				</div>';
+		$rows.='<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="csv_encodeSimple" name="csv_encode" value="latin1" type="checkbox" checked />
+                        <label for="csv_encodeSimple" class="label-warning"></label>
+                    </div>
+                    '.ucfirst(LABEL_encode).'  latin1
+                </li>';
 	}
 	$rows.=	'</div>
 			<input type="hidden" name="mod" id="mod" value="csv"/>
