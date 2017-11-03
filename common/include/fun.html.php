@@ -1321,20 +1321,19 @@ function HTMLlistaAlfabeticaUnica($letra="")
 	return $menuAlfabetico;
 }
 
-/*
-All terms form one char
-*/
+
+
+#
+# All terms form one char
+#
 function HTMLterminosLetra($letra)
 {
-
-
-	$cantLetra=numTerms2Letter($letra);
-
-	$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
+	$cantLetra   = numTerms2Letter($letra);
+	$letra_label = (!ctype_digit($letra)) ?  $letra : '0-9';
 
 	$terminosLetra.='<ol class="breadcrumb">';
 	$terminosLetra.='<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>';
-	$terminosLetra.='<li class="active"><em>'.$letra_label.'</em>: <strong>'.$cantLetra.' </strong>'.LABEL_Terminos.'</li>';
+	$terminosLetra.='<li class="active"><em>'.$letra_label.'</em>: <strong>'.$cantLetra.' </strong>'.($cantLetra == 1 ? LABEL_Termino : LABEL_Terminos).'</li>';
 	$terminosLetra.='</ol>';
 
 

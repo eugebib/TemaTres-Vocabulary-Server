@@ -1026,46 +1026,55 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 		group by tema.tema_id
 		order by lower(tema.code),trr.value_order,lower(tema.tema)");
 		return $sql;
-	};
+	}
 
 
 
 	#
 	# Lista  de letras
 	#
-	function SQLlistaABC($letra=""){
-
+	function SQLlistaABC($letra="")
+	{
 		GLOBAL $DBCFG;
 		GLOBAL $CFG;
-		$where='';
-		$leftJoin='';
+
+		$where    = '';
+		$leftJoin = '';
 
 		if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 
-			//Control de estados
-			$where=" where tema.estado_id='13' ";
+			$where = " where tema.estado_id='13' ";
 
 			//hide hidden equivalent terms
-			if(count($CFG["HIDDEN_EQ"])>0)			{
-				$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
-				$hidden_labels='\''.$hidden_labels.'\'';
-				$leftJoin="left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
-				$where.=" and trr.value_id is null ";
+			if (count($CFG["HIDDEN_EQ"]) > 0) {
+				$hidden_labels = implode("','", $CFG["HIDDEN_EQ"]);
+				$hidden_labels = '\''.$hidden_labels.'\'';
+				$leftJoin      = "left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
+				$where        .= " and trr.value_id is null ";
 			}
 		}
 
-		$letra=secure_data($letra,"ADOsql");
+		$letra = secure_data($letra,"ADOsql");
 
-		return SQL("select","ucase(LEFT(tema.tema,1)) as letra_orden,
-		if(LEFT(tema.tema,1)=$letra, 1,0) as letra
-		from $DBCFG[DBprefix]tema as tema
-		left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-		$leftJoin
-		$where
-		group by letra_orden
-		order by letra_orden");
-		;
-	};
+		$sql = SQL("select","
+				ucase(LEFT(tema.tema,1)) as letra_orden,
+				if(LEFT(tema.tema,1)=$letra, 1,0) as letra
+			FROM
+				$DBCFG[DBprefix]tema as tema
+			LEFT JOIN
+				$DBCFG[DBprefix]tabla_rel as relaciones
+			ON
+				relaciones.id_mayor=tema.tema_id
+			$leftJoin
+			$where
+			GROUP BY
+				letra_orden COLLATE utf8_spanish_ci
+			ORDER BY
+				letra_orden
+		");
+
+		return $sql;
+	}
 
 
 	#
@@ -1125,18 +1134,21 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 	return $sql;
 }
 
-	#
-	# Lista PAGINADA de términos de una letra
-	#
-	function SQLmenuABCpages($letra,$args = ''){
 
-		GLOBAL $DBCFG;
-		GLOBAL $CFG;
 
-		$letra=(ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
+#
+# Lista PAGINADA de términos de una letra
+#
+function SQLmenuABCpages($letra,$args = '')
+{
+	GLOBAL $DBCFG;
+	GLOBAL $CFG;
 
-		$defaults=array("min"=>0,
-		"limit"=>50
+	$letra=(ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
+
+	$defaults = array(
+		"min"   => 0,
+		"limit" => 50
 	);
 
 	$args = t3_parse_args( $args, $defaults );
@@ -1146,7 +1158,7 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 	$min = 0  < (int) $min ? (int) $min : 0;
 	$limit = 50 <= (int) $limit ? (int) $limit : 50;
 
-	$where_letter=(ctype_digit($letra)) ?  " LEFT(tema.tema,1) REGEXP '[[:digit:]]' " : " LEFT(tema.tema,1)=$letra ";
+	$where_letter=(ctype_digit($letra)) ?  " LEFT(tema.tema,1) REGEXP '[[:digit:]]' " : " LEFT(tema.tema,1)=$letra COLLATE utf8_spanish_ci ";
 
 	$where="";
 
@@ -1185,19 +1197,20 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 	limit $min,$limit");
 
 	return $sql;
-};
+}
+
 
 
 #
 # cantidad de términos de una letra
 #
-function numTerms2Letter($letra){
-
+function numTerms2Letter($letra)
+{
 	GLOBAL $DBCFG;
 
 	$letra_sanitizada=secure_data($letra,"ADOsql");
 
-	$where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)=$letra_sanitizada " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' ";
+	$where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)=$letra_sanitizada COLLATE utf8_spanish_ci " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' COLLATE utf8_spanish_ci ";
 
 	//Control de estados
 	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
