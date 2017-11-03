@@ -2037,26 +2037,30 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 function HTMLheader($metadata)
 {
 	$rows='
-		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	    <link href="'.T3_WEBPATH.'vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-	    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
-	    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
-	    <link href="'.T3_WEBPATH.'css/local.css?v=3" rel="stylesheet">
-	    <link href="https://fonts.googleapis.com/css?family=Montserrat|Anton|Work+Sans|Open+Sans|Roboto" rel="stylesheet">
+ 		<meta name="robots" content="noindex, nofollow">'.
+    	$metadata["metadata"].'
+
+     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+ 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto">
+
+	    <link rel="stylesheet" href="' . T3_WEBPATH . 'vendors/bootstrap-submenu/css/bootstrap-submenu.min.css">
+	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/t3style.css">
+	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/jquery.autocomplete.css">
+	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/jqtree.css">
+	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/local.css?v=2">
 
 	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	    <!--[if lt IE 9]>
-	    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	    <![endif]-->'.
+		    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->
 
-	    $metadata["metadata"].'
+    	<link rel="icon" type="image/x-icon" href="' . T3_WEBPATH . 'images/tematres.ico">
+    	<link rel="shortcut icon" type="image/x-icon" href="' . T3_WEBPATH . 'images/tematres.ico">
 
-		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
-  		<link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+    	<script src="https://use.fontawesome.com/a9256a563c.js"></script>';
 
 	return $rows;
 }
@@ -2132,22 +2136,21 @@ function HTMLnavHeader()
     return $rows;
 }
 
-function HTMLjsInclude(){
 
-  #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
- $rows='<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-		 <!-- Include all compiled plugins (below), or include individual files as needed -->
-		 <script src="'.T3_WEBPATH.'vendors/bootstrap/js/bootstrap.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
 
-		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
-		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
-		 <script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap/bootstrap-tabcollapse.js"></script>
-		 <link type="text/css" src="'.T3_WEBPATH.'vendors/bootstrap/forms/css/styles.css"/>
-		 		<script>
+function HTMLjsInclude()
+{
+   	$rows = '
+     	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
+    	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
+    	<script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
+
+    	<script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap-submenu/js/bootstrap-submenu.min.js"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'vendors/bootstrap-tabcollapse.js"></script>
+
+		<script>
 		    $(".toggle").on("click", function() {
 		        $(".toggle").parent().parent().parent().toggleClass("active");
 		    });
@@ -2176,7 +2179,7 @@ $rows.='<script type="text/javascript">
 
 	  	$(".termDefinition").popover();
 		$("#popoverOption").popover({ trigger: "hover"});
-		$(".autoGloss").tooltip(options);
+		$(".autoGloss").tooltip();
 	  </script>';
 
 //scritp to export form

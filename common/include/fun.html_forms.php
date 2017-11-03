@@ -376,7 +376,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino="0")
 			<form class="box form-horizontal" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
 				<div class="box-title">
 				    <span>'. ucfirst($nombre_pantalla).'</span>
-					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Cambiar.'"/>
 				</div>
 				<div class="box-content">'.
 					$help_rows.'
@@ -1732,7 +1732,7 @@ function HTMLformLogin($task_result)
 						<input type="email" name="id_correo_electronico" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11" />
 						<input type="password" name="id_password" id="userPassword" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_pass).'" required id="id_password" size="11" />
 						<div>
-							<button type="submit" class="btn btn-primary btn-md">'.LABEL_Enviar.' <i class="fa fa-sign-in"></i></button>
+							<button type="submit" class="btn btn-primary btn-md">'.MENU_MiCuenta.' <i class="fa fa-sign-in"></i></button>
 							<a href="login.php?task=recovery" tabindex="5" class="pull-right" title="'.LABEL_user_lost_password.'">'.LABEL_user_lost_password.'</a>
 						</div>
 					</div>
@@ -1753,7 +1753,7 @@ function HTMLformRecoveryPassword($user_name="")
 						<h4>'.ucfirst(LABEL_user_recovery_password).'</h4>
 						<input type="email" name="id_correo_electronico_recovery" name="id_correo_electronico_recovery" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11" />
 						<br>
-						<button id="button1id" name="button1id" type="submit" class="btn btn-primary btn-md">'.LABEL_Enviar.' <i class="fa fa-sign-in"></i></button>
+						<button id="button1id" name="button1id" type="submit" class="btn btn-primary btn-md">'.LABEL_Enviar.' <i class="fa fa-envelope" aria-hidden="true"></i></button>
 						<input type="hidden"  name="task" value="user_recovery" />
 					</div>
 				</div>

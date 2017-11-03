@@ -1,11 +1,14 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-#
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
 if ( !defined('T3_WEBPATH') )
 define('T3_WEBPATH', getURLbaseInstall().'../common/');
 
@@ -571,48 +574,51 @@ function HTMLformInstall($lang_install)
 
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+  	<head>
 		<title><?php echo $install_message["101"]; ?></title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="<?php echo T3_WEBPATH;?>vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <link href="<?php echo T3_WEBPATH;?>vendors/bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-	 <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<?= $metadata["metadata"] ?>
 
-	  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	    <!-- Include all compiled plugins (below), or include individual files as needed -->
-	    <script src="<?php echo T3_WEBPATH;?>vendors/bootstrap/js/bootstrap.min.js"></script>
-	  <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
-	  <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jqtree.css" />
-	 <script type="text/javascript" src="<?php echo T3_WEBPATH;?>vendors/bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-	 <script type="text/javascript" src="<?php echo T3_WEBPATH;?>vendors/bootstrap/bootstrap-tabcollapse.js"></script>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	    <link rel="stylesheet" href="<?= T3_WEBPATH ?>vendors/bootstrap-submenu/css/bootstrap-submenu.min.css">
 
-		<link type="text/css" src="<?php echo T3_WEBPATH;?>vendors/bootstrap/forms/css/styles.css"/>
+	 	<link rel="stylesheet" href="<?= T3_WEBPATH ?>css/jquery.autocomplete.css" />
+		<link rel="stylesheet" href="<?= T3_WEBPATH ?>css/jqtree.css" />
+	    <link rel="stylesheet" href="<?= T3_WEBPATH ?>css/t3style.css">
+ 		<link rel="stylesheet" href="<?= T3_WEBPATH ?>bootstrap/forms/css/styles.css"/>
 
-	<script type="text/javascript" src="<?php echo T3_WEBPATH;?>forms/jquery.validate.min.js"></script>
+		<link type="image/x-icon" href="<?= T3_WEBPATH ?>images/tematres.ico" rel="icon" />
+		<link type="image/x-icon" href="<?= T3_WEBPATH ?>images/tematres.ico" rel="shortcut icon" />
 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  <?php echo $metadata["metadata"]; ?>
-  <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
-  <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
-</head>
- <body>
-<div class="container">
-  <div class="header">
-		<h1>		<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
-<?php echo $install_message["101"];?></h1>
- </div>
-</div>
+		<script type="text/javascript" src="<?= T3_WEBPATH ?>vendors/bootstrap-submenu/js/bootstrap-submenu.min.js"></script>
+		<script type="text/javascript" src="<?= T3_WEBPATH ?>vendors/bootstrap-tabcollapse.js"></script>
+		<script type="text/javascript" src="<?= T3_WEBPATH ?>forms/jquery.validate.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+ 	<body>
+		<div class="container">
+  			<div class="header">
+				<h1>
+					<a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">
+						<img src="<?= T3_WEBPATH ?>/images/tematres-logo.gif"  alt="TemaTres"/>
+					</a>
+					<?= $install_message["101"] ?>
+				</h1>
+ 			</div>
+		</div>
 
 
 
