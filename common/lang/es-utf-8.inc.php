@@ -62,6 +62,7 @@ define("LABEL_Detalle","detalles");
 define("LABEL_VerDetalles","ver detalles del término");
 define("LABEL_EditarNota","editar nota");
 define("LABEL_Autor","Autor");
+define("LABEL_Institucion","institución educativa");
 define("LABEL_URI","URI");
 define("LABEL_Version","Generado por");
 define("LABEL_Idioma","Idioma");

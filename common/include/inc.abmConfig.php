@@ -53,12 +53,13 @@ $rows = '
 		</div>
 		<div class="box-content">
             <input type="text" class="form-control" required id="'.FORM_LABEL_Titulo.'" placeholder="'.LABEL_Titulo.'" name="'.FORM_LABEL_Titulo.'" value="'.$array_vocabulario["titulo"].'">
-            <input type="text" class="form-control" required id="'.FORM_LABEL_Autor.'" placeholder="'.LABEL_Autor.'" name="'.FORM_LABEL_Autor.'" value="'.$array_vocabulario["autor"].'">
+            <input type="text" class="form-control" required id="'.FORM_LABEL_Autor.'" placeholder="'.LABEL_Institucion.'" name="'.FORM_LABEL_Autor.'" value="'.$array_vocabulario["autor"].'">
+            <textarea class="form-control" type="text" rows="3" name="'.FORM_LABEL_Cobertura.'" id="cobertura" placeholder="'.ucfirst(FORM_LABEL_Cobertura).'">'.$array_vocabulario["cobertura"].'</textarea>
+            <input type="text" class="form-control" id="dccontributor" placeholder="'.LABEL_Autor.'" name="dccontributor" value="'.$ARRAYfetchValues["dc:contributor"]["value"].'">
 			<select class="form-control" id="'.FORM_LABEL_Idioma.'" name="'.FORM_LABEL_Idioma.'">
 				<option value="">Seleccionar '.FORM_LABEL_Idioma.'</option>'.
 				doSelectForm($arrayLang,$array_vocabulario["idioma"]).'
-			</select>
-			<textarea class="form-control" type="text" rows="3" name="'.FORM_LABEL_Cobertura.'" id="cobertura" placeholder="'.ucfirst(FORM_LABEL_Cobertura).'">'.$array_vocabulario["cobertura"].'</textarea>';
+			</select>';
 
 //is main vocab
 if ($array_vocabulario[vocabulario_id] == 1) {
@@ -84,12 +85,6 @@ if ($array_vocabulario[vocabulario_id] == 1) {
 							</select>
 	                    </div>
 			        </div>
-			        <div class="form-group">
-			           	<label for="dccontributor" class="col-sm-3 control-label">'.ucfirst(LABEL_Contributor).'</label>
-			            <div class="col-sm-9">
-	                        <input type="text" class="form-control" id="dccontributor" placeholder="'.LABEL_Contributor.'" name="dccontributor" value="'.$ARRAYfetchValues["dc:contributor"]["value"].'">
-	                    </div>
-		         	</div>
 		         	<div class="form-group">
 			            <label for="dcrights" class="col-sm-3 control-label">'.ucfirst(LABEL_Publisher).'</label>
 	                    <div class="col-sm-9">
