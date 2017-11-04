@@ -142,24 +142,6 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
                     </div>
                 <?php endif ?>
 
-<!--                 <?php if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
-
-                    if (($_GET["user_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1)) { ?>
-                        <div class="span3">
-                            <?= doBrowseTermsFromUser(secure_data($_GET["user_id"],$_GET["ord"])) ?>
-                        </div>
-
-                    <?php } elseif($_GET["user_id"]) {
-                        echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"],"sql"),secure_data($_GET[ord],"sql"));
-                        //quiere ver un año
-                    } elseif($_GET[y]) {
-                        echo doBrowseTermsFromDate(secure_data($_GET["m"],"sql"),secure_data($_GET["y"],"sql"),secure_data($_GET["ord"],"sql"));
-                    } else {
-                        //ver lista agregada
-                        echo doBrowseTermsByDate();
-                    }
-                } ?> -->
-
                 <?php if ($_SESSION["CFGDerechos"]) : ?>
                     <div>
                         <h4><?= mb_strtoupper(LABEL_Derechos, 'UTF-8') ?></h4>

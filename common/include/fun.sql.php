@@ -1660,12 +1660,15 @@ function SQLdatosUsuarios($user_id="")
 	group by usuario.id
 	order by usuario.apellido");
 	return $sql;
-};
+}
+
+
 
 #
 # Lista de términos según usuarios
 #
-function SQLlistTermsfromUser($id_user,$ord=""){
+function SQLlistTermsfromUser($id_user,$ord="")
+{
 	GLOBAL $DBCFG;
 	switch($ord){
 		case 'F':

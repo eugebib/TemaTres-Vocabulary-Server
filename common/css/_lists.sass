@@ -1,3 +1,43 @@
+.list-title
+    color: $azulOscuro
+    margin-bottom: 30px
+    padding-bottom: 15px
+    border-bottom: 2px solid $azulOscuro
+
+.list-content
+    display: flex
+    flex-wrap: wrap
+
+    &>a
+        background-color: $azulOscuro
+        font-size: 18px
+        color: black
+        border: 3px solid transparent
+
+        padding: 20px
+        margin: 0 15px 15px 0
+
+        flex-grow: 1
+
+        &:nth-child(3n+2)
+            background-color: $azulOscuro
+
+        &:nth-child(3n+3)
+            background-color: $azulOscuro
+
+        span
+            font-size: 12px
+
+        &:hover,
+        &:focus
+            text-decoration: none
+            background-color: white
+            border: 3px solid $azulOscuro
+
+.table-content
+    h4
+        margin-bottom: 20px
+
 #listaLetras li,
 #listaBusca li
     line-height: 35px
