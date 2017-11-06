@@ -314,6 +314,27 @@ fieldset .btn {
   background: inherit;
   left: 20px; }
 
+.filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border: 1px solid #dddddd;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px; }
+  .filter:focus-within {
+    background-color: #cfdbe7; }
+    .filter:focus-within input {
+      color: #193848; }
+  .filter input {
+    flex-grow: 1;
+    border: 0;
+    background-color: transparent;
+    box-shadow: none; }
+    .filter input:focus {
+      box-shadow: none; }
+
 .header {
   display: flex;
   justify-content: space-between;

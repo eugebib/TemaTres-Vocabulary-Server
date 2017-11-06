@@ -111,6 +111,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 	GLOBAL $new_relacion;
 
 	$link_term = HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
+	$cant_result = null;
 
 	switch ($taskterm) {
 		case 'addRT':
@@ -140,17 +141,17 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 		if ($_GET["showTerms"] == "free") {
 			$sql_busca = SQLverTerminosLibres();
 			$cant_result = SQLcount($sql_busca);
-			$search_leyenda = '<h3>'.$cant_result.' '.LABEL_terminosLibres.'</h3>'."\n\r";
+			$search_leyenda = $cant_result.' '.LABEL_terminosLibres;
 		}//seleccionar SQL adecuado a la operacion
 		if ($_GET["showTerms"] == "NBT") {
 			$sql_busca = SQLtermsNoBT(1);
 			$cant_result = SQLcount($sql_busca);
-			$search_leyenda = '<h3>'.$cant_result.' '.LABEL_terminosLibres.'</h3>'."\n\r";
+			$search_leyenda = $cant_result.' '.LABEL_terminosLibres;
 		}//seleccionar SQL adecuado a la operacion
 		if (($_GET["showTerms"] == 'tt') && (in_array($taskterm,array('addBT','addFreeNT')))) {
 			$sql_busca = SQLverTopTerm();
 			$cant_result = SQLcount($sql_busca);
-			$search_leyenda = '<h3>'.$cant_result.' '.LABEL_TTTerms.'</h3>'."\n\r";
+			$search_leyenda = $cant_result.' '.LABEL_TTTerms;
 		}
 	} else {
 		if ((doValue($_POST,FORM_LABEL_buscarTermino))) {
@@ -160,11 +161,11 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 				//if enable polijerarquia
 				$sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca,$ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca,$ARRAYtermino["idTema"]);
 				$cant_result = SQLcount($sql_busca);
-				$search_leyenda = '<h3>'.$cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>.</h3>'."\n\r";
+				$search_leyenda = $cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>';
 			} else {
 				$sql_busca = SQLbuscaTR($ARRAYtermino["idTema"],"$expresBusca");
 				$cant_result = SQLcount($sql_busca);
-				$search_leyenda = '<h3>'.$cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>.</h3>'."\n\r";
+				$search_leyenda = $cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>';
 			}
 		}
 	}
@@ -172,8 +173,12 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 	if ($cant_result > 0) {
 		$rows_busca.= '
 			<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >
-				<div class="flex">
-					<input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"><button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>
+				<div class="filter">
+					<input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'">
+					<button type="submit" class="btn btn-primary">'.ucfirst(LABEL_Subordinar).'</button>
+					<input type="hidden" name="tema" id="tema" value="'.$ARRAYtermino["idTema"].'"/>
+					<input type="hidden" name="taskterm" id="taskterm" value="'.$taskterm.'"/>
+					<input type="hidden" name="taskrelations" id="taskrelations" value="'.$taskterm.'"/>
 			    </div>
 			    <div class="table-responsive">
 			    	<table class="table table-striped table-bordered table-condensed table-hover"">
@@ -193,35 +198,43 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 			//prevenir que no seleccione el mismo término que esta mirando
 			if ($resulta_busca["tema_id"] !== $ARRAYtermino["idTema"]) {
 				if ($taskterm == 'addBT') {
-					$rows_busca.= '<tr>';
-					$rows_busca.= '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
-					$rows_busca.= '     <td><label  for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label> '.$alert_MT.' </td>';
-					$rows_busca.= '      <td>'.$resulta_busca["cuando"].'</td>';
-					$rows_busca.= '  </tr>';
+					$rows_busca.= '
+						<tr>
+							<td align="center">
+								<input type="radio" required name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
+							</td>
+							<td>
+								<label for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'>'.
+									$resulta_busca["tema"].'
+								</label>
+								'.$alert_MT.'
+							</td>
+							<td>
+								'.$resulta_busca["cuando"].'
+							</td>
+						</tr>';
 				} else {
-					$rows_busca.= '<tr>';
-					$rows_busca.=  '     <td align="center"><input type="checkbox" name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
-					$rows_busca.=  '     <td><label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label>  '.$alert_MT.'  </td>';
-					$rows_busca.=  '      <td>'.$resulta_busca["cuando"].'</td>';
-					$rows_busca.=  '  </tr>';
+					$rows_busca .= '
+						<tr>
+							<td align="center">
+								<input type="checkbox" required name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
+							</td>
+							<td>
+								<label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'>
+									'.$resulta_busca["tema"].'
+								</label>'.
+								$alert_MT.'
+							</td>
+							<td>'.
+								$resulta_busca["cuando"].'
+							</td>
+						</tr>';
 				}
 			}
 		}
 
 		$rows_busca.='  </tbody>
-						<tfoot>
-							<tr>
-								<td colspan=3>
-									<input type="hidden" name="tema" id="tema" value="'.$ARRAYtermino["idTema"].'"/>
-									<input type="hidden" name="taskterm" id="taskterm" value="'.$taskterm.'"/>
-									<input type="hidden" name="taskrelations" id="taskrelations" value="'.$taskterm.'"/>
-								</td>
-							</tr>
-						</tfoot>
 					</table>
-				</div>
-				<div class="submit_form" align="center">
-					<button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>
 				</div>
 			</form>
 			<script type="text/javascript">
@@ -238,8 +251,8 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 					});
 				});
 			</script>';
-	} else {
-		$rows_busca = '<p class="alert alert-danger" role="alert">0 '.MSG_ResultBusca.'</p>';
+	} elseif ($cant_result === 0) {
+		$rows_busca = '<p class="alert alert-danger" role="alert">'. $search_leyenda .'</p>';
 	}
 
 	$rows = '<div class="container" id="bodyText">';
@@ -266,7 +279,8 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 				<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
 				<input type="hidden" name="taskterm" value="'.$taskterm.'"/>
 			</div>
-		</form>'.
+		</form>
+		<div class="push"></div>'.
 		$rows_busca.'
 	</div>';
 

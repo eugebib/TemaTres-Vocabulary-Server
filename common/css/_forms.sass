@@ -146,3 +146,30 @@ fieldset
 .material-switch > input[type="checkbox"]:checked + label::after
     background: inherit
     left: 20px
+
+
+.filter
+    display: flex
+    justify-content: space-between
+    align-items: center
+    height: 50px
+    border: 1px solid #dddddd
+    padding: 10px
+    border-radius: 10px
+    margin-bottom: 10px
+
+    &:focus-within
+        background-color: $celeste
+
+        input
+            color: $azulOscuro
+
+    input
+        flex-grow: 1
+        border: 0
+        background-color: transparent
+        box-shadow: none
+
+        &:focus
+            box-shadow: none
+
