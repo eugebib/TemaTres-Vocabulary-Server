@@ -168,6 +168,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 			}
 		}
 	}
+
 	if ($cant_result > 0) {
 		$rows_busca.= '
 			<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >
@@ -187,7 +188,8 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 
 		while ($resulta_busca = $sql_busca->FetchRow()) {
 			$css_class_MT = ($resulta_busca["isMetaTerm"] == 1) ? ' class="metaTerm" ' : '';
-			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+			$alert_MT     = ($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+
 			//prevenir que no seleccione el mismo término que esta mirando
 			if ($resulta_busca["tema_id"] !== $ARRAYtermino["idTema"]) {
 				if ($taskterm == 'addBT') {
@@ -205,42 +207,42 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 				}
 			}
 		}
-		$rows_busca.='        </tbody>';
-		$rows_busca.='<tfoot>
-			<tr>
-			<td colspan=3>';
-		$rows_busca.=' <input type="hidden" name="tema" id="tema" value="'.$ARRAYtermino["idTema"].'"/>';
-		$rows_busca.=' <input type="hidden" name="taskterm" id="taskterm" value="'.$taskterm.'"/>	  ';
-		$rows_busca.=' <input type="hidden" name="taskrelations" id="taskrelations" value="'.$taskterm.'"/>	  ';
-		$rows_busca.= '		</td>
-			</tr>
-			</tfoot>
-			</table>	</div>';
-		//no es subordinar término y hay resultados
-		if ($cant_result > 0) {
-			$rows_busca.='<div class="submit_form" align="center">';
-			$rows_busca.='  <button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>';
-			$rows_busca.='</div>';
-		}
-		$rows_busca.='</form>';
-	}//if cant
-	$rows_busca.='</div>';
-	$rows_busca.='<script type="text/javascript">
-		$(document).ready(function(){
-			//Checkbox
-			$("input[name=checktodos]").change(function(){
-				$("input[type=checkbox]").each( function() {
-					if($("input[name=checktodos]:checked").length == 1){
-						this.checked = true;
-					} else {
-						this.checked = false;
-					}
-				});
-			});
-		});
-		</script>';
 
-	$rows .= '<div class="container" id="bodyText">';
+		$rows_busca.='  </tbody>
+						<tfoot>
+							<tr>
+								<td colspan=3>
+									<input type="hidden" name="tema" id="tema" value="'.$ARRAYtermino["idTema"].'"/>
+									<input type="hidden" name="taskterm" id="taskterm" value="'.$taskterm.'"/>
+									<input type="hidden" name="taskrelations" id="taskrelations" value="'.$taskterm.'"/>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="submit_form" align="center">
+					<button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>
+				</div>
+			</form>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					//Checkbox
+					$("input[name=checktodos]").change(function(){
+						$("input[type=checkbox]").each( function() {
+							if($("input[name=checktodos]:checked").length == 1){
+								this.checked = true;
+							} else {
+								this.checked = false;
+							}
+						});
+					});
+				});
+			</script>';
+	} else {
+		$rows_busca = '<p class="alert alert-danger" role="alert">0 '.MSG_ResultBusca.'</p>';
+	}
+
+	$rows = '<div class="container" id="bodyText">';
 
 	if ($new_relacion["log"] == true) {
 		$rows.='<p class="success">'.ucfirst(LABEL_saved).'</p>';
