@@ -17,6 +17,7 @@ define("TR_termino","Término relacionado");
 define("TE_termino","Término específico");
 define("TG_termino","Término general");
 define("TT_termino","Término tope");
+define("TT_terminos","Términos tope");
 define("UP_termino","Usado por");
 /* v 9.5 */
 define("USE_termino","use");
@@ -471,7 +472,6 @@ define('MSG__need2setup_endpoint','El punto de consulta SPARQL necesita ser actu
 define('LABEL_SPARQLEndpoint','Punto de consulta SPARQL');
 define('LABEL_AgregarRTexist','relacionar un término existente con ');
 define('MENU_selectExistTerm','relacionar un término existente');
-define("TT_terminos","Términos tope");
 ## v1.72
 define('MSG__warningDeleteTerm','El término <i>%s</i> será <strong>ELIMINADO</strong>.');
 define('MSG__warningDeleteTerm2row','Se eliminarán <strong>todas</strong> sus notas y relaciones terminológicas. Esta acción es irreversible.');

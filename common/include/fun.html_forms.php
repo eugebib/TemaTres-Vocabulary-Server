@@ -251,20 +251,17 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 			<div class="box-title">
 				<span>'. ucfirst($nombre_pantalla).'</span>
 				<div>
-					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Buscar.'"/>
-					<button type="button" class="btn btn-warning" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>
-				</div>
-			</div>
-			<div class="box-content">
-				<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>';
+					<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Buscar.'"/>';
 
-	if (in_array($taskterm, array('addBT'))) {
-		$rows.='<div class="extra">
-					<button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=tt\'"/>'.ucfirst(LABEL_TTTerms).'</button>
-				</div>';
+	if (in_array($taskterm, array('addFreeUF', 'addFreeNT', 'addNT'))) {
+		$rows.='	<button type="button" class="btn btn-warning" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=NBT\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>';
 	}
 
-	$rows.='	<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
+	$rows .='	</div>
+			</div>
+			<div class="box-content">
+				<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>
+				<input type="hidden" name="tema" value="'.$ARRAYtermino["idTema"].'"/>
 				<input type="hidden" name="taskterm" value="'.$taskterm.'"/>
 			</div>
 		</form>'.
