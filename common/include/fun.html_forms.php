@@ -460,7 +460,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 				</div>
 				<div class="box-content">
                     <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="'.$string2search.'">
-					<select class="form-control" id="tvocab_id" name="tvocab_id">
+					<select class="form-control" id="tvocab_id" name="tvocab_id" required>
 						<option value="">Seleccionar '.FORM_LABEL_nombre_vocabulario.'</option>
 						'.doSelectForm($array_vocabularios,$_GET["tvocab_id"]).'
 					</select>
