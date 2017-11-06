@@ -130,10 +130,19 @@ define("FORM_LABEL_Guardar","Guardar");
 define("FORM_LABEL_Descargar","Descargar");
 define("LABEL_verDetalle","ver detalles de ");
 define("LABEL_verTerminosLetra","ver términos iniciados con ");
+
 define("LABEL_NB","Nota bibliográfica");
 define("LABEL_NH","Nota histórica");
 define("LABEL_NA","Nota de alcance"); /* version 0.9.1 */
 define("LABEL_NP","Nota privada");    /* version 0.9.1 */
+define("LABEL_NC","Nota de catalogación");
+
+define("LABEL_NBs","Notas bibliográficas");
+define("LABEL_NHs","Notas históricas");
+define("LABEL_NAs","Notas de alcance"); /* version 0.9.1 */
+define("LABEL_NPs","Notas privadas");    /* version 0.9.1 */
+define("LABEL_NCs","Notas de catalogación");
+
 define("LABEL_EditorNota","Editor de notas");
 define("LABEL_EditorNotaTermino","Notas del término ");
 define("LABEL_tipoNota","tipo de nota");
@@ -199,7 +208,6 @@ define("LABEL_termino_no_equivalente","no equivale");
 define("EQ_acronimo","EQ");
 define("EQP_acronimo","EQP");
 define("NEQ_acronimo","NEQ");
-define("LABEL_NC","Nota de catalogación");
 define("LABEL_resultados_suplementarios","resultados suplementarios");
 define("LABEL_resultados_relacionados","resultados relacionados");
 /* v 9.7 */
@@ -438,7 +446,7 @@ define('LABEL_turnOffMetaTerm','no es un meta-término');
 define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
-define('LABEL_relatedTerms','Números relacionados');
+define('LABEL_relatedTerms','números relacionados');
 define('LABEL_nonPreferedTerms','términos no preferidos');
 define('LABEL_update1_6x1_7','Actualizar Tematres (1.6 -> 2.2)');
 define('LABEL_include_data','incluir');

@@ -1,4 +1,5 @@
 <?php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -10,173 +11,154 @@
 
 include("config.tematres.php");
 
-$metadata = do_meta_tag();
-$top      = getQtyXTop();
+doLastModified();
+
+$metadata         = do_meta_tag();
+
+$top              = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXTop() : null;
+$level            = ($_SESSION[$_SESSION["CFGURL"]]['_SHOW_TREE'] == 1) ? getQtyXLevel() : null;
+$resumen          = do_stats($_SESSION["id_tesa"]);
+$fecha_crea       = do_fecha($_SESSION["CFGCreacion"]);
+$fecha_mod        = do_fecha($_SESSION["CFGlastMod"]);
+$ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo LANG;?>">
-    <head>
-        <?php echo HTMLheader($metadata);?>
-    </head>
-    <body>
-        <?php echo HTMLnavHeader(); ?>
-        <div class="container sobre">
-            <?php
-                $resumen          = ARRAYresumen($_SESSION["id_tesa"],"G","");
-                $fecha_crea       = do_fecha($_SESSION["CFGCreacion"]);
-                $fecha_mod        = do_fecha($_SESSION["CFGlastMod"]);
-                $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
-            ?>
+<html lang="<?= LANG ?>">
 
-            <h1><?= LABEL_Info;?></h1>
-            <dl>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Autor, 'UTF-8');?></dt>
-                    <dd><?php echo $_SESSION[CFGAutor];?> </dd>
+    <head>
+        <?= HTMLheader($metadata) ?>
+    </head>
+
+    <body>
+        <?= HTMLnavHeader() ?>
+
+        <div class="container">
+            <div class="about">
+
+                <div class="span2 vspan3 about-title">
+                    <h3><?= $_SESSION["CFGTitulo"] ?></h3>
+
+                    <?php if ($_SESSION["CFGCobertura"]) : ?>
+                        <p><?= $_SESSION["CFGCobertura"] ?></p>
+                    <?php endif ?>
+
+                    <?php if ($_SESSION["CFGTipo"] || $_SESSION["CFGKeywords"]) : ?>
+                        <p>
+                            <?= ($_SESSION["CFGTipo"]) ? mb_strtoupper($_SESSION["CFGTipo"], 'UTF-8') : '' ?><?= ($_SESSION["CFGTipo"] && $_SESSION["CFGKeywords"]) ? ', ' : '' ?><?= ($_SESSION["CFGKeywords"]) ? mb_strtoupper($_SESSION["CFGKeywords"], 'UTF-8') : ''?>
+                        </p>
+                    <?php endif ?>
+
+                    <p>Creado el <?= $fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"] ?>. Actualizado al <?= $fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"] ?>.</p>
                 </div>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_URI, 'UTF-8');?></dt>
-                    <dd><?php echo $_SESSION[CFGURL];?> </dd>
+
+                <div class="span3 vspan2">
+                    <h4>ENLACES</h4>
+                    <p class='uri'><?= mb_strtoupper(LABEL_URI, 'UTF-8') ?>: <a href="<?= $_SESSION[CFGURL] ?>"><?= $_SESSION[CFGURL] ?></a></p>
+
+                    <?php if (CFG_ENABLE_SPARQL == 1) : ?>
+                        <p class='uri'><?= mb_strtoupper(LABEL_SPARQLEndpoint) ?>: <a href="<?= URL_BASE ?>sparql.php" title="<?= LABEL_SPARQLEndpoint ?>"><?= $_SESSION["CFGURL"] ?>sparql.php</a></p>
+                    <?php endif ?>
+
+                    <?php if (CFG_SIMPLE_WEB_SERVICE == 1) : ?>
+                        <p class='uri'>API: <a href="<?= URL_BASE ?>services.php" title="API"><?= $_SESSION["CFGURL"] ?>services.php</a></p>
+                    <?php endif ?>
                 </div>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Idioma, 'UTF-8');?></dt>
-                    <dd><?php echo $_SESSION[CFGIdioma];?></dd>
+
+                <div class="span2">
+                    <h4><?= mb_strtoupper(LABEL_Autor, 'UTF-8') ?></h4>
+                    <p class="text-left">
+                        <?= $_SESSION["CFGAutor"] ?>, <?= ($ARRAYmailContact["value"]) ?: '' ?>
+                    </p>
                 </div>
-                <?php if ($ARRAYmailContact["value"]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(FORM_LABEL__contactMail, 'UTF-8');?></dt>
-                        <dd><?php echo $ARRAYmailContact["value"];?></dd>
+
+                <?php if ($top) : ?>
+                    <div class="span2 vspan2">
+                        <h4>TÉRMINOS POR CATEGORÍA</h4>
+                        <div id="category_div" style="background-color: white;"></div>
                     </div>
-                <?php endif; ?>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Fecha, 'UTF-8');?></dt>
-                    <dd><?php echo $fecha_crea[dia].'/'.$fecha_crea[mes].'/'.$fecha_crea[ano];?></dd>
+                <?php endif ?>
+
+                <div class="vspan2 v-center">
+                    <div class="text-center">
+                        <p><?= $resumen["cant_total"] ?> <?= LABEL_Terminos ?></p>
+
+                        <?php if ($resumen["cant_up"] > 0) : ?>
+                            <p><?= $resumen["cant_up"] ?> <?= LABEL_TerminosUP ?></p>
+                        <?php endif ?>
+
+                        <?php if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"] == '1') : ?>
+                            <?php if ($resumen["cant_candidato"] > 0) : ?>
+                                <p>
+                                    <a href="<?= URL_BASE ?>index.php?estado_id=12">
+                                        <?= $resumen["cant_candidato"] ?> <?= $resumen["cant_candidato"] == 1 ? LABEL_Candidato : LABEL_Candidatos ?>
+                                    </a>
+                                </p>
+                            <?php endif ?>
+
+                            <?php if ($resumen["cant_rechazado"] > 0) : ?>
+                                <p>
+                                    <a href="<?= URL_BASE ?>index.php?estado_id=14">
+                                        <?= $resumen["cant_rechazado"] ?> <?= $resumen["cant_rechazado"] == 1 ? LABEL_Rechazado : LABEL_Rechazados ?>
+                                    </a>
+                                </p>
+                            <?php endif ?>
+                        <?php endif ?>
+
+                        <?php if ($resumen["cant_rel"] > 0) : ?>
+                            <p><?= $resumen["cant_rel"] ?> <?= LABEL_relatedTerms ?></p>
+                        <?php endif ?>
+
+                    </div>
                 </div>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_lastChangeDate, 'UTF-8');?></dt>
-                    <dd><?php echo $fecha_mod[dia].'/'.$fecha_mod[mes].'/'.$fecha_mod[ano];;?>
+
+                <?php if ( ! empty($resumen["cant_notas"]) && is_array($resumen["cant_notas"])) : ?>
+                    <div class="vspan2 v-center">
+                        <div class="text-center">
+                            <?php foreach ($resumen["cant_notas"] as $key => $value) : ?>
+                                <p><?= $value ?> <?= strtolower($key) ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif ?>
+
+                <div class="span2 vspan2">
+                    <h4>ÚLTIMOS</h4>
+                    <ul>
+                    <?php foreach ($resumen['ultimos'] as $value) : ?>
+                        <li><a href="<?= URL_BASE ?>index.php?tema=<?= $value['tema_id'] ?>"><?= $value['tema'] ?></a></li>
+                    <?php endforeach ?>
+                    </ul>
+                    <a class="btn btn-warning" href="<?= URL_BASE ?>index.php?s=n" title="<?= mb_strtoupper(LABEL_showNewsTerm, 'UTF-8') ?>">
+                        <?= mb_strtoupper(LABEL_showNewsTerm, 'UTF-8')?>
+                    </a>
                 </div>
-                <?php if ($_SESSION[CFGKeywords]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_Keywords, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGKeywords];?></dd>
+
+                <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $top) : ?>
+                    <div class="span3 vspan2">
+                        <h4><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8') ?></h4>
+                        <div id="level_div" style="background-color: white;"></div>
                     </div>
-                <?php endif; ?>
-                <?php if ($_SESSION[CFGTipo]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_TipoLenguaje, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGTipo];?></dd>
+                <?php endif ?>
+
+                <?php if ($_SESSION["CFGDerechos"]) : ?>
+                    <div>
+                        <h4><?= mb_strtoupper(LABEL_Derechos, 'UTF-8') ?></h4>
+                        <p><?= $_SESSION["CFGDerechos"] ?></p>
                     </div>
-                <?php endif; ?>
-                <?php if ($_SESSION[CFGCobertura]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_Cobertura, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGCobertura];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if ($_SESSION[CFGDerechos]) : ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_Derechos, 'UTF-8');?></dt>
-                        <dd><?php echo $_SESSION[CFGDerechos];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if (CFG_ENABLE_SPARQL==1) : ?>
-                    <div class="flex">
-                        <dt><?= mb_strtoupper(LABEL_SPARQLEndpoint);?></dt>
-                        <dd><a href="<?= URL_BASE;?>sparql.php" title="<?= LABEL_SPARQLEndpoint;?>"><?= $_SESSION["CFGURL"];?>sparql.php</a></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if (CFG_SIMPLE_WEB_SERVICE == 1) : ?>
-                    <div class="flex">
-                        <dt>API</dt>
-                        <dd><a href="<?= URL_BASE;?>services.php" title="API"><?= $_SESSION["CFGURL"];?>services.php</a></dd>
-                    </div>
-                <?php endif; ?>
-                <div class="flex">
-                    <dt><?= mb_strtoupper(LABEL_Terminos, 'UTF-8');?></dt>
-                    <dd>
-                        <?= $resumen[cant_total]; ?>
-                        <?= '<a class="label label-info pull-right" href="'.URL_BASE.'index.php?s=n" title="'.mb_strtoupper(LABEL_showNewsTerm, 'UTF-8').'">
-                                <span class="glyphicon glyphicon-fire"></span>' .
-                                mb_strtoupper(LABEL_showNewsTerm, 'UTF-8').'
-                            </a>'; ?>
-                    </dd>
+                <?php endif ?>
+
+                <div class="span5">
+                    <h4><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h4>
+                    <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?= $CFG["Version"] ?></a>
                 </div>
-                <div class="flex">
-                    <dt><?= 'TÉRMINOS POR CATEGORÍA'; ?></dt>
-                    <dd>
-                        <div id="chart_div"></div>
-                    </dd>
-                </div>
-            	<?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_candidato] > 0): ?>
-                    <div class="flex">
-                    	<dt><?= mb_strtoupper(LABEL_Candidatos, 'UTF-8');?></dt>
-                        <dd><a href="'.URL_BASE.'index.php?estado_id=12"><?= $resumen[cant_candidato];?></a></dd>
-                    </div>
-                <?php endif;?>
-                <?php if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1 && $resumen[cant_rechazado] > 0): ?>
-        		    <div class="flex">
-                        <dt><?= mb_strtoupper(LABEL_Rechazados, 'UTF-8');?></dt>
-                        <dd><a href="'.URL_BASE.'index.php?estado_id=14"><?= $resumen[cant_rechazado];?></a></dd>
-                    </div>
-                <?php endif;?>
-                <?php if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1): ?>
-                    <div class="flex">
-                        <dt><?= mb_strtoupper(LABEL_termsXdeepLevel, 'UTF-8');?></dt>
-                        <dd style="padding: 0px;"><?= HTMLdeepStats();?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if($resumen[cant_rel] > 0): ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_RelTerminos, 'UTF-8');?></dt>
-                        <dd><?php echo $resumen[cant_rel];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php if($resumen[cant_up] > 0): ?>
-                    <div class="flex">
-                        <dt><?php echo mb_strtoupper(LABEL_TerminosUP, 'UTF-8');?></dt>
-                        <dd><?php echo $resumen[cant_up];?></dd>
-                    </div>
-                <?php endif; ?>
-                <?php
-                if (is_array($resumen["cant_notas"])) {
-                    $sqlNoteType=SQLcantNotas();
-                    $arrayNoteType=array();
-                    while ($array=$sqlNoteType->FetchRow()) {
-    			  		if($array[cant]>0) {
-    			  		 	echo '<div class="flex"><dt>';
-    				  		echo (in_array($array["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(mb_strtoupper(LABEL_NA, 'UTF-8'),mb_strtoupper(LABEL_NH, 'UTF-8'),mb_strtoupper(LABEL_NB, 'UTF-8'),mb_strtoupper(LABEL_NP, 'UTF-8'),mb_strtoupper(LABEL_NC, 'UTF-8')),$array["value_id"]) : $array["value"];
-    				    	echo '</dt><dd> '.$array[cant].'</dd></div>';
-    			  		}
-                    };
-                }
-                if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
-                    //es admin y quiere ver un usuario
-                    if(($_GET[user_id])	&&	($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1)) {
-                        echo doBrowseTermsFromUser(secure_data($_GET[user_id],$_GET[ord]));
-                        //no es admin y quiere verse a si mismo
-                    } elseif($_GET[user_id]) {
-                        echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]][ssuser_id],"sql"),secure_data($_GET[ord],"sql"));
-                        //quiere ver un año
-                    } elseif($_GET[y]) {
-                        echo doBrowseTermsFromDate(secure_data($_GET[m],"sql"),secure_data($_GET[y],"sql"),secure_data($_GET[ord],"sql"));
-                    } else {
-                		//ver lista agregada
-                		echo doBrowseTermsByDate();
-                    }
-                };
-                ?>
-                <div class="flex">
-                    <dt><?php echo mb_strtoupper(LABEL_Version, 'UTF-8'); ?></dt>
-                    <dd><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></dd>
-                </div>
-            </dl>
+
+            </div>
         </div>
 
-        <?php echo footer(); ?>
-        <?php echo HTMLjsInclude();?>
+        <?= footer() ?>
+        <?= HTMLjsInclude() ?>
 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -185,8 +167,8 @@ $top      = getQtyXTop();
 
             function drawChart()
             {
+                //Categories
                 var data = new google.visualization.DataTable();
-
                 data.addColumn('string', 'Categoría');
                 data.addColumn('number', 'Slices');
                 data.addRows([<?= $top ?>]);
@@ -203,20 +185,37 @@ $top      = getQtyXTop();
                     sliceVisibilityThreshold: 0
                 };
 
-                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                var chart = new google.visualization.PieChart(document.getElementById('category_div'));
                 chart.draw(data, options);
-            }
-        </script>
 
+                //Levels
+                var data2 = new google.visualization.DataTable();
+                data2.addColumn('string', 'Nivel');
+                data2.addColumn('number', 'Cantidad');
+                data2.addRows([<?= $level ?>]);
+
+                var options2 = {
+                    backgroundColor: 'transparent',
+                    legend: { position: 'none' }
+                };
+
+                var chart2 = new google.visualization.ColumnChart(document.getElementById('level_div'));
+                chart2.draw(data2, options2);
+            }
+
+            $(window).resize(function(){
+                drawChart();
+            });
+
+        </script>
     </body>
 </html>
 
 <?php
 
-
 function getQtyXTop()
 {
-    $filename = T3_ABSPATH . 'vocab' .DIRECTORY_SEPARATOR . 'qtyXTop';
+    $filename = local_path . 'qtyXTop';
     if (file_exists($filename)) {
         $cache = file_get_contents($filename);
         $json  = json_decode($cache, true);
@@ -226,18 +225,69 @@ function getQtyXTop()
     }
 
     $topes = SQLverTopTerm();
-    while ($tope = $topes->FetchRow()) {
-        $top .= '["'.$tope['tema'].'", '.cantChildTerms($tope['id']).'],';
+    if ($topes) {
+        while ($tope = $topes->FetchRow()) {
+            $top .= '["'.$tope['tema'].'", '.cantChildTerms($tope['id']).'],';
+        }
+
+        $file = fopen($filename, "w");
+        fwrite($file, json_encode(
+            array(
+                'time' => time(),
+                'html' => $top,
+            )
+        ));
+        fclose($file);
+
+        return $top;
     }
 
-    $file = fopen($filename, "w");
-    fwrite($file, json_encode(
-        array(
-            'time' => time(),
-            'html' => $top,
-        )
-    ));
-    fclose($file);
+    return null;
+}
 
-    return $top;
+function getQtyXLevel()
+{
+    $filename = local_path . 'qtyXLevel';
+    if (file_exists($filename)) {
+        $cache = file_get_contents($filename);
+        $json  = json_decode($cache, true);
+        if ($json['time'] > time() - 86400) {
+            return $json['html'];
+        }
+    }
+
+    $levels = SQLTermDeep();
+    if ($levels) {
+        while ($l = $levels->FetchRow()) {
+            $level .= '["'.$l['tdeep'].'", '.$l['cant'].'],';
+        }
+
+        $file = fopen($filename, "w");
+        fwrite($file, json_encode(
+            array(
+                'time' => time(),
+                'html' => $level,
+            )
+        ));
+        fclose($file);
+
+        return $level;
+    }
+
+    return null;
+}
+
+function do_stats($session)
+{
+    $resumen = ARRAYresumen($session,"G","");
+    foreach ($resumen['cant_notas'] as $key => $value) {
+        if ($value == 0) {
+            unset($resumen['cant_notas'][$key]);
+        }
+    }
+    if (empty($resumen['cant_notas'])) {
+        $resumen['cant_notas'] = null;
+    }
+
+    return $resumen;
 }
