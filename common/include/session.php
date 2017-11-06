@@ -78,7 +78,7 @@ if (!$_SESSION[$_SESSION["CFGURL"]]["lang"]) {
 if (in_array($_SESSION[$_SESSION["CFGURL"]]["lang"],$idiomas_disponibles))	{
 	require_once(T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]]["lang"][1]);
 } else {
-	require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles[en][1]);
+	require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles[es][1]);
 }
 
 if ($_GET["cmdlog"] == substr(md5(date("Ymd")),"5","10")) {
