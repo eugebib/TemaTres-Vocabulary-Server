@@ -1,9 +1,12 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#   #
-###############################################################################################################
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
 
 define("LANG","es");
 define("TR_acronimo","TR");
@@ -61,8 +64,9 @@ define("LABEL_EliminarTE","Eliminar término");
 define("LABEL_Detalle","detalles");
 define("LABEL_VerDetalles","ver detalles del término");
 define("LABEL_EditarNota","editar nota");
-define("LABEL_Autor","Autor");
-define("LABEL_Institucion","institución educativa");
+define("LABEL_Entidad","institución educativa");
+define("LABEL_Autor","autor");
+define("LABEL_Autores","autores");
 define("LABEL_URI","URI");
 define("LABEL_Version","Generado por");
 define("LABEL_Idioma","Idioma");
@@ -320,7 +324,7 @@ v 1.2
 */
 define('LABEL_relacion_vocabularioWebService',"Relación con un término de otro vocabulario");
 define('LABEL_vocabulario_referenciaWS',"Vocabulario externo vía servicios web");
-define('LABEL_vocabularios_referenciaWS',"Vocabularios externo vía servicios web");
+define('LABEL_vocabularios_referenciaWS',"Vocabularios externos vía servicios web");
 define('LABEL_TargetVocabularyWS',"Vocabulario externo vía servicios web");
 define('LABEL_tvocab_label',"leyenda de la referencia");
 define('LABEL_tvocab_tag',"etiqueta de la referencia");
@@ -491,6 +495,7 @@ define('LABEL_altTerms','términos alternativos');
 define('LABEL_narrowerTerms','términos específicos');
 define('LABEL_results','resultados');
 define('LABEL_showFreeTerms','ver términos libres');
+define('LABEL_showNBTTerms','términos sin relaciones jerárquicas');
 define('LABEL_helpSearchFreeTerms','Sólo se buscarán términos libres.');
 define('LABEL_broatherTerms','términos genéricos');
 define('LABEL_type2filter','tipee para filtrar términos');
@@ -565,7 +570,6 @@ define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
 define('LABEL_Info','Información sobre este vocabulario');
 
-
 ##v.3
 define('MENU_bulkTranslate','editor multilingüe');
 define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
@@ -575,5 +579,4 @@ define('LABEL_close','cerrar');
 define('LABEL_allTerms','todos los términos');
 define('LABEL_allNotes','todas las notas');
 define('LABEL_allRelations','todas las relaciones entre términos');
-
 define('LABEL_addOne','Agregar uno');
