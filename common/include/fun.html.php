@@ -2056,6 +2056,8 @@ function HTMLheader($metadata)
 	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/jqtree.css">
 	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/local.css?v=2">
 
+     	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
 	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	    <!--[if lt IE 9]>
 		    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -2150,7 +2152,6 @@ function HTMLnavHeader()
 function HTMLjsInclude()
 {
    	$rows = '
-     	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
     	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
