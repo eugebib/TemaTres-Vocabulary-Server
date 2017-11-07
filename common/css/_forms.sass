@@ -2,7 +2,6 @@
     width: 100%
     max-width: initial
 
-
 .form-login
     background-color: #EDEDED
     padding: 20px
@@ -11,28 +10,165 @@
     border-width: 5px
     box-shadow: 0 1px 0 #cfcfcf
 
+    h4
+        border: 0 solid #fff
+        border-bottom-width: 1px
+        padding-bottom: 10px
+        text-align: center
 
-.form-login h4
-    border: 0 solid #fff
-    border-bottom-width: 1px
-    padding-bottom: 10px
-    text-align: center
+    .form-control
+        border-radius: 10px
 
+    div:last-child
+        margin-bottom: 20px
 
-.form-login .form-control
+    button
+        width: 100%
+        margin-bottom: 5px
+
+    a
+        text-align: right
+        font-size: 10px
+        margin-bottom: 10px
+
+fieldset
+    h3
+        margin: 15px -15px 25px
+
+    .btn
+        font-size: 14px
+
+// Reports
+
+.box
+    background-color: #cfdbe7
     border-radius: 10px
+    padding: 20px
+    margin-bottom: 15px
 
-
-.form-login div:last-child
+.box-title
+    font-size: 20px
+    height: 50px
     margin-bottom: 20px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-bottom: 1px solid #333333
+
+    input:not(:first-child)
+        margin-left: 10px
+
+    div>*:not(:first-child)
+        margin-left: 10px
+
+.box-content
+
+    & > *
+        margin-bottom: 10px
+
+    select,
+    input[type="text"],
+    input[type="search"]
+        height: 50px
+
+    //input[type="checkbox"],
+    //input[type="radio"]
+    //    transform: scale(2)
+    //    margin: 15px
+
+    .form-group
+        display: flex
+        align-items: baseline
+
+    button
+        margin: 15px 0 0 0
+
+    .extra
+        margin-top: 50px
+
+.checkbutton
+    display: flex
+
+    div
+        flex-grow: 1
+
+    button
+        align-self: flex-end
+        margin-left: 30px
+        margin-bottom: 10px
+
+// Checkbox
+
+.list-group-item-material
+    background-color: transparent
+    border: none
+    margin-bottom: 0
+
+.material-switch > input[type="checkbox"]
+    display: none
+
+.material-switch > label
+    cursor: pointer
+    height: 0px
+    position: relative
+    width: 40px
+
+.material-switch > label::before
+    background: rgb(0, 0, 0)
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5)
+    border-radius: 8px
+    content: ''
+    width: 40px
+    height: 16px
+    margin-top: -8px
+    position:absolute
+    opacity: 0.3
+    transition: all 0.4s ease-in-out
+    display: block
+
+.material-switch > label::after
+    background: rgb(255, 255, 255)
+    border-radius: 16px
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3)
+    content: ''
+    height: 24px
+    left: -4px
+    margin-top: -8px
+    position: absolute
+    top: -4px
+    transition: all 0.3s ease-in-out
+    width: 24px
+
+.material-switch > input[type="checkbox"]:checked + label::before
+    background: inherit
+    opacity: 0.5
+
+.material-switch > input[type="checkbox"]:checked + label::after
+    background: inherit
+    left: 20px
 
 
-.form-login button
-    width: 100%
-    margin-bottom: 5px
-
-
-.form-login a
-    text-align: right
-    font-size: 10px
+.filter
+    display: flex
+    justify-content: space-between
+    align-items: center
+    height: 50px
+    border: 1px solid #dddddd
+    padding: 10px
+    border-radius: 10px
     margin-bottom: 10px
+
+    &:focus-within
+        background-color: $celeste
+
+        input
+            color: $azulOscuro
+
+    input
+        flex-grow: 1
+        border: 0
+        background-color: transparent
+        box-shadow: none
+
+        &:focus
+            box-shadow: none

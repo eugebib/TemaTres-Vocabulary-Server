@@ -1949,12 +1949,16 @@ function HTMLduplicatedTermsAlert($arrayDuplicatedTerms){
 }
 
 
-function HTMLlinkTerm($arrayTerm, $arg = array())
+function HTMLlinkTerm($arrayTerm, $arg = array(), $short = 0)
 {
 	$class=(@$arg["style"]) ? $arg["style"] : '';
 	$class.=($arrayTerm["isMetaTerm"]==1) ? ' metaTerm' : '';
 	$url_parts=parse_url($_SESSION["CFGURL"]);
 	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
+
+	if ($short == 1) {
+		return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>';
+	}
 
 	$datosUF = SQLdirectTerms($arrayTerm["tema_id"], '4');
 	$equivalentes = '';
@@ -2033,7 +2037,7 @@ function HTMLheader($metadata)
 		$metadata["metadata"].'
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	    <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto">
 
 		<link rel="stylesheet" href="' . T3_WEBPATH . 'vendors/bootstrap-submenu/css/bootstrap-submenu.min.css">
 		<link rel="stylesheet" href="' . T3_WEBPATH . 'css/t3style.css">
