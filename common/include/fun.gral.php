@@ -426,9 +426,14 @@ function br2nl($text)
     return preg_replace("/<br[\s\/]*>/i", "\n",$text,-1);
 }
 
-//This function is a part of DAlbum.  Copyright (c) 2003 Alexei Shamov, DeltaX Inc.
-// convert html to text
-function html2txt($html){
+
+
+#
+# This function is a part of DAlbum.  Copyright (c) 2003 Alexei Shamov, DeltaX Inc.
+# convert html to text
+#
+function html2txt($html)
+{
     //$ret = strtr($html, array_flip(get_html_translation_table(HTML_ENTITIES)));
     $html = str_replace('&lt;', '«', $html);
     $html = str_replace('&gt;', '»', $html);
@@ -436,8 +441,8 @@ function html2txt($html){
     $ret = strip_tags(br2nl($ret));
 
     while(strpos($ret,"|") && strpos($ret,"]]")) {
-      $link = substr($ret, strpos($ret, "|"), (strpos($ret, "]]", strpos($ret, "|"))-strpos($ret, "|")));
-      $ret = str_replace($link, "]]", $ret);
+        $link = substr($ret, strpos($ret, "|"), (strpos($ret, "]]", strpos($ret, "|"))-strpos($ret, "|")));
+        $ret = str_replace($link, "]]", $ret);
     }
 
     $ret = str_replace ( array ('[[',']]' ), array ('',''), $ret );
@@ -448,8 +453,8 @@ function html2txt($html){
 	$config->set('HTML.Allowed', '');
 	$purifier = new HTMLPurifier($config);
 	$txt = $purifier->purify($ret);
-  $txt = str_replace('«', '<', $txt);
-  $txt = str_replace('»', '>', $txt);
+    $txt = str_replace('«', '<', $txt);
+    $txt = str_replace('»', '>', $txt);
 
     return $txt;
 }
