@@ -20,6 +20,7 @@ function APISQLbuscaSimple($texto)
     GLOBAL $DBCFG;
 
     $texto = trim($texto);
+    $texto = preg_replace('/[^A-Za-z0-9\-]/', '', $texto);
     $words = explode(' ', $texto);
 
     foreach ($words as $key => $word) {
