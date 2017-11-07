@@ -233,16 +233,28 @@ fieldset .btn {
 
 .box-title {
   font-size: 20px;
-  height: 50px;
+  height: auto;
+  padding-bottom: 10px;
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #333333; }
-  .box-title input:not(:first-child) {
-    margin-left: 10px; }
-  .box-title div > *:not(:first-child) {
-    margin-left: 10px; }
+  .box-title div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end; }
+    .box-title div > * {
+      margin-top: 5px; }
+    .box-title div > *:not(:first-child) {
+      margin-left: 10px; }
+  @media (max-width: 500px) {
+    .box-title {
+      flex-wrap: wrap; }
+      .box-title div {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px; } }
 
 .box-content > * {
   margin-bottom: 10px; }
