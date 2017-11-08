@@ -1042,7 +1042,7 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
 		$where    = '';
 		$leftJoin = '';
 
-		if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+		if (! isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 
 			$where = " where tema.estado_id='13' ";
 
