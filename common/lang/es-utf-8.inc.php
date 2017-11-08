@@ -143,10 +143,19 @@ define("FORM_LABEL_Guardar","Guardar");
 define("FORM_LABEL_Descargar","Descargar");
 define("LABEL_verDetalle","ver detalles de ");
 define("LABEL_verTerminosLetra","ver términos iniciados con ");
+
 define("LABEL_NB","Nota bibliográfica");
 define("LABEL_NH","Nota histórica");
 define("LABEL_NA","Nota de alcance"); /* version 0.9.1 */
 define("LABEL_NP","Nota privada");    /* version 0.9.1 */
+define("LABEL_NC","Nota de catalogación");
+
+define("LABEL_NBs","Notas bibliográficas");
+define("LABEL_NHs","Notas históricas");
+define("LABEL_NAs","Notas de alcance"); /* version 0.9.1 */
+define("LABEL_NPs","Notas privadas");    /* version 0.9.1 */
+define("LABEL_NCs","Notas de catalogación");
+
 define("LABEL_EditorNota","Editor de notas");
 define("LABEL_EditorNotaTermino","Notas del término ");
 define("LABEL_tipoNota","tipo de nota");
@@ -212,7 +221,6 @@ define("LABEL_termino_no_equivalente","no equivale");
 define("EQ_acronimo","EQ");
 define("EQP_acronimo","EQP");
 define("NEQ_acronimo","NEQ");
-define("LABEL_NC","Nota de catalogación");
 define("LABEL_resultados_suplementarios","resultados suplementarios");
 define("LABEL_resultados_relacionados","resultados relacionados");
 /* v 9.7 */
@@ -233,6 +241,7 @@ define("LABEL_Rechazado","término rechazado");
 define("LABEL_NotEquivalent","no hay equivalencia");
 define("LABEL_NotApplicable","no se aplica en el ámbito educativo");
 define("LABEL_Ultimos_aceptados","aceptados recientes");
+define("LABEL_Ultimos","últimos términos");
 define("MSG_ERROR_ESTADO","Estado no aceptable");
 define("LABEL_Candidatos","términos candidatos");
 define("LABEL_Aceptados","términos aceptados");

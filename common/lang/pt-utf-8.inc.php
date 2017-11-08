@@ -143,10 +143,19 @@ define("FORM_LABEL_Guardar","Salvar");
 define("FORM_LABEL_Descargar","Download");
 define("LABEL_verDetalle","mostrar detalhes de ");
 define("LABEL_verTerminosLetra","mostrar termos iniciados com ");
+
 define("LABEL_NB","Nota bibliográfica");
 define("LABEL_NH","Nota histórica");
 define("LABEL_NA","Nota de escopo"); /* version 0.9.1 */
-define("LABEL_NP","Nota privada");   /* version 0.9.1 */
+define("LABEL_NP","Nota privada");    /* version 0.9.1 */
+define("LABEL_NC","Nota do catalogador");
+
+define("LABEL_NBs","Notas bibliográficas");
+define("LABEL_NHs","Notas históricas");
+define("LABEL_NAs","Notas de escopo"); /* version 0.9.1 */
+define("LABEL_NPs","Notas privadas");    /* version 0.9.1 */
+define("LABEL_NCs","Notas do catalogador");
+
 define("LABEL_EditorNota","Editor de notas");
 define("LABEL_EditorNotaTermino","Notas do termo ");
 define("LABEL_tipoNota","tipo de nota");
@@ -212,7 +221,6 @@ define("LABEL_termino_no_equivalente","não equivalente");
 define("EQ_acronimo","EQ");
 define("EQP_acronimo","EQP");
 define("NEQ_acronimo","NEQ");
-define("LABEL_NC","Nota do catalogador");
 define("LABEL_resultados_suplementarios","resultados suplementários");
 define("LABEL_resultados_relacionados","resultados relacionados");
 /* v 9.7 */
@@ -231,6 +239,7 @@ define("LABEL_Rechazado","termo não aceito");
 define("LABEL_NotEquivalent","não tem equivalência");
 define("LABEL_NotApplicable","não se aplica no âmbito educacional");
 define("LABEL_Ultimos_aceptados","termos aceitos");
+define("LABEL_Ultimos","últimos termos");
 define("MSG_ERROR_ESTADO","status não permitido");
 define("LABEL_Candidatos","termos candidatos");
 define("LABEL_Aceptados","termos aceitos");
@@ -513,7 +522,7 @@ define('LABEL_termsXdeepLevel','termos conforme nível de profundidade');
 define('LABEL_deepLevel','nivel');
 define('LABEL_cantTerms','# de términos');
 define('LINK_publicKnownVocabularies','<a href="http://www.vocabularyserver.com/vocabularies/" title="Lista de vocabularios controlados conocidos" target="_blank">Lista de vocabularios controlados conocidos</a>');
-define('LABEL_showNewsTerm','ver alterações recentes');
+define('LABEL_showNewsTerm','ver atualizações recentes');
 define('LABEL_newsTerm','atualizações recentes');
 define('MSG_contactAdmin','contacte al administardor');
 define('LABEL_addTargetVocabulary','adicionar vocabulários de referência (serviços web de terminologia)');
