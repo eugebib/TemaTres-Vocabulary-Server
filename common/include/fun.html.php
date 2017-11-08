@@ -1323,53 +1323,51 @@ function HTMLlistaAlfabeticaUnica($letra="")
 	return $menuAlfabetico;
 }
 
-/*
-All terms form one char
-*/
+
+
+#
+# All terms form one char
+#
 function HTMLterminosLetra($letra)
 {
-	$cantLetra=numTerms2Letter($letra);
+	$cantLetra    = numTerms2Letter($letra);
+	$letra_label  = (!ctype_digit($letra)) ?  $letra : '0-9';
 
-	$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
+	$terminosLetra = '
+		<ol class="breadcrumb">
+			<li>
+				<a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.
+					ucfirst(MENU_Inicio).'
+				</a>
+			</li>
+			<li class="active">
+				<em>'.$letra_label.'</em>: <strong>'.$cantLetra.' </strong>'.($cantLetra == 1 ? LABEL_Termino : LABEL_Terminos).'
+			</li>
+		</ol>';
 
-	$terminosLetra.='<ol class="breadcrumb">';
-	$terminosLetra.='<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>';
-	$terminosLetra.='<li class="active"><em>'.$letra_label.'</em>: <strong>'.$cantLetra.' </strong>'.LABEL_Terminos.'</li>';
-	$terminosLetra.='</ol>';
+	$paginado_letras = '';
+	$pag = secure_data($_GET["p"]);
 
-
-	$paginado_letras='';
-
-	$pag= secure_data($_GET["p"]);
-
-	if($cantLetra>0) {
-
-		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS) {
-
-
-			$paginado_letras=paginate_links( array(
-				'type' => 'list',
+	if ($cantLetra>0) {
+		if ($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS) {
+			$paginado_letras = paginate_links(array(
+				'type'     => 'list',
 				'show_all' => (($cantLetra/CFG_NUM_SHOW_TERMSxSTATUS)<15) ? true : false,
-				'base' => 'index.php?letra='.$letra.'%_%',
-				'format' => '&amp;p=%#%',
-				'current' => max( 1, $pag),
-				'total' => $cantLetra/CFG_NUM_SHOW_TERMSxSTATUS
-				)
-			);
-		};
+				'base'     => 'index.php?letra='.$letra.'%_%',
+				'format'   => '&amp;p=%#%',
+				'current'  => max( 1, $pag),
+				'total'    => $cantLetra/CFG_NUM_SHOW_TERMSxSTATUS
+			));
+		}
 
-		$limit=CFG_NUM_SHOW_TERMSxSTATUS;
+		$limit         = CFG_NUM_SHOW_TERMSxSTATUS;
+		$min           = ($pag-1)*$limit;
+		$sqlDatosLetra = SQLmenuABCpages($letra,array("min"=>$min,"limit"=>$limit));
+		$start_ol      = ($min>0) ? $min+1 :1;
 
+		$terminosLetra.= '<div id="listaLetras"><ol start="'.$start_ol.'">';
 
-		$min= ($pag-1)*$limit;
-
-		$sqlDatosLetra=SQLmenuABCpages($letra,array("min"=>$min,"limit"=>$limit));
-
-		$start_ol=($min>0) ? $min+1 :1;
-
-		$terminosLetra.='<div id="listaLetras"><ol start="'.$start_ol.'">';
-
-		while ($datosLetra= $sqlDatosLetra->FetchRow()){
+		while ($datosLetra= $sqlDatosLetra->FetchRow()) {
 
 			//Si no es un término preferido
 			if($datosLetra[termino_preferido]){
