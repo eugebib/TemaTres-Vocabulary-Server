@@ -590,3 +590,8 @@ define('LABEL_allNotes','todas las notas');
 define('LABEL_allRelations','todas las relaciones entre términos');
 
 define('LABEL_includeNA', 'Incluir notas de escopo');
+
+define('LABEL_Usuarios', 'usuários');
+define('LABEL_Misterminos', 'meus termos');
+define('LABEL_Porfecha', 'por data');
+define('LABEL_Termoscreados', 'termos criados por');

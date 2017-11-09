@@ -562,6 +562,7 @@ function HTMLmainMenu() {
 				<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>
 				<li><a title="' . ucfirst(LABEL_FORM_simpleReport) . '" href="'.URL_BASE.'index.php?mod=csv">' . ucfirst(LABEL_FORM_simpleReport) . '</a></li>
 				<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>
+        		<li><a title="'.ucfirst(LABEL_auditoria).'" href="auditoria.php">'.ucfirst(LABEL_auditoria).'</a></li>
 			</ul>
 		</div>';
 	}
@@ -931,55 +932,60 @@ function doMenuLang($tema_id="0"){
 	return $selectLang;
 }
 
+
+
 #
 # Armado de tabla de términos según meses
 #
-function doBrowseTermsFromDate($month,$year,$ord=""){
-
+function doBrowseTermsFromDate($month,$year,$ord="")
+{
 	GLOBAL $MONTHS;
-	$sql=SQLlistTermsfromDate($month,$year,$ord);
-	$rows.='<div class="table-responsive"> ';
-	$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_auditoria.'" >';
-	$rows.='<tbody>';
-	while($array=$sql->FetchRow()){
-		$fecha_termino=do_fecha($array[cuando]);
 
-		$rows.='<tr>';
-		$rows.='<td class="izq">'.HTMLlinkTerm($array).'</td>';
-		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
-		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
-			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
-		}else{
-			$rows.='<td>'.$array[apellido].', '.$array[nombres].'</td>';
-		}
-		$rows.='</tr>';
-	};
-	$rows.='</tbody>';
+	$sql  = SQLlistTermsfromDate($month,$year,$ord);
+  	$rows = '
+		<div class="table-responsive">
+			<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_auditoria.'" >
+				<tbody>';
 
-	$rows.='<thead>';
-	$rows.='<tr>';
-	$rows.='<th class="izq" colspan="3"><a href="'.URL_BASE.'sobre.php#termaudit" title="'.ucfirst(LABEL_auditoria).'">'.ucfirst(LABEL_auditoria).'.</a> &middot; '.$fecha_termino[descMes].' / '.$fecha_termino[ano].': '.SQLcount($sql).' '.LABEL_Terminos.'</th>';
-	$rows.='</tr>';
+	while ($array=$sql->FetchRow()) {
+	    $fecha_termino = do_fecha($array[cuando]);
 
-	$rows.='<tr>';
-	$rows.='<th><a href="'.URL_BASE.'sobre.php?m='.$month.'&y='.$year.'&ord=T#termaudit" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
-	$rows.='<th><a href="'.URL_BASE.'sobre.php?m='.$month.'&y='.$year.'&ord=F#termaudit" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
-	$rows.='<th><a href="'.URL_BASE.'sobre.php?m='.$month.'&y='.$year.'&ord=U#termaudit" title="'.LABEL_ordenar.' '.MENU_Usuarios.'">'.ucfirst(MENU_Usuarios).'</a></th>';
-	$rows.='</tr>';
-	$rows.='</thead>';
+		$rows .= '  <tr>
+			            <td class="izq">'.HTMLlinkTerm($array,array("modal"=>1)).'</td>
+			            <td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
 
+    	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
+      		$rows .= '  <td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
+    	} else {
+      		$rows .= '  <td>'.$array[apellido].', '.$array[nombres].'</td>';
+    	}
 
-	$rows.='<tfoot>';
-	$rows.='<tr>';
-	$rows.='<td class="izq">'.ucfirst(LABEL_TotalTerminos).'</td>';
-	$rows.='<td colspan="2">'.SQLcount($sql).'</td>';
-	$rows.='</tr>';
-	$rows.='</tfoot>';
+    	$rows .='  </tr>';
+  	}
 
-	$rows.='</table>        ';
-	$rows.='</div>        ';
+	$rows .= '   </tbody>
+				<thead>
+					<tr>
+						<th class="izq" colspan="3">'.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].': '.SQLcount($sql).' '.LABEL_Terminos.'</th>
+					</tr>
+					<tr>
+						<th><a href="'.URL_BASE.'auditoria.php?m='.$month.'&y='.$year.'&ord=T#termaudit" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>
+						<th><a href="'.URL_BASE.'auditoria.php?m='.$month.'&y='.$year.'&ord=F#termaudit" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>
+						<th><a href="'.URL_BASE.'auditoria.php?m='.$month.'&y='.$year.'&ord=U#termaudit" title="'.LABEL_ordenar.' '.LABEL_Usuarios.'">'.ucfirst(LABEL_Usuarios).'</a></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td class="izq">'.ucfirst(LABEL_TotalTerminos).'</td>
+						<td colspan="2">'.SQLcount($sql).'</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>';
+
 	return $rows;
-};
+}
+
 
 
 #
@@ -989,8 +995,6 @@ function doBrowseTermsByDate()
 {
 	GLOBAL $MONTHS;
 	$sql=SQLtermsByDate();
-	$rows.='<div class="flex"><dt>'.mb_strtoupper(LABEL_auditoria, 'UTF-8').'</dt>';
-	$rows.='<dd style="padding:0px;">';
 	$rows.='<table style="margin:0px;" id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
 
 	$rows.='<thead>';
@@ -1009,7 +1013,8 @@ function doBrowseTermsByDate()
 		$fecha_termino=do_fecha($array[cuando]);
 		$rows.='<tr>';
 		$rows.='<td class="centrado">'.$array[years].'</td>';
-		$rows.='<td class="centrado"><a href="'.URL_BASE.'sobre.php?m='.$array[months].'&y='.$array[years].'#termaudit" title="'.LABEL_verDetalle.$fecha_termino[descMes].'">'.$fecha_termino[descMes].'</a></td>';
+    	$rows.='<td class="centrado"><a href="'.URL_BASE.'auditoria.php?m='.$array[months].'&y='.$array[years].'#termaudit" title="'.LABEL_verDetalle.$fecha_termino[descMes].'">'.$fecha_termino[descMes].'</a></td>';
+
 		$rows.='<td class="centrado">'.$array["cant"].'</td>';
 		$rows.='</tr>';
 		$TotalTerminos+=$array["cant"];
@@ -1022,10 +1027,10 @@ function doBrowseTermsByDate()
 	$rows.='</tr>';
 	$rows.='</tfoot>';
 
-	$rows.='</table>        ';
-	$rows.='</dd></div>';
+	$rows.='</table>';
+
 	return $rows;
-};
+}
 
 
 
