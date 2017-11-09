@@ -735,10 +735,15 @@ function HTMLformAdvancedSearch($array)
 	return $rows;
 }
 
+
+
+#
 # Term Report form
+#
 function HTMLformAdvancedTermReport($array)
 {
 	GLOBAL $CFG;
+
 	$LABEL_Termino       = ucfirst(LABEL_Termino);
 	$LABEL_esNoPreferido = ucfirst(LABEL_esNoPreferido);
 	$LABEL_CODE          = ucfirst(LABEL_CODE);
@@ -751,10 +756,11 @@ function HTMLformAdvancedTermReport($array)
 	$LABEL_equalThisWord = LABEL_equalThisWord;
 	$arrayVocabStats     = ARRAYresumen($_SESSION["id_tesa"],"G","");
 	$arrayWS             = array("t#$LABEL_Termino");
+
 	if ($arrayVocabStats["cant_up"]>0) {
 		array_push($arrayWS,"uf#$LABEL_esNoPreferido");
 	}
-	//Notes
+
 	if ($arrayVocabStats["cant_notas"]>0) {
 		array_push($arrayWS,"n#$LABEL_NOTE");
 		$LabelNB='NB#'.LABEL_NB;
@@ -819,116 +825,92 @@ function HTMLformAdvancedTermReport($array)
 			<div class="box-content">';
 	if (SQLcount($sqlTopTerm)>0) {
 		$rows.='
-				<div class="form-group">
-				  	<label class="col-md-4 control-label" for="hasTopTerm">'.ucfirst(LABEL_TopTerm).'</label>
-				  	<div class="col-md-5">
-					    <select id="hasTopTerm" name="hasTopTerm" class="form-control">
-							<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-							'.doSelectForm($formSelectTopTerms,$_GET["hasTopTerm"]).'
-					    </select>
-				  	</div>
-				</div>';
+			    <select id="hasTopTerm" name="hasTopTerm" class="form-control">
+					<option value="">'.ucfirst(LABEL_TopTerm).'</option>
+					<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
+					'.doSelectForm($formSelectTopTerms,$_GET["hasTopTerm"]).'
+			    </select>';
 	}
 	if ($arrayVocabStats["cant_notas"]>0) {
 		$rows.='
-			<div class="form-group">
-			  	<label class="col-md-4 control-label" for="hasNote">'.ucfirst(LABEL_FORM_haveNoteType).'</label>
-				<div class="col-md-4">
-				    <select id="hasNote" name="hasNote" class="form-control">
-						<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-						'.doSelectForm($arrayNoteType,$_GET["hasNote"]).'
-				    </select>
-				</div>
-			</div>';
-	}
-	$rows.='<div class="form-group">
-			  	<label class="col-md-4 control-label" for="fromDate">'.ucfirst(LABEL_DesdeFecha).'</label>
-			  	<div class="col-md-3">
-			    	<select id="fromDate" name="fromDate" class="form-control">
-						<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>'.doSelectForm($formSelectByDate,$_GET["fromDate"]).'    </select>
-			  	</div>
-			</div>';
-	//target vocabularies
-	if ($arrayVocabStats["cant_term2tterm"]) {
-		$rows.='
-			<div class="form-group">
-			  	<label class="col-md-4 control-label" for="csv_tvocab_id">'.ucfirst(LABEL_TargetTerms).'</label>
-			  	<div class="col-md-3">
-			    	<select id="csv_tvocab_id" name="csv_tvocab_id" class="form-control">
-						<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>'.doSelectForm($array_vocabularios,$_GET["csv_tvocab_id"]).'
-			    	</select>
-			  	</div>
-			  	<div class="col-md-3">
-			    	<select id="mapped" name="mapped" class="form-control">
-					'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"),$_GET["mapped"]).'
-			    	</select>
-			  	</div>
-			</div>';
-	}
-	if (SQLcount($sql)>'1') {
-		$rows.='<!-- Select Basic -->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="csv_itvocab_id">'.ucfirst(LABEL_vocabulario_referencia).'</label>
-			  <div class="col-md-3">
-			    <select id="csv_itvocab_id" name="csv_itvocab_id" class="form-control">
+			    <select id="hasNote" name="hasNote" class="form-control">
+					<option value="">'.ucfirst(LABEL_FORM_haveNoteType).'</option>
 					<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-					'.doSelectForm($array_ivocabularios,$_GET["csv_itvocab_id"]).'
-			    </select>
-			  </div>
-				<div class="col-md-3">
-			    <select id="int_mapped" name="int_mapped" class="form-control">
-					'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"),$_GET["int_mapped"]).'
-			    </select>
-			  </div>
-			</div>';
+					'.doSelectForm($arrayNoteType,$_GET["hasNote"]).'
+			    </select>';
 	}
-	//only for admin
-	if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') {
+	$rows.='	<select id="fromDate" name="fromDate" class="form-control">
+					<option value="">'.ucfirst(LABEL_DesdeFecha).'</option>
+					<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
+					'.doSelectForm($formSelectByDate,$_GET["fromDate"]).'
+				</select>';
+	if (in_array($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel], array('1', '3'))) {
 		$sqlUsers=SQLdatosUsuarios();
 		if (SQLcount($sqlUsers)>1) {
 			while ($arrayUsers=$sqlUsers->FetchRow()) {
 				$formSelectUsers[]=$arrayUsers[id].'#'.$arrayUsers[apellido].', '.$arrayUsers[nombres];
 			}
-			$rows.='<!-- Select Basic -->
-				<div class="form-group">
-				  <label class="col-md-4 control-label" for="byuser_id">'.ucfirst(MENU_Usuarios).'</label>
-				  <div class="col-md-4">
-				    <select id="user_id" name="byuser_id" class="form-control">
+			$rows.='<select id="user_id" name="byuser_id" class="form-control">
+						<option value="">'.ucfirst(LABEL_PorUsuario).'</option>
 						<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
 						'.doSelectForm($formSelectUsers,$_GET["byuser_id"]).'
-				    </select>
-				  </div>
-				</div>';
+				    </select>';
 		}
 	}
-	$rows.='<div class="form-group">
-		  <label class="col-md-4 control-label" for="w_string">'.ucfirst(LABEL_haveWords).'</label>
-		  <div class="col-md-3">
-		    <select id="w_string" name="w_string" class="form-control">
-				'.doSelectForm(array("x#$LABEL_equalThisWord","s#$LABEL_start","e#$LABEL_end"),$_GET["w_string"]).'
-		    </select>
-		  </div>
-			<div class="col-md-3">
-				<input id="csvstring" name="csvstring" class="form-control" placeholder="'.LABEL_haveWords.'" type="text">
-		  </div>
-		</div>
 
-		<!--  Checkboxes (inline) -->
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="csv_encodeAdvance">'.ucfirst(LABEL_encode).' latin1</label>
-		  <div class="col-md-4">
-		      <input name="csv_encode" id="csv_encodeAdvance" value="latin1" type="checkbox" checked>
-		  </div>
-		</div>
-		<input type="hidden"  name="mod" id="mod" value="csv"/><input type="hidden"  name="task" id="mod" value="csv1"/>
-		</div>
-		</fieldset>
+	$rows.='		<div class="form-group">
+	    				<select id="w_string" name="w_string" class="form-control">
+							<option value="">'.ucfirst(LABEL_haveWords).'...</option>
+							'.doSelectForm(array("x#$LABEL_equalThisWord","s#$LABEL_start","e#$LABEL_end"),$_GET["w_string"]).'
+	    				</select>
+						<input id="csvstring" name="csvstring" class="form-control" placeholder="'.LABEL_haveWords.'" type="text">
+					</div>';
+
+	//target vocabularies
+	if ($arrayVocabStats["cant_term2tterm"]) {
+		$rows.='<hr>
+				<select id="csv_tvocab_id" name="csv_tvocab_id" class="form-control">
+					<option value="">'.ucfirst(LABEL_TargetTerms).'</option>
+					<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
+					'.doSelectForm($array_vocabularios,$_GET["csv_tvocab_id"]).'
+		    	</select>
+			    <select id="mapped" name="mapped" class="form-control">
+					'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"),$_GET["mapped"]).'
+			    </select>
+			    <hr>';
+	}
+	if (SQLcount($sql)>'1') {
+		$rows.='<hr>
+				<select id="csv_itvocab_id" name="csv_itvocab_id" class="form-control">
+					<option value="">'.ucfirst(LABEL_vocabulario_referencia).'</option>
+					<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
+					'.doSelectForm($array_ivocabularios,$_GET["csv_itvocab_id"]).'
+			    </select>
+			    <select id="int_mapped" name="int_mapped" class="form-control">
+					'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"),$_GET["int_mapped"]).'
+			    </select>
+			    <hr>';
+	}
+
+	$rows.='	<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="csv_encodeAdvance" name="csv_encode" value="latin1" type="checkbox" checked />
+                        <label for="csv_encodeAdvance" class="label-warning"></label>
+                    </div>
+                    '.ucfirst(LABEL_encode).'  latin1
+                </li>
+                <input type="hidden"  name="mod" id="mod" value="csv"/><input type="hidden"  name="task" id="mod" value="csv1"/>
+			</div>
 		</form>';
 
 	return $rows;
 }
 
+
+
+#
 # Simple Term report by
+#
 function HTMLformSimpleTermReport($array)
 {
 	GLOBAL $CFG;
@@ -983,7 +965,11 @@ function HTMLformSimpleTermReport($array)
 	return $rows;
 }
 
+
+
+#
 # Simple Term report for mapped terms
+#
 function HTMLformMappedTermReport($array)
 {
 	GLOBAL $CFG;
@@ -996,17 +982,33 @@ function HTMLformMappedTermReport($array)
 			<div class="box-content">';
 
 	$SQLtvocabs = SQLtargetVocabulary();
-	while ($ARRAYtvocabs=$SQLtvocabs->FetchRow()) {
+
+	if (count($SQLtvocabs) == 1) {
 		$i_tvocab=++$i_tvocab;
-		$rows.='<div class="form-group">
-					<input name="tvocabs[]" type="checkbox" id="tvocab_id'.$ARRAYtvocabs["tvocab_id"].'" value="'.$ARRAYtvocabs["tvocab_id"].'" />
-					<label for="tvocab_id'.$ARRAYtvocabs["tvocab_id"].'">'.$ARRAYtvocabs["tvocab_label"].'</label>
-				</div>';
+		$rows.='<input type="hidden" name="tvocabs[]" type="checkbox" id="tvocab_id'.$ARRAYtvocabs["tvocab_id"].'" value="'.$ARRAYtvocabs["tvocab_id"].'" />';
+	} else {
+		while ($ARRAYtvocabs=$SQLtvocabs->FetchRow()) {
+			$i_tvocab=++$i_tvocab;
+			$rows.='
+				<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="tvocab_id'.$ARRAYtvocabs["tvocab_id"].'" name="tvocabs[]" value="'.$ARRAYtvocabs["tvocab_id"].'" type="checkbox" checked />
+                        <label for="tvocab_id'.$ARRAYtvocabs["tvocab_id"].'" class="label-warning"></label>
+                    </div>
+                    '.$ARRAYtvocabs["tvocab_label"].'
+                </li>';
+		}
+
+		$rows.="<hr>";
 	}
-	$rows.='	<div class="form-group">
-					<input name="csv_encode" id="csv_encodeTargetVocab" value="latin1" type="checkbox" checked>
-				  	<label class="control-label" for="csv_encodeTargetVocab">'.ucfirst(LABEL_encode).' latin1</label>
-				</div>
+
+	$rows.='	<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="csv_encodeTargetVocab" name="csv_encode" value="latin1" type="checkbox" checked />
+                        <label for="csv_encodeTargetVocab" class="label-warning"></label>
+                    </div>
+                    '.ucfirst(LABEL_encode).'  latin1
+                </li>
 			</div>
 			<input type="hidden" name="mod" id="mod" value="csv"/>
 			<input type="hidden" name="task" id="simpleMappedTermReport" value="csv12"/>
@@ -1047,10 +1049,13 @@ function HTMLformNullNotesTermReport($array)
 					<input name="note_type_null" type="radio" id="note_typeNULL0" value="0" />
 					<label for="note_typeNULL0">'.ucfirst(LABELnoNotes).'</label>
 				</div>
-				<div class="form-group">
-					<input name="csv_encode" id="csv_encodeNotes" value="latin1" type="checkbox" checked>
-				  	<label class="control-label" for="csv_encodeNotes">'.ucfirst(LABEL_encode).' latin1</label>
-				</div>
+				<li class="list-group-item list-group-item-material">
+                    <div class="material-switch pull-right">
+                        <input id="csv_encodeNotes" name="csv_encode" value="latin1" type="checkbox" checked />
+                        <label for="csv_encodeNotes" class="label-warning"></label>
+                    </div>
+                    '.ucfirst(LABEL_encode).'  latin1
+                </li>
 			</div>
 			<input type="hidden" name="mod" id="mod" value="csv"/>
 			<input type="hidden" name="task" id="simpleMappedTermReport" value="csv14"/>

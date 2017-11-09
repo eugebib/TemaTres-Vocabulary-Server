@@ -305,6 +305,7 @@ define('LABEL_ClickEditar',"click para editar...");
 define('LABEL_TopTerm',"Tiene este término tope");
 define('LABEL_esFraseExacta',"con la frase exacta");
 define('LABEL_DesdeFecha',"creado en o después de");
+define('LABEL_PorUsuario','creado por');
 define('LABEL_ProfundidadTermino',"Ubicado en profundidad");
 define('LABEL_esNoPreferido',"término no preferido");
 define('LABEL_BusquedaAvanzada',"búsqueda avanzada");
