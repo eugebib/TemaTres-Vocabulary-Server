@@ -157,6 +157,9 @@ form.upload {
     background: #f46353;
     color: white; }
 
+.estado_termino14 {
+  display: inline-block; }
+
 footer {
   font-size: 16px;
   background-color: white; }
