@@ -572,17 +572,14 @@ fieldset .btn {
 #theTerm a[type="button"] {
   margin-right: 10px; }
 
-.breadcrumb {
+.breadScrumb .breadcrumb {
   background-color: #ddd; }
-
-.breadcrumb > li + li:before {
+.breadScrumb .breadcrumb > li + li:before {
   color: black;
   content: " | "; }
-
-.breadcrumb > li:last-child {
+.breadScrumb .breadcrumb > li:last-child {
   float: right; }
-
-.breadcrumb > li:last-child:before {
+.breadScrumb .breadcrumb > li:last-child:before {
   content: ""; }
 
 .editable_term,
