@@ -1773,6 +1773,7 @@ function HTMLformLogin($task_result)
 					<h4>'.ucfirst(LABEL_login).'</h4>
 					<input type="email" name="id_correo_electronico" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11" />
 					<input type="password" name="id_password" id="userPassword" class="form-control input-sm chat-input" placeholder="'.ucfirst(LABEL_pass).'" required id="id_password" size="11" />
+            		<input type="hidden" name="task" value="login" />
 					<div>
 						<button type="submit" class="btn btn-primary btn-md">'.LABEL_Enviar.' <i class="fa fa-sign-in"></i></button>
 						<a href="login.php?task=recovery" tabindex="5" class="pull-right" title="'.LABEL_user_lost_password.'">'.LABEL_user_lost_password.'</a>
