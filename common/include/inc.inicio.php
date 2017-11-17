@@ -33,7 +33,7 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 } elseif (strlen($search_string)>0) {
 
 	//check again
-	$search_string=XSSprevent($search_string);
+	$search_string = XSSprevent($search_string);
 	echo resultaBusca($search_string,$_GET["tipo"]);
 
 } elseif ( //Mostrar ficha de termino o crear término
