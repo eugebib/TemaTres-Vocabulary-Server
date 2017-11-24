@@ -53,7 +53,7 @@ $rows = '
 		</div>
 		<div class="box-content">
             <input type="text" class="form-control" required id="'.FORM_LABEL_Titulo.'" placeholder="'.LABEL_Titulo.'" name="'.FORM_LABEL_Titulo.'" value="'.$array_vocabulario["titulo"].'">
-            <input type="text" class="form-control" required id="'.FORM_LABEL_Autor.'" placeholder="'.LABEL_Institucion.'" name="'.FORM_LABEL_Autor.'" value="'.$array_vocabulario["autor"].'">
+            <input type="text" class="form-control" required id="'.FORM_LABEL_Autor.'" placeholder="'.LABEL_Entidad.'" name="'.FORM_LABEL_Autor.'" value="'.$array_vocabulario["autor"].'">
             <textarea class="form-control" type="text" rows="3" name="'.FORM_LABEL_Cobertura.'" id="cobertura" placeholder="'.ucfirst(FORM_LABEL_Cobertura).'">'.$array_vocabulario["cobertura"].'</textarea>
             <input type="text" class="form-control" id="dccontributor" placeholder="'.LABEL_Autor.'" name="dccontributor" value="'.$ARRAYfetchValues["dc:contributor"]["value"].'">
 			<select class="form-control" id="'.FORM_LABEL_Idioma.'" name="'.FORM_LABEL_Idioma.'">
