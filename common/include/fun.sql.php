@@ -77,28 +77,47 @@ function ARRAYcantTerms4Thes($tesauro_id){
 	return $array;
 }
 
+
+
 #
 # Cantidad de notas generales y por usuarios
 #
-function SQLcantNotas($user_id="0"){
+function SQLcantNotas($user_id = "0")
+{
 	GLOBAL $DBCFG;
 
-	$user_id=secure_data($user_id,"int");
+	$user_id = secure_data($user_id,"int");
 
-	$w = ($user_id>0) ? " and n.uid='$user_id' " : "";
+	$w       = ($user_id>0) ? " and n.uid='$user_id' " : "";
 
+	$sql = SQL("select","
+			count(n.id) as cant,
+			n.tipo_nota,
+			v.value_id,
+			v.value_type,
+			v.value,
+			v.value_order,
+			v.value_code
+		FROM
+			$DBCFG[DBprefix]values v
+		LEFT JOIN
+			$DBCFG[DBprefix]notas n
+		ON
+			v.value_code=n.tipo_nota
+		WHERE
+			v.value_type='t_nota'
+			$w
+		GROUP BY
+			v.value_id
+		ORDER BY
+			v.value_order,
+			v.value_code
+	");
 
-	$sql=SQL("select","count(n.id) as cant, n.tipo_nota,
-	v.value_id,v.value_type,v.value,v.value_order,v.value_code
-	from $DBCFG[DBprefix]values v
-	left join $DBCFG[DBprefix]notas n on v.value_code=n.tipo_nota
-	where v.value_type='t_nota'
-	$w
-	group by v.value_id
-	order by v.value_order,v.value_code");
 	return $sql;
+}
 
-};
+
 
 #
 # Cantidad de términos mapeados (externos), por usuario y por vocabulario
@@ -1706,10 +1725,12 @@ function SQLlistTermsfromUser($id_user,$ord="")
 	return $sql;
 }
 
+
+
 #
 # Resumen de datos del tesauro
 #
-function ARRAYresumen($id_tesa,$tipo,$idUser="")
+function ARRAYresumen($id_tesa, $tipo, $idUser = "")
 {
 	$sql_cant_rel = SQLcantTR($tipo,$idUser);
 
