@@ -1,12 +1,17 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-#
-include("config.tematres.php");
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+
+include("../config/config.tematres.php");
+
 if($_GET[zthesTema]){
 	header('Content-Type: text/xml');
 	echo do_zthes(do_nodo_zthes($_GET[zthesTema]));
@@ -144,7 +149,7 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 					  "includeNote"=>$_GET["includeNote"],
 					  "includeCreatedDate"=>$_GET["includeCreatedDate"],
 					  "includeTopTerm"=>$_GET["includeTopTerm"],
-					  "includeModDate"=>$_GET["includeModDate"]);		
+					  "includeModDate"=>$_GET["includeModDate"]);
 		echo do_pdfAlpha($params);
 		break;
 

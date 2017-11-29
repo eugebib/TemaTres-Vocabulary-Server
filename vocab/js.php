@@ -1,13 +1,17 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-#
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+
 header('Content-Type: application/javascript; charset=utf-8');
-include("config.tematres.php");
+include("../config/config.tematres.php");
 /*
  * Load tinyMCE only if there are login
 */
@@ -76,7 +80,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 			original.reset()
 			alert(xhr.responseText)
 		}
-		  
+
 	  });
 	  <?php
 

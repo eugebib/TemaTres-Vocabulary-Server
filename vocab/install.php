@@ -1,13 +1,17 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-#
-if ( !defined('T3_WEBPATH') )
-define('T3_WEBPATH', getURLbaseInstall().'../common/');
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+if ( ! defined('T3_WEBPATH')) {
+	define('T3_WEBPATH', getURLbaseInstall().'../common/');
+}
 
 $CFG["_CHAR_ENCODE"] ='utf-8';
 
@@ -16,33 +20,27 @@ $page_encode = (in_array($CFG["_CHAR_ENCODE"],array('utf-8','iso-8859-1'))) ? $C
 header ('Content-type: text/html; charset='.$page_encode.'');
 
 //Config lang
-$lang='';
-$tematres_lang='';
-$lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
+$lang          = '';
+$tematres_lang = '';
+$lang_install  = (isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
+$lang          = $tematres_lang=(in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
 
-$lang = $tematres_lang=(in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
+//1. check if config file exist
+if ( ! file_exists('../config/db.tematres.php')) {
+	return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>');
+} else {
+	include('../config/db.tematres.php');
+	require_once(T3_ABSPATH . 'common/include/config.tematres.php');
+}
 
-	//1. check if config file exist
-	if ( !file_exists('db.tematres.php'))
-	{
-		return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>') ;
-	}
-	else
-	{
-		include('db.tematres.php');
-		require_once(T3_ABSPATH . 'common/include/config.tematres.php');
-	}
+require_once(T3_ABSPATH . 'common/lang/'.$lang.'-utf-8.inc.php');
 
-
-require_once(T3_ABSPATH . 'common/lang/'.$lang.'-utf-8.inc.php') ;
-
-function message($mess) {
+function message($mess)
+{
 	echo "" ;
 	echo $mess ;
 	echo "<br/>" ;
 }
-
-
 
 #Return base URL of the current URL or instance of vocabulary
 function getURLbaseInstall()
@@ -59,49 +57,53 @@ function getURLbaseInstall()
 	return $url_base;
 }
 
+
 //check install data
-function checkDataInstall($array=array()){
+function checkDataInstall($array=array())
+{
+	$installData = array();
 
-		$installData=array();
+	if(strlen($array["title"])>1) {
+		$installData["title"]=$array["title"];
+	}else{
+		$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_Titulo.'</strong></p>';
+	}
 
-		if(strlen($array["title"])>1) {
-				$installData["title"]=$array["title"];
-			}else{
-				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_Titulo.'</strong></p>';
-			};
+	if(strlen($array["author"])>1) {
+		$installData["author"]=$array["author"];
+	}else{
+		$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_Autor.'</strong></p>';
+	}
 
-		if(strlen($array["author"])>1) {
-				$installData["author"]=$array["author"];
-			}else{
-				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_Autor.'</strong></p>';
-			}
+	if(strlen($array["name"])>1) {
+		$installData["name"]=$array["name"];
+	}else{
+			$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_nombre.'</strong></p>';
+	}
 
-		if(strlen($array["name"])>1) {
-				$installData["name"]=$array["name"];
-			}else{
- 				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_nombre.'</strong></p>';
-			}
-		if(strlen($array["s_name"])>1) {
-				$installData["s_name"]=$array["s_name"];
-			}else{
-				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_apellido.'</strong></p>';
-			}
+	if(strlen($array["s_name"])>1) {
+		$installData["s_name"]=$array["s_name"];
+	}else{
+		$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_apellido.'</strong></p>';
+	}
 
-		if(filter_var( $array["mail"], FILTER_VALIDATE_EMAIL )) {
-				$installData["mail"]=$array["mail"];
-			}else{
-				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_mail.'</strong></p>';
-			}
-		if((strlen($array["mdp"])>4) && ($array["mdp"]==$array["password"])){
-				$installData["password"]=$array["password"];
-			}else{
-				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_pass.'</strong></p>';
-			}
-			$installData["lang"]=$array["lang"];
+	if(filter_var( $array["mail"], FILTER_VALIDATE_EMAIL )) {
+		$installData["mail"]=$array["mail"];
+	}else{
+		$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_mail.'</strong></p>';
+	}
 
-			if($instalChk["error_msg"]) return $instalChk;
+	if((strlen($array["mdp"])>4) && ($array["mdp"]==$array["password"])){
+		$installData["password"]=$array["password"];
+	}else{
+		$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_pass.'</strong></p>';
+	}
 
-			return $installData;
+	$installData["lang"]=$array["lang"];
+
+	if($instalChk["error_msg"]) return $instalChk;
+
+	return $installData;
 }
 
 
@@ -113,32 +115,25 @@ function checkInstall($lang)
 	$conf_file_path =  str_replace("install.php","db.tematres.php","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
 
 	//1. check if config file exist
-	if ( !file_exists('db.tematres.php') )
-	{
+	if ( ! file_exists('../config/db.tematres.php') ) {
 		return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message[201],$conf_file_path).'</div><br/>') ;
-	}
-	else
-	{
-		include('db.tematres.php');
+	} else {
+		include('../config/db.tematres.php');
 	}
 
-
-	if($DBCFG["debugMode"]==0)
-	{
+	if($DBCFG["debugMode"]==0) {
 		//silent warnings
 		error_reporting(0);
 		$label_login='';
 		$label_dbname='';
 		$label_server='';
-	}
-	else
-	{
+	} else {
 		$label_login=$DBCFG["DBLogin"];
 		$label_dbname=$DBCFG["DBName"];
 		$label_server=$DBCFG["Server"];
-	};
-	//2. check connection to server
+	}
 
+	//2. check connection to server
 	require_once(T3_ABSPATH . 'common/include/adodb5/adodb.inc.php');
 
 	//default driver
@@ -146,58 +141,44 @@ function checkInstall($lang)
 
 	$DB = NewADOConnection($DBCFG["DBdriver"]);
 
-	if(!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"]))
-	{
+	if(!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"])) {
 		return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message[203],$label_server,$label_login,$conf_file_path).'</div><br/>') ;
 	}
 
-//~
 	//3. check connection to database
-	if(!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"],$DBCFG["DBName"]))
-	{
-
+	if(!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"],$DBCFG["DBName"])) {
 		return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message[205],$label_dbname,$label_server,$conf_file_path).'</div><br/>');
 	}
 
-
 	//4. check tables
-
 	$sql=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'` where `tables_in_'.$DBCFG["DBName"].'` in (\''.$DBCFG["DBprefix"].'config\',\''.$DBCFG["DBprefix"].'indice\',\''.$DBCFG["DBprefix"].'notas\',\''.$DBCFG["DBprefix"].'tabla_rel\',\''.$DBCFG["DBprefix"].'tema\',\''.$DBCFG["DBprefix"].'usuario\',\''.$DBCFG["DBprefix"].'values\')');
 
-	if ($DB->Affected_Rows()=='7')
-	{
-	return message('<div class="alert alert-danger" role="alert">'.$install_message["301"].'</div>') ;
-	}
-	else
-	{
+	if ($DB->Affected_Rows()=='7') {
+		return message('<div class="alert alert-danger" role="alert">'.$install_message["301"].'</div>') ;
+	} else {
 		//Final step: dump or form
-		if ( isset($_POST['send']) )
-			{
-				$arrayInstallData=checkDataInstall($_POST);
+		if ( isset($_POST['send']) ) {
+			$arrayInstallData=checkDataInstall($_POST);
 
-				if(count($arrayInstallData)==7) {
-					SQLtematres($DBCFG,$DB,$arrayInstallData);
-				}else {
-					echo $arrayInstallData["error_msg"];
-					echo HTMLformInstall($lang);
-				}
-
+			if(count($arrayInstallData)==7) {
+				SQLtematres($DBCFG,$DB,$arrayInstallData);
+			} else {
+				echo $arrayInstallData["error_msg"];
+				echo HTMLformInstall($lang);
 			}
-			else
-			{
+		} else {
 			echo HTMLformInstall($lang);
-			}
+		}
 	}
 }
 
 
 function SQLtematres($DBCFG,$DB,$arrayInstallData=array())
 {
-
-// Si se establecio un charset para la conexion
-if(@$DBCFG["DBcharset"]){
-	$DB->Execute("SET NAMES $DBCFG[DBcharset]");
-	}
+	// Si se establecio un charset para la conexion
+	if(@$DBCFG["DBcharset"]){
+		$DB->Execute("SET NAMES $DBCFG[DBcharset]");
+		}
 
 		$prefix=$DBCFG["DBprefix"] ;
 
@@ -216,7 +197,7 @@ if(@$DBCFG["DBcharset"]){
 		  `url_base` varchar(255) default NULL,
 		  PRIMARY KEY  (`id`)
 		) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;") ;
- 
+
 		//If create table --> insert data
 		if($result1)
 		{
@@ -461,27 +442,24 @@ if(@$DBCFG["DBcharset"]){
 		}
 
 		}
-
-
 }
 
 
 function HTMLformInstall($lang_install)
 {
 	GLOBAL $install_message;
+	GLOBAL $CFG;
 
     require_once(T3_ABSPATH . 'common/include/config.tematres.php');
     require_once(T3_ABSPATH . 'common/include/fun.gral.php');
-
-	GLOBAL $CFG;
 
 	$arrayLang=array();
 
 	foreach ($CFG["ISO639-1"] as $langs) {
 		array_push($arrayLang,"$langs[0]#$langs[1]");
-	};
+	}
 
-		$rows='<form class="form-horizontal" id="formulaire" name="formulaire" method="post" action="install.php">
+	$rows='<form class="form-horizontal" id="formulaire" name="formulaire" method="post" action="install.php">
 		<fieldset>
 		<!-- Form Name -->
 		<legend>'.ucfirst(LABEL_lcDatos).'</legend>
@@ -567,10 +545,11 @@ function HTMLformInstall($lang_install)
 		</fieldset>
 		</form>';
 
-		return $rows;
-
+	return $rows;
 }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>

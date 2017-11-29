@@ -1,12 +1,17 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#  
-###############################################################################################################
-#
-include("config.tematres.php");
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+
+include("../config/config.tematres.php");
+
 $metadata=do_meta_tag();
 
 if(CFG_ENABLE_SPARQL==1)
@@ -27,7 +32,7 @@ if(CFG_ENABLE_SPARQL==1)
         'db_pwd' => $DBCFG["DBPass"],
         'store_name' => $DBCFG["DBprefix"],  /* store name */
 
-        /* endpoint   */  
+        /* endpoint   */
         'endpoint_features' => $array_endpoint_features,
         'endpoint_timeout' => 60, /* not implemented in ARC2 preview */
         'endpoint_read_key' => '', /* optional */
@@ -40,7 +45,7 @@ if(CFG_ENABLE_SPARQL==1)
           /* instantiation */
           $ep = ARC2::getStoreEndpoint($config);
 
-          $ep->go("0");  
+          $ep->go("0");
     }
     else
     {

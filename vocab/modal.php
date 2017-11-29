@@ -1,5 +1,17 @@
 <?php
-include("config.tematres.php");
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+
+include("../config/config.tematres.php");
+
 require_once(T3_ABSPATH . 'common/include/vocabularyservices.php');
 //If tterm_id isset, is a foreing term
 //falta elegir entre 3 tipos de fuente de metadata: tema_id,tterm_id, URL
