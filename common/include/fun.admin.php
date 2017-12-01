@@ -2023,10 +2023,12 @@ function doSkos($topTerm)
 		$skosNodos .= do_nodo_skos($term);
 	}
 
-	$meta_tag = do_skos($skosNodos, $topTerm);
-	$filname  = string2url($_SESSION["CFGTitulo"]).'.rdf';
+	$tema = ARRAYverTerminoBasico($topTerm);
 
-	return sendFile("$meta_tag","$filname");
+	$meta_tag = do_skos($skosNodos, $topTerm);
+	$filename  = string2url($_SESSION["CFGTitulo"].'-'.$tema['tema']).'.rdf';
+
+	return sendFile("$meta_tag","$filename");
 }
 
 
