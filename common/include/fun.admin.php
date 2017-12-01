@@ -3955,7 +3955,7 @@ function getTermsxAlpha($params)
     if ($params['hasTopTerm'] > 0) {
 	    $topTerms = SQLverTopTerm();
 	    while ($top = $topTerms->FetchRow()) {
-	    	if ($params['hasTopTerm'] == 0 || $params['hasTopTerm'] == $top['id']) {
+	    	if ($params['hasTopTerm'] == $top['id']) {
 		    	$list[] = array(
 					'id'         => (int) $top['id'],
 					'term'       => (string) $top['tema'],
@@ -3998,18 +3998,18 @@ function getTermsxAlpha($params)
 	    			}
 	    			$array['NA'] = $note;
 		    	}
-	    	    if (!in_array($array, $list)) {
+		    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
 	    	    	$list[] = $array;
 	    	    }
-	    		if ( ! in_array($array['id'], array_column($list, 'id'))) {
+		        if (isset($term['noPreferido']) && $params['includeAlt']) {
 			    	$array = array(
 						'id'        => (int) $term['UPId'],
 						'term'      => (string) $term['noPreferido'],
 						'preferido' => (string) $term['tema']
 			    	);
-			    }
-	    		if ( ! in_array($array['id'], array_column($list, 'id'))) {
-			    	$list[] = $array;
+			    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
+			    		$list[] = $array;
+			    	}
 			    }
 		    }
 		    $count = count($list);
@@ -4057,9 +4057,9 @@ function getTermsxAlpha($params)
 					'term'      => (string) $term['noPreferido'],
 					'preferido' => (string) $term['tema']
 		    	);
-		    }
-	    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
-		    	$list[] = $array;
+			    if ( ! in_array($array['id'], array_column($list, 'id'))) {
+			    	$list[] = $array;
+			    }
 		    }
 	    }
 	}
