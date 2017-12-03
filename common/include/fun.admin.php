@@ -1429,46 +1429,41 @@ function doBrowseTermsFromUser($user_id,$ord="")
 
 	GLOBAL $MONTHS;
 
-	$sql=SQLlistTermsfromUser($user_id,$ord);
+	$sql   = SQLlistTermsfromUser($user_id,$ord);
+	$total = SQLcount($sql);
+	$user  = ARRAYdatosUser($user_id);
 
-	$rows.='<div class="flex"><dt>'.mb_strtoupper(LABEL_auditoria, 'UTF-8').'</dt>';
-	$rows.='<dd style="padding:0px;">';
-	$rows.='<div class="table-responsive"> ';
-	$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
+	$rows = '
+	    <h4>'.ucfirst(LABEL_Termoscreados).' <a href="admin.php?user_id='. $user_id .'"  title="'.LABEL_verDetalle.$user["apellido"].', '.$user["nombres"].'">' . $user["nombres"] . ' ' . $user["apellido"] .'</a>: '.$total.' '.LABEL_Terminos.'</h4>
+	    <div class="table-responsive">
+	      	<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">
+	        	<thead>
+	          		<tr>
+			            <th><a href="auditoria.php?user_id='.$user_id.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>
+			            <th><a href="auditoria.php?user_id='.$user_id.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>
+	          		</tr>
+	        	</thead>
+	        	<tbody>';
 
-	$rows.='<tbody>';
-	while($array=$sql->FetchRow()){
-		$user_id=$array["id_usuario"];
-		$apellido=$array["apellido"];
-		$nombres=$array["nombres"];
-		$fecha_termino=do_fecha($array["cuando"]);
-		$rows.='<tr>';
-		$rows.='<td class="izq"><a href="index.php?tema='.$array["id_tema"].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array[tema].'</a></td>';
-		$rows.='<td>'.$fecha_termino["dia"].' / '.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].'</td>';
-		$rows.='</tr>';
-		};
-	$rows.='</tbody>';
+	while($array=$sql->FetchRow()) {
+		$user_id       = $array["id_usuario"];
+		$apellido      = $array["apellido"];
+		$nombres       = $array["nombres"];
+		$fecha_termino = do_fecha($array["cuando"]);
 
-	$rows.='<thead>';
-	$rows.='<tr>';
-	$rows.='<th class="izq" colspan="3"><a href="admin.php?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.<a href="sobre.php" class="pull-right">'.ucfirst(LABEL_auditoria).'</a></th>';
-	$rows.='</tr>';
+		$rows.='	<tr>
+			           	<td class="izq">
+			              	<a href="index.php?tema='.$array["id_tema"].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array[tema].'</a>
+			            </td>
+			            <td>'.$fecha_termino["dia"].' / '.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].'</td>
+		          	</tr>';
+	}
 
-	$rows.='<tr>';
-	$rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
-	$rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
-	$rows.='</tr>';
-	$rows.='</thead>';
+	$rows.='	</tbody>
+	    	</table>
+	    </div>';
 
 
-	$rows.='<tfoot>';
-	$rows.='<tr>';
-	$rows.='<td class="izq">'.ucfirst(LABEL_TotalTerminos).'</td>';
-	$rows.='<td>'.SQLcount($sql).'</td>';
-	$rows.='</tr>';
-	$rows.='</tfoot>';
-
-	$rows.='</table></div></dd></div>';
 
 	return $rows;
 }
@@ -1500,12 +1495,13 @@ function HTMLListaUsers()
 
 	while($listaUsers=$sqlListaUsers->FetchRow()){
 		$fecha_alta=do_fecha($listaUsers[cuando]);
-		$rows.='<tr>';
-		$rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers[id].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
+		$rows.='<tr>
+					<td class="izq"><a href="admin.php?user_id='.$listaUsers["id"].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
+
 		$rows.='<td class="izq">'.$listaUsers[orga].'</td>';
 		$rows.='<td>'.$fecha_alta[dia].'-'.$fecha_alta[descMes].'-'.$fecha_alta[ano].' ('.arrayReplace(array("ACTIVO","BAJA"),array(LABEL_User_Habilitado,LABEL_User_NoHabilitado),$listaUsers[estado]). ')</td>';
-		if($listaUsers[cant_terminos]>0){
-			$rows.='<td><a href="sobre.php?user_id='.$listaUsers[id].'" title="'.LABEL_Detalle.'">'.$listaUsers[cant_terminos].'</a></td>';
+		if($listaUsers["cant_terminos"]>0){
+			$rows.='  <td><a href="auditoria.php?user_id='.$listaUsers["id"].'" title="'.LABEL_Detalle.'">'.$listaUsers["cant_terminos"].'</a></td>';
 			}else{
 			$rows.='<td>'.$listaUsers[cant_terminos].'</td>';
 			}

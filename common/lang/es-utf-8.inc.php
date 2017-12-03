@@ -558,4 +558,8 @@ define('LABEL_SistPDF','Sistemático (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
 define('LABEL_Info','Información sobre este vocabulario');
-?>
+
+define('LABEL_Usuarios', 'usuarios');
+define('LABEL_Misterminos', 'mis términos');
+define('LABEL_Porfecha', 'por fecha');
+define('LABEL_Termoscreados', 'términos creados por');

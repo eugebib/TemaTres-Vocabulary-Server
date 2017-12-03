@@ -409,6 +409,41 @@ fieldset .btn {
   .header a:focus {
     text-decoration: none; }
 
+.list-title {
+  color: #193848;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #193848; }
+
+.list-content {
+  display: flex;
+  flex-wrap: wrap; }
+  .list-content > a {
+    background-color: #193848;
+    font-size: 18px;
+    color: black;
+    border: 3px solid transparent;
+    padding: 20px;
+    margin: 0 15px 15px 0;
+    flex-grow: 1; }
+    .list-content > a:nth-child(3n+2) {
+      background-color: #193848; }
+    .list-content > a:nth-child(3n+3) {
+      background-color: #193848; }
+    .list-content > a span {
+      font-size: 12px; }
+    .list-content > a:hover, .list-content > a:focus {
+      text-decoration: none;
+      background-color: white;
+      border: 3px solid #193848; }
+
+.table-content h4 {
+  margin-bottom: 20px; }
+
+#listaLetras li,
+#listaBusca li {
+  line-height: 35px; }
+
 .navbar {
   min-height: initial; }
   .navbar .container-fluid {
