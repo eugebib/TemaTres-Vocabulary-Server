@@ -4107,20 +4107,18 @@ function SQLsrcnote($srcnote_id)
 		group by srcn.scrnote_id");
 }
 
+
+
 function SQLterms4alpha($id)
 {
 	GLOBAL $DBCFG;
 
 	if ($id > 0) {
-		$where = 'WHERE
-			Relaciones.id_mayor='.$id.' AND
-			Relaciones.t_relacion=3 AND
-			tema.tema_id IS NOT NULL AND
-    		tema.tema_id <> ""';
-	} else {
-		$where = 'WHERE
-			tema.tema_id IS NOT NULL AND
-    		tema.tema_id <> ""';
+		$where = 'AND
+			(Relaciones.id_mayor = '.$id.' AND
+			Relaciones.t_relacion = 3) OR
+			tema.tema_id = '.$id.' OR
+			UP.tema_id = '.$id;
 	}
 
 	$sql=SQL("select","
@@ -4148,7 +4146,10 @@ function SQLterms4alpha($id)
 		    $DBCFG[DBprefix]notas AS notas
 		ON
 		    tema.tema_id = notas.id_tema and notas.tipo_nota = 'NA'
-		$where
+		WHERE
+			tema.tema_id IS NOT NULL AND
+    		tema.tema_id <> ''
+			$where
 	");
 
 	return $sql;

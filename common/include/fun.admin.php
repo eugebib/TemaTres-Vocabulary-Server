@@ -3855,7 +3855,7 @@ function do_pdfAlpha($params=array())
 		$pdf->PrintIntro();
 	}
 
-	$sqlMenuAlfabetico=SQLlistaABC();
+	$sqlMenuAlfabetico = SQLlistaABC();
 
 	while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow()) {
 		$datosAlfabetico[0] = isValidLetter($datosAlfabetico[0]);
@@ -3948,21 +3948,62 @@ function do_pdfAlpha2($params=array())
 	$pdf->Output('I',$filname);
 }
 
+
+
 function getTermsxAlpha($params)
 {
     GLOBAL $CFG;
 
-    if ($params['hasTopTerm'] > 0) {
-	    $topTerms = SQLverTopTerm();
-	    while ($top = $topTerms->FetchRow()) {
-	    	if ($params['hasTopTerm'] == $top['id']) {
-		    	$list[] = array(
-					'id'         => (int) $top['id'],
-					'term'       => (string) $top['tema'],
-					'isMetaTerm' => (int) $top['isMetaTerm']
-		    	);
+	$terms = SQLterms4alpha($params['hasTopTerm']);
+
+	$list = array();
+	while ($term = $terms->FetchRow()) {
+	    #Mantener vivo el navegador
+	    $time_now = time();
+	    if ($time_start >= $time_now + 10) {
+	        $time_start = $time_now;
+	        header('X-pmaPing: Pong');
+	    }
+	    $array = array(
+			'id'         => (int) $term['id'],
+			'term'       => (string) $term['tema'],
+			'isMetaTerm' => (int) $term['isMetaTerm']
+    	);
+    	if (in_array('NA', (array) $params['includeNote'])) {
+    		$note = strip_tags((string) $term['nota']);
+			while (strpos($note,"|")) {
+				$note = str_replace(
+					substr(
+						$note,
+						strpos($note, "|"),
+						strpos($note, "]]",strpos($note, "|"))-strpos($note, "|")+2),
+					'',
+					$note);
+			}
+			while (strpos($note,"[[") !== false) {
+				$note = str_replace(
+					array('[[', ']]'),
+					'',
+					$note);
+			}
+			$array['NA'] = $note;
+    	}
+    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
+	    	$list[] = $array;
+	    }
+        if (isset($term['noPreferido']) && $params['includeAlt']) {
+	    	$array = array(
+				'id'        => (int) $term['UPId'],
+				'term'      => (string) $term['noPreferido'],
+				'preferido' => (string) $term['tema']
+	    	);
+		    if ( ! in_array($array['id'], array_column($list, 'id'))) {
+		    	$list[] = $array;
 		    }
 	    }
+    }
+
+    if ($params['hasTopTerm'] > 0) {
 	    $count = count($list);
 
 		for ($i=0; $i < $count; $i++) {
@@ -4013,54 +4054,6 @@ function getTermsxAlpha($params)
 			    }
 		    }
 		    $count = count($list);
-	    }
-	} else {
-		$terms = SQLterms4alpha(0);
-		$list = array();
-    	while ($term = $terms->FetchRow()) {
-    	    #Mantener vivo el navegador
-    	    $time_now = time();
-    	    if ($time_start >= $time_now + 10) {
-    	        $time_start = $time_now;
-    	        header('X-pmaPing: Pong');
-    	    }
-    	    $array = array(
-				'id'         => (int) $term['id'],
-				'term'       => (string) $term['tema'],
-				'isMetaTerm' => (int) $term['isMetaTerm']
-	    	);
-	    	if (in_array('NA', (array) $params['includeNote'])) {
-	    		$note = strip_tags((string) $term['nota']);
-    			while (strpos($note,"|")) {
-    				$note = str_replace(
-    					substr(
-    						$note,
-    						strpos($note, "|"),
-    						strpos($note, "]]",strpos($note, "|"))-strpos($note, "|")+2),
-    					'',
-    					$note);
-    			}
-    			while (strpos($note,"[[") !== false) {
-    				$note = str_replace(
-    					array('[[', ']]'),
-    					'',
-    					$note);
-    			}
-    			$array['NA'] = $note;
-	    	}
-	    	if ( ! in_array($array['id'], array_column($list, 'id'))) {
-    	    	$list[] = $array;
-    	    }
-	        if (isset($term['noPreferido']) && $params['includeAlt']) {
-		    	$array = array(
-					'id'        => (int) $term['UPId'],
-					'term'      => (string) $term['noPreferido'],
-					'preferido' => (string) $term['tema']
-		    	);
-			    if ( ! in_array($array['id'], array_column($list, 'id'))) {
-			    	$list[] = $array;
-			    }
-		    }
 	    }
 	}
 
