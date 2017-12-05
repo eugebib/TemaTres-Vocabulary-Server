@@ -1375,31 +1375,34 @@ function HTMLlistaAlfabeticaUnica($letra="")
 	return $menuAlfabetico;
 }
 
+
+
 #
 # All terms form one char
 #
 function HTMLterminosLetra($letra)
 {
-	$cantLetra=numTerms2Letter($letra);
+	$cantLetra       = numTerms2Letter($letra);
+	$letra_label     = (!ctype_digit($letra)) ?  $letra : '0-9';
+	$paginado_letras = '';
 
-	$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
+	$terminosLetra   = '
+	    <ol class="breadcrumb">
+			<li>
+				<a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.
+					ucfirst(MENU_Inicio).'
+				</a>
+			</li>
+			<li class="active">
+				<em>'.$letra_label.'</em>: <strong>'.$cantLetra.' </strong>'.($cantLetra == 1 ? LABEL_Termino : LABEL_Terminos).'
+			</li>
+	    </ol>';
 
-	$terminosLetra.='<ol class="breadcrumb">';
-	$terminosLetra.='<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>';
-	$terminosLetra.='<li class="active"><em>'.$letra_label.'</em>: <strong>'.$cantLetra.' </strong>'.LABEL_Terminos.'</li>';
-	$terminosLetra.='</ol>';
-
-
-	$paginado_letras='';
 
 	$pag= secure_data($_GET["p"]);
 
-	if($cantLetra>0)
-	{
-
-		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS)
-		{
-
+	if ($cantLetra>0) {
+		if ($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS) {
 
 			$paginado_letras=paginate_links( array(
 				'type' => 'list',
@@ -1426,8 +1429,8 @@ function HTMLterminosLetra($letra)
 		while ($datosLetra= $sqlDatosLetra->FetchRow()){
 
 			//Si no es un término preferido
-			if($datosLetra[termino_preferido]){
-				switch($datosLetra[t_relacion]){
+			if($datosLetra["termino_preferido"]){
+				switch($datosLetra["t_relacion"]){
 					//UF
 					case '4':
 					$leyendaConector=USE_termino;
@@ -1450,9 +1453,9 @@ function HTMLterminosLetra($letra)
 					break;
 				}
 
-				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[tema_id].'&amp;/'.string2url($datosLetra[tema]).'">'.$datosLetra[tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$datosLetra[tema].'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[termino_preferido].'</a></li>'."\r\n" ;
+				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra["tema"]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra["tema_id"].'&amp;/'.string2url($datosLetra["tema"]).'">'.$datosLetra["tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$datosLetra["tema"].'" href="'.URL_BASE.'index.php?tema='.$datosLetra["id_definitivo"].'&amp;/'.($datosLetra["termino_preferido"]).'">'.$datosLetra["termino_preferido"].'</a></li>'."\r\n" ;
 			} else {
-				$styleClassLink         = ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
+				$styleClassLink         = ($datosLetra["estado_id"]!=='13') ? 'estado_termino'.$datosLetra["estado_id"] : '';
 				$styleClassLinkMetaTerm = '';
 				$title = '';
 
