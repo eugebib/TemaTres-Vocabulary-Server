@@ -208,6 +208,7 @@ define("LABEL_terminoLibre","termo livre");
 define("LABEL_URL_busqueda","Buscar %s em: ");
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","relacão com outro vocabulário");
+define("LABEL_relacionar_vocabulario","relacionar %s com outro vocabulário");
 define("FORM_LABEL_relacion_vocabulario","equivalência");
 define("LABEL_vocabulario_referencia","vocabulário de referência");
 define("LABEL_vocabularios_referencia","vocabulários de referência");
@@ -265,22 +266,24 @@ define("MSG_minCharSerarch","A expressão de busca <i>%s</i> tem somente <strong
 /* v 1.04 */
 define("LABEL_terminoExistente","termo existente");
 define("HELP_variosTerminos","Para adicionar vários termos de uma vez encarna uma palavra por linha</strong>.");
+
 /* v 1.05 */
 $idiomas_disponibles = array(
-     "ca"  => array("català", "", "ca"),
-     "cn"  => array("中文","", "cn"),
-     "de"  => array("deutsch","", "de"),
-     "en"  => array("english", "", "en"),
-     "es"  => array("español", "", "es"),
-     "eu"  => array("euskera", "", "eu"),
-     "fr"  => array("français","", "fr"),
-     "gl"  => array("galego","", "gl"),
-     "it"  => array("italiano","", "it"),
-     "nl"  => array("nederlands","", "nl"),
-     "pl"  => array("polski","", "pl"),
-     "pt"  => array("português","", "pt"),
-     "ru"  => array("Pусский","", "ru")
-    );
+    "ca"  => array("català", "", "ca"),
+    "cn"  => array("中文","", "cn"),
+    "de"  => array("deutsch","", "de"),
+    "en"  => array("english", "", "en"),
+    "es"  => array("espanhol", "", "es"),
+    "eu"  => array("euskera", "", "eu"),
+    "fr"  => array("français","", "fr"),
+    "gl"  => array("galego","", "gl"),
+    "it"  => array("italiano","", "it"),
+    "nl"  => array("nederlands","", "nl"),
+    "pl"  => array("polski","", "pl"),
+    "pt"  => array("portugues","", "pt"),
+    "ru"  => array("Pусский","", "ru")
+);
+
 /* Install messages */
 define("FORM","Formulário") ;
 define("ERROR","Erro") ;
@@ -317,6 +320,7 @@ define('LABEL_esNoPreferido',"termo não preferido");
 define('LABEL_BusquedaAvanzada',"pesquisa avançada");
 define('LABEL_Todos',"todos");
 define('LABEL_QueBuscar',"o que procurar?");
+define('LABEL_DondeBuscar',"¿Onde procurar?");
 define("LABEL_import","importar") ;
 define("IMPORT_form_legend","importar tesauro de um arquivo txt tabulado") ;
 define("IMPORT_form_label","arquivo") ;
@@ -429,7 +433,7 @@ define('LABEL_Prev','anteriores');
 define('LABEL_Next','seguintes');
 define('LABEL_PageNum','página de resultados número ');
 define('LABEL_selectMapMethod','Selecione o método de mapeamento terminológico');
-define('LABEL_string2search','expressão de busca (digite o termo na lingua do vocabulário de referência)');
+define('LABEL_string2search','expressão de busca (digite o termo na lingua do vocabulário selecionado)');
 define('LABEL_reverseMappign','mapeamento reverso');
 define('LABEL_warningMassiverem','Você vai excluir esses dados em lote! Isto é IRREVERSÍVEL!');
 define('LABEL_target_terms','termos mapeados a partir de vocabulários externos');
@@ -595,3 +599,4 @@ define('LABEL_Usuarios', 'usuários');
 define('LABEL_Misterminos', 'meus termos');
 define('LABEL_Porfecha', 'por data');
 define('LABEL_Termoscreados', 'termos criados por');
+

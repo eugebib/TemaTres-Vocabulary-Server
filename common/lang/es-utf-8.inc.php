@@ -208,6 +208,7 @@ define("LABEL_terminoLibre","término libre");
 define("LABEL_URL_busqueda","Buscar %s en: ");
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","relación con otro vocabulario");
+define("LABEL_relacionar_vocabulario","relacionar %s con otro vocabulario");
 define("FORM_LABEL_relacion_vocabulario","equivalencia");
 define("LABEL_vocabulario_referencia","vocabulario de referencia");
 define("LABEL_vocabularios_referencia","vocabularios de referencia");
@@ -266,22 +267,24 @@ define("MSG_minCharSerarch","La expresión de búsqueda <i>%s</i> tiene sólo <s
 /* v 1.04 */
 define("LABEL_terminoExistente","término existente");
 define("HELP_variosTerminos","Para agregar varios términos a la vez consigne <strong>un término por línea</strong>.");
+
 /* v 1.05 */
 $idiomas_disponibles = array(
-     "ca"  => array("català", "", "ca"),
-     "cn"  => array("中文","", "cn"),
-     "de"  => array("deutsch","", "de"),
-     "en"  => array("english", "", "en"),
-     "es"  => array("español", "", "es"),
-     "eu"  => array("euskera", "", "eu"),
-     "fr"  => array("français","", "fr"),
-     "gl"  => array("galego","", "gl"),
-     "it"  => array("italiano","", "it"),
-     "nl"  => array("nederlands","", "nl"),
-     "pl"  => array("polski","", "pl"),
-     "pt"  => array("português","", "pt"),
-     "ru"  => array("Pусский","", "ru")
-    );
+    "ca"  => array("català", "", "ca"),
+    "cn"  => array("中文","", "cn"),
+    "de"  => array("deutsch","", "de"),
+    "en"  => array("english", "", "en"),
+    "es"  => array("español", "", "es"),
+    "eu"  => array("euskera", "", "eu"),
+    "fr"  => array("français","", "fr"),
+    "gl"  => array("galego","", "gl"),
+    "it"  => array("italiano","", "it"),
+    "nl"  => array("nederlands","", "nl"),
+    "pl"  => array("polski","", "pl"),
+    "pt"  => array("português","", "pt"),
+    "ru"  => array("Pусский","", "ru")
+);
+
 /* Install messages */
 define("FORM","Form") ;
 define("ERROR","Error") ;
@@ -318,6 +321,7 @@ define('LABEL_esNoPreferido',"término no preferido");
 define('LABEL_BusquedaAvanzada',"búsqueda avanzada");
 define('LABEL_Todos',"todos");
 define('LABEL_QueBuscar',"¿Qué buscar?");
+define('LABEL_DondeBuscar',"¿Dónde buscar?");
 define("LABEL_import","Importar") ;
 define("IMPORT_form_legend","Importar desde un archivo") ;
 define("IMPORT_form_label","Archivo") ;
@@ -431,7 +435,7 @@ define('LABEL_Prev','previos');
 define('LABEL_Next','siguientes');
 define('LABEL_PageNum','página de resultados número ');
 define('LABEL_selectMapMethod','Seleccione método de mapeo terminológico');
-define('LABEL_string2search','expresión de búsqueda (ingrese el término en el idioma del vocabulario de referencia)');
+define('LABEL_string2search','expresión de búsqueda (ingrese el término en el idioma del vocabulario seleccionado)');
 define('LABEL_reverseMappign','mapeo reverso');
 define('LABEL_warningMassiverem','Usted va a eliminar masivamente datos ¡Estas acciones son IRREVERSIBLES!');
 define('LABEL_target_terms','términos mapeados desde vocabularios externos');
@@ -599,3 +603,4 @@ define('LABEL_Usuarios', 'usuarios');
 define('LABEL_Misterminos', 'mis términos');
 define('LABEL_Porfecha', 'por fecha');
 define('LABEL_Termoscreados', 'términos creados por');
+
