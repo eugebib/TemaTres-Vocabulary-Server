@@ -857,7 +857,7 @@ function admin_users($do,$user_id="")
 
 	if (is_numeric($user_id)) {
 		$arrayUserData = ARRAYdatosUser($user_id);
-		if ($arrayUserData["nivel"]=='1') {
+		if ($arrayUserData["nivel"]=='1' || $arrayUserData["nivel"]=='3') {
 			//Chequear que sea ADMIN
 			$sqlCheckAdmin = SQL("select","count(*) as cant from $DBCFG[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
 			$arrayCheckAdmin=$sqlCheckAdmin->FetchRow();
