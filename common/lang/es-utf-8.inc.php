@@ -218,6 +218,8 @@ define("EQP_acronimo","EQP");
 define("NEQ_acronimo","NEQ");
 define("LABEL_resultados_suplementarios","resultados suplementarios");
 define("LABEL_resultados_relacionados","resultados relacionados");
+define("LABEL_resultados_suplementariosPara","resultados suplementarios para la búsqueda");
+define("LABEL_resultados_relacionadosPara","resultados relacionados para la búsqueda");
 /* v 9.7 */
 define("LABEL_export","exportar");
 define("FORM_LABEL_format_export","seleccionar formato");

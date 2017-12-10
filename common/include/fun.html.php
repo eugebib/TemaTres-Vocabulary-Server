@@ -116,8 +116,8 @@ function resultaBusca($texto, $tipo = "")
 		$row_result.='</ul>';
 		$row_result.='</div>'; //fin de div de búsqueda
 
-		$result_suplementaTG=HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$texto);
-		$result_suplementaTR=HTMLbusquedaExpandidaTR($acumula_temas,$texto);
+		$result_suplementaTG = HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$texto);
+		$result_suplementaTR = HTMLbusquedaExpandidaTR($acumula_temas,$texto);
 
 		if($result_suplementaTG["count"]>0) {
 			$row_resultTGmenu='<li><a href="#suplementaTG" data-toggle="tab">'.ucfirst(LABEL_resultados_suplementarios).' ('.$result_suplementaTG["count"].')</a></li>';
@@ -1026,10 +1026,12 @@ function doBrowseTermsByDate()
 // };
 
 
+
 #
 # Expande una busqueda hacia arriba == busca los términos más generales de los términos especificos devueltos en una busqueda
 #
-function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
+function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string)
+{
 
 	global $DBCFG;
 
@@ -1056,7 +1058,7 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 
 		//Si hay resultados
 		if ($recordCount>0) {
-			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_suplementarios.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
+			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_suplementariosPara.' <strong>"<em>'.stripslashes($string).'</em>"</strong></p>';
 			$row_result.='<ul >';
 			while($resulta_busca=$sql->FetchRow()) {
 				$ibusca=++$ibusca;
@@ -1069,10 +1071,13 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 	return array("html"=>$row_result,"count"=>$recordCount);
 }
 
+
+
 #
 # Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda
 #
-function HTMLbusquedaExpandidaTR($acumula_temas,$string){
+function HTMLbusquedaExpandidaTR($acumula_temas,$string)
+{
 
 	$temas_ids=str_replace("|",",", $acumula_temas);
 	//Si no hay términos más genericos que los resultados
@@ -1081,7 +1086,7 @@ function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 		$recordCount=SQLcount($sql);
 		//Si hay resultados
 		if ($recordCount>0) {
-			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_relacionados.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
+			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_relacionadosPara.'<strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
 			$row_result.='<ul >';
 			while($resulta_busca=$sql->FetchRow()) {
 				$ibusca=++$ibusca;
