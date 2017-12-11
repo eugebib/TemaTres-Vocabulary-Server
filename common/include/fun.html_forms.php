@@ -1115,6 +1115,8 @@ function HTMLformTargetVocabulary($tvocab_id="0")
 			return $rows;
 }
 
+
+
 #
 # Asociación con datos provistos por web services terminológicos TemaTres
 #
@@ -1203,7 +1205,9 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 }
 
 
-function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$tema_id){
+
+function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$tema_id)
+{
 	GLOBAL $CFG;
 	//SEND_KEY to prevent duplicated
 	session_start();

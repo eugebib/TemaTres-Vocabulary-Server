@@ -17,10 +17,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 $arrayTaskExistTerms=array("addBT","addRT","addFreeUF","addFreeNT");
 
 //verificar que hay datos de un termino y que hubiera session
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
-{
-	switch($_GET["taskterm"])
-	{
+if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+	switch($_GET["taskterm"]) {
 		case 'addBT':
 		echo HTMLformAssociateExistTerms($_GET["taskterm"],$metadata["arraydata"],$term_id);
 		break;
@@ -58,24 +56,24 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 			break;
 
 		case 'addRTnw':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
-		break;
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			break;
 
 		case 'editTerm':
-		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
-		break;
+			echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+			break;
 
 		case 'findTargetTerm':
 			echo HTMLformAssociateTargetTerms($metadata["arraydata"]);
 			break;
 
 		case 'findSuggestionTargetTerm':
-		echo HTMLformSuggestTermsXRelations($metadata["arraydata"]);
-		break;
+			echo HTMLformSuggestTermsXRelations($metadata["arraydata"]);
+			break;
 
 		case 'addTermSuggested':
-		echo HTMLformSuggestTerms($metadata["arraydata"]);
-		break;
+			echo HTMLformSuggestTerms($metadata["arraydata"]);
+			break;
 
 		case 'addURI':
 		echo HTMLformURI4term($metadata["arraydata"]);
@@ -85,10 +83,6 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 		echo HTMLbodyTermino($metadata["arraydata"]);
 	}
 
-}
-elseif($metadata["arraydata"])
-{
-
+} elseif($metadata["arraydata"]) {
 	echo HTMLbodyTermino($metadata["arraydata"]);
 }
-?>

@@ -456,11 +456,11 @@ function fetchTargetTermsById($tema_id)
 	}
 
 
+
 	// Devuelve lista de términos para una busqueda
 	// array(tema_id,string,no_term_string,relation_type_id,array(index),order)
-	function fetchTermsBySearch($string){
-
-
+	function fetchTermsBySearch($string)
+	{
 		$sql=APISQLbuscaSimple($string);
 
 		while($array=$sql->FetchRow()){
@@ -838,6 +838,8 @@ function fetchVocabularyData($vocabulary_id)
 
 	// fin de la clase
 }
+
+
 
 function fetchVocabularyService($task, $arg, $output="xml")
 {
