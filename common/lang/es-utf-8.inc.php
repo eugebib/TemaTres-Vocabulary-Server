@@ -61,6 +61,7 @@ define("LABEL_AgregarTG","Subordinar %s a término superior");
 define("LABEL_AgregarTE","Creación de un NUEVO término subordinado a ");
 define("LABEL_AgregarUP","Creación de un NUEVO término equivalente para ");
 define("LABEL_AgregarTR","Creación de un NUEVO término relacionado con ");
+define("LABEL_Subordinar","Subordinar");
 define("LABEL_EliminarTE","Eliminar término");
 define("LABEL_Detalle","detalles");
 define("LABEL_VerDetalles","ver detalles del término");
