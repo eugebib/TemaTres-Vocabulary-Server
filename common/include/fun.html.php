@@ -2197,10 +2197,10 @@ $rows.='<script type="text/javascript">
 		$(".autoGloss").tooltip();
 	  </script>';
 
-//scritp to export form
-if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
-  ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) &&
-  ($_GET["doAdmin"]=='export')){
+//script to export form
+if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) &&
+  in_array($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"], array(1,3)) &&
+  $_GET["doAdmin"]=='export') {
 
 $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){

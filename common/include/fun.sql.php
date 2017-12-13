@@ -839,7 +839,7 @@ function SQLdirectTerms($tema_id)
 	function SQLlistaTemas2($top_term_id = 0)
 	{
 		$list = array();
-		if ($top_term_id == 0) {
+		if ($top_term_id == 0 || $top_term_id == '') {
 			$top = SQLverTopTerm();
 			while ($term = $top->FetchRow()) {
 				$list[] = $term['id'];

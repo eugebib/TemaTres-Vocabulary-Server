@@ -59,7 +59,8 @@ if ($_GET["rss"]) {
 	header('Content-Type: application/rss+xml');
 	return do_rss();
 }
-if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
+
+if (in_array($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"], array('1', '3')) && ($_GET["dis"])) {
 	switch ($_GET["dis"]) {
 		case 'zline':
 			return doTotalZthes("line");
