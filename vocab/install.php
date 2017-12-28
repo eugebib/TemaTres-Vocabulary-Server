@@ -26,10 +26,10 @@ $lang_install  = (isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
 $lang          = $tematres_lang=(in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
 
 //1. check if config file exist
-if ( ! file_exists('config/db.tematres.php')) {
-	return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>');
+if ( ! file_exists('config/config.db.php')) {
+	return message('<div class="error">Configuration file <code>config.db.php</code> not found!</div><br/>');
 } else {
-	include('config/db.tematres.php');
+	include('config/config.db.php');
 	require_once('config/config.local.php');
 	require_once(T3_ABSPATH . 'common/include/config.tematres.php');
 }
@@ -113,13 +113,13 @@ function checkInstall($lang)
 {
 	GLOBAL $install_message;
 
-	$conf_file_path =  str_replace("install","db.tematres.php","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
+	$conf_file_path =  str_replace("install","config.db.php","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
 
 	//1. check if config file exist
-	if ( ! file_exists('config/db.tematres.php') ) {
+	if ( ! file_exists('config/config.db.php') ) {
 		return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message[201],$conf_file_path).'</div><br/>') ;
 	} else {
-		include('config/db.tematres.php');
+		include('config/config.db.php');
 	}
 
 	if($DBCFG["debugMode"]==0) {
@@ -205,7 +205,7 @@ function SQLtematres($DBCFG,$DB,$arrayInstallData=array())
 		if($result1)
 		{
 			$today = date("Y-m-d") ;
-			$url =  str_replace("install","","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
+			$url =  str_replace("install","","http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
 			$title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"]),get_magic_quotes_gpc()) : "'TemaTres'";
 			$author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"]),get_magic_quotes_gpc()) : "'TemaTres'";
 			$tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]),get_magic_quotes_gpc());

@@ -33,20 +33,20 @@ Updates and minor bugs:
     update HTMLpurfier to HTML Purifier 4.9.3
     fix potential XSS vulnerability
     fix bug in import Skos-core files
-    
+
 
 Many thanks to the feedback provided by TemaTres community :)
 
 Some HOWTO:
 
 How to update to Tematres 3.0 from previous version (1.8x, 2.x):
-- Replace the code but mantaine your db.tematres.php.
+- Replace the code but mantaine your config.db.php.
 
 How to update to Tematres 3.0 from Tematres 1.6 (or preious version):
 - Login as admin and go to: Menu -> Administration -> Database maintance -> Update 1.6 to 2.2
 
 How to manage many vocabularies with Tematres
-- Copy /vocab directory (example: vocab2/) and change the prefix tables in db.tematres.php
+- Copy /vocab directory (example: vocab2/) and change the prefix tables in config.db.php
 
 How to enable SPARQL endpoint:
 1) Login as admin and go to Menu -> Administration -> Configuration -> Click in your vocabulary: Set as ENABLE SPARQL endpoint (by default is disable).

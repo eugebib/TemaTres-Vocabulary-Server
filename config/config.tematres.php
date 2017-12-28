@@ -15,7 +15,7 @@
 
 if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
 
-include('db.tematres.php');
+include('config.db.php');
 
 if ($DBCFG["debugMode"]=='1') {
 	ini_set('display_errors', 'On');

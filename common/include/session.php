@@ -95,7 +95,7 @@ $chk_user='';
 $chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 
  if($chk_user["user_id"]) {
-	//if the hash not hashed because the admin of tematres change the CFG_HASH_PASS config in db.tematres.php
+	//if the hash not hashed because the admin of tematres change the CFG_HASH_PASS config in config.db.php
 	if (( strlen($chk_user["pass"]) < 34 ) && (CFG_HASH_PASS)){
 
 		setPassword($chk_user["user_id"],$chk_user[pass],CFG_HASH_PASS);

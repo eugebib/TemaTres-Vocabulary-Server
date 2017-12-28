@@ -19,11 +19,11 @@ For examples, please visit: http://www.vocabularyserver.com/vocabularies.php
 
 1. Unpack TemaTres in your web document root (i.e. /var/www/tematres/)
 
-2. Configure your database connection in TEMATRES_PATH/vocab/db.tematres.php 
+2. Configure your database connection in TEMATRES_PATH/vocab/config.db.php
 
 3. Open your browser in your tematres path installation and run Install script .
 
-You can change the "vocab" directory to any name. To create other or many vocabularies,  copy "vocab" directory (eg: vocab2, etc) and change the params of db.tematres.php (eg: change the tables prefix).
+You can change the "vocab" directory to any name. To create other or many vocabularies,  copy "vocab" directory (eg: vocab2, etc) and change the params of config.db.php (eg: change the tables prefix).
 
 If you have any problems with these instructions, or if they weren't clear
 or just didn't plain work, please let me know at tematres@r020.com.ar

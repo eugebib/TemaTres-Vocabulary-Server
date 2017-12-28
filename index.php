@@ -1,4 +1,5 @@
 <?php
+
 /*
  *      index.php
  *
@@ -21,27 +22,21 @@
  */
 
 
-function dd($data)
-{
-    echo '<pre>';
-    var_dump($data);
-    echo '</pre>';
-    die();
-}
+require 'config/config.local.php';
 
 
 // get vocabulary
-
-$uri = ltrim($_SERVER['REQUEST_URI'], 'e-recursos/vocabularios/');
 
 preg_match('#(\w+)\/?(\w+)?#', $uri, $matches);
 
 $vocabulary = $matches[1];
 
-require 'config/config.local.php';
-
 if ( ! isset($vocabulary) || ! in_array($vocabulary, $vocabularies)) {
-    die('no existe voc');
+    echo 'No existe vocabulario. Probá con... <br>';
+    foreach ($vocabularies as $voc) {
+        echo '<a href="' . $DBCFG['URL'] . $voc . '">' . $voc . '</a><br>';
+    }
+    die;
 }
 
 // assign table
