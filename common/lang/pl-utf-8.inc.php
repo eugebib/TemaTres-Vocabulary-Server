@@ -261,9 +261,9 @@ $install_message[203] = "Nie udało się połączyć z serwerem bazy danych <em>
 $install_message[204] = "Pomyślnie nawiązano połączenie z serwerem <em>%s</em>" ;
 $install_message[205] = "Nie udało się połączyć do bazy danych <em>%s</em> na serwerze <em>%s</em>. Proszę sprawdzić konfigurację (%s)." ;
 $install_message[206] = "Pomyślnie nawiązano połączenie z bazą danych <em>%s</em> na serwerze <em>%s</em>." ;
-$install_message[301] = 'Woppsss... There is already an Tematres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+$install_message[301] = 'Woppsss... There is already an Tematres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index">Enjoy your Vocabulary Server</a>' ;
 $install_message[305] = " Sprawdzanie hasła." ;
-$install_message[306] = 'Konfiguracja zakończona pomyślnie, <a href="index.php">Miłego korzystania z Serwera TemaTres</a>' ;
+$install_message[306] = 'Konfiguracja zakończona pomyślnie, <a href="index">Miłego korzystania z Serwera TemaTres</a>' ;
 /* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"niewłaściwy kod");

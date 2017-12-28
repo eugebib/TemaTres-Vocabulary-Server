@@ -9,8 +9,7 @@
 #                                                                  #
 ####################################################################
 
-
-include("../config/config.tematres.php");
+include("config/config.tematres.php");
 
 $metadata=do_meta_tag();
 ?>
@@ -95,7 +94,7 @@ $metadata=do_meta_tag();
 		//are enable SPARQL
 		if(CFG_SIMPLE_WEB_SERVICE ==1)
 		{
-			echo '<dt>API </dt> <dd><a href="'.URL_BASE.'services.php" title="API">'.$_SESSION["CFGURL"].'services.php</a></dd>';
+			echo '<dt>API </dt> <dd><a href="'.URL_BASE.'services" title="API">'.$_SESSION["CFGURL"].'services</a></dd>';
 		}
 		?>
     <dt><?php echo LABEL_Version ?></dd><dd><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></dd>
@@ -146,7 +145,7 @@ $metadata=do_meta_tag();
           echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
         }
 
-          echo '  <a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
+          echo '  <a class="label label-info" href="'.URL_BASE.'xml?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
           echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
       </p>

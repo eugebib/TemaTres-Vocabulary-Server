@@ -556,9 +556,9 @@ function string2gloss($string,$toSee,$noteTypes=array("NA"))
 	}
 
     if($arrayTerm["tema_id"]){
-        return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
+        return '<a href="'.URL_BASE.'index?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
     }else{
-        return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
+        return '<a href="'.URL_BASE.'index?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
     }
 }
 
@@ -970,7 +970,7 @@ function loadConfigValues($renew="0")
 	GLOBAL $arrayCFGs;
 
     //Web URL BASE
-    define('URL_BASE',getURLbase());
+    //define('URL_BASE',getURLbase());
 
 	//renovar valores
 	if($renew=='1'){
@@ -1447,14 +1447,14 @@ function loadPageTerm($tema_id)
 {
   $tema_id=secure_data($tema_id,"int");
 
-  return header("Location:index.php?tema=$tema_id");
+  return header("Location:index?tema=$tema_id");
 }
 
 
 //load empty page
 function loadPage($page)
 {
-    $page=in_array($page, array('admin.php','index.php','login.php','sobre.php','install.php','sparql.php')) ? $page : 'index.php';
+    $page=in_array($page, array('admin','index','login','sobre','install','sparql')) ? $page : 'index';
     return header("Location:$page");
 }
 
@@ -1535,12 +1535,12 @@ function checkValidRol($arrayUser,$task)
 //retrive array about URL usefuls in the URI= URL base of service, URL of the vocabulary, URL of the term
 function URIterm2array($URI_term)
 {
-  $ARRAY_URL_BASE=explode("services.php",$URI_term);
+  $ARRAY_URL_BASE=explode("services",$URI_term);
 
   if(count($ARRAY_URL_BASE)>0){
-        return array( "tterm_url"=>str_replace ('services.php?task=fetchTerm&arg=', 'index.php?tema=', $URI_term),
+        return array( "tterm_url"=>str_replace ('services?task=fetchTerm&arg=', 'index?tema=', $URI_term),
                   "tterm_id"=>(int)substr(strrchr($URI_term,"="),1),
-                  "URL_service"=>$ARRAY_URL_BASE[0].'services.php',
+                  "URL_service"=>$ARRAY_URL_BASE[0].'services',
                   "URL_vocab"=>$ARRAY_URL_BASE[0]);
   } else {
     return array();

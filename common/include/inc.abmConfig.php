@@ -36,10 +36,10 @@ $array_ano=do_intervalDate("1998",date(Y),FORM_LABEL_FechaAno);
 $array_dia=do_intervalDate("1","31",FORM_LABEL_FechaDia);
 $array_mes=do_intervalDate("1","12",FORM_LABEL_FechaMes);
 
-$rows.='<form role="form" id="config-vocab" name="abm_config"  data-toggle="validator" action="admin.php" method="post">';
+$rows.='<form role="form" id="config-vocab" name="abm_config"  data-toggle="validator" action="admin" method="post">';
 $rows.='	<div class="row">
 	<div class="col-sm-12">
-	<legend><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).' '.$titulo_formulario.'">'.ucfirst(LABEL_lcConfig).'</a> &middot;  '.ucfirst($titulo_formulario).'</legend>
+	<legend><a href="admin" title="'.ucfirst(LABEL_lcConfig).' '.$titulo_formulario.'">'.ucfirst(LABEL_lcConfig).'</a> &middot;  '.ucfirst($titulo_formulario).'</legend>
 	</div>
 	<!-- panel  -->
 	    <div class="col-lg-7">
@@ -207,7 +207,7 @@ $rows.='	<div class="row">
 	$rows.='<div class="form-group">
 	<div class="col-sm-12 text-right">
 	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
+	<a href="admin" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
 	//editor for target vocabularies
 	if($array_vocabulario["vocabulario_id"]!=='1'){
 	$rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
@@ -224,7 +224,7 @@ $rows.='	<div class="row">
 	$rows.='</form>';
 	//remove form
 	if($array_vocabulario["vocabulario_id"]!=='1'){
-	$rows.='<form id="delete-tvocab" name="delete-tvocab" action="admin.php?vocabulario_id=3" method="post"><input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/><input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/></form>';
-	}	
+	$rows.='<form id="delete-tvocab" name="delete-tvocab" action="admin?vocabulario_id=3" method="post"><input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/><input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/></form>';
+	}
 echo $rows;
 ?>

@@ -13,9 +13,9 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 3.0";
+$CFG["Version"] = "TemaTres 3.0";
 
-$CFG["VersionWebService"]        = "1.6";
+$CFG["VersionWebService"] = "1.6";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';

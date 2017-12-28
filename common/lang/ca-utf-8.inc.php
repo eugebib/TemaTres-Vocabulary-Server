@@ -262,9 +262,9 @@ $install_message[203] = "No es pot connectar amb el servidor  <em>%s</em> fent s
 $install_message[204] = "Connexió amb el servidor <em>%s</em> completada" ;
 $install_message[205] = "No es pot  connectar amb la base de dades <em>%s</em> a <em>%s</em>. Si us plau reviseu les dades de l'arxiu de configuració de la base de dades (%s)." ;
 $install_message[206] = "Connexió amb la base de dades <em>%s</em> en <em>%s</em> verificada." ;
-$install_message[301] = 'Parece que las tablas ya han sido creadas para la configuración establecida. <a href="index.php">Comience a utilizar su vocabulario</a>' ;
+$install_message[301] = 'Parece que las tablas ya han sido creadas para la configuración establecida. <a href="index">Comience a utilizar su vocabulario</a>' ;
 $install_message[305] = "Indicació sobre el grau de seguretat de la clau.";
-$install_message[306] = 'Instal·lació completada, <a href="index.php">Ja podeu començar a fer el vocabulari</a>' ;
+$install_message[306] = 'Instal·lació completada, <a href="index">Ja podeu començar a fer el vocabulari</a>' ;
 /* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"codi duplicat");

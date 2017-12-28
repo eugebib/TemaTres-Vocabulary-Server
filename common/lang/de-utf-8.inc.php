@@ -253,9 +253,9 @@ $install_message[203] = "Unable to connect to database server <em>%s</em> with t
 $install_message[204] = "Connect to Server <em>%s</em> success" ;
 $install_message[205] = "Unable to connect to database <em>%s</em> in server <em>%s</em>. Please check your file configuration for the database connection (%s)." ;
 $install_message[206] = "Connect to database <em>%s</em> in server <em>%s</em> success." ;
-$install_message[301] = 'Woppsss... There is already an Tematres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+$install_message[301] = 'Woppsss... There is already an Tematres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index">Enjoy your Vocabulary Server</a>' ;
 $install_message[305] = " Checking Security password." ;
-$install_message[306] = 'Setup is completed, <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+$install_message[306] = 'Setup is completed, <a href="index">Enjoy your Vocabulary Server</a>' ;
 /* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"invalid code");

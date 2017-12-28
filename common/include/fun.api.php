@@ -703,87 +703,87 @@ class XMLvocabularyServices {
 		$array['fetchVocabularyData']['action'] = 'Retrieve data about vocabulary';
 		$array['fetchVocabularyData']['task'] = 'fetchVocabularyData ';
 		$array['fetchVocabularyData']['arg'] = '1';
-		$array['fetchVocabularyData']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchVocabularyData';
+		$array['fetchVocabularyData']['example'] = $_SESSION["CFGURL"].'services?task=fetchVocabularyData';
 
 		$array['fetchTopTerms']['action'] = ' Retrieve vocabulary top terms';
 		$array['fetchTopTerms']['task'] = 'fetchTopTerms';
 		$array['fetchTopTerms']['arg'] = ' none';
-		$array['fetchTopTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchTopTerms';
+		$array['fetchTopTerms']['example'] = $_SESSION["CFGURL"].'services?task=fetchTopTerms';
 
 		$array['search']['action'] = 'Search and retrieve terms';
 		$array['search']['task'] = 'search';
 		$array['search']['arg'] = 'search expresion (string)';
-		$array['search']['example'] = $_SESSION["CFGURL"].'services.php?task=search&arg=peace';
+		$array['search']['example'] = $_SESSION["CFGURL"].'services?task=search&arg=peace';
 
 		$array['fetch']['action'] = 'Search and retrieve terms using exact matching';
 		$array['fetch']['task'] = 'fetch';
 		$array['fetch']['arg'] = 'search expresion (string)';
-		$array['fetch']['example'] = $_SESSION["CFGURL"].'services.php?task=fetch&arg=peace';
+		$array['fetch']['example'] = $_SESSION["CFGURL"].'services?task=fetch&arg=peace';
 
 		$array['searchNotes']['action'] = 'Retrieve terms searching in notes';
 		$array['searchNotes']['task'] = 'searchNotes';
 		$array['searchNotes']['arg'] = 'search expresion (string)';
-		$array['searchNotes']['example'] = $_SESSION["CFGURL"].'services.php?task=searchNotes&arg=peace';
+		$array['searchNotes']['example'] = $_SESSION["CFGURL"].'services?task=searchNotes&arg=peace';
 
 		$array['suggest']['action'] = 'Simple search and retrieve terms who start with string (only string)';
 		$array['suggest']['task'] = 'suggest';
 		$array['suggest']['arg'] = 'search expresion (string)';
-		$array['suggest']['example'] = $_SESSION["CFGURL"].'services.php?task=suggest&arg=pea';
+		$array['suggest']['example'] = $_SESSION["CFGURL"].'services?task=suggest&arg=pea';
 
 		$array['suggestDetails']['action'] = 'Search and retrieve terms who start with string (term_id, term, and more data)';
 		$array['suggestDetails']['task'] = 'suggestDetails';
 		$array['suggestDetails']['arg'] = 'search expresion (string)';
-		$array['suggestDetails']['example'] = $_SESSION["CFGURL"].'services.php?task=suggestDetails&arg=pea';
+		$array['suggestDetails']['example'] = $_SESSION["CFGURL"].'services?task=suggestDetails&arg=pea';
 
 		$array['fetchCode']['action'] = 'Retrieve simple term data by code';
 		$array['fetchCode']['task'] = 'fetchCode';
 		$array['fetchCode']['arg'] = 'code (string)';
-		$array['fetchCode']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchCode&arg=01.03.04';
+		$array['fetchCode']['example'] = $_SESSION["CFGURL"].'services?task=fetchCode&arg=01.03.04';
 
 		$array['letter']['action'] = 'Search and retrieve terms was beginning with letter $arg';
 		$array['letter']['task'] = 'letter';
 		$array['letter']['arg'] = 'one letter (for example: arg=a)';
-		$array['letter']['example'] = $_SESSION["CFGURL"].'services.php?task=letter&arg=a';
+		$array['letter']['example'] = $_SESSION["CFGURL"].'services?task=letter&arg=a';
 
 		$array['fetchTerm']['action'] = ' Retrieve simple term data ';
 		$array['fetchTerm']['task'] = 'fetchTerm';
 		$array['fetchTerm']['arg'] = 'one ID (int)';
-		$array['fetchTerm']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchTerm&arg=1';
+		$array['fetchTerm']['example'] = $_SESSION["CFGURL"].'services?task=fetchTerm&arg=1';
 
 		$array['fetchAlt']['action'] = ' Retrieve alternative/non prefered terms for one ID ';
 		$array['fetchAlt']['task'] = 'fetchAlt';
 		$array['fetchAlt']['arg'] = 'one ID (int)';
-		$array['fetchAlt']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchAlt&arg=1';
+		$array['fetchAlt']['example'] = $_SESSION["CFGURL"].'services?task=fetchAlt&arg=1';
 
 		$array['fetchDown']['action'] = ' Retrieve more specific terms for one ID ';
 		$array['fetchDown']['task'] = 'fetchDown';
 		$array['fetchDown']['arg'] = 'one ID (int)';
-		$array['fetchDown']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchDown&arg=1';
+		$array['fetchDown']['example'] = $_SESSION["CFGURL"].'services?task=fetchDown&arg=1';
 
 		$array['fetchUp']['action'] = ' Retrieve hierarquical structure for one ID ';
 		$array['fetchUp']['task'] = 'fetchUp';
 		$array['fetchUp']['arg'] = 'one ID (int)';
-		$array['fetchUp']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchUp&arg=1';
+		$array['fetchUp']['example'] = $_SESSION["CFGURL"].'services?task=fetchUp&arg=1';
 
 		$array['fetchRelated']['action'] = ' Retrieve related terms for one ID ';
 		$array['fetchRelated']['task'] = 'fetchRelated';
 		$array['fetchRelated']['arg'] = 'one ID (int)';
-		$array['fetchRelated']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchRelated&arg=1';
+		$array['fetchRelated']['example'] = $_SESSION["CFGURL"].'services?task=fetchRelated&arg=1';
 
 		$array['fetchNotes']['action'] = ' Retrieve notes for one term ';
 		$array['fetchNotes']['task'] = 'fetchNotes';
 		$array['fetchNotes']['arg'] = 'one ID (int)';
-		$array['fetchNotes']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchNotes&arg=1';
+		$array['fetchNotes']['example'] = $_SESSION["CFGURL"].'services?task=fetchNotes&arg=1';
 
 		$array['fetchDirectTerms']['action'] = ' Retrieve alternative, related and direct hieraquical terms for one term_id ';
 		$array['fetchDirectTerms']['task'] = 'fetchDirectTerms';
 		$array['fetchDirectTerms']['arg'] = 'one ID (int)';
-		$array['fetchDirectTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchDirectTerms&arg=1';
+		$array['fetchDirectTerms']['example'] = $_SESSION["CFGURL"].'services?task=fetchDirectTerms&arg=1';
 
 		$array['fetchURI']['action'] = 'Search and retrieve data about URI or internet entities linked to one term_id';
 		$array['fetchURI']['task'] = 'fetchURI';
 		$array['fetchURI']['arg'] = 'one ID term_id (int)';
-		$array['fetchURI']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchURI&arg=1';
+		$array['fetchURI']['example'] = $_SESSION["CFGURL"].'services?task=fetchURI&arg=1';
 
 		//~ $array['fetchSourceTermsURI']['action'] = 'Search and retrieve terms mapped in target vocabulary for term in source vocabulary. Use URI of web services for the term to retrieve data';
 		//~ $array['fetchSourceTermsURI']['task'] = 'fetchSourceTermsURI';
@@ -793,47 +793,47 @@ class XMLvocabularyServices {
 		$array['fetchTargetTerms']['action'] = 'Search and retrieve data about target terms mapped via web services for one term_id';
 		$array['fetchTargetTerms']['task'] = 'fetchTargetTerms';
 		$array['fetchTargetTerms']['arg'] = 'one ID term_id (int)';
-		$array['fetchTargetTerms']['example'] = $_SESSION["CFGURL"].'/services.php?task=fetchTargetTerms&arg=1';
+		$array['fetchTargetTerms']['example'] = $_SESSION["CFGURL"].'/services?task=fetchTargetTerms&arg=1';
 
 		$array['fetchSourceTerms']['action'] = 'Search and retrieve terms mapped in target vocabulary for a given term';
 		$array['fetchSourceTerms']['task'] = 'fetchSourceTerms';
 		$array['fetchSourceTerms']['arg'] = 'term (string)';
-		$array['fetchSourceTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchSourceTerm&arg=term';
+		$array['fetchSourceTerms']['example'] = $_SESSION["CFGURL"].'services?task=fetchSourceTerm&arg=term';
 
 		$array['fetchTerms']['action'] = ' Retrieve simple term data for some coma separated IDs (example: 3,6,98) ';
 		$array['fetchTerms']['task'] = 'fetchTerms';
 		$array['fetchTerms']['arg'] = 'some coma separated IDs (for example: arg=3,6,98)';
-		$array['fetchTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchTerms&arg=1,2,4';
+		$array['fetchTerms']['example'] = $_SESSION["CFGURL"].'services?task=fetchTerms&arg=1,2,4';
 
 		$array['fetchRelatedTerms']['action'] = ' Retrieve simple related term data for some coma separated terms IDs (example: 3,6,98) ';
 		$array['fetchRelatedTerms']['task'] = 'fetchRelatedTerms';
 		$array['fetchRelatedTerms']['arg'] = 'some coma separated IDs (for example: arg=3,6,98)';
-		$array['fetchRelatedTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchRelatedTerms&arg=1,4';
+		$array['fetchRelatedTerms']['example'] = $_SESSION["CFGURL"].'services?task=fetchRelatedTerms&arg=1,4';
 
 		$array['fetchSimilar']['action'] = 'Search and retrieve similar term for string search expresion ($arg)';
 		$array['fetchSimilar']['task'] = 'fetchSimilar';
 		$array['fetchSimilar']['arg'] = 'string (for example: arg=trrends)';
-		$array['fetchSimilar']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchSimilar&arg=a';
+		$array['fetchSimilar']['example'] = $_SESSION["CFGURL"].'services?task=fetchSimilar&arg=a';
 
 		$array['fetchLast']['action'] = 'Retrieves last terms created';
 		$array['fetchLast']['task'] = 'fetchLast';
 		$array['fetchLast']['arg'] = 'none';
-		$array['fetchLast']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchLast';
+		$array['fetchLast']['example'] = $_SESSION["CFGURL"].'services?task=fetchLast';
 
 		$array['randomTerm']['action'] = 'Retrieves last random term data. Optionally you can filter terms with specific type of notes (use tag note, ex: NA for scope note)';
 		$array['randomTerm']['task'] = 'randomTerm';
 		$array['randomTerm']['arg'] = 'type note tag (optional)';
-		$array['randomTerm']['example'] = $_SESSION["CFGURL"].'services.php?task=randomTerm&arg=NA';
+		$array['randomTerm']['example'] = $_SESSION["CFGURL"].'services?task=randomTerm&arg=NA';
 
 		$array['termsSince']['action'] = 'Retrieve data about terms who was created or modified since given date';
 		$array['termsSince']['task'] = 'termsSince';
 		$array['termsSince']['arg'] = 'date from do you want to obtain data';
-		$array['termsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=termsSince&arg=2017-04-05';
+		$array['termsSince']['example'] = $_SESSION["CFGURL"].'services?task=termsSince&arg=2017-04-05';
 
 		$array['relationsSince']['action'] = 'Retrieve data about terminological relations who was created or modified since given date';
 		$array['relationsSince']['task'] = 'relationsSince';
 		$array['relationsSince']['arg'] = 'date from do you want to obtain data';
-		$array['relationsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=relationsSince&arg=2017-04-05';
+		$array['relationsSince']['example'] = $_SESSION["CFGURL"].'services?task=relationsSince&arg=2017-04-05';
 
 		return $array;
 	}

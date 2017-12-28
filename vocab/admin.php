@@ -9,8 +9,7 @@
 #                                                                  #
 ####################################################################
 
-
-include("../config/config.tematres.php");
+include("config/config.tematres.php");
 
 $metadata=do_meta_tag();
 
@@ -21,32 +20,32 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1'){
 //Acciones de gestion de usuarios
 if($_POST["userTask"]=='A'){
 	$user_id=admin_users("alta");
-	header("Location:admin.php?user_id=list");
+	header("Location:admin?user_id=list");
 	}
 
 if($_POST["useactua"]){
 	$user_id=admin_users("actua",$_POST["useactua"]);
-	header("Location:admin.php?user_id=list");
+	header("Location:admin?user_id=list");
 	}
 
 if($_GET["usestado"]){
 	$user_id=admin_users("estado",$_GET["usestado"]);
-	header("Location:admin.php?user_id=list");
+	header("Location:admin?user_id=list");
 	}
 
 if(($_POST["task_config"]=='configvocab')&&(is_numeric($_POST["vocabulario_id"]))){
 	abm_vocabulario("M",$_POST["vocabulario_id"]);
-	header("Location:admin.php?vocabulario_id=list");
+	header("Location:admin?vocabulario_id=list");
 	};
 
 if($_POST["task_config"]=='rem_tvocab'){
 	abm_vocabulario("B",$_POST["internal_tvocab_id"]);
-	header("Location:admin.php?vocabulario_id=list");
+	header("Location:admin?vocabulario_id=list");
 	};
 
 if(($_POST["task_config"]=='configvocab')&&($_POST["vocabulario_id"]=='NEW')){
 	abm_vocabulario("A");
-	header("Location:admin.php?vocabulario_id=list");
+	header("Location:admin?vocabulario_id=list");
 	};
 
 
@@ -226,11 +225,11 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 				}
 
 				if(CFG_SIMPLE_WEB_SERVICE==1)				{
-					echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
+					echo '  <a class="label label-info" href="'.URL_BASE.'services" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
 				}
 
-					echo '  <a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-					echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
+					echo '  <a class="label label-info" href="'.URL_BASE.'xml?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
+					echo '  <a class="label label-info" href="'.URL_BASE.'index?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
 				?>
 			</p>
 				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>

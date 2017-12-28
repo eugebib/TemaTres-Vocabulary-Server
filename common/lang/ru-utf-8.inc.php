@@ -385,9 +385,9 @@ define('install_message[203]','Не удалось установить связ
 define('install_message[204]','Связь с сервером <em>%s</em> установлена ');
 define('install_message[205]','Не удалось установить связь с базой данных <em>%s</em> на сервере <em>%s</em>. Проверьте конфигурацию файла для связи с базой данных (%s). ');
 define('install_message[206]','Связь с базой данных <em>%s</em> на сервере <em>%s</em> установлена. ');
-define('install_message[301]','Увы... Пример конфигурации Tematres уже существует. Проверьте конфигурацию файла для связи с базой данных (%s). <a href="index.php">Enjoy your Vocabulary Server</a>');
+define('install_message[301]','Увы... Пример конфигурации Tematres уже существует. Проверьте конфигурацию файла для связи с базой данных (%s). <a href="index">Enjoy your Vocabulary Server</a>');
 define('install_message[305]',' Проверка пароля безопасности. ');
-define('install_message[306]','Настройка выполнена, <a href="index.php">Можете пользоваться сервером словаря</a>' );
+define('install_message[306]','Настройка выполнена, <a href="index">Можете пользоваться сервером словаря</a>' );
 /* v 1.05 */
 $idiomas_disponibles = array(
      "ca"  => array("català", "", "ca"),

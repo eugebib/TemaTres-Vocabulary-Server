@@ -330,7 +330,7 @@ function do_skos($nodos_skos,$top_terms="false"){
 	*  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
 	* Para que utilice URLs Skos core
 	*/
-	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml?skosTema=';
 
 	if ($top_terms=='true')
 	{
@@ -394,7 +394,7 @@ function do_skosNode($nodos_skos,$top_terms="false"){
 	*  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
 	* Para que utilice URLs Skos core
 	*/
-	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml?skosTema=';
 
 
 	header ('content-type: text/xml');
@@ -432,7 +432,7 @@ function do_nodo_skos($idTema){
 	*  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
 	* Para que utilice URLs Skos core
 	*/
-	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml?skosTema=';
 
 
 	$datosTermino=ARRAYverDatosTermino($idTema);
@@ -749,7 +749,7 @@ function do_nodo_BS8723($tema_id){
 	*  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
 	* Para que utilice URLs Skos core
 	*/
-	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml?skosTema=';
 
 
 	//Buscar datos del termino
@@ -951,11 +951,11 @@ function do_meta_tag($arrayTermino=""){
 
 		$sub_title='; '.xmlentities($ARRAYdatosTermino[titTema]);
 		$ver_sub_title=xmlentities($ARRAYdatosTermino[titTema]).' - ';
-		$relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.URL_BASE.'xml.php?dcTema='.$ARRAYdatosTermino[idTema].'" title="Dublin Core '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="MADS metadata" type="application/xml" href="'.URL_BASE.'xml.php?madsTema='.$ARRAYdatosTermino[idTema].'" title="MADS '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.URL_BASE.'xml.php?zthesTema='.$ARRAYdatosTermino[idTema].'" title="Zthes '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.URL_BASE.'xml.php?skosTema='.$ARRAYdatosTermino[idTema].'" title="Skos Core '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.URL_BASE.'xml.php?xtmTema='.$ARRAYdatosTermino[idTema].'" title="TopicMap '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.URL_BASE.'xml?dcTema='.$ARRAYdatosTermino[idTema].'" title="Dublin Core '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="MADS metadata" type="application/xml" href="'.URL_BASE.'xml?madsTema='.$ARRAYdatosTermino[idTema].'" title="MADS '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.URL_BASE.'xml?zthesTema='.$ARRAYdatosTermino[idTema].'" title="Zthes '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.URL_BASE.'xml?skosTema='.$ARRAYdatosTermino[idTema].'" title="Skos Core '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.URL_BASE.'xml?xtmTema='.$ARRAYdatosTermino[idTema].'" title="TopicMap '.xmlentities($datosTermino[titTema]).'" />';
 	}
 
 	elseif(strlen($letra)>0)
@@ -994,16 +994,16 @@ function do_meta_tag($arrayTermino=""){
 	$meta_tag.='<meta name="DC.Date"         content="'.$_SESSION[CFGCreacion].'" />';
 	$meta_tag.='<meta name="DC.Language"     content="'.LANG.'" />';
 
-	$meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index.php" title="'.MENU_Inicio.'" />';
-	$meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.URL_BASE.'index.php" title="'.MENU_ListaSis.'" />';
-	$meta_tag.='<link rel="'.MENU_ListaAbc.'" href="'.URL_BASE.'index.php?letra=?" title="'.MENU_ListaAbc.'" />';
-	$meta_tag.='<link rel="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php" title="'.MENU_Sobre.'" />';
-	$meta_tag.='<link rel="help" href="'.URL_BASE.'sobre.php" title="'.MENU_Sobre.'" />';
-	$meta_tag.='<link rel="login" href="'.URL_BASE.'login.php" title="'.LABEL_login.'" />';
-	$meta_tag.='<link rel="service" href="'.URL_BASE.'services.php" title="terminogical web services" />';
+	$meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index" title="'.MENU_Inicio.'" />';
+	$meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.URL_BASE.'index" title="'.MENU_ListaSis.'" />';
+	$meta_tag.='<link rel="'.MENU_ListaAbc.'" href="'.URL_BASE.'index?letra=?" title="'.MENU_ListaAbc.'" />';
+	$meta_tag.='<link rel="'.MENU_Sobre.'" href="'.URL_BASE.'sobre" title="'.MENU_Sobre.'" />';
+	$meta_tag.='<link rel="help" href="'.URL_BASE.'sobre" title="'.MENU_Sobre.'" />';
+	$meta_tag.='<link rel="login" href="'.URL_BASE.'login" title="'.LABEL_login.'" />';
+	$meta_tag.='<link rel="service" href="'.URL_BASE.'services" title="terminogical web services" />';
 	$meta_tag.='<link rel="bookmark" href="'.URL_BASE.'"/>';
-	$meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
-	$meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
+	$meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
+	$meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
 	$meta_tag.=$relMeta;
 
 	return array("metadata"=>$meta_tag,"arraydata"=>$ARRAYdatosTermino);
@@ -1356,7 +1356,7 @@ Tomar URL por default
 *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
 * Para que utilice URLs Skos core
 */
-$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml?skosTema=';
 
 
 $datosTermino=ARRAYverDatosTermino($tema_id);

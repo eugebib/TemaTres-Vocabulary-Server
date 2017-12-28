@@ -26,10 +26,11 @@ $lang_install  = (isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
 $lang          = $tematres_lang=(in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
 
 //1. check if config file exist
-if ( ! file_exists('../config/db.tematres.php')) {
+if ( ! file_exists('config/db.tematres.php')) {
 	return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>');
 } else {
-	include('../config/db.tematres.php');
+	include('config/db.tematres.php');
+	require_once('config/config.local.php');
 	require_once(T3_ABSPATH . 'common/include/config.tematres.php');
 }
 
@@ -112,13 +113,13 @@ function checkInstall($lang)
 {
 	GLOBAL $install_message;
 
-	$conf_file_path =  str_replace("install.php","db.tematres.php","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
+	$conf_file_path =  str_replace("install","db.tematres.php","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
 
 	//1. check if config file exist
-	if ( ! file_exists('../config/db.tematres.php') ) {
+	if ( ! file_exists('config/db.tematres.php') ) {
 		return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message[201],$conf_file_path).'</div><br/>') ;
 	} else {
-		include('../config/db.tematres.php');
+		include('config/db.tematres.php');
 	}
 
 	if($DBCFG["debugMode"]==0) {
@@ -175,6 +176,8 @@ function checkInstall($lang)
 
 function SQLtematres($DBCFG,$DB,$arrayInstallData=array())
 {
+	GLOBAL $DBCFG;
+
 	// Si se establecio un charset para la conexion
 	if(@$DBCFG["DBcharset"]){
 		$DB->Execute("SET NAMES $DBCFG[DBcharset]");
@@ -202,7 +205,7 @@ function SQLtematres($DBCFG,$DB,$arrayInstallData=array())
 		if($result1)
 		{
 			$today = date("Y-m-d") ;
-			$url =  str_replace("install.php","","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
+			$url =  str_replace("install","","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
 			$title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"]),get_magic_quotes_gpc()) : "'TemaTres'";
 			$author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"]),get_magic_quotes_gpc()) : "'TemaTres'";
 			$tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]),get_magic_quotes_gpc());
@@ -459,7 +462,7 @@ function HTMLformInstall($lang_install)
 		array_push($arrayLang,"$langs[0]#$langs[1]");
 	}
 
-	$rows='<form class="form-horizontal" id="formulaire" name="formulaire" method="post" action="install.php">
+	$rows='<form class="form-horizontal" id="formulaire" name="formulaire" method="post" action="install">
 		<fieldset>
 		<!-- Form Name -->
 		<legend>'.ucfirst(LABEL_lcDatos).'</legend>
@@ -599,7 +602,7 @@ function HTMLformInstall($lang_install)
 	<div id="bodyText">
 
 			<div id="select_lang">
-				<form class="form-horizontal" action="install.php" method="get" name="lang" id="lang">
+				<form class="form-horizontal" action="install" method="get" name="lang" id="lang">
 				<fieldset>
 				<legend><?php echo LABEL_Idioma;?></legend>
 

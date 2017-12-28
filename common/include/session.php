@@ -9,11 +9,18 @@
 #                                                                  #
 ####################################################################
 
+######################## Gestion de sesiones #######################
+
+
+
+if (file_exists('config/config.local.php')) {
+	require_once('config/config.local.php');
+}
+if (file_exists('../config/config.local.php')) {
+	require_once('../config/config.local.php');
+}
+
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-
-# Gestion de sesiones #
-
-
 
 // **PREVENTING SESSION HIJACKING**
 // Solution from http://stackoverflow.com/questions/22221807/session-cookies-http-secure-flag-how-do-you-set-these
@@ -30,8 +37,9 @@ session_start();
 
 $SQL_CFG_LC = SQL("select","id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config where id=1");
 
-if(!is_object($SQL_CFG_LC)){
-	header("Location:install.php");
+if (!is_object($SQL_CFG_LC)) {
+	header("Location: " . URL_BASE . "install");
+	die;
 }
 
 $CFG_LC=$SQL_CFG_LC->FetchRow();
@@ -102,8 +110,7 @@ $chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nombre"]=$chk_user["name"];
 		//redirigir
 		$_SESSION[$_SESSION["CFGURL"]]["user_data"]=ARRAYUserData($chk_user["user_id"]);
-		header("Location:index.php");
+		header("Location:index");
 	}
  }
 }
-?>

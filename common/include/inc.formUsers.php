@@ -26,10 +26,10 @@ if($dato_user["id"]){
 	$row_resumen.='</dl></div>';
 };
 
-$rows.='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php" method="post">';
+$rows.='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin" method="post">';
 $rows.='	<div class="row">
 		<div class="col-sm-12">
-				<legend><a href="admin.php?user_id=list" title="'.LABEL_AdminUser.'">'.LABEL_AdminUser.'</a></legend>
+				<legend><a href="admin?user_id=list" title="'.LABEL_AdminUser.'">'.LABEL_AdminUser.'</a></legend>
 		</div>
 		<!-- panel  -->
 			    <div class="col-lg-7">
@@ -100,7 +100,7 @@ $rows.='	<div class="row">
 											$rows.='<div class="form-group">
 																	<div class="col-sm-12 text-right">
 																	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-																	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+																	<a href="admin" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 																	</div>
 															</div>';
 

@@ -90,7 +90,7 @@ $rows.='	<div class="row">
         $rows.='<div class="form-group">
 																	<div class="col-sm-12 text-right">
 																	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-																	<a href="index.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+																	<a href="index" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 																	</div>
 															</div>';
 

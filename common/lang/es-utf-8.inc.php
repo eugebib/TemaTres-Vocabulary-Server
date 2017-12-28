@@ -261,9 +261,9 @@ $install_message[203] = "No es posible conectar con el servidor <em>%s</em> util
 $install_message[204] = "Conexión con el servidor <em>%s</em> exitosa" ;
 $install_message[205] = "No es posible conectar con la base de datos <em>%s</em> en <em>%s</em>. Por favor revise los datos del archivo de configuración de la base de datos (%s)." ;
 $install_message[206] = "Conexión con la base de datos <em>%s</em> en <em>%s</em> verificada." ;
-$install_message[301] = 'Parece que las tablas ya han sido creadas para la configuración establecida. <a href="index.php">Comience a utilizar su vocabulario</a>' ;
+$install_message[301] = 'Parece que las tablas ya han sido creadas para la configuración establecida. <a href="index">Comience a utilizar su vocabulario</a>' ;
 $install_message[305] = "Indiación acerca del grado de seguridad de la clave." ;
-$install_message[306] = 'Instalación completa, <a href="index.php">comience a utilizar su vocabulario</a>' ;
+$install_message[306] = 'Instalación completa, <a href="index">comience a utilizar su vocabulario</a>' ;
 /* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"código duplicado");

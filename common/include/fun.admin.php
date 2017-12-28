@@ -1532,7 +1532,7 @@ while($array=$sql->FetchRow()){
 	$nombres=$array["nombres"];
 	$fecha_termino=do_fecha($array["cuando"]);
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="index.php?tema='.$array["id_tema"].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array[tema].'</a></td>';
+	$rows.='<td class="izq"><a href="index?tema='.$array["id_tema"].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array[tema].'</a></td>';
 	$rows.='<td>'.$fecha_termino["dia"].' / '.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].'</td>';
 	$rows.='</tr>';
 	};
@@ -1540,12 +1540,12 @@ $rows.='</tbody>';
 
 $rows.='<thead>';
 $rows.='<tr>';
-$rows.='<th class="izq" colspan="3"><a href="sobre.php">'.ucfirst(LABEL_auditoria).'</a> &middot; <a href="admin.php?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.</th>';
+$rows.='<th class="izq" colspan="3"><a href="sobre">'.ucfirst(LABEL_auditoria).'</a> &middot; <a href="admin?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.</th>';
 $rows.='</tr>';
 
 $rows.='<tr>';
-$rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
-$rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
+$rows.='<th><a href="sobre?user_id='.$user_id.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
+$rows.='<th><a href="sobre?user_id='.$user_id.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
 $rows.='</tr>';
 $rows.='</thead>';
 
@@ -1574,7 +1574,7 @@ $rows.='<table id="tableusers" class="table table-striped table-bordered table-c
 
 $rows.='<thead>';
 $rows.='<tr>';
-$rows.='<th class="izq" colspan="4">'.MENU_Usuarios.' &middot; <a class="btn btn-primary btn-xs" href="admin.php?user_id=new" title="'.MENU_NuevoUsuario.'">'.MENU_NuevoUsuario.'</a></th>';
+$rows.='<th class="izq" colspan="4">'.MENU_Usuarios.' &middot; <a class="btn btn-primary btn-xs" href="admin?user_id=new" title="'.MENU_NuevoUsuario.'">'.MENU_NuevoUsuario.'</a></th>';
 $rows.='</tr>';
 $rows.='<tr>';
 $rows.='<th>'.ucfirst(LABEL_apellido).', '.ucfirst(LABEL_nombre).'</th>';
@@ -1589,11 +1589,11 @@ $rows.='<tbody>';
 while($listaUsers=$sqlListaUsers->FetchRow()){
 	$fecha_alta=do_fecha($listaUsers[cuando]);
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers[id].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
+	$rows.='<td class="izq"><a href="admin?user_id='.$listaUsers[id].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
 	$rows.='<td class="izq">'.$listaUsers[orga].'</td>';
 	$rows.='<td>'.$fecha_alta[dia].'-'.$fecha_alta[descMes].'-'.$fecha_alta[ano].' ('.arrayReplace(array("ACTIVO","BAJA"),array(LABEL_User_Habilitado,LABEL_User_NoHabilitado),$listaUsers[estado]). ')</td>';
 	if($listaUsers[cant_terminos]>0){
-		$rows.='<td><a href="sobre.php?user_id='.$listaUsers[id].'" title="'.LABEL_Detalle.'">'.$listaUsers[cant_terminos].'</a></td>';
+		$rows.='<td><a href="sobre?user_id='.$listaUsers[id].'" title="'.LABEL_Detalle.'">'.$listaUsers[cant_terminos].'</a></td>';
 		}else{
 		$rows.='<td>'.$listaUsers[cant_terminos].'</td>';
 		}
@@ -1637,7 +1637,7 @@ $rows.='<tbody>';
 while($array=$sql->FetchRow()){
 	$fecha_alta=do_fecha($listaUsers[cuando]);
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array[vocabulario_id].'" title="'.MENU_DatosTesauro.' '.$array[titulo].'">'.$array[titulo].'</a> / '.$array[idioma].'</td>';
+	$rows.='<td class="izq"><a href="admin?vocabulario_id='.$array[vocabulario_id].'" title="'.MENU_DatosTesauro.' '.$array[titulo].'">'.$array[titulo].'</a> / '.$array[idioma].'</td>';
 	$rows.='<td class="izq">'.$array[autor].'</td>';
 	if($array[vocabulario_id]=='1'){
 		$rows.='<td>'.LABEL_vocabulario_principal.'</td>';
@@ -1661,7 +1661,7 @@ function HTMLlistaInternalTargetVocabularios(){
 $sql=SQLinternalTargetVocabs();
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+$rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
 
 if(SQLcount($sql)>0)	{
 
@@ -1677,7 +1677,7 @@ $rows.='<tbody>';
 
 while($array=$sql->FetchRow()){
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array["tvocab_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
+	$rows.='<td class="izq"><a href="admin?vocabulario_id='.$array["tvocab_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
 	$rows.='<td class="izq">'.$array["autor"].'</td>';
 	$rows.='<td>'.$array["cant"].'</td>';
 	$rows.='</tr>';
@@ -1700,7 +1700,7 @@ $sql=SQLtargetVocabulary("0");
 
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
+$rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 
 if(SQLcount($sql)>0){
 $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
@@ -1719,12 +1719,12 @@ while($array=$sql->FetchRow()){
 	$label_tvocab_status=($array[tvocab_status]=='1') ? ucfirst(LABEL_enable) : ucfirst(LABEL_disable);
 
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?tvocab_id='.$array[tvocab_id].'&amp;doAdmin=seeformTargetVocabulary" title="'.MENU_DatosTesauro.' '.$array[tvocab_title].'">'.FixEncoding($array[tvocab_label]).'</a> ('.FixEncoding($array[tvocab_tag]).')</td>';
+	$rows.='<td class="izq"><a href="admin?tvocab_id='.$array[tvocab_id].'&amp;doAdmin=seeformTargetVocabulary" title="'.MENU_DatosTesauro.' '.$array[tvocab_title].'">'.FixEncoding($array[tvocab_label]).'</a> ('.FixEncoding($array[tvocab_tag]).')</td>';
 	$rows.='<td class="izq"><a href="'.$array[tvocab_url].'" title="'.LABEL_vocabulario_referenciaWS.' '.FixEncoding($array[tvocab_title]).'">'.FixEncoding($array[tvocab_title]).'</a></td>';
 
 	//hay términos y esta habilitado
 	if ($array[cant]>0)	{
-		$rows.='<td><a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array[tvocab_id].'">'.$label_tvocab_status.': '.$array[cant].'</a></td>';
+		$rows.='<td><a href="admin?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array[tvocab_id].'">'.$label_tvocab_status.': '.$array[cant].'</a></td>';
 	}
 	$rows.='</tr>';
 	};
@@ -1749,13 +1749,13 @@ $from=($from<$ARRAYtargetVocabulary[cant]) ? $from : '0';
 
 if($ARRAYtargetVocabulary[cant]>20)
 {
-	$linkMore=($from<($ARRAYtargetVocabulary[cant]-20)) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($from+20).'"> + 20</a>' : "";
+	$linkMore=($from<($ARRAYtargetVocabulary[cant]-20)) ? '<a href="admin?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($from+20).'"> + 20</a>' : "";
 
-	$linkLess=($from>0) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($from-20).'"> - 20</a>' : "";
+	$linkLess=($from>0) ? '<a href="admin?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($from-20).'"> - 20</a>' : "";
 
-	$linkFirst= ($from>0) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f=0"><<</a> &middot; ' : "";
+	$linkFirst= ($from>0) ? '<a href="admin?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f=0"><<</a> &middot; ' : "";
 
-	$linkLast= ($from<($ARRAYtargetVocabulary[cant]-20)) ? ' &middot; <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($ARRAYtargetVocabulary[cant]-20).'">>></a>' : "";
+	$linkLast= ($from<($ARRAYtargetVocabulary[cant]-20)) ? ' &middot; <a href="admin?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($ARRAYtargetVocabulary[cant]-20).'">>></a>' : "";
 
 	$next20= (($from+20)<$ARRAYtargetVocabulary[cant]) ? $from+20 :  $ARRAYtargetVocabulary[cant];
 
@@ -1786,7 +1786,7 @@ while($array=$sql->FetchRow()){
 		{
 			$linkUpdateTterm["$array[tterm_uri]"].= '<ul class="errorNoImage">';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
 		}
 /*
@@ -1801,8 +1801,8 @@ while($array=$sql->FetchRow()){
 			$linkUpdateTterm["$array[tterm_uri]"].= '<ul class="warningNoImage">';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.$ARRAYupdateTterm["$array[tterm_uri]"]["string"].'</strong></li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li>'.$ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"].'</li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tgetTerm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tgetTerm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
+			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
 		}
 
@@ -1810,7 +1810,7 @@ while($array=$sql->FetchRow()){
 
 	$rows.='<tr>';
 
-	$rows.='<td class="izq"><a href="index.php?tema='.$array[tema_id].'" title="'.LABEL_verDetalle.' '.$array[tema].'">'.$array[tema].'</a></td>';
+	$rows.='<td class="izq"><a href="index?tema='.$array[tema_id].'" title="'.LABEL_verDetalle.' '.$array[tema].'">'.$array[tema].'</a></td>';
 	$rows.='<td class="izq">';
 
 	$rows.='<a href="'.$array[tterm_url].'" title="'.LABEL_verDetalle.' '.FixEncoding($array[tterm_string]).'" >'.FixEncoding($array[tterm_string]).'</a>';
@@ -1828,7 +1828,7 @@ $rows.='<td class="izq" colspan="3">'.$ARRAYtargetVocabulary[cant].' '.FORM_LABE
 
 if($ARRAYtargetVocabulary[cant]>0)
 {
-	$rows.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
+	$rows.='&middot;  <a href="admin?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
 }
 
 
@@ -1848,14 +1848,14 @@ $thead.='<table class="table table-striped table-bordered table-condensed table-
 
 $thead.='<thead>';
 $thead.='<tr>';
-$thead.='<th class="izq" colspan="3"><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).'">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.$ARRAYtargetVocabulary[tvocab_title].' &middot '.(($ARRAYtargetVocabulary["tvocab_status"]=='1') ? LABEL_enable : LABEL_disable).'</th>';
+$thead.='<th class="izq" colspan="3"><a href="admin" title="'.ucfirst(LABEL_lcConfig).'">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.$ARRAYtargetVocabulary[tvocab_title].' &middot '.(($ARRAYtargetVocabulary["tvocab_status"]=='1') ? LABEL_enable : LABEL_disable).'</th>';
 $thead.='</tr>';
 $thead.='<tr>';
 $thead.='<th class="izq" colspan="3">'.$ARRAYtargetVocabulary[cant].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
 
 if($ARRAYtargetVocabulary[cant]>0)
 {
-	$thead.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
+	$thead.='&middot;  <a href="admin?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
 }
 
 if(isset($iUpd))
@@ -3053,7 +3053,7 @@ function HTMLformUserNotes(){
 
 	$sql=SQLcantNotas();
 
-	$rows.='<form id="morenotas" name="morenotas" method="POST" action="admin.php?vocabulario_id=list#morenotas">';
+	$rows.='<form id="morenotas" name="morenotas" method="POST" action="admin?vocabulario_id=list#morenotas">';
 	$rows.='<input type="hidden" name="doAdmin" id="doAdmin" value="">  ';
 	$rows.=' <input type="hidden" name="valueid" id="valueid"> ';
 
@@ -3163,7 +3163,7 @@ function HTMLformUserRelations(){
 
 	$arrayLABEL=array("2"=>$LABEL_RT,"3"=>$LABEL_BT,"4"=>$LABEL_UP);
 
-	$rows.='<form id="morerelations" name="morerelations" method="POST" action="admin.php?vocabulario_id=list#morerelations">';
+	$rows.='<form id="morerelations" name="morerelations" method="POST" action="admin?vocabulario_id=list#morerelations">';
 	$rows.='<input type="hidden" name="doAdminR" id="doAdminR" value=""> ';
 	$rows.='<input type="hidden" name="rr_id" id="rr_id"> ';
 
@@ -3254,7 +3254,7 @@ function HTMLformURIdefinition(){
 
 	$sql=SQLURIdefinition();
 
-	$rows.='<form id="moreURI" name="moreURI" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
+	$rows.='<form id="moreURI" name="moreURI" method="POST" action="admin?vocabulario_id=list#moreuri">';
 	$rows.='<input type="hidden" name="doAdminU" id="doAdminU" value=""> ';
 	$rows.='<input type="hidden" name="uri_type_id" id="uri_type_id"> ';
 
@@ -3468,7 +3468,7 @@ function doSparqlEndpoint()
 
 
 		//fetch main metadata
-		$sparql_command='LOAD <'.$_SESSION["CFGURL"].'xml.php?skosMeta=1> into <'.$_SESSION["CFGURL"].'>';
+		$sparql_command='LOAD <'.$_SESSION["CFGURL"].'xml?skosMeta=1> into <'.$_SESSION["CFGURL"].'>';
 		$ep->query($sparql_command);
 
 
@@ -3482,7 +3482,7 @@ function doSparqlEndpoint()
 				header('X-pmaPing: Pong');
 			};
 
-			$sparql_command='LOAD <'.$_SESSION["CFGURL"].'xml.php?skosNode='.$array[id].'> into <'.$_SESSION["CFGURL"].'>';
+			$sparql_command='LOAD <'.$_SESSION["CFGURL"].'xml?skosNode='.$array[id].'> into <'.$_SESSION["CFGURL"].'>';
 
 
 			$ep->query($sparql_command);

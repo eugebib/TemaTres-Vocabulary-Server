@@ -23,13 +23,13 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 		$hidden.='<input type="hidden" name="taskNota" value="edit" />';
 
     $buttons.='<button type="submit" class="btn btn-primary" name="guardarCambioNota" value="'.LABEL_Cambiar.'"/>'.ucfirst(LABEL_Cambiar).'</button>';
-    $buttons.='<a href="index.php?tema='.$metadata["arraydata"]["tema_id"].'&amp;idTema='.$metadata["arraydata"]["tema_id"].'&amp;idNota='.$arrayNota["idNota"].'&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a>';
-    $buttons.='<button type="button" class="btn btn-default"  name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$metadata["arraydata"]["tema_id"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>';
+    $buttons.='<a href="index?tema='.$metadata["arraydata"]["tema_id"].'&amp;idTema='.$metadata["arraydata"]["tema_id"].'&amp;idNota='.$arrayNota["idNota"].'&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a>';
+    $buttons.='<button type="button" class="btn btn-default"  name="cancelar" type="button" onClick="location.href=\'index?tema='.$metadata["arraydata"]["tema_id"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>';
 
     }else{
 		$hidden.='<input type="hidden" name="taskNota" value="alta" />';
     $buttons.='<button type="submit" class="btn btn-primary" name="LABEL_Enviar" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>';
-    $buttons.='<button type="button" class="btn btn-default"  name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$metadata["arraydata"]["tema_id"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>';
+    $buttons.='<button type="button" class="btn btn-default"  name="cancelar" type="button" onClick="location.href=\'index?tema='.$metadata["arraydata"]["tema_id"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>';
 
     }
   };
@@ -57,12 +57,12 @@ foreach ($CFG["ISO639-1"] as $langs) {
 $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];
 ?>
 <div class="container" id="bodyText">
-<a class="topOfPage" href="<?php echo URL_BASE;?>index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
+<a class="topOfPage" href="<?php echo URL_BASE;?>index?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
 <h3><?php echo LABEL_EditorNota ;?></h3>
-<form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
+<form class="" role="form" name="altaNota" id="altaNota" action="index" method="post">
 	<div class="row">
     <div class="col-sm-12">
-        <legend> <?php echo LABEL_EditorNotaTermino.' <a href="index.php?tema='.$metadata["arraydata"]["tema_id"].'">'.$metadata["arraydata"]["titTema"].'</a>';?></legend>
+        <legend> <?php echo LABEL_EditorNotaTermino.' <a href="index?tema='.$metadata["arraydata"]["tema_id"].'">'.$metadata["arraydata"]["titTema"].'</a>';?></legend>
     </div>
     <!-- panel  -->
 

@@ -9,8 +9,7 @@
 #                                                                  #
 ####################################################################
 
-
-include("../config/config.tematres.php");
+include("config/config.tematres.php");
 
 // XML tiny web services
 require_once(T3_ABSPATH .'common/include/fun.api.php');

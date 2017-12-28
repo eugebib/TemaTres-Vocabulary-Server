@@ -33,9 +33,9 @@ define("MENU_AgregarTE","Terme spécifique");
 define("MENU_AgregarTR","Terme associé");
 define("MENU_AgregarUP","Terme non-préférentiel");
 define("MENU_MisDatos","Mon compte");
-define("MENU_Caducar","Expirer"); 
-define("MENU_Habilitar","Autoriser"); 
-define("MENU_Salir","Déconnexion"); 
+define("MENU_Caducar","Expirer");
+define("MENU_Habilitar","Autoriser");
+define("MENU_Salir","Déconnexion");
 define("LABEL_Menu","Menu");
 define("LABEL_Opciones","Options");
 define("LABEL_Admin","Administration");
@@ -69,7 +69,7 @@ define("LABEL_Enviar","Valider");
 define("LABEL_Cambiar","Enregistrer les modifications");
 define("LABEL_Anterior"," ◄ Page précédente");
 define("LABEL_AdminUser","Administration des utilisateurs");
-define("LABEL_DatosUser","Profil de l'utilisateur"); 
+define("LABEL_DatosUser","Profil de l'utilisateur");
 define("LABEL_Acciones","Tâches réalisées");
 define("LABEL_verEsquema","voir le schéma");
 define("LABEL_actualizar","Mise à jour");
@@ -260,10 +260,10 @@ $install_message[202] = "Configuration du fichier pour la connection à la base 
 $install_message[203] = "Connexion au serveur de bases de données <em>%s</em> impossible avec l'utilisateur <em>%s</em> ! Veuillez vérifier la configuration du fichier pour la connection à la base de données (%s)." ;
 $install_message[204] = "Connexion au serveur <em>%s</em> réussie !" ;
 $install_message[205] = "Connection à la base de données <em>%s</em> du serveur <em>%s</em> impossible ! Veuillez vérifier la configuration du fichier pour la connection à la base de données (%s)." ;
-$install_message[301] = 'Grrr... Il y a déjà une instance Tematres pour cette configuration. Veuillez vérifier la configuration du fichier pour la connexion à la base de données (%s) ou <a href="index.php">Accéder à votre serveur Tematres</a>' ;
+$install_message[301] = 'Grrr... Il y a déjà une instance Tematres pour cette configuration. Veuillez vérifier la configuration du fichier pour la connexion à la base de données (%s) ou <a href="index">Accéder à votre serveur Tematres</a>' ;
 $install_message[206] = "Connection à la base de données <em>%s</em> du serveur <em>%s</em> réussie !" ;
 $install_message[305] = " Verification du mot de passe de sécurité en cours." ;
-$install_message[306] = 'Installation terminée ! <a href="index.php">Accéder à votre serveur Tematres</a>' ;
+$install_message[306] = 'Installation terminée ! <a href="index">Accéder à votre serveur Tematres</a>' ;
 /* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"code invalide");

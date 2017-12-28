@@ -260,9 +260,9 @@ $install_message[203] = "Não foi possível conectar com o servidor da base de d
 $install_message[204] = "Sucesso na conexão do servidor <em>%s</em>" ;
 $install_message[205] = "Não foi possível conectar no base de dados <em>%s</em> no servidor <em>%s</em>. Confira seu arquivo de configuração de conexão com a base de dados (%s)." ;
 $install_message[206] = "Sucesso ao conectar na base de dados <em>%s</em> no servidor <em>%s</em>." ;
-$install_message[301] = 'Opa... Já existe uma instancia do Tematres para esta configuração. Confira o arquivo de cofiguração da base de dados (%s). <a href="index.php">Comience a utilizar su vocabulario</a>' ;
+$install_message[301] = 'Opa... Já existe uma instancia do Tematres para esta configuração. Confira o arquivo de cofiguração da base de dados (%s). <a href="index">Comience a utilizar su vocabulario</a>' ;
 $install_message[305] = " Conferindo a segurança da senha." ;
-$install_message[306] = 'Configuração completa, <a href="index.php">Aproveite seu servidor de vocabulário</a>' ;
+$install_message[306] = 'Configuração completa, <a href="index">Aproveite seu servidor de vocabulário</a>' ;
 /* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"código inválido");

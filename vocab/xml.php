@@ -9,8 +9,7 @@
 #                                                                  #
 ####################################################################
 
-
-include("../config/config.tematres.php");
+include("config/config.tematres.php");
 
 if($_GET[zthesTema]){
 	header('Content-Type: text/xml');
