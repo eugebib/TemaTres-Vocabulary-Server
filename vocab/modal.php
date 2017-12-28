@@ -10,8 +10,6 @@
 ####################################################################
 
 
-include("config/config.tematres.php");
-
 $metadata              = do_meta_tag();
 
 //If tterm_id isset, is a foreing term

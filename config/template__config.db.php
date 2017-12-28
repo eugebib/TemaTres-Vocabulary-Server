@@ -1,5 +1,7 @@
 <?php
 
+// rename as config.db.php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -10,6 +12,7 @@
 ####################################################################
 
 ##### Configuracion de base de datos == Database Configuration #####
+
 
 
 $uri          = $_SERVER['REQUEST_URI'];
@@ -27,12 +30,12 @@ list($vocabulary, $page) = getVocabulary($uri, $vocabularies);
 $DBCFG = [
     "DBdriver"  => "", // MySQLi (default), mysql, postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
     "Server"    => "localhost",
-    "DBName"    => "vocabularios",
-    "DBLogin"   => "vea",
-    "DBPass"    => "password",
+    "DBName"    => "",
+    "DBLogin"   => "",
+    "DBPass"    => "",
     "DBcharset" => "utf8",
     "debugMode" => "1",
-    'URL'       => 'http://t3admin.local/',
+    'URL'       => '',
     "DBprefix"  => $prefixes[$vocabulary]
 ];
 
@@ -68,6 +71,7 @@ function getVocabulary($uri, $vocabularies)
 
 
 ############################## UTILS ###############################
+
 
 function dd($data)
 {

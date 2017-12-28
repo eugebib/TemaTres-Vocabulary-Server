@@ -12,13 +12,11 @@
 
 header('Content-Type: application/javascript; charset=utf-8');
 
-//include("../config/config.tematres.php");
+#
+# Only if there is login
+#
+if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) : ?>
 
-#
-# Load tinyMCE only if there are login
-#
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
-	?>
 	<!-- Load TinyMCE -->
 	tinymce.init({
 		selector: "textarea#<?php echo LABEL_nota;?>",
@@ -40,124 +38,128 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 		extended_valid_elements: 'img[class=myclass|!src|border:0|alt|width|height]',
 		invalid_elements: 'style,script,html,body',
 	});
-	<!-- /TinyMCE -->
 
+	<!-- Editable -->
 	$(function() {
-	 $(".editable_textarea").editable("searcher.php", {
-		  indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif"/>',
-		  placeholder : '[<?php echo LABEL_CODE;?>]',
-		  tooltip : '<?php echo LABEL_ClickEditar;?>',
-		  style  : "inherit",
-		  width : '100px',
-		  id   : 'code_tema_id',
-		  name : 'code_tema',
-		  type   : 'text',
-		  onblur : 'cancel',
-		  submitdata: { _method: "put" },
-		  select : true,
-		  submit : '<?php echo ucfirst(LABEL_Guardar);?>',
-		  cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
-		  cssclass : "editable",
-		  onerror : function(settings, original, xhr) {
-			original.reset()
-			alert(xhr.responseText)
-		}
-	  });
+	 	$(".editable_textarea").editable("searcher", {
+		  	indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif"/>',
+			placeholder : '[<?php echo LABEL_CODE;?>]',
+			tooltip : '<?php echo LABEL_ClickEditar;?>',
+			style  : "inherit",
+			width : '100px',
+			id   : 'code_tema_id',
+			name : 'code_tema',
+			type   : 'text',
+			onblur : 'cancel',
+			submitdata: { _method: "put" },
+			select : true,
+			submit : '<?php echo ucfirst(LABEL_Guardar);?>',
+			cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
+			cssclass : "editable",
+			onerror : function(settings, original, xhr) {
+				original.reset()
+				alert(xhr.responseText)
+			}
+	  	});
 
-	 $(".edit_area_term").editable("searcher.php", {
-		  indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif"/>',
-		  tooltip : '<?php echo LABEL_ClickEditar;?>',
-		  id   : 'edit_tema_id',
-		  name : 'edit_tema',
-		  width : '300px',
-		  rows : '1',
-		  onblur : 'cancel',
-		  type   : 'textarea',
-		  submitdata: { _method: "put" },
-		  select : true,
-		  submit : '<?php echo ucfirst(LABEL_Guardar);?>',
-		  cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
-		  cssclass : "editable",
-		  onerror : function(settings, original, xhr) {
-			original.reset()
-			alert(xhr.responseText)
-		}
+	 	$(".edit_area_term").editable("searcher", {
+			indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif"/>',
+			tooltip : '<?php echo LABEL_ClickEditar;?>',
+			id   : 'edit_tema_id',
+			name : 'edit_tema',
+			width : '300px',
+			rows : '1',
+			onblur : 'cancel',
+			type   : 'textarea',
+			submitdata: { _method: "put" },
+			select : true,
+			submit : '<?php echo ucfirst(LABEL_Guardar);?>',
+			cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
+			cssclass : "editable",
+			onerror : function(settings, original, xhr) {
+				original.reset()
+				alert(xhr.responseText)
+			}
+	  	});
 
-	  });
-	  <?php
+		<?php
 
-		$arrayCustumRelations["3"]["0"].=TG_acronimo;
-		$arrayCustumRelations["4"]["0"].=UP_acronimo;
-		$arrayCustumRelations["2"]["0"].=TR_acronimo;
+			$arrayCustumRelations["3"]["0"].=TG_acronimo;
+			$arrayCustumRelations["4"]["0"].=UP_acronimo;
+			$arrayCustumRelations["2"]["0"].=TR_acronimo;
 
-		$SQLtypeRelations=SQLtypeRelations();
-		while ($ARRAYtypeRelations=$SQLtypeRelations->FetchRow())
-		{
+			$SQLtypeRelations = SQLtypeRelations();
+
+			while ($ARRAYtypeRelations = $SQLtypeRelations->FetchRow()) {
 				$arrayCustumRelations["$ARRAYtypeRelations[t_relation]"]["$ARRAYtypeRelations[rel_rel_id]"].= $ARRAYtypeRelations[rr_value];
-		};
+			};
 
-		//add reverse view or BT/NT relation
-		$arrayCustumRelations["TE"]=$arrayCustumRelations["3"];
-		$arrayCustumRelations["TE"]["0"]=TE_acronimo;
+			//add reverse view or BT/NT relation
+			$arrayCustumRelations["TE"]=$arrayCustumRelations["3"];
+			$arrayCustumRelations["TE"]["0"]=TE_acronimo;
 
 		?>
-	  $(".editable_selectTE").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-		data   : '<?php print json_encode($arrayCustumRelations["TE"]); ?>',
-		id   : 'edit_rel_id',
-		name : 'rel_rel_id',
-		type   : "select",
-		submit : "OK",
-		style  : "inherit",
-		submitdata : function() {
-			return {
-				tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>',
-				relativeLabel : 'X'
-			};
+
+		$(".editable_selectTE").editable("searcher", {
+			indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+			data   : '<?php print json_encode($arrayCustumRelations["TE"]); ?>',
+			id   : 'edit_rel_id',
+			name : 'rel_rel_id',
+			type   : "select",
+			submit : "OK",
+			style  : "inherit",
+			submitdata : function() {
+				return {
+					tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>',
+					relativeLabel : 'X'
+				};
 			}
 		});
-	  $(".editable_select3").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-		data   : '<?php print json_encode($arrayCustumRelations["3"]); ?>',
-		id   : 'edit_rel_id',
-		name : 'rel_rel_id',
-		type   : "select",
-		submit : "OK",
-		style  : "inherit",
-		submitdata : function() {
-			return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
+
+		$(".editable_select3").editable("searcher", {
+			indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+			data   : '<?php print json_encode($arrayCustumRelations["3"]); ?>',
+			id   : 'edit_rel_id',
+			name : 'rel_rel_id',
+			type   : "select",
+			submit : "OK",
+			style  : "inherit",
+			submitdata : function() {
+				return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
 			}
 		});
-	  $(".editable_select2").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-		data   : '<?php print json_encode($arrayCustumRelations["2"]); ?>',
-		id   : 'edit_rel_id',
-		name : 'rel_rel_id',
-		type   : "select",
-		submit : "OK",
-		style  : "inherit",
-		submitdata : function() {
-			return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
+
+		$(".editable_select2").editable("searcher", {
+			indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+			data   : '<?php print json_encode($arrayCustumRelations["2"]); ?>',
+			id   : 'edit_rel_id',
+			name : 'rel_rel_id',
+			type   : "select",
+			submit : "OK",
+			style  : "inherit",
+			submitdata : function() {
+				return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
 			}
 		});
-	  $(".editable_select4").editable("searcher.php", {
-		indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-		data   : '<?php print json_encode($arrayCustumRelations["4"]); ?>',
-		id   : 'edit_rel_id',
-		name : 'rel_rel_id',
-		type   : "select",
-		submit : "OK",
-		style  : "inherit",
-		submitdata : function() {
-			return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
+
+		$(".editable_select4").editable("searcher", {
+			indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
+			data   : '<?php print json_encode($arrayCustumRelations["4"]); ?>',
+			id   : 'edit_rel_id',
+			name : 'rel_rel_id',
+			type   : "select",
+			submit : "OK",
+			style  : "inherit",
+			submitdata : function() {
+				return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
 			}
 		});
 	});
-<?php
-}// session
-?>
 
-function expand( id ) {
+<?php endif; ?>
+
+function expand(id)
+{
 	var details = document.getElementById('masTE' + id );
 	var enlaceMas= document.getElementById( 'expandTE' + id );
 	var enlaceMenos= document.getElementById( 'contraeTE' + id );
@@ -166,33 +168,29 @@ function expand( id ) {
 	enlaceMenos.style.display = ( details.style.display == 'block' ) ? 'inline' : 'none';
 }
 
-function expandLink( id ) {
+function expandLink(id)
+{
 	var details = document.getElementById( id );
 	details.style.display = ( details.style.display == 'block' ) ? 'none' : 'block';
-
 }
 
-
-
-function askData() {
-        if (confirm('<?php echo FORM_JS_confirm ?>')){
-        return true;
-        }else
-        return false;
+function askData()
+{
+    return confirm('<?php echo FORM_JS_confirm ?>');
 }
 
 /* ---------------------------- */
 /* AJAX tree view  				*/
 /* ---------------------------- */
 $(function() {
-         var $tree = $('#treeTerm');
-	     $tree.tree({
-            buttonLeft: false,
-            dragAndDrop: false,
-            autoEscape: false,
-            selectable: false,
-            useContextMenu: false
-           });
+    var $tree = $('#treeTerm');
+	$tree.tree({
+        buttonLeft: false,
+        dragAndDrop: false,
+        autoEscape: false,
+        selectable: false,
+        useContextMenu: false
+    });
 });
 
 /* ---------------------------- */
@@ -201,40 +199,44 @@ $(function() {
 
 
 var options, a;
-var onSelect = function(val, data) { $('#simple-search #id').val(data); $('#simple-search').submit(); };
-jQuery(function(){
+var onSelect = function (val, data) {
+	$('#simple-search #id').val(data);
+	$('#simple-search').submit();
+};
 
+jQuery(function(){
 	function formatItem(row) {
 		return row["value"] + " (<?php echo '<strong>'.LABEL_terminoExistente.'</strong>';?>)";
 	}
 
-	    options = {
-		    serviceUrl:'suggest' ,
-		    minChars:2,
-		    delimiter: /(,|;)\s*/, // regex or character
-		    maxHeight:400,
-		    width:600,
-		    zIndex: 9999,
-		    deferRequestBy: 0, //miliseconds
-		    noCache: false, //default is false, set to true to disable caching
-		    // callback function:
-		    onSelect: onSelect,
-	    	};
-	    a = $('#query').autocomplete(options);
+	options = {
+	    serviceUrl:'suggest',
+	    minChars:2,
+	    delimiter: /(,|;)\s*/, // regex or character
+	    maxHeight:400,
+	    width:600,
+	    zIndex: 9999,
+	    deferRequestBy: 0, //miliseconds
+	    noCache: false, //default is false, set to true to disable caching
+	    // callback function:
+	    onSelect: onSelect,
+    };
 
-	    var ac = $('#addTerms').autocomplete({
-		    minChars:2,
-		    serviceUrl:'suggest?t=0&amp;',
-		    delimiter: /(,|;)\s*/, // regex or character
-		    maxHeight:400,
-		    width:600,
-		    zIndex: 9999,
-		    formatResult: formatItem,
-		    delimiter: "\n",
-		    deferRequestBy: 0, //miliseconds
-		    noCache: false, //default is false, set to true to disable caching
-  			});
+	a = $('#query').autocomplete(options);
+
+    var ac = $('#addTerms').autocomplete({
+	    minChars:2,
+	    serviceUrl:'suggest?t=0&amp;',
+	    delimiter: /(,|;)\s*/, // regex or character
+	    maxHeight:400,
+	    width:600,
+	    zIndex: 9999,
+	    formatResult: formatItem,
+	    delimiter: "\n",
+	    deferRequestBy: 0, //miliseconds
+	    noCache: false, //default is false, set to true to disable caching
 	});
+});
 
 
 

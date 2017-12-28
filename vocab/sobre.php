@@ -9,7 +9,7 @@
 #                                                                  #
 ####################################################################
 
-include("config/config.tematres.php");
+
 
 $metadata=do_meta_tag();
 ?>
@@ -43,7 +43,7 @@ $metadata=do_meta_tag();
         <dt><?php echo ucfirst(LABEL_Cobertura);?></dt><dd><?php echo $_SESSION[CFGCobertura];?></dd>
         <dt><?php echo ucfirst(LABEL_Terminos);?></dt><dd><?php echo $resumen[cant_total];?>
 
-        <?php  echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>'; ?>
+        <?php  echo '  <a class="label label-info" href="'.URL_BASE.'index?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>'; ?>
 
         <ul>
 	<?php
@@ -51,11 +51,11 @@ $metadata=do_meta_tag();
 	if($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1)
 	{
 		if($resumen[cant_candidato]>0){
-			echo '<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
+			echo '<li><a href="'.URL_BASE.'index?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
 			}
 
 		if($resumen[cant_rechazado]>0){
-			echo '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
+			echo '<li><a href="'.URL_BASE.'index?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
 			}
 	}
 	?>
@@ -138,15 +138,15 @@ $metadata=do_meta_tag();
         <?php
         //are enable SPARQL
         if(CFG_ENABLE_SPARQL==1)        {
-          echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
+          echo '<a class="label label-info" href="'.URL_BASE.'sparql" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
         }
 
         if(CFG_SIMPLE_WEB_SERVICE==1)       {
-          echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
+          echo '  <a class="label label-info" href="'.URL_BASE.'services" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
         }
 
           echo '  <a class="label label-info" href="'.URL_BASE.'xml?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-          echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
+          echo '  <a class="label label-info" href="'.URL_BASE.'index?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
       </p>
         <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>

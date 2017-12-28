@@ -3292,29 +3292,36 @@ function SQLtypeRelations($t_relation=0,$rrel_type_id=0,$cant=false)
 	$where=($t_relation>0) ? " and trr.value_type='$t_relation' " : "";
 	$where.=($rrel_type_id>0) ? " and trr.value_id='$rrel_type_id' " : "";
 
-	if($cant==true)
-	{
-		$select=",count(r.rel_rel_id) as cant ";
-		$from=" left join $DBCFG[DBprefix]tabla_rel r on r.rel_rel_id=trr.value_id ";
+	if ($cant==true) {
+		$select = ",count(r.rel_rel_id) as cant ";
+		$from   = " left join $DBCFG[DBprefix]tabla_rel r on r.rel_rel_id=trr.value_id ";
 	}
 
-
-
-	return SQL("select","tr.value_id as t_relation,
-	tr.value_code as r_code,
-	tr.value as r_value,
-	trr.value_id as rel_rel_id,
-	trr.value_code as rr_code,
-	trr.value_order as rr_ord,
-	trr.value as rr_value
-	$select
-	from $DBCFG[DBprefix]values tr, $DBCFG[DBprefix]values trr
-	$from
-	where tr.value_id=trr.value_type
-	and tr.value_type='t_relacion'
-	$where
-	group by trr.value_id
-	order by tr.value_order,tr.value_id, trr.value_order,trr.value_id");
+	return SQL("select","
+			tr.value_id as t_relation,
+			tr.value_code as r_code,
+			tr.value as r_value,
+			trr.value_id as rel_rel_id,
+			trr.value_code as rr_code,
+			trr.value_order as rr_ord,
+			trr.value as rr_value
+			$select
+		FROM
+			$DBCFG[DBprefix]values tr,
+			$DBCFG[DBprefix]values trr
+			$from
+		WHERE
+			tr.value_id=trr.value_type AND
+			tr.value_type='t_relacion'
+			$where
+		GROUP BY
+			trr.value_id
+		ORDER BY
+			tr.value_order,
+			tr.value_id,
+			trr.value_order,
+			trr.value_id
+	");
 }
 
 

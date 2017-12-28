@@ -15,7 +15,16 @@
 
 if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
 
-include('config.db.php');
+if ( ! defined('T3_ABSPATH')) {
+	/** Use this for version of PHP < 5.3 */
+	define('T3_ABSPATH', dirname(dirname(__FILE__)) . '/');
+
+	/** Use this for version of PHP >= 5.3	*/
+	//~ define('T3_ABSPATH', dirname(__DIR__) . '/');
+
+	/** Use to define specific local path for common/include directory */
+	//~ define('T3_ABSPATH', '/home/my_name/tematres/');
+}
 
 if ($DBCFG["debugMode"]=='1') {
 	ini_set('display_errors', 'On');
@@ -35,10 +44,8 @@ if (!$DB) {
 
 //Agregado para la version multi
 require_once(T3_ABSPATH . 'common/include/config.tematres.php');
-require_once(T3_ABSPATH . 'common/include/session.php');
 
-if(checkAllowPublication(basename($_SERVER['SCRIPT_NAME']))==0) loadPage('login.php');
-
+//if (checkAllowPublication(basename($_SERVER['SCRIPT_NAME']))==0) loadPage('login.php');
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
@@ -58,41 +65,14 @@ $CFG["_URI_SEPARATOR_ID"] ='?tema=';
 // Config char encode (only can be: utf-8 or iso-8859-1)
 $CFG["_CHAR_ENCODE"] ='utf-8';
 
-// use term codes to sort the terms: (1 = Yes, 0 = No: default: 0)
-// If you use codes as notations, please see _SHOW_CORE param
-$CFG["_USE_CODE"] =($_SESSION[$_SESSION["CFGURL"]]["_USE_CODE"]);
 
 /*
 Define specific  Excluded characters from the alphabetic menu
  */
 //$CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")");
 
-// Shown term codes in public view (1 = Yes, 0 = No: default: 0)
-$CFG["_SHOW_CODE"] =$_SESSION[$_SESSION["CFGURL"]]["_SHOW_CODE"];
-
-// Maximum level of depth in the tree of items for display on the same page [Máximo nivel de profundidad en el árbol de temas para la visualización en una misma página]
-define('CFG_MAX_TREE_DEEP',$_SESSION[$_SESSION["CFGURL"]]["CFG_MAX_TREE_DEEP"]);
-
 // Status details visible for any users [Detalles del estado de terminos visibles para todos los usurios] 0 => no public details / 1 => public details
 define('CFG_VIEW_STATUS','1');
-
-// Available Web simple web services (1 = Yes, 0 = No: default: 1)
-define('CFG_SIMPLE_WEB_SERVICE',$_SESSION[$_SESSION["CFGURL"]]["CFG_SIMPLE_WEB_SERVICE"]);
-
-//Number of terms display by status view
-define('CFG_NUM_SHOW_TERMSxSTATUS',$_SESSION[$_SESSION["CFGURL"]]["CFG_NUM_SHOW_TERMSxSTATUS"]);
-
-// 	Minimum characters for search operations / número mínimo de caracteres para operaciones de búsqueda
-define('CFG_MIN_SEARCH_SIZE',$_SESSION[$_SESSION["CFGURL"]]["CFG_MIN_SEARCH_SIZE"]);
-
-// 	Include or not meta terms in defaults search operations
-define('CFG_SEARCH_METATERM',$_SESSION[$_SESSION["CFGURL"]]["CFG_SEARCH_METATERM"]);
-
-// 	Enable or not SPARQL endpoint. Default is 0 (disable)
-define('CFG_ENABLE_SPARQL',$_SESSION[$_SESSION["CFGURL"]]["CFG_ENABLE_SPARQL"]);
-
-//	method to predict search or suggest search terms: by the beginning each word or by the begining of the complete term (concept). Default is by word == 1.
-define('CFG_SUGGESTxWORD',$_SESSION[$_SESSION["CFGURL"]]["CFG_SUGGESTxWORD"]);
 
 // Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
 $CFG["_TOP_TERMS_BROWSER"] ='0';
@@ -126,6 +106,11 @@ $CFG["HEADER_EXTRA"] =array(
  *  Web path to the directory where are located
  */
 
+// change to whatever timezone you want
+if (date_default_timezone_get() != ini_get('date.timezone')) {
+    date_default_timezone_set('Etc/UTC');
+}
+
 if ( !defined('T3_WEBPATH') )
 	define('T3_WEBPATH', getURLbase().'../common/');
 
@@ -133,19 +118,3 @@ require_once(T3_ABSPATH . 'common/include/fun.sql.php');
 require_once(T3_ABSPATH . 'common/include/fun.xml.php');
 require_once(T3_ABSPATH . 'common/include/fun.html.php');
 require_once(T3_ABSPATH . 'common/include/fun.html_forms.php');
-
-//////////////////// ADMINISTRACION y GESTION ////////////////////////////
-
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
-  require_once(T3_ABSPATH . 'common/include/fun.admin.php');
-}
-
-if (! function_exists('dd')) {
-	function dd($data)
-	{
-		echo '<pre>';
-		var_dump($data);
-		echo '</pre>';
-		die();
-	}
-}

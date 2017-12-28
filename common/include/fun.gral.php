@@ -490,7 +490,7 @@ function wiki2html($wikitext)
     if(strpos($link, "|"))
       list($href, $title) = explode("|", $link);
     else
-      $href = 'index.php?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
+      $href = 'index?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
       $inter_text = str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', $inter_text);
     }
     return $inter_text;

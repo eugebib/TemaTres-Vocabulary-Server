@@ -1,12 +1,19 @@
 <?php
+
+####################################################################
+# TemaTres : aplicación para la gestión de lenguajes documentales  #
+#                                                                  #
+# Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar      #
+# Distribuido bajo Licencia GNU Public License, versión 2          #
+# (de junio de 1.991) Free Software Foundation                     #
+#                                                                  #
+####################################################################
+
+###### Include para alta y modificacion de usuarios genericos ######
+
+
+
 if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
-#                                                                        #
-#   Copyright (C) 2004-2015 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
-###############################################################################################################
-# Include para alta y modificacion de usuarios genericos.
 
 if(is_numeric($_GET["user_id"]))  $dato_user=ARRAYdatosUser($_GET["user_id"]);
 
@@ -17,7 +24,7 @@ if($dato_user["id"]){
 	$row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
 
 	if($resumen[cant_total]>0){
-		$row_resumen.='<dt><a href="sobre.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen[cant_total].'</a>&nbsp;</dd>'."\n\r";
+		$row_resumen.='<dt><a href="sobre?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen[cant_total].'</a>&nbsp;</dd>'."\n\r";
 		}else{
 		$row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"]."&nbsp;</dd>\n\r";
 		};

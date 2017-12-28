@@ -78,7 +78,7 @@ elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')){
 	}
 
 	$tvocab_id=($_GET["tvocab_id"]>1) ? $tvocab_id : 0;
-	
+
 	if($tvocab_id>0){
 		//Mostrar alfabeto
 		if($_GET["letra2trad"]){	// sanitice $letra

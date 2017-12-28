@@ -216,7 +216,7 @@ function doContextoTermino($idTema,$i_profundidad){
 		$css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 		$label_MT=($datosNT["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
-		$row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
+		$row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
 	};
 
 	// Terminos TG, UF y TR
@@ -249,7 +249,7 @@ function doContextoTermino($idTema,$i_profundidad){
 			case '3':// TG
 			$itg=++$itg;
 			$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			$row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+			$row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			break;
 
 			case '4':// UF
@@ -258,14 +258,14 @@ function doContextoTermino($idTema,$i_profundidad){
 			{
 				$iuf=++$iuf;
 				$row_UP.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.UP_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.UP_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-				$row_UP.=$CFG["REL_SYMBOLS"]["UF"].' <a class="NoTerm" title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.UP_termino.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+				$row_UP.=$CFG["REL_SYMBOLS"]["UF"].' <a class="NoTerm" title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.UP_termino.')"  href="'.URL_BASE.'index?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			}
 			break;
 
 			case '2':// TR
 			$irt=++$irt;
 			$row_TR.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			$row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+			$row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			break;
 
 			case '5':// parcialmente EQ
@@ -607,7 +607,7 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 	if( ( ($relacionesTermino["cantTG"]==0) || ($_SESSION["CFGPolijerarquia"]=='1') ) &&
 		($array_tema["estado_id"]=='13') &&
 		($isValidTerm)){
-			$link_subordinar='<li><a title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>';
+			$link_subordinar='<li><a title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>';
 		};
 
 	$row.='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>';
@@ -685,13 +685,13 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 	if(($array_tema["estado_id"]=='13') && ($isValidTerm)){
 
 		//link agregar un UP
-		$row.='     <li><a title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>';
+		$row.='     <li><a title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>';
 
 		//link agregar un TE
-		$row.='     <li><a title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>';
+		$row.='     <li><a title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>';
 
 		//link agregar un TR
-		$row.='     <li><a title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>';
+		$row.='     <li><a title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>';
 
 		$row.='     <li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>';
 
@@ -1149,7 +1149,7 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 
 		$rows.='<li class="listTE"><abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
 		$rows.=HTMLshowCode($array);
-		$rows.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
+		$rows.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
 	};
 	$rows.='</ul>';
 
@@ -1367,11 +1367,9 @@ function HTMLterminosLetra($letra)
 
 	$pag= secure_data($_GET["p"]);
 
-	if($cantLetra>0)
-	{
+	if($cantLetra>0) {
 
-		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS)
-		{
+		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS) {
 
 
 			$paginado_letras=paginate_links( array(
@@ -2162,7 +2160,7 @@ if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSIO
 	<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.jeditable.mini.js" charset="utf-8"></script>';
 }
 
- $rows.='<script type="application/javascript" src="' . $DBCFG['URL'] . 'vocab/js.php" charset="utf-8"></script>
+ $rows.='<script type="application/javascript" src="js" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/js/validator.min.js"></script>';
 

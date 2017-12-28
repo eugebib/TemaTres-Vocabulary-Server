@@ -9,7 +9,7 @@
 #                                                                  #
 ####################################################################
 
-include("config/config.tematres.php");
+
 
 $metadata=do_meta_tag();
 
@@ -63,12 +63,12 @@ if(($_POST["doAdmin"]=='saveUserTypeNote')){
 
 if(($_POST["doAdmin"]=='massrem')){
 	REMmassiveData($_POST);
-	loadPage('index.php');
+	loadPage('index');
 	};
 
 if(($_POST["doAdmin"]=='updateEndpointNow')){
 	doSparqlEndpoint($_POST);
-	loadPage('sparql.php');
+	loadPage('sparql');
 	};
 
 //Acciones de gestion de vocabularios
