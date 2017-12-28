@@ -2113,12 +2113,15 @@ $rows.='<nav class="navbar navbar-inverse" role="navigation">
  			$rows.='<li><a href="' . URL_BASE . 'login" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a></li>';
         };
 
+  $focus=($_GET["taskSearch"]=='1') ? 'autofocus':'';
+
   $rows.='</ul>
       <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index" class="navbar-form">
         <div class="form-group" style="display:inline;">
           <div class="fill col2">
-            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search">
+            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search" '.$focus.'>
             <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
+            <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
           </div>
         </div>
       </form>
