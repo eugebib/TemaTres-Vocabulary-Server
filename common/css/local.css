@@ -582,6 +582,8 @@ body {
 #myTermTab .nav-tabs > li.active > a:hover {
   background-color: #ddd; }
 
+#theTerm h4 {
+  margin-top: 20px; }
 #theTerm li {
   padding-top: 0;
   padding-bottom: 12px; }
@@ -593,10 +595,11 @@ body {
   margin-right: 10px; }
 #theTerm a:nth-child(4) {
   padding-left: 10px; }
-
-.breadcrumb {
+#theTerm .breadcrumb {
   background-color: #ddd; }
-  .breadcrumb > li + li:before {
+  #theTerm .breadcrumb li {
+    padding-bottom: 0; }
+  #theTerm .breadcrumb > li + li:before {
     color: black;
     content: " | "; }
 
@@ -611,6 +614,9 @@ form.editable {
 .editable_term textarea,
 .editable_term input {
   flex-grow: 1; }
+
+#TR {
+  margin-left: 1mm; }
 
 #notas {
   word-wrap: break-word; }

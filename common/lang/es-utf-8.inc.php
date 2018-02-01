@@ -465,6 +465,7 @@ define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
 define('LABEL_relatedTerms','términos relacionados');
 define('LABEL_nonPreferedTerms','términos no preferidos');
+define('LABEL_genericTerms','términos genéricos');
 define('LABEL_update1_6x1_7','Actualizar Tematres (1.6 -> 2.2)');
 define('LABEL_include_data','incluir');
 define('LABEL_updateEndpoint','actualizar punto de consulta SPARQL');

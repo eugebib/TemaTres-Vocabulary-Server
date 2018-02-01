@@ -150,14 +150,15 @@ function resultaBusca($texto, $tipo = "")
 
 	$body.='</div></div>';
 	return $body;
-};
+}
+
 
 
 #
 #  ARMADOR DE HTML CON DATOS DEL TERMINO
 #
-function doContextoTermino($idTema,$i_profundidad){
-
+function doContextoTermino($idTema,$i_profundidad)
+{
 	GLOBAL $CFG;
 
 	//recibe de HTMLbodyTermino
@@ -218,20 +219,18 @@ function doContextoTermino($idTema,$i_profundidad){
 		{
 			$css_class_MT= ' class="metaTerm" ';
 			$label_MT=NOTE_isMetaTerm;
-		}
-		else
-		{
+		} else {
 			$css_class_MT= '';
 			$label_MT='';
 		}
 
-
-		switch($datosTotalRelacionados["t_relacion"]){
+		switch($datosTotalRelacionados["t_relacion"]) {
 			case '3':// TG
-			$itg=++$itg;
-			$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			$row_TG.='          <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
-			break;
+				$itg=++$itg;
+				$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+				$row_TG.='          <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+				$tg_delete = $td_delete;
+				break;
 
 			case '4':// UF
 			//hide hidden equivalent terms
@@ -327,11 +326,13 @@ $cant_relaciones=array(
 	"cantTotal"=>$iuf+$irt+$itg+$int+$iuse+$ieq
 );
 
-return array("HTMLterminos"=>$rows,
-"cantRelaciones"=>$cant_relaciones,
-"tema_id"=>$tema_id);
-};
-#######################################################################
+	return array(
+		"HTMLterminos"=>$rows,
+		"cantRelaciones"=>$cant_relaciones,
+		"tema_id"=>$tema_id,
+		"boton_eliminar_TG"=>$tg_delete
+	);
+}
 
 
 
@@ -354,6 +355,8 @@ function HTMLmenuCustumRel($tema_id,$arrayDataRelation)
 	return $rows;
 }
 
+
+
 #
 # home page for term
 #
@@ -363,6 +366,8 @@ function HTMLbodyTermino($array)
 	GLOBAL $CFG;
 
 	$editFlag=($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? 1 : 0;
+
+	$HTMLterminos=doContextoTermino($array["idTema"],$i_profundidad);
 
 	//breadcrumb
 	$BT = SQLverTerminoRelaciones($array["idTema"]);
@@ -385,39 +390,32 @@ function HTMLbodyTermino($array)
 			}
 			$row_miga.='
 				<ol class="breadcrumb">
+					<li>' . $HTMLterminos['boton_eliminar_TG'] . '</li>
 					<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>' .
 					$menu_miga . '
-					<li>' . $array["titTema"] . '</li>
 				</ol>';
 		}
-	};
+	}
 
-	$sqlMiga=SQLarbolTema($array["idTema"]);
+	$sqlMiga       = SQLarbolTema($array["idTema"]);
 
-	$cantBT=SQLcount($sqlMiga);
+	$cantBT        = SQLcount($sqlMiga);
 
-	$i_profundidad=($cantBT>0) ? $cantBT : 1;
+	$i_profundidad = ($cantBT>0) ? $cantBT : 1;
 
-	$HTMLterminos=doContextoTermino($array["idTema"],$i_profundidad);
+	$fecha_crea    = do_fecha($array["cuando"]);
 
-	$fecha_crea=do_fecha($array["cuando"]);
-	$fecha_estado=do_fecha($array["cuando_estado"]);
+	$fecha_estado  = do_fecha($array["cuando_estado"]);
 
-	$body='<div class="container" id="bodyText">';
+	$body          = '<div class="container" id="bodyText">';
 
 	//MENSAJE DE ERROR
 	$body.=$MSG_ERROR_RELACION;
 
-	#Div miga de pan
-	$body.='<div id="breadScrumb">';
-	$body.=$row_miga;
-	$body.='</div>';
-	# fin Div miga de pan
-
 	if($array["isMetaTerm"]==1)	{
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
 		//$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
-	}	else	{
+	} else {
 		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
 	}
 	//div oculto para eliminar término
@@ -462,33 +460,31 @@ function HTMLbodyTermino($array)
 				</div>';
 	}
 
-
+	$body.='<h4>'.ucfirst(LABEL_genericTerms).'</h4>';
+	$body.='<div id="breadScrumb">';
+	$body.=$row_miga;
+	$body.='</div>';
 
 	if($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["UP"].'</div>';
 	}
-	if($HTMLterminos["cantRelaciones"]["cantTG"]>0) {
-		$body.='<h4>'.ucfirst(LABEL_broatherTerms).'</h4>';
-		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TG"].'</div>';
-	}
 	//display terms relations
 	$body.=$HTMLterminos["HTMLterminos"]["USE"];
 
-	if($HTMLterminos["cantRelaciones"]["cantNT"]>0) {
+	if ($HTMLterminos["cantRelaciones"]["cantNT"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_narrowerTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TE"].'</div>';
 	}
 
-	if($HTMLterminos["cantRelaciones"]["cantRT"]>0) {
+	if ($HTMLterminos["cantRelaciones"]["cantRT"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_relatedTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TR"].'</div>';
 	}
 
-
-	if($HTMLterminos["cantRelaciones"]["cantEQ"]>0) {
+	if ($HTMLterminos["cantRelaciones"]["cantEQ"]>0) {
 		$body.=$HTMLterminos["HTMLterminos"]["EQ"];
-		}
+	}
 
 	$body.=HTMLtargetTerms($array["tema_id"]);
 
