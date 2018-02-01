@@ -1851,7 +1851,7 @@ function paginate_links( $args = '' ) {
 			$body.='<dt>'.ucfirst(LABEL_narrowerTerms).'</dt>';
 			$body.='<dd>'.(($arrayCantRelaciones["cantNT"]) ? $arrayCantRelaciones["cantNT"] : 0).'</dd>';
 
-			$body.='<dt>'.ucfirst(LABEL_altTerms).'</dt>';
+			$body.='<dt>'.ucfirst(LABEL_nonPreferedTerms).'</dt>';
 			$body.='<dd> '.(($arrayCantRelaciones["cantUF"]) ? $arrayCantRelaciones["cantUF"] : 0).'</dd>';
 
 			$body.='<dt>'.ucfirst(LABEL_relatedTerms).'</dt>';

@@ -909,14 +909,15 @@ function do_rss($limit="30"){
 	$xml.=$xml_item;
 	$xml.='</rdf:RDF>';
 	echo $xml;
-};
+}
 
-#######################################################################
+
+
 #
 # GENERADOR DE META TAGS Y DC
 #
-function do_meta_tag($arrayTermino=""){
-
+function do_meta_tag($arrayTermino="")
+{
 	GLOBAL $CFG;
 
 	//Si hay algún tema de proveniente de algún proceso

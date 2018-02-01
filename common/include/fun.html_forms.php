@@ -110,33 +110,37 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 {
 	GLOBAL $new_relacion;
 
-	$link_term = HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
+	$link_term   = HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
 	$cant_result = null;
+	$button_label = LABEL_Relacionar;
 
 	switch ($taskterm) {
 		case 'addRT':
 			$nombre_pantalla = ucfirst(LABEL_AgregarRTexist) . ' ' . $link_term;
-		break;
+			break;
 
 		case 'addBT':
 			$nombre_pantalla = sprintf(LABEL_AgregarTG,$link_term);
-		break;
+			break;
 
 		case 'addFreeUF':
 			$nombre_pantalla = sprintf(LABEL_existAgregarUP,$link_term);
-		break;
+			break;
 
 		case 'addFreeNT':
 			$nombre_pantalla = sprintf(LABEL_existAgregarTE,$link_term);
-		break;
+			$button_label = LABEL_Subordinar;
+			break;
 
 		case 'addNT':
 			$nombre_pantalla = sprintf(MENU_selectExistTerm,$link_term);
-		break;
+			$button_label = LABEL_Subordinar;
+			break;
 
 		default:
 			'';
 	}
+
 	if (in_array($_GET["showTerms"], array('free','nt','tt','NBT'))) {
 		if ($_GET["showTerms"] == "free") {
 			$sql_busca = SQLverTerminosLibres();
@@ -175,7 +179,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 			<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >
 				<div class="filter">
 					<input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'">
-					<button type="submit" class="btn btn-primary">'.ucfirst(LABEL_Subordinar).'</button>
+					<button type="submit" class="btn btn-primary">'.ucfirst($button_label).'</button>
 					<input type="hidden" name="tema" id="tema" value="'.$ARRAYtermino["idTema"].'"/>
 					<input type="hidden" name="taskterm" id="taskterm" value="'.$taskterm.'"/>
 					<input type="hidden" name="taskrelations" id="taskrelations" value="'.$taskterm.'"/>
@@ -201,7 +205,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 					$rows_busca.= '
 						<tr>
 							<td align="center">
-								<input type="radio" required name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
+								<input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
 							</td>
 							<td>
 								<label for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'>'.
@@ -217,7 +221,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 					$rows_busca .= '
 						<tr>
 							<td align="center">
-								<input type="checkbox" required name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
+								<input type="checkbox" name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
 							</td>
 							<td>
 								<label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'>
