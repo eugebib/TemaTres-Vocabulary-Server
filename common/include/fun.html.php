@@ -460,10 +460,12 @@ function HTMLbodyTermino($array)
 				</div>';
 	}
 
-	$body.='<h4>'.ucfirst(LABEL_genericTerms).'</h4>';
-	$body.='<div id="breadScrumb">';
-	$body.=$row_miga;
-	$body.='</div>';
+	if ($row_miga) {
+		$body.='<h4>'.ucfirst(LABEL_genericTerms).'</h4>';
+		$body.='<div id="breadScrumb">';
+		$body.=$row_miga;
+		$body.='</div>';
+	}
 
 	if($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>';

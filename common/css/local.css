@@ -583,7 +583,7 @@ body {
   background-color: #ddd; }
 
 #theTerm h4 {
-  margin-top: 20px; }
+  margin-top: 25px; }
 #theTerm li {
   padding-top: 0;
   padding-bottom: 12px; }
@@ -615,7 +615,7 @@ form.editable {
 .editable_term input {
   flex-grow: 1; }
 
-#TR {
+#TR, #TE {
   margin-left: 1mm; }
 
 #notas {
