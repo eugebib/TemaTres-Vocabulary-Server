@@ -2242,11 +2242,13 @@ function fetchSearchExactFreeTerms($string,$tema_id){
 	and t.tema_id!='$tema_id'");
 
 	return $sql->FetchRow();
-};
+}
 
 
 
-//Retrive simple term data for code
+#
+# Retrive simple term data for code
+#
 function ARRAYCode($code)
 {
 	GLOBAL $DBCFG;

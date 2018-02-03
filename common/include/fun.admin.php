@@ -808,27 +808,28 @@ function abmURI($do,$tema_id,$array=array(),$uri_id=0)
 	return $tema_id;
 }
 
+
+
 #
-# alta y modificaci�n de c�digo de términos
+# alta y modificación de código de términos
 #
-function edit_single_code($tema_id,$code)
+function edit_single_code($tema_id, $code)
 {
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
-	$code=trim($code);
-	$tema_id=secure_data($tema_id,"int");
-
-	$ARRAYCode=ARRAYCode($code);
+	$code      = trim($code);
+	$tema_id   = secure_data($tema_id,"int");
+	$ARRAYCode = ARRAYCode($code);
 
 	//No cambi� nada
-	if ($ARRAYCode[tema_id]==$tema_id) {
+	if ($ARRAYCode["tema_id"] == $tema_id) {
 		//sin cambios
 		$ARRAYCode["log"]='0';
 		return $ARRAYCode;
-	} elseif($ARRAYCode[tema_id]) {
+	} elseif ($code != '' && $ARRAYCode["tema_id"]) {
 		//error
-		$ARRAYCode["log"]='-1';
+		$ARRAYCode["log"] = '-1';
 		return $ARRAYCode;
 	} else {
 		//cambios

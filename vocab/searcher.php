@@ -6,26 +6,24 @@ $page_encode = (in_array($CFG["_CHAR_ENCODE"],array('utf-8','iso-8859-1'))) ? $C
 header ('Content-type: text/html; charset='.$page_encode.'');
 
 //user login true
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
+if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 	//gestión de codigo de tema
-	if($_POST["code_tema_id"])
-		{
-			$tema_id=str_replace("code_tema", "", $_POST["code_tema_id"]);
-			if(is_numeric($tema_id))
-			{
-				$task=edit_single_code($tema_id,$_POST[code_tema]);
+	if ($_POST["code_tema_id"]) {
+			$tema_id = str_replace("code_tema", "", $_POST["code_tema_id"]);
+			if (is_numeric($tema_id)) {
+				$task = edit_single_code($tema_id,$_POST["code_tema"]);
 				switch ($task["log"]) {
 				case '0': //no pasó nada = nothing
-				echo $task[code];
+				echo $task["code"];
 				break;
 
 				case '1': // OK
-				echo $task[code];
+				echo $task["code"];
 				break;
 
 				case '-1': // ERROR
 				header("HTTP/1.1 406 Not Acceptable");
-				echo ' '.$_POST[code_tema].': '.MSG_ERROR_CODE.' ('.LABEL_Termino.' '.$task[tema].')';
+				echo ' '.$_POST["code_tema"].': '.MSG_ERROR_CODE.' ('.LABEL_Termino.' '.$task["tema"].')';
 				break;
 				}
 			}
