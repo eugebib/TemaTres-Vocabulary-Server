@@ -41,43 +41,40 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	<!-- /TinyMCE -->
 
 	$(function() {
-	 $(".editable_textarea").editable("searcher.php", {
-		  indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif"/>',
-		  placeholder : '[<?php echo LABEL_CODE;?>]',
-		  tooltip : '<?php echo LABEL_ClickEditar;?>',
-		  id   : 'code_tema_id',
-		  name : 'code_tema',
-		  width : '100px',
-		  height : '29px',
-		  onblur : 'cancel',
-		  submitdata: { _method: "put" },
-		  select : true,
-		  cssclass : "editable",
-		  onerror : function(settings, original, xhr) {
-			original.reset()
-			alert(xhr.responseText)
-		}
-	  });
+	   	$(".editable_textarea").editable("searcher.php", {
+	  		indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif"/>',
+	  		placeholder : '[<?php echo LABEL_CODE;?>]',
+	  		tooltip : '<?php echo LABEL_ClickEditar;?>',
+	  		id   : 'code_tema_id',
+	  		name : 'code_tema',
+	  		width: '150px',
+	  		onblur : 'cancel',
+	  		submitdata: { _method: "put" },
+	  		select : true,
+	  		submit: '<button type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>',
+	  		cssclass : "editable",
+	  		onerror : function(settings, original, xhr) {
+	  			original.reset()
+	  			alert(xhr.responseText)
+	  		}
+	   	});
 
-	 $(".edit_area_term").editable("searcher.php", {
-		  indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif"/>',
-		  tooltip : '<?php echo LABEL_ClickEditar;?>',
-		  id   : 'edit_tema_id',
-		  name : 'edit_tema',
-		  rows : '2',
-		  onblur : 'cancel',
-		  type   : 'textarea',
-		  submitdata: { _method: "put" },
-		  select : true,
-		  submit : '<?php echo ucfirst(LABEL_Guardar);?>',
-		  cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
-		  cssclass : "editable",
-		  onerror : function(settings, original, xhr) {
-			original.reset()
-			alert(xhr.responseText)
-		}
+	   	$(".edit_area_term").editable("searcher.php", {
+	  		indicator : '<img src="<?= T3_WEBPATH ?>images/indicator.gif"/>',
+	  		tooltip : '<?php echo LABEL_ClickEditar;?>',
+	  		id   : 'edit_tema_id',
+	  		name : 'edit_tema',
+	  		onblur : 'cancel',
+	  		submitdata: { _method: "put" },
+	  		select : true,
+	  		submit: '<button type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>',
+	  		cssclass : "editable",
+	  		onerror : function(settings, original, xhr) {
+	  			original.reset()
+	  			alert(xhr.responseText)
+	  		}
+	    });
 
-	  });
 	  <?php
 
 		$arrayCustumRelations["3"]["0"].=TG_acronimo;

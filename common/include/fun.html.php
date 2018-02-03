@@ -412,12 +412,27 @@ function HTMLbodyTermino($array)
 	//MENSAJE DE ERROR
 	$body.=$MSG_ERROR_RELACION;
 
-	if($array["isMetaTerm"]==1)	{
-		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
-		//$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
+	// el termino editable
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] > 0) {
+		$metaterm = '';
+		if ($array["isMetaTerm"] == 1) {
+			$metaterm = '<span>(metatérmino)</span>';
+		}
+		$body.='<div class="editable_term">
+					<span>'.HTMLshowCode($array).'</span>
+					<h3 class="term" id="term">
+						<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span>
+					</h3>
+					'.$metaterm.'
+				</div>';
 	} else {
-		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
+		if ($array["isMetaTerm"] == 1) {
+			$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
+		} else {
+			$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
+		}
 	}
+
 	//div oculto para eliminar término
 	if ($editFlag==1) {
 		$body.=HTMLconfirmDeleteTerm($array);
@@ -447,18 +462,6 @@ function HTMLbodyTermino($array)
 	$body.='</div>';
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
-
-	// el termino // span editable
-	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
-		$body.='<div class="editable_term">
-					<span>'.HTMLshowCode($array).'</span>
-					<h3 class="term" id="term">
-						<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.
-							$array["titTema"].'
-						</span>
-					</h3>
-				</div>';
-	}
 
 	if ($row_miga) {
 		$body.='<h4>'.ucfirst(LABEL_genericTerms).'</h4>';
