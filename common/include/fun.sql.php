@@ -2678,11 +2678,8 @@ function SQLreportNullNotes($t_note)
 		$arrayNoteType=array();
 
 		while ($array=$sqlNoteType->FetchRow()){
-			if($array[cant]>0)
-			{
-				array_push($arrayNoteType, $array["tipo_nota"]);
-			}
-		};
+			array_push($arrayNoteType, $array["value_code"]);
+		}
 
 		if(in_array($t_note, $arrayNoteType)){
 			$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,

@@ -1045,7 +1045,7 @@ function HTMLformNullNotesTermReport($array)
 		$i_note=++$i_note;
 		$varNoteType=(in_array($ARRAYnoteType["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC),$ARRAYnoteType["value_id"]) : $ARRAYnoteType["value"];
 		$rows.='<div class="form-group">
-					<input name="note_type_null" type="radio" id="note_type'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["tipo_nota"].'" />
+					<input name="note_type_null" type="radio" id="note_type'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["value_code"].'" />
 					<label for="note_type'.$ARRAYnoteType["value_id"].'">'.$varNoteType.'</label>
 				</div>';
 	}
