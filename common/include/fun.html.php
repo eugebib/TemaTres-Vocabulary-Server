@@ -215,8 +215,7 @@ function doContextoTermino($idTema,$i_profundidad)
 		}
 
 		#Change to metaTerm attributes
-		if(($datosTotalRelacionados["BT_isMetaTerm"]==1))
-		{
+		if(($datosTotalRelacionados["BT_isMetaTerm"]==1)) {
 			$css_class_MT= ' class="metaTerm" ';
 			$label_MT=NOTE_isMetaTerm;
 		} else {
@@ -227,9 +226,34 @@ function doContextoTermino($idTema,$i_profundidad)
 		switch($datosTotalRelacionados["t_relacion"]) {
 			case '3':// TG
 				$itg=++$itg;
-				$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-				$row_TG.=			$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
-				$tg_delete = $td_delete;
+				$row_TG .= '
+				    <li>'.
+				    	$td_delete.'
+				    	<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.
+				    		TG_acronimo.$datosTotalRelacionados["rr_code"].'
+				    	</abbr>'.
+						$CFG["REL_SYMBOLS"]["BT"].'
+						<a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.
+							$datosTotalRelacionados["tema"].'
+						</a>
+					</li>';
+
+				$sql = SQLarbolTema($datosTotalRelacionados["tema_id"]);
+				$menu_miga = '';
+				if (SQLcount($sql) > 0) {
+					while ($bc = $sql->FetchRow()) {
+						$menu_miga.='<li><a title="'.LABEL_verDetalle.$bc[tema].'" href="'.URL_BASE.'index.php?tema='.$bc["tema_id"].'&amp;/'.string2url($bc["tema"]).'" >'.$bc["tema"].'</a></li>';
+					}
+				} else {
+					$term = ARRAYverTerminoBasico($datosTotalRelacionados["tema_id"]);
+					$menu_miga.='<li><a title="'.LABEL_verDetalle.$term[tema].'" href="'.URL_BASE.'index.php?tema='.$term["tema_id"].'&amp;/'.string2url($term["tema"]).'" >'.$term["tema"].'</a></li>';
+				}
+				$row_miga.='
+					<ol class="breadcrumb">'.
+						$td_delete.'
+						<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>' .
+						$menu_miga . '
+					</ol>';
 				break;
 
 			case '4':// UF
@@ -327,10 +351,10 @@ $cant_relaciones=array(
 );
 
 	return array(
-		"HTMLterminos"=>$rows,
-		"cantRelaciones"=>$cant_relaciones,
-		"tema_id"=>$tema_id,
-		"boton_eliminar_TG"=>$tg_delete
+		"HTMLterminos"   => $rows,
+		"cantRelaciones" => $cant_relaciones,
+		"tema_id"        => $tema_id,
+		"miga"           => $row_miga
 	);
 }
 
@@ -367,35 +391,7 @@ function HTMLbodyTermino($array)
 
 	$editFlag=($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? 1 : 0;
 
-	$HTMLterminos=doContextoTermino($array["idTema"],$i_profundidad);
-
-	//breadcrumb
-	$BT = SQLverTerminoRelaciones($array["idTema"]);
-	while ($bc = $BT->FetchRow()) {
-		if ($bc["t_relacion"] == 3) {
-			$miga[] = $bc["tema_id"];
-		}
-	}
-	if (count($miga) > 0) {
-		foreach ($miga as $bt) {
-			$menu_miga = '';
-			$sql = SQLarbolTema($bt);
-			if (SQLcount($sql) > 0) {
-				while ($bc = $sql->FetchRow()) {
-					$menu_miga.='<li><a title="'.LABEL_verDetalle.$bc[tema].'" href="'.URL_BASE.'index.php?tema='.$bc["tema_id"].'&amp;/'.string2url($bc["tema"]).'" >'.$bc["tema"].'</a></li>';
-				}
-			} else {
-				$term = ARRAYverTerminoBasico($bt);
-				$menu_miga.='<li><a title="'.LABEL_verDetalle.$term[tema].'" href="'.URL_BASE.'index.php?tema='.$term["tema_id"].'&amp;/'.string2url($term["tema"]).'" >'.$term["tema"].'</a></li>';
-			}
-			$row_miga.='
-				<ol class="breadcrumb">
-					<li>' . $HTMLterminos['boton_eliminar_TG'] . '</li>
-					<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>' .
-					$menu_miga . '
-				</ol>';
-		}
-	}
+	$HTMLterminos  = doContextoTermino($array["idTema"],$i_profundidad);
 
 	$sqlMiga       = SQLarbolTema($array["idTema"]);
 
@@ -463,10 +459,10 @@ function HTMLbodyTermino($array)
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
 
-	if ($row_miga) {
+	if ($HTMLterminos['miga']) {
 		$body.='<h4>'.ucfirst(LABEL_genericTerms).'</h4>';
 		$body.='<div id="breadScrumb">';
-		$body.=$row_miga;
+		$body.=$HTMLterminos['miga'];
 		$body.='</div>';
 	}
 
