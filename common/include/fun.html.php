@@ -2071,7 +2071,16 @@ function HTMLheader($metadata)
     	<link rel="icon" type="image/x-icon" href="' . T3_WEBPATH . 'images/tematres.ico">
     	<link rel="shortcut icon" type="image/x-icon" href="' . T3_WEBPATH . 'images/tematres.ico">
 
-    	<script src="https://use.fontawesome.com/a9256a563c.js"></script>';
+    	<script src="https://use.fontawesome.com/a9256a563c.js"></script>
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-59465371-2"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag("js", new Date());
+		  gtag("config", "UA-59465371-2");
+		</script>';
 
 	return $rows;
 }
