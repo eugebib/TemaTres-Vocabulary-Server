@@ -1045,12 +1045,12 @@ function HTMLformNullNotesTermReport($array)
 		$i_note=++$i_note;
 		$varNoteType=(in_array($ARRAYnoteType["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC),$ARRAYnoteType["value_id"]) : $ARRAYnoteType["value"];
 		$rows.='<div class="form-group">
-					<input name="note_type_null" type="radio" id="note_type'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["value_code"].'" />
+					<input name="note_type_null" class="option-input radio" type="radio" id="note_type'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["value_code"].'" />
 					<label for="note_type'.$ARRAYnoteType["value_id"].'">'.$varNoteType.'</label>
 				</div>';
 	}
 	$rows.='	<div class="form-group">
-					<input name="note_type_null" type="radio" id="note_typeNULL0" value="0" />
+					<input name="note_type_null" class="option-input radio" type="radio" id="note_typeNULL0" value="0" />
 					<label for="note_typeNULL0">'.ucfirst(LABELnoNotes).'</label>
 				</div>
 				<li class="list-group-item list-group-item-material">

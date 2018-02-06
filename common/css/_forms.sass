@@ -188,3 +188,52 @@ fieldset
         &:focus
             box-shadow: none
 
+.option-input
+    -webkit-appearance: none
+    -moz-appearance: none
+    -ms-appearance: none
+    -o-appearance: none
+    appearance: none
+    position: relative
+    top: 10px
+    right: 0
+    bottom: 0
+    left: 0
+    height: 30px
+    width: 30px
+    transition: all 0.15s ease-out 0s
+    background: #cbd1d8
+    border: none
+    color: #fff
+    cursor: pointer
+    display: inline-block
+    margin-right: 0.5rem
+    outline: none
+    position: relative
+    z-index: 1000
+
+    &:hover
+        background: #dfc49b
+
+    &:checked
+        background: #f0ad4e
+
+        &::before
+            height: 30px
+            width: 30px
+            position: absolute
+            content: '✔'
+            display: inline-block
+            font-size: 26.66667px
+            text-align: center
+            line-height: 30px
+
+    &.radio
+        border-radius: 50%
+        margin-right: 7px
+
+        &::after
+            border-radius: 50%
+
+        &:focus
+            outline: 0px

@@ -1887,10 +1887,10 @@ function paginate_links( $args = '' ) {
 			$body.='</ul>';
 			$body.='</dd>';
 
-			$body.='<dt>'.ucfirst(LABEL_busqueda).'</dt>';
-			$body.='<dd>';
+			//$body.='<dt>'.ucfirst(LABEL_busqueda).'</dt>';
+			//$body.='<dd>';
 			//$body.=HTML_URLsearch($CFG[SEARCH_URL_SITES],$arrayTerm);
-			$body.='</dd> ';
+			//$body.='</dd> ';
 			$body.='</dl> ';
 			# fin Div pie de datos
 
@@ -2058,7 +2058,7 @@ function HTMLheader($metadata)
 	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/t3style.css">
 	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/jquery.autocomplete.css">
 	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/jqtree.css">
-	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/local.css?v=3">
+	    <link rel="stylesheet" href="' . T3_WEBPATH . 'css/local.css?v=4">
 
      	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 

@@ -20,6 +20,9 @@ $CFG["VersionWebService"]        = "1.6";
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
 
+//Config Sites availables for URL search
+$CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
+
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';
 
@@ -148,3 +151,72 @@ $CFG["_HTMLinDATA"] = 1;
 
 # Reporte de errores pero no de noticias (variables no inicializadas);
 error_reporting(E_ALL ^ E_NOTICE);
+
+$CFG["SEARCH_URL_SITES_SINTAX"] = array(
+	'del.icio.us' => array(
+		'favicon' => 'delicious.png',
+		'leyenda' => 'del.icio.us',
+		'url' => 'http://del.icio.us/search/?fr=del_icio_us&amp;p=STRING_BUSQUEDA&amp;type=all',
+		'encode'=>'utf8'
+	),
+	'e-lis' => array(
+		'favicon' => 'e-lis_mini.png',
+		'leyenda' => 'e-lis',
+		'url' => 'http://eprints.rclis.org/perl/search/simple?title%2Fabstract%2Fkeywords=STRING_BUSQUEDA&amp;_action_search=Submit&amp;_order=bytitle&amp;title%2Fabstract%2Fkeywords_srchtype=ALL&amp;_satisfyall=ALL',
+		'encode'=>'utf8'
+	),
+	'wikipedia' => array(
+		'favicon' => 'wikipedia_mini.png',
+		'leyenda' => 'Wikipedia',
+		'url' => 'http://es.wikipedia.org/wiki/Especial:Search?search=STRING_BUSQUEDA&amp;fulltext=Buscar+en+texto',
+		'encode'=>FALSE
+	),
+	'cc' => array(
+		'favicon' => 'cc.png',
+		'leyenda' => 'CreativeCommon',
+		'url' => 'http://search.creativecommons.org/?q=STRING_BUSQUEDA',
+		'encode'=>'utf8'
+	),
+	'Google exacto' => array(
+		'favicon' => 'google.gif',
+		'leyenda' => 'Google b&uacute;squeda exacta',
+		'url' => 'http://www.google.com/search?as_epq=STRING_BUSQUEDA',
+		'encode'=>FALSE
+	),
+	'Google' => array(
+		'favicon' => 'google.gif',
+		'leyenda' => 'Google',
+		'url' => 'http://www.google.com/search?channel=fs&q=STRING_BUSQUEDA',
+		'encode'=>FALSE
+	),
+	'Google scholar' => array(
+		'favicon' => 'goo_scholar.png',
+		'leyenda' => 'Google scholar',
+		'url' => 'http://scholar.google.com/scholar?lr=&amp;ie=UTF-8&amp;q=%22STRING_BUSQUEDA%22&amp;btnG=Search&amp;oe=UTF-8',
+		'encode'=>FALSE
+	),
+	'Google images' => array(
+		'favicon' => 'goo_images.png',
+		'leyenda' => 'Google images',
+		'url' => 'http://images.google.com/images?q=STRING_BUSQUEDA',
+		'encode'=>FALSE
+	),
+	'Google books' => array(
+		'favicon' => 'goo_books.gif',
+		'leyenda' => 'Google books',
+		'url' => 'http://books.google.com/?ie=UTF-8&amp;as_epq=%22STRING_BUSQUEDA%22&amp;btnG=Search',
+		'encode'=>FALSE
+	),
+	'INTI libros' => array(
+		'favicon' => 'inti.ico',
+		'leyenda' => 'Libros INTI',
+		'url' => 'http://www-biblio.inti.gob.ar/cgi-bin/wxis/wxis.exe?IsisScript=descri.xis&bool=STRING_BUSQUEDA&base=cat&inf=1&sup=20',
+		'encode'=>TRUE
+	),
+	'INTI revistas' => array(
+		'favicon' => 'inti.ico',
+		'leyenda' => 'Revistas INTI',
+		'url' => 'http://www-biblio.inti.gob.ar/cgi-bin/wxis/wxis.exe?IsisScript=descri.xis&bool=STRING_BUSQUEDA&base=kardex&inf=1&sup=20',
+		'encode'=>TRUE
+	)
+);
