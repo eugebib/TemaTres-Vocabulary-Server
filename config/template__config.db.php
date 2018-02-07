@@ -17,17 +17,17 @@
 
 $uri          = $_SERVER['REQUEST_URI'];
 
-$vocabularies = ['tesauro', 'test', 'nueva'];
+$vocabularies = array('tesauro', 'test', 'nueva');
 
-$prefixes     = [
+$prefixes     = array(
     'tesauro' => 'bnm_',
     'test' => 'test_',
     'nueva' => 'nueva_'
-];
+);
 
 list($vocabulary, $page) = getVocabulary($uri, $vocabularies);
 
-$DBCFG = [
+$DBCFG = array(
     "DBdriver"  => "", // MySQLi (default), mysql, postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
     "Server"    => "localhost",
     "DBName"    => "",
@@ -37,9 +37,10 @@ $DBCFG = [
     "debugMode" => "1",
     'URL'       => '',
     "DBprefix"  => $prefixes[$vocabulary]
-];
+);
 
 define('URL_BASE', $DBCFG['URL'] . $vocabulary. '/');
+define('T3_WEBPATH', $DBCFG['URL'] . '/common/');
 
 define('CFG_HASH_PASS','1'); // Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)
 
@@ -49,6 +50,8 @@ define('CFG_HASH_PASS','1'); // Define if storage hashed passwords or not  (1 = 
 
 function getVocabulary($uri, $vocabularies)
 {
+    global $DBCFG;
+
     preg_match('#(\w+)\/?(\w+)?#', $uri, $matches);
 
     if ( ! isset($matches[1]) || ! in_array($matches[1], $vocabularies)) {
@@ -65,7 +68,7 @@ function getVocabulary($uri, $vocabularies)
         $page = $matches[2];
     }
 
-    return [$matches[1], $page];
+    return array($matches[1], $page);
 }
 
 
