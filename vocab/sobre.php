@@ -151,7 +151,10 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
                 <div class="span5">
                     <h4><?= mb_strtoupper(LABEL_Version, 'UTF-8') ?></h4>
-                    <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?= $CFG["Version"] ?></a>
+                    <img src="../common/images/tematreslogo.png" width="30px">&nbsp;&nbsp;
+                    <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">
+                        <?= $CFG["Version"] ?>
+                    </a>
                 </div>
 
             </div>
@@ -215,7 +218,7 @@ $ARRAYmailContact = ARRAYfetchValue('CONTACT_MAIL');
 
 function getQtyXTop()
 {
-    $filename = local_path . 'qtyXTop';
+    $filename = 'qtyXTop.json';
     if (file_exists($filename)) {
         $cache = file_get_contents($filename);
         $json  = json_decode($cache, true);
@@ -247,7 +250,7 @@ function getQtyXTop()
 
 function getQtyXLevel()
 {
-    $filename = local_path . 'qtyXLevel';
+    $filename = 'qtyXLevel.json';
     if (file_exists($filename)) {
         $cache = file_get_contents($filename);
         $json  = json_decode($cache, true);
