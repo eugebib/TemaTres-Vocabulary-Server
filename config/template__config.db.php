@@ -17,6 +17,17 @@
 
 $uri          = $_SERVER['REQUEST_URI'];
 
+$DBCFG = array(
+    "DBdriver"  => "", // MySQLi (default), mysql, postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
+    "Server"    => "localhost",
+    "DBName"    => "",
+    "DBLogin"   => "",
+    "DBPass"    => "",
+    "DBcharset" => "utf8",
+    "debugMode" => "1",
+    'URL'       => ''
+);
+
 $vocabularies = array('tesauro', 'test', 'nueva');
 
 $prefixes     = array(
@@ -27,19 +38,10 @@ $prefixes     = array(
 
 list($vocabulary, $page) = getVocabulary($uri, $vocabularies);
 
-$DBCFG = array(
-    "DBdriver"  => "", // MySQLi (default), mysql, postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
-    "Server"    => "localhost",
-    "DBName"    => "",
-    "DBLogin"   => "",
-    "DBPass"    => "",
-    "DBcharset" => "utf8",
-    "debugMode" => "1",
-    'URL'       => '',
-    "DBprefix"  => $prefixes[$vocabulary]
-);
+$DBCFG["DBprefix"] = $prefixes[$vocabulary];
 
 define('URL_BASE', $DBCFG['URL'] . $vocabulary. '/');
+
 define('T3_WEBPATH', $DBCFG['URL'] . '/common/');
 
 define('CFG_HASH_PASS','1'); // Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)
