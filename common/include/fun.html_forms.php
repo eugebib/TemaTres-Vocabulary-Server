@@ -1205,7 +1205,6 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 }
 
 
-
 function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$tema_id)
 {
 	GLOBAL $CFG;
@@ -1213,7 +1212,7 @@ function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$
 	session_start();
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
 	$tag_type='ol';
-	$rows.='<h3>'.$dataTerm->resume->cant_result.' '.MSG_ResultBusca.' <i>'.$string_search.'</i>  ('.FixEncoding($arrayVocab[tvocab_title]).' - '.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>'."\n\r";
+	$rows.='<h3>'. ($dataTerm->resume->cant_result ?: '0') .' '.MSG_ResultBusca.' <i>'.$string_search.'</i>  ('.FixEncoding($arrayVocab[tvocab_title]).' - '.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>'."\n\r";
 
 	if($dataTerm->resume->cant_result > "0")	{
 		$rows.='<'.$tag_type.'>';

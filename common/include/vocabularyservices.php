@@ -109,36 +109,27 @@ Hacer una consulta y devolver un objeto
 * +    & task = consulta a realizar
 * +    & arg = argumentos de la consulta
 */
-function getURLdata($url,$debug=0){
+function getURLdata($url,$debug=0)
+{
+    if (extension_loaded('curl')) {
+        $rCURL = curl_init();
+        curl_setopt($rCURL, CURLOPT_URL, $url);
+        curl_setopt($rCURL, CURLOPT_HEADER, 0);
+        curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
+        $xml = curl_exec($rCURL) or die ("Could not open a feed called: " . $url);
+        curl_close($rCURL);
+    } else {
+        $xml=file_get_contents($url) or die ("Could not open a feed called: " . $url);
+    }
 
+    $content = new SimpleXMLElement($xml);
 
-  if (extension_loaded('curl'))
-  {
-    $rCURL = curl_init();
-    curl_setopt($rCURL, CURLOPT_URL, $url);
-    curl_setopt($rCURL, CURLOPT_HEADER, 0);
-    curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
-    $xml = curl_exec($rCURL) or die ("Could not open a feed called: " . $url);
-    curl_close($rCURL);
+    if ($debug==1) {
+        echo $url;
+        var_dump($xml);
+    }
 
-  }
-  else
-  {
-    $xml=file_get_contents($url) or die ("Could not open a feed called: " . $url);
-  }
-
-  $content = new SimpleXMLElement($xml);
-
-
-
-  if($debug==1)
-  {
-    echo $url;
-    var_dump($xml);
-  }
-
-
-  return $content;
+    return $content;
 }
 
 
