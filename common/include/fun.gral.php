@@ -1498,6 +1498,7 @@ function checkValidRol($arrayUser,$task)
     }
     switch ($arrayUser["nivel"]) {
         case '1'://admin
+        case '3':
             $result=in_array($task, $adminTask);
             break;
         case '2'://editor
