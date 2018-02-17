@@ -304,10 +304,13 @@ print ($encode=='latin1') ? latin1($CSV) : utf8($CSV);
 }
 
 
-//From TematresView by Nicolas Poulain
-function secure_data($data,$type="alnum") {
 
-	switch ( $type ) {
+#
+# From TematresView by Nicolas Poulain
+#
+function secure_data($data,$type="alnum")
+{
+	switch ($type) {
 		case "alnum" :
 			// suppression des caracteres pas catholiques
 			$data = preg_replace('/^\W+|\W+$/', '', $data);
@@ -321,21 +324,18 @@ function secure_data($data,$type="alnum") {
 			$data = preg_replace('/\s/', '', $data) ;
 		break ;
 
-
 		case "ADOsql" :
-		GLOBAL $DB;
-		$data = trim($data);
-		$data=$DB->qstr($data,get_magic_quotes_gpc());
+    		GLOBAL $DB;
+    		$data = trim($data);
+    		$data=$DB->qstr($data,get_magic_quotes_gpc());
 		break ;
-
 
 		case "sql" :
 			$data = trim($data);
 			// vire les balises
 			$data = strip_tags($data) ;
 
-			if (is_numeric($data)  || $data === null)
-			{
+			if (is_numeric($data)  || $data === null) {
                 return $data;
             }
 			// zappe le magic_quote d�pr�ci�
@@ -358,18 +358,17 @@ function secure_data($data,$type="alnum") {
 		break ;
 
 		case "int" : // int
-			$data =(int)preg_replace('|[^0-9.]|i', '', $data);
-
-			if ( $data == "" ) $data = 0 ;
+			$data = (int) preg_replace("/[^0-9]/", "", $data);
+			if ($data == "") $data = 0 ;
 		break ;
 
 		default : // int
 			$data =(int)preg_replace('|[^0-9.]|i', '', $data);
-
 			if ( $data == "" ) $data = 0 ;
 		break ;
 	}
-	return $data ;
+
+	return $data;
 }
 
 

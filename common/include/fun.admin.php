@@ -90,7 +90,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
 				}
 			}
 			# Alta de término subordinado
-			if ($_POST[id_termino_sub]) {
+			if ($_POST["id_termino_sub"]) {
 				$proc=associateTerms($_POST["id_termino_sub"],doValue($_POST,FORM_LABEL_termino),"3",$_POST["t_rel_rel_id"]);
 				$tema=$proc["last_term_id"];
 				if(count($proc["arrayDupliTerms"])>0) {
@@ -98,7 +98,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
 				}
 			}
 			# Alta de término no preferido
-			if($_POST[id_termino_uf]){
+			if($_POST["id_termino_uf"]){
 				$proc=associateTerms($_POST["id_termino_uf"],doValue($_POST,FORM_LABEL_termino),"4",$_POST["t_rel_rel_id"]);
 				$tema=$proc["last_term_id"];
 				if(count($proc["arrayDupliTerms"])>0){
@@ -106,7 +106,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
 				}
 			}
 			# Alta de término relacionado
-			if($_POST[id_termino_rt]){
+			if($_POST["id_termino_rt"]){
 				$proc=associateTerms($_POST["id_termino_rt"],doValue($_POST,FORM_LABEL_termino),"2",$_POST["t_rel_rel_id"]);
 				$tema=$proc["last_term_id"];
 				if(count($proc["arrayDupliTerms"])>0){
@@ -156,12 +156,14 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
 		case 'updTgetTerm'://actualiza término de WS
 			$up_relacion=abm_target_tema("U",$_GET["tema"],$_GET["tvocab_id"],$_GET["tgetTerm_id"],$_GET["tterm_id"]);
 		break;
+
 		case 'addRT':
-			for($i=0; $i<sizeof($_GET["rema_id"]);++$i){
-				$new_relacion=do_terminos_relacionados($_GET["rema_id"][$i],$_GET["tema"]);
-				}
-			$tema=$_GET["tema"];
+			for ($i = 0; $i < sizeof($_GET["rema_id"]); ++$i) {
+				$new_relacion = do_terminos_relacionados($_GET["rema_id"][$i],$_GET["tema"]);
+			}
+			$tema = $_GET["tema"];
 		break;
+
 		case 'addBT':
 			$new_relacion=do_r($_GET["rema_id"],$_GET["tema"],"3");
 			$tema=$_GET["rema_id"];
@@ -392,22 +394,24 @@ function doArrayDatosTesauro($array)
 #
 function do_terminos_relacionados($id_mayor,$id_menor,$rel_rel_id=0)
 {
-	$evalRecursividad_ida=evalRelacionSuperior($id_mayor,'0',$id_menor);
-	$evalRecursividad_vuelta=evalRelacionSuperior($id_menor,'0',$id_mayor);
-	if(($evalRecursividad_ida==TRUE)&&($evalRecursividad_vuelta==TRUE)){
+	$evalRecursividad_ida    = evalRelacionSuperior($id_mayor,'0',$id_menor);
+	$evalRecursividad_vuelta = evalRelacionSuperior($id_menor,'0',$id_mayor);
+	if ($evalRecursividad_ida && $evalRecursividad_vuelta) {
 		#1. Alta de relaci�n de ida
 		#2. Alta de relaci�n de vuelta
-		$new_relacionIda=do_r($id_mayor,$id_menor,"2",$rel_rel_id);
-		$new_relacionVuelta=do_r($id_menor,$id_mayor,"2",$rel_rel_id);
-		$msg='';
-		$log=true;
-	}else{
-		$msg='<p class="error">'.MSGL_relacionIlegal.'</p>';;
-		$log=false;
+		$new_relacionIda    = do_r($id_mayor,$id_menor,"2",$rel_rel_id);
+		$new_relacionVuelta = do_r($id_menor,$id_mayor,"2",$rel_rel_id);
+		$msg                = '';
+		$log                = true;
+	} else {
+		$msg = '<p class="error">'.MSGL_relacionIlegal.'</p>';;
+		$log = false;
 	}
 
 	return array("id_tema"=>$id_menor,"msg_error"=>$msg,"log"=>$log);
 }
+
+
 
 #
 # ALTA DE TERMINOS RELACIONADOS (todo tipo de relacion)
@@ -415,16 +419,19 @@ function do_terminos_relacionados($id_mayor,$id_menor,$rel_rel_id=0)
 function do_r($id_mayor,$id_menor,$t_relacion,$rel_rel_id=0)
 {
 	GLOBAL $DBCFG;
-	$tema_id=secure_data($_POST["id_tema"],"int");
-	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+	$tema_id = secure_data($_POST["id_tema"],"int");
+
+	$userId  = $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
 	// Evaluar recursividad
-	$evalRecursividad=evalRelacionSuperior($id_mayor,'0',$id_menor);
+	$evalRecursividad = evalRelacionSuperior($id_mayor,'0',$id_menor);
 	// Evaluar si son valores numericos
 	if(	(is_numeric($id_menor) && 	is_numeric($id_mayor) && is_numeric($t_relacion) )	)	{
 		$okValues = TRUE;
-		};
+	}
 		//si es una relación consigo mismo
-		if($id_mayor==$id_menor) return array("id_tema"=>$id_mayor,"msg_error"=>'<p class="error">'.MSGL_relacionIlegal.'</p>',"log"=>"false");
+	if($id_mayor==$id_menor) return array("id_tema"=>$id_mayor,"msg_error"=>'<p class="error">'.MSGL_relacionIlegal.'</p>',"log"=>"false");
 	# NO es una relacion recursiva
 	if(($evalRecursividad == TRUE) && ($okValues == TRUE)){
 			$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
@@ -440,10 +447,13 @@ function do_r($id_mayor,$id_menor,$t_relacion,$rel_rel_id=0)
 			$log=false;
 		}
 
-	return array("id_tema"=>$tema_id,
-							"id_mayor"=>$id_mayor,
-							"id_menor"=>$id_menor,
-							 "msg_error"=>$msg,"log"=>$log);
+	return array(
+		"id_tema"   => $tema_id,
+		"id_mayor"  => $id_mayor,
+		"id_menor"  => $id_menor,
+		"msg_error" => $msg,
+		"log"       => $log
+	);
 }
 
 function actualizaListaArbolAbajo($tema_id)
