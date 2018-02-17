@@ -24,7 +24,7 @@ $DBCFG = array(
     "DBLogin"   => "",
     "DBPass"    => "",
     "DBcharset" => "utf8",
-    "debugMode" => "1",
+    "debugMode" => "0",
     'URL'       => ''
 );
 

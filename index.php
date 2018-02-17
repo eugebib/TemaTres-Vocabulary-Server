@@ -9,10 +9,16 @@
 #                                                                  #
 ####################################################################
 
+require 'common/include/functions.php';
+
+require 'config/config.vocs.php';
+
 require 'config/config.db.php';
 
 require 'config/config.tematres.php';
 
-require 'config/config.session.php';
+if ($page != 'install') {
+    require 'config/config.session.php';
+}
 
 require('vocab/' . $page . '.php');

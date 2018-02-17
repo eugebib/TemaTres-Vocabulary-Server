@@ -111,6 +111,10 @@ if (date_default_timezone_get() != ini_get('date.timezone')) {
     date_default_timezone_set('Etc/UTC');
 }
 
+if ( !defined('T3_WEBPATH')) {
+    define('T3_WEBPATH', getURLbase().'../common/');
+}
+
 require_once(T3_ABSPATH . 'common/include/fun.sql.php');
 require_once(T3_ABSPATH . 'common/include/fun.xml.php');
 require_once(T3_ABSPATH . 'common/include/fun.html.php');
