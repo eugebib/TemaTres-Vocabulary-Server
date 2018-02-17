@@ -43,6 +43,11 @@ function getVocabulary($vocabularies)
     preg_match('#(\w+)\/?(\w+)?#', $uri, $matches);
 
     if ( ! isset($matches[1]) || ! array_key_exists($matches[1], $vocabularies)) {
+        if (file_exists('views/menu-local.view.php')) {
+            require 'views/menu-local.view.php';
+            die;
+        }
+
         echo 'No existe vocabulario. Probá con... <br>';
 
         foreach ($vocabularies as $k => $v) {

@@ -1,0 +1,16 @@
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+  .boxes .box {
+    flex-grow: 1;
+    border: 1px solid #193848;
+    padding: 15px;
+    background-color: #193848;
+    color: white;
+    height: 150px;
+    font-size: 20px; }
+    .boxes .box:not(:first-child) {
+      margin-left: 15px; }
+
+/*# sourceMappingURL=local.css.map */

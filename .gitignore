@@ -4,3 +4,5 @@ config/config\.local\.php
 config/config\.db\.php
 
 config/config\.vocs\.php
+
+views/menu-local\.view\.php
