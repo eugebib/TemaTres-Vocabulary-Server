@@ -106,12 +106,16 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
 	return $rows;
 }
 
+
 function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 {
 	GLOBAL $new_relacion;
 
-	$link_term   = HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
-	$cant_result = null;
+	$link_term    = HTMLlinkTerm(array(
+		"tema_id" => $ARRAYtermino["tema_id"],
+		"tema"    => $ARRAYtermino["titTema"]
+	));
+	$cant_result  = null;
 	$button_label = LABEL_Relacionar;
 
 	switch ($taskterm) {
@@ -263,6 +267,8 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id="0")
 
 	if ($new_relacion["log"] == true) {
 		$rows.='<p class="success">'.ucfirst(LABEL_saved).'</p>';
+	} else {
+		$rows.='<p class="danger">'.$new_relacion['msg_error'].'</p>';
 	}
 
 	$rows .='

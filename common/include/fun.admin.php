@@ -162,7 +162,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
 				$new_relacion = do_terminos_relacionados($_GET["rema_id"][$i],$_GET["tema"]);
 			}
 			$tema = $_GET["tema"];
-		break;
+			break;
 
 		case 'addBT':
 			$new_relacion=do_r($_GET["rema_id"],$_GET["tema"],"3");
@@ -389,13 +389,15 @@ function doArrayDatosTesauro($array)
 	return $arrayDatos;
 }
 
+
+
 #
 # ALTA DE TERMINOS RELACIONADOS (solo TR)
 #
-function do_terminos_relacionados($id_mayor,$id_menor,$rel_rel_id=0)
+function do_terminos_relacionados($id_mayor, $id_menor, $rel_rel_id = 0)
 {
-	$evalRecursividad_ida    = evalRelacionSuperior($id_mayor,'0',$id_menor);
-	$evalRecursividad_vuelta = evalRelacionSuperior($id_menor,'0',$id_mayor);
+	$evalRecursividad_ida    = evalRelacionSuperior($id_mayor,'0', $id_menor);
+	$evalRecursividad_vuelta = evalRelacionSuperior($id_menor,'0', $id_mayor);
 	if ($evalRecursividad_ida && $evalRecursividad_vuelta) {
 		#1. Alta de relaci�n de ida
 		#2. Alta de relaci�n de vuelta
@@ -408,7 +410,11 @@ function do_terminos_relacionados($id_mayor,$id_menor,$rel_rel_id=0)
 		$log = false;
 	}
 
-	return array("id_tema"=>$id_menor,"msg_error"=>$msg,"log"=>$log);
+	return array(
+		"id_tema"   => $id_menor,
+		"msg_error" => $msg,
+		"log"       => $log
+	);
 }
 
 

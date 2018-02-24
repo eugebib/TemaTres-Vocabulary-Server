@@ -14,7 +14,7 @@ include("config.tematres.php");
 $metadata = do_meta_tag();
 
 /*term reporter*/
-if (($_GET[mod] == 'csv') && (substr($_GET[task],0,3) == 'csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
+if (($_GET["mod"] == 'csv') && (substr($_GET["task"],0,3) == 'csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 	return wichReport($_GET["task"]);
 }
 

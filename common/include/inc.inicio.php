@@ -48,6 +48,7 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 	echo HTMLlistaTerminosEstado($_GET["estado_id"],CFG_NUM_SHOW_TERMSxSTATUS);
 	echo '</div>';
 }
+
 //Vista de términos según estados
 elseif($_GET["s"]=='n'){
 	echo '<div class="container" id="bodyText">';
@@ -59,7 +60,8 @@ elseif(($_GET["xsearch"]=='1')){
 	echo '<div class="container" id="bodyText">';
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
-} elseif (($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])) {
+
+} elseif (($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
 
 	echo '<div id="bodyText">';
 	echo HTMLformSimpleTermReport($_GET);
@@ -68,7 +70,7 @@ elseif(($_GET["xsearch"]=='1')){
 	echo HTMLformMappedTermReport($_GET);
 	echo '</div>';
 
-} elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')){
+} elseif ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $_GET["mod"]=='trad') {
 	if($_POST["task"]=='map4localTargetVocab'){
 	    $tasks=addLocalTargetTerms($_POST["tvocab_id"],$_POST);
   	}
@@ -82,6 +84,7 @@ elseif(($_GET["xsearch"]=='1')){
 	} else {
 		echo HTMLselectTargetVocabulary();
   	}
+
 } elseif (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) && ($_GET["verT"])) {
 	echo '<div class="container" id="bodyText">';
 	switch ($_GET["verT"]) {
