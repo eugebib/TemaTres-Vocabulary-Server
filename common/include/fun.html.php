@@ -414,7 +414,7 @@ function HTMLbodyTermino($array)
 		if ($array["isMetaTerm"] == 1) {
 			$metaterm = '<span>(metatérmino)</span>';
 		}
-		$body.='<div class="editable_term">
+		$body.='<div class="editable_term estado_termino' . $array['estado_id'] . '">
 					<span>'.HTMLshowCode($array).'</span>
 					<h3 class="term" id="term">
 						<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span>
