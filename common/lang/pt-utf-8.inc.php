@@ -12,26 +12,69 @@
 define("LANG","pt");
 
 $paises = array(
-  'ar' => 'Argentina',
-  'br' => 'Brasil',
-  'py' => 'Paraguai',
-  'uy' => 'Uruguai',
-  've' => 'Venezuela'
+    'ar' => 'Argentina',
+    'br' => 'Brasil',
+    'py' => 'Paraguai',
+    'uy' => 'Uruguai',
+    've' => 'Venezuela'
 );
 
-define("TR_acronimo","TR");
-define("TE_acronimo","TE");
-define("TG_acronimo","TG");
-define("UP_acronimo","UP");
-define("TR_termino","Termo relacionado");
-define("TE_termino","Termo específico");
-define("TG_termino","Termo geral");
-define("TT_termino","Termo superior");
-define("UP_termino","Usado para");
-/* v 9.5 */
-define("USE_termino","use");
-define("MENU_ListaSis","Lista sistemática");
-define("MENU_ListaAbc","Lista alfabética");
+$MONTHS = array(
+    "01" => "Jan",
+    "02" => "Fev",
+    "03" => "Mar",
+    "04" => "Abr",
+    "05" => "Mai",
+    "06" => "Jun",
+    "07" => "Jul",
+    "08" => "Ago",
+    "09" => "Set",
+    "10" => "Out",
+    "11" => "Nov",
+    "12" => "Dez",
+);
+
+define("RT_acronym","TR");
+define("RT_term","termo relacionado");
+define("NT_acronym","TE");
+define("NT_term","termo específico");
+define("BT_acronym","TG");
+define("BT_term","termo geral");
+define("UF_acronym","UP");
+define("UF_term","usado para");
+define("TT_term","termo superior");
+define("USE_term","use");
+define("metaterm","meta-termo");
+define('metaterms','meta-termos');
+
+define("note","nota");
+
+define("ScopeNote_acronym","NE");
+define("ScopeNote","nota de escopo");
+define("ScopeNotes","notas de escopo");
+
+define("BibliographicNote_acronym","NB");
+define("BibliographicNote","nota bibliográfica");
+define("LABEL_NH","Nota histórica");
+define("LABEL_NP","Nota privada");
+define("LABEL_NC","Nota do catalogador");
+
+define("LABEL_NBs","Notas bibliográficas");
+define("LABEL_NHs","Notas históricas");
+define("LABEL_NPs","Notas privadas");
+define("LABEL_NCs","Notas do catalogador");
+
+define("NH_acronimo","NH");
+define("NP_acronimo","NP");
+define("NC_acronimo","NC");
+
+define("systematiclist","lista sistemática");
+define("alphabeticlist","lista alfabética");
+
+/* user */
+define("firstname","nome");
+define("lastname","sobrenome");
+
 define("MENU_Abc","alfabético");
 define("MENU_Sobre","Sobre este vocabulário");
 define("MENU_Stats","Estatística");
@@ -64,9 +107,7 @@ define("LABEL_EditorTermino","Editor de termo");
 define("LABEL_Termino","termo");
 define("LABEL_Terminos","termos");
 define("LABEL_Relaciones","Relacãos");
-define("LABEL_Metatermino","Meta-termo");
 define("LABEL_CrearTermino","Adicionar novo/s termo/s");
-define("LABEL_NotaAlcance","Nota de escopo");
 define("LABEL_AgregarT","Novo termo subordinado");
 define("LABEL_AgregarTG","Subordinar %s a um termo superior");
 define("LABEL_AgregarTE","Novo termo subordinado a ");
@@ -96,7 +137,7 @@ define("LABEL_AdminUser","Administração de usuários");
 define("LABEL_DatosUser","Dados do usuário");
 define("LABEL_Acciones","Tarefas");
 define("LABEL_verEsquema","Mostrar esquema");
-define("LABEL_actualizar","Atualizar");
+define("update","atualizar");
 define("LABEL_terminosLibres","Termos livres");
 define("LABEL_busqueda","Busca");
 define("LABEL_borraRelacion","eliminar relação");
@@ -111,14 +152,12 @@ define("FORM_JS_confirmPass","_repetir_clave");
 define("FORM_LABEL_termino","_termino");
 define("FORM_LABEL_buscar","_expresion_de_busqueda");
 define("FORM_LABEL_buscarTermino","_termino_relacionado");
-define("FORM_LABEL_nombre","_nombre");
-define("FORM_LABEL_apellido","_apellido");
+define("FORM_firstname","_nombre");
+define("FORM_lastname","_apellido");
 define("FORM_LABEL_mail","_correo_electronico");
 define("FORM_LABEL_pass","_clave");
 define("FORM_LABEL_repass","_confirmar_clave");
 define("FORM_LABEL_orga","orga");
-define("LABEL_nombre","nome");
-define("LABEL_apellido","sobrenome");
 define("LABEL_mail","e-mail");
 define("LABEL_pass","senha");
 define("LABEL_repass","confirmar senha");
@@ -144,24 +183,11 @@ define("FORM_LABEL_Descargar","Download");
 define("LABEL_verDetalle","mostrar detalhes de ");
 define("LABEL_verTerminosLetra","mostrar termos iniciados com ");
 
-define("LABEL_NB","Nota bibliográfica");
-define("LABEL_NH","Nota histórica");
-define("LABEL_NA","Nota de escopo"); /* version 0.9.1 */
-define("LABEL_NP","Nota privada");    /* version 0.9.1 */
-define("LABEL_NC","Nota do catalogador");
-
-define("LABEL_NBs","Notas bibliográficas");
-define("LABEL_NHs","Notas históricas");
-define("LABEL_NAs","Notas de escopo"); /* version 0.9.1 */
-define("LABEL_NPs","Notas privadas");    /* version 0.9.1 */
-define("LABEL_NCs","Notas do catalogador");
-
 define("LABEL_EditorNota","Editor de notas");
 define("LABEL_EditorNotaTermino","Notas do termo ");
 define("LABEL_tipoNota","tipo de nota");
 define("LABEL_Orden","ordem");
 define("FORM_LABEL_tipoNota","tipo_nota");
-define("LABEL_nota","nota");
 define("FORM_LABEL_nota","_nota");
 define("LABEL_EliminarNota","Excluir nota");
 define("LABEL_OptimizarTablas","Otimizar tabelas");
@@ -185,19 +211,6 @@ define("LABEL_terminosRepetidos","termos repetidos");
 define("MSG_noTerminosLibres","não existem termos livres");
 define("MSG_noTerminosRepetidos","não existem termos repetidos");
 define("LABEL_TotalSkosLine","Tesauro completo em Skos-Core");
-$MONTHS=array("01"=>"Jan",
-              "02"=>"Fev",
-              "03"=>"Mar",
-              "04"=>"Abr",
-              "05"=>"Mai",
-              "06"=>"Jun",
-              "07"=>"Jul",
-              "08"=>"Ago",
-              "09"=>"Set",
-              "10"=>"Out",
-              "11"=>"Nov",
-              "12"=>"Dez",
-              );
 /* v 9.4 */
 define("LABEL_SI","SIM");
 define("LABEL_NO","NÃO");
@@ -229,11 +242,6 @@ define("LABEL_export","exportação");
 define("FORM_LABEL_format_export","selecione esquema XML");
 /* v 1.0 */
 define("LABEL_fecha_creacion","criado");
-define("NB_acronimo","NB");
-define("NH_acronimo","NH");
-define("NA_acronimo","NE");
-define("NP_acronimo","NP");
-define("NC_acronimo","NC");
 define("LABEL_Candidato","termo candidato");
 define("LABEL_Aceptado","termo aceito");
 define("LABEL_Rechazado","termo não aceito");
@@ -347,7 +355,6 @@ define('LABEL_enable',"habilitar");
 define('LABEL_disable',"disabilitar");
 define('LABEL_notFound',"termo não encontrado");
 define('LABEL_termUpdated',"termo atualizado");
-define('LABEL_ShowTargetTermforUpdate',"atualizar");
 define('LABEL_relbetweenVocabularies',"relações entre vocabulários");
 define('LABEL_update1_1x1_2',"Atualizar Tematres (1.1 -> 1.3)");
 define('LABEL_update1x1_2',"Atualizar Tematres (1.0x -> 1.3)");
@@ -472,8 +479,6 @@ define('LABEL_turnOnnotEquivalent','não tem equivalência');
 define('LABEL_turnOffnotApplicable','sim, se aplica no âmbito educacional');
 define('LABEL_turnOnnotApplicable','não se aplica no âmbito educacional');
 
-define('LABEL_meta_term','meta-termo');
-define('LABEL_meta_terms','meta-termos');
 define('LABEL_relatedTerms','termos relacionados');
 define('LABEL_nonPreferedTerms','termos não preferidos');
 define('LABEL_update1_6x1_7','Atualizar Tematres (1.6 -> 2.2)');
@@ -488,7 +493,7 @@ define('MSG__need2setup_endpoint','O ponto de consulta SPARQL precisa ser atuali
 define('LABEL_SPARQLEndpoint','SPARQL endpoint');
 define('LABEL_AgregarRTexist','associar um termo associado existente con');
 define('MENU_selectExistTerm','selecione termo existente');
-define("TT_terminos","Termos superiores");
+define("TT_terms","Termos superiores");
 ## v1.72
 define('MSG__warningDeleteTerm','El término <i>%s</i> será <strong>ELIMINADO</strong>.');
 define('MSG__warningDeleteTerm2row','Se eliminarán <strong>todas</strong> sus notas y relaciones terminológicas. Esta acción es irreversible.');

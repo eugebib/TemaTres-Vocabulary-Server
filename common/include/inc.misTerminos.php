@@ -46,15 +46,15 @@ $rows.='	<div class="row">
 			            <div class="panel-body form-horizontal">';
 
 			$rows.='<div class="form-group">
-			           <label for="nombre" class="col-sm-3 control-label">'.ucfirst(LABEL_nombre).'</label>
+			           <label for="nombre" class="col-sm-3 control-label">'.ucfirst(firstname).'</label>
 			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control" required id="nombre" placeholder="'.LABEL_nombre.'" name="'.FORM_LABEL_nombre.'" value="'.$dato_user["nombres"].'">
+			                        <input type="text" class="form-control" required id="nombre" placeholder="'.firstname.'" name="'.FORM_firstname.'" value="'.$dato_user["nombres"].'">
 			                    </div>
 			         </div>';
 			$rows.='<div class="form-group">
-			           <label for="apellido" class="col-sm-3 control-label">'.ucfirst(LABEL_apellido).'</label>
+			           <label for="apellido" class="col-sm-3 control-label">'.ucfirst(lastname).'</label>
 			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control"  id="apellido" required placeholder="'.LABEL_apellido.'" name="'.FORM_LABEL_apellido.'" value="'.$dato_user["apellido"].'">
+			                        <input type="text" class="form-control"  id="apellido" required placeholder="'.lastname.'" name="'.FORM_lastname.'" value="'.$dato_user["apellido"].'">
 			                    </div>
 			         </div>';
 			$rows.='<div class="form-group">

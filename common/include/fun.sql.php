@@ -246,7 +246,7 @@ function SQLsearchInNotes($texto,$params=array()){
 
 	$texto=trim($texto);
 
-	$codUP=UP_acronimo;
+	$codUP=UF_acronym;
 
 	//Control de estados
 	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
@@ -296,7 +296,7 @@ function SQLstartWith($texto){
 	$texto=(CFG_SUGGESTxWORD==1) ? secure_data("[[:<:]]$texto","ADOsql") : secure_data("$texto%","ADOsql");
 	$texto=str_replace(array('a','e','i','o','u'),array('[a|á]','[e|é]','[i|í]','[o|ó]','[u|ú]'),$texto);
 
-	$codUP=UP_acronimo;
+	$codUP=UF_acronym;
 
 	//Control de estados
 	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
@@ -368,7 +368,7 @@ function SQLbuscaExacta($texto)
 	GLOBAL $DB;
 	$texto = trim($texto);
 	$texto = $DB->qstr($texto,get_magic_quotes_gpc());
-	$codUP = UP_acronimo;
+	$codUP = UF_acronym;
 
 	//Control de estados
 	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
@@ -1393,13 +1393,13 @@ function SQLreportAllRelations($vocab_id)
 
 
 
-  $r2=TR_acronimo;
+  $r2=RT_acronym;
 
 
-  $r3=TG_acronimo.'/'.TE_acronimo;
+  $r3=BT_acronym.'/'.NT_acronym;
 
 
-  $r4=UP_acronimo.'/'.USE_termino;
+  $r4=UF_acronym.'/'.USE_term;
 
 
 
@@ -1544,7 +1544,7 @@ function SQLlistTermsfromDate($month,$year,$ord=""){
 		$orderBy=" order by tema.cuando desc";
 
 	}
-	$codUP=UP_acronimo;
+	$codUP=UF_acronym;
 
 	$sql=SQLo("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.isMetaTerm,
 	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
@@ -1570,7 +1570,7 @@ function SQLlastTerms($limit="50"){
 
 	GLOBAL $DBCFG;
 	GLOBAL $CFG;
-	$codUP=UP_acronimo;
+	$codUP=UF_acronym;
 
 	#exclude hidden labels
 	$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
@@ -1628,7 +1628,7 @@ function SQLlastTerms($limit="50"){
 function SQLterminosEstado($estado_id,$limite=""){
 	GLOBAL $DBCFG;
 
-	$codUP=UP_acronimo;
+	$codUP=UF_acronym;
 
 	if(@$limite)
 	{
@@ -1724,7 +1724,7 @@ function SQLlistTermsfromUser($id_user,$ord=""){
 		default:
 		$orderBy=" order by tema.cuando desc";
 	}
-	$codUP=UP_acronimo;
+	$codUP=UF_acronym;
 
 	$id_user=secure_data($id_user,"int");
 
@@ -1765,7 +1765,7 @@ function ARRAYresumen($id_tesa,$tipo,$idUser="")
 	$sqlCantNotas = SQLcantNotas();
 	$cant_notas = array();
 	while ($array = $sqlCantNotas->FetchRow()) {
-		$note_type = in_array($array["value_id"],array(8,9,10,11,15)) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NAs, LABEL_NHs, LABEL_NBs, LABEL_NPs, LABEL_NCs),$array["value_id"]) : $array["value"];
+		$note_type = in_array($array["value_id"],array(8,9,10,11,15)) ? arrayReplace(array(8,9,10,11,15),array(ScopeNotes, LABEL_NHs, LABEL_NBs, LABEL_NPs, LABEL_NCs),$array["value_id"]) : $array["value"];
 
 		$cant_notas[$note_type] = $array["cant"];
 	}
@@ -3935,7 +3935,7 @@ function SQLtermsXrelatedTerms($tesauro_id,$tema_id=0)
 
 	$tesauro_id=secure_data($tesauro_id,"int");
 
-	$r_label=TR_acronimo;
+	$r_label=RT_acronym;
 
 	$tema_id=secure_data($tema_id,"int");
 
@@ -3966,7 +3966,7 @@ function SQLtermsXNonPreferedTerms($tesauro_id,$tema_id=0)
 
 	$tesauro_id=secure_data($tesauro_id,"int");
 
-	$r_label=UP_acronimo;
+	$r_label=UF_acronym;
 
 	$tema_id=secure_data($tema_id,"int");
 
@@ -4326,9 +4326,9 @@ function SQLrelationsSinceDate($sinceDate,$limit=50)
   GLOBAL $DBCFG;
 
   $vocab_id=1;
-  $r2=TR_acronimo;
-  $r3=TG_acronimo.'/'.TE_acronimo;
-  $r4=UP_acronimo.'/'.USE_termino;
+  $r2=RT_acronym;
+  $r3=BT_acronym.'/'.NT_acronym;
+  $r4=UF_acronym.'/'.USE_term;
 
 $limit=(secure_data($limit,"int")) ? $limit : "50";
 $sql=SQL("select","t.tema_id as lterm_id,t2.tema_id rterm_id,

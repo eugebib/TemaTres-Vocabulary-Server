@@ -34,9 +34,9 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
     }
   };
 
-  $LabelNB='NB#'.LABEL_NB;
+  $LabelNB = 'NB#' . BibliographicNote;
   $LabelNH='NH#'.LABEL_NH;
-  $LabelNA='NA#'.LABEL_NA;
+  $LabelNA = 'NA#' . ScopeNote;
   $LabelNP='NP#'.LABEL_NP;
   $LabelNC='NC#'.LABEL_NC;
 
@@ -87,11 +87,11 @@ $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : 
                 </div>
             </div>
                 <div class="form-group">
-                    <label for="<?php echo LABEL_nota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_nota);?></label>
+                    <label for="<?= note;?>" class="col-sm-3 control-label"><?= ucfirst(note);?></label>
 
                     <div class="col-sm-9">
                     <span class="help-block"><?php echo MSG_helpNoteEditor;?></span>
-                      <textarea style="width:100%" cols="60" name="<?php echo FORM_LABEL_nota;?>" rows="15" id="<?php echo LABEL_nota;?>"><?php echo $arrayNota["nota"];?></textarea>
+                      <textarea style="width:100%" cols="60" name="<?php echo FORM_LABEL_nota;?>" rows="15" id="<?= note;?>"><?php echo $arrayNota["nota"];?></textarea>
                     </div>
                 </div>
                 <div class="form-group" role="group" >

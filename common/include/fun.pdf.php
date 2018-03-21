@@ -242,12 +242,12 @@ class PDF extends FPDF {
 
         //Relations
         if ($params["includeTopTerm"]) {
-            $this->MultiCell(0,6,latin1('TT: '.TT_termino),0,'L');
+            $this->MultiCell(0,6,latin1('TT: '.TT_term),0,'L');
         }
-        $this->MultiCell(0,6,latin1(TG_acronimo.':  '.TG_termino),0,'L');
-        $this->MultiCell(0,6,latin1(TE_acronimo.':  '.TE_termino),0,'L');
-        $this->MultiCell(0,6,latin1(UP_acronimo.':  '.UP_termino),0,'L');
-        $this->MultiCell(0,6,latin1(USE_termino.':  '.USE_termino),0,'L');
+        $this->MultiCell(0,6,latin1(BT_acronym.':  '.BT_term),0,'L');
+        $this->MultiCell(0,6,latin1(NT_acronym.':  '.NT_term),0,'L');
+        $this->MultiCell(0,6,latin1(UF_acronym.':  '.UF_term),0,'L');
+        $this->MultiCell(0,6,latin1(USE_term.':  '.USE_term),0,'L');
 
         $sqlTypeRelations=SQLtypeRelations(4,0,true);
         while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
@@ -263,7 +263,7 @@ class PDF extends FPDF {
             }
         }
 
-        $this->MultiCell(0,6,latin1(TR_acronimo.': '.TR_termino),0,'L');
+        $this->MultiCell(0,6,latin1(RT_acronym.': '.RT_term),0,'L');
 
         $sqlTypeRelations=SQLtypeRelations(2,0,true);
         while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()) {
@@ -277,14 +277,14 @@ class PDF extends FPDF {
             $sqlNoteType=SQLcantNotas();
             while ($arrayNoteType=$sqlNoteType->FetchRow()) {
                 if(($arrayNoteType["cant"]>0) && (in_array($arrayNoteType["tipo_nota"],$params["includeNote"]))){
-                    $arrayNoteType["value_code"] = str_replace('NA', NA_acronimo, $arrayNoteType["value_code"]);
+                    $arrayNoteType["value_code"] = str_replace('NA', ScopeNote_acronym, $arrayNoteType["value_code"]);
                     $this->MultiCell(0,6,latin1($arrayNoteType["value_code"].':  '.$arrayNoteType["value"]),0,'L');
                 }
             }
         }
 
         $this->SetTextColor(108,101,101);
-        $this->MultiCell(0,6,latin1(LABEL_Metatermino.':  '.NOTE_isMetaTermNote),0,'L');
+        $this->MultiCell(0,6,latin1(metaterm.':  '.NOTE_isMetaTermNote),0,'L');
 
         $this->SetXY(10,250);
         $this->SetTextColor(0,0,0);
@@ -331,7 +331,7 @@ class PDF extends FPDF {
                 $sqlNoPreferidos=SQLterminosValidosUF($arrayTerm["tema_id"]);
                 while ($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
                     if (!in_array($arrayNoPreferidos["rr_code"],$CFG["HIDDEN_EQ"])) {
-                        $acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
+                        $acronimo=arrayReplace ( array("4","5","6","7"),array(USE_term,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
                         $referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : '';
                         $this->SetFont('OpenSans','I',10);
                         $this->MultiCell(80,5,latin1($arrayTerm["tema"].$referencia_mapeo),0,L);
@@ -374,9 +374,9 @@ class PDF extends FPDF {
                 if (is_array($params["includeNote"])) {
                     $sqlNotas=SQLdatosTerminoNotas($arrayTerm["id_definitivo"]);
                     while ($arrayNotas=$sqlNotas->FetchRow()) {
-                        $arrayNotas["tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(NA_acronimo,NH_acronimo,NB_acronimo,NP_acronimo,NC_acronimo),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
+                        $arrayNotas["tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote_acronym,NH_acronimo,BibliographicNote_acronym,NP_acronimo,NC_acronimo),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
                         if (in_array($arrayNotas["tipo_nota"],$params["includeNote"])) {
-                            $arrayNotas["tipo_nota"] = str_replace('NA', NA_acronimo, $arrayNotas["tipo_nota"]);
+                            $arrayNotas["tipo_nota"] = str_replace('NA', ScopeNote_acronym, $arrayNotas["tipo_nota"]);
                             $this->MultiCell(80,5,$arrayNotas["tipo_nota"].': '.utf8_decode(html2txt($arrayNotas["nota"])),0,L);
                         }
                     }
@@ -402,7 +402,7 @@ class PDF extends FPDF {
                 while ($arrayRelaciones=$sqlRelaciones->FetchRow()) {
                     $this->SetTextColor(0,0,0);
 
-                    $acronimo=arrayReplace($arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
+                    $acronimo=arrayReplace($arrayRelacionesVisibles,array(RT_acronym,BT_acronym,UF_acronym,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
                     $acronimo_rr=arrayReplace($arrayRelacionesVisiblesUP,array('SP','MS','AB','FT','H'),$arrayRelaciones["rr_code"]);
 
                     if ($arrayRelaciones["t_relacion"]==4) {
@@ -421,7 +421,7 @@ class PDF extends FPDF {
                                 $this->SetTextColor(108,101,101);
                             }
                             $this->SetFont('','');
-                            $this->MultiCell(80,5,latin1(TG_acronimo/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["bt_tema"]),0,L);
+                            $this->MultiCell(80,5,latin1(BT_acronym/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["bt_tema"]),0,L);
                             $this->SetTextColor(0,0,0);
                         }
                     }
@@ -430,7 +430,7 @@ class PDF extends FPDF {
                             $this->SetTextColor(108,101,101);
                         }
                         $this->SetFont('','');
-                        $this->MultiCell(80,5,latin1(TE_acronimo/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["nt_tema"]),0,L);
+                        $this->MultiCell(80,5,latin1(NT_acronym/*.$arrayRelaciones["rr_code"]*/.': '.$arrayRelaciones["nt_tema"]),0,L);
                         $this->SetTextColor(0,0,0);
                     }
                     if ($arrayRelaciones["t_relacion"]==2) {
@@ -439,7 +439,7 @@ class PDF extends FPDF {
                                 $this->SetTextColor(108,101,101);
                             }
                             $this->SetFont('','');
-                            $this->MultiCell(80,5,latin1(TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]),0,L);
+                            $this->MultiCell(80,5,latin1(RT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]),0,L);
                             $this->SetTextColor(0,0,0);
                         }
                     }

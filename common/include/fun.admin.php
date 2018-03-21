@@ -407,8 +407,8 @@ function doArrayNota($array)
 
 function doArrayDatosUser($array)
 {
-	$arrayDatos=array("nombres"=> doValue($array,FORM_LABEL_nombre),
-		"apellido"=> doValue($array,FORM_LABEL_apellido),
+	$arrayDatos=array("nombres"=> doValue($array,FORM_firstname),
+		"apellido"=> doValue($array,FORM_lastname),
 		"mail"=>doValue($array,FORM_LABEL_mail),
 		"pass"=> doValue($array,FORM_LABEL_pass),
 		"orga"=> doValue($array,FORM_LABEL_orga),
@@ -1481,7 +1481,7 @@ function HTMLListaUsers()
 		        			</th>
 		        		</tr>
 		        		<tr>
-		        			<th>'.ucfirst(LABEL_apellido).', '.ucfirst(LABEL_nombre).'</th>
+		        			<th>'.ucfirst(lastname).', '.ucfirst(firstname).'</th>
 		        			<th>'.ucfirst(LABEL_orga).'</th>
 		        			<th>'.ucfirst(LABEL_Fecha).'</th>
 		        			<th>'.ucfirst(LABEL_Terminos).'</th>
@@ -1733,7 +1733,7 @@ while($array=$sql->FetchRow()){
 			$linkUpdateTterm["$array[tterm_uri]"].= '<ul class="warningNoImage">';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.$ARRAYupdateTterm["$array[tterm_uri]"]["string"].'</strong></li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li>'.$ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"].'</li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tgetTerm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
+			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tgetTerm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(update).'">'.ucfirst(update).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
 		}
@@ -2382,7 +2382,7 @@ while($arrayTema=$sql->FetchRow()){
 		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema[id]);
 		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
 
-		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
+		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_term,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
 
 		$referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : ''."\r\n";
 
@@ -2420,7 +2420,7 @@ while($arrayTema=$sql->FetchRow()){
 
 			while($arrayNotas=$sqlNotas->FetchRow()){
 
-				$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+				$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
 
 				if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"]))){
 					$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
@@ -2438,27 +2438,27 @@ while($arrayTema=$sql->FetchRow()){
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
 
-        $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
+        $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(RT_acronym,BT_acronym,UF_acronym,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
 
         if($arrayRelaciones["t_relacion"]==4){
             # is UF and not hidden UF
             if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
-				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+				$txt.='	'.UF_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
 
         if($arrayRelaciones["t_relacion"]==3){
             if($arrayRelaciones["bt_tema"]){
-				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+				$txt.='	'.BT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
             }
             if($arrayRelaciones["nt_tema"]){
-				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+				$txt.='	'.NT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
                 }
          }
 
             if($arrayRelaciones["t_relacion"]==2){
             if($arrayRelaciones["rt_tema"]){
-				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+				$txt.='	'.RT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
                 }
             }
     }
@@ -2483,7 +2483,7 @@ while($arrayTema=$sql->FetchRow()){
 	}
 }
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
+$filname=string2url($_SESSION[CFGTitulo].' '.alphabeticlist).'.txt';
 
 return sendFile("$txt","$filname");
 };
@@ -2511,7 +2511,7 @@ function txt4term($tema_id,$params=array())
 		while($arrayNotas=$sqlNotas->FetchRow())
 		{
 
-			$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+			$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
 
 			if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))
 			{
@@ -2530,22 +2530,22 @@ function txt4term($tema_id,$params=array())
         if($arrayRelaciones["t_relacion"]==4){
             # is UF and not hidden UF
             if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
-				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+				$txt.='	'.UF_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
 
         if($arrayRelaciones["t_relacion"]==3){
             if($arrayRelaciones["bt_tema"]){
-				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+				$txt.='	'.BT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
             }
 
             if($arrayRelaciones["nt_tema"]){
-				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+				$txt.='	'.NT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
                 }
          }
             if($arrayRelaciones["t_relacion"]==2){
             if($arrayRelaciones["rt_tema"]){
-				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+				$txt.='	'.RT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
                 }
             }
     }
@@ -2600,7 +2600,7 @@ $txt.=$arrayTema[tema]."\r\n";
 $txt.=TXTverTE($arrayTema[id],"0");
 }
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
+$filname=string2url($_SESSION[CFGTitulo].' '.systematiclist).'.txt';
 
 return sendFile("$txt","$filname");
 };
@@ -3056,7 +3056,7 @@ function HTMLformUserNotes(){
 		$i=++$i;
 		if(in_array($array["value_id"],array(8,9,10,11,15))) // not can be SYSTEM default notes
 		{
-			$array["value"]=(in_array($array["value_id"],array(8,9,10,11))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$array["value_id"]) : $array["value"];
+			$array["value"]=(in_array($array["value_id"],array(8,9,10,11))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$array["value_id"]) : $array["value"];
 			$rows.='<tr>';
 			$rows.=' <td class="izq">'.$array["value"].'</a></td>';
 			$rows.= '<td>'.$array["value_code"].'</td>';
@@ -3130,9 +3130,9 @@ function HTMLformUserRelations(){
 
 	$sql=SQLtypeRelations(0,0,true);
 
-	$LABEL_RT=TR_acronimo;
-	$LABEL_BT=TG_acronimo.'/'.TE_acronimo;
-	$LABEL_UP=UP_acronimo.'/'.USE_termino;
+	$LABEL_RT=RT_acronym;
+	$LABEL_BT=BT_acronym.'/'.NT_acronym;
+	$LABEL_UP=UF_acronym.'/'.USE_term;
 
 	$arrayLABEL=array("2"=>$LABEL_RT,"3"=>$LABEL_BT,"4"=>$LABEL_UP);
 
@@ -3869,7 +3869,7 @@ while($arrayTema=$sql->FetchRow()){
 		//Remisiones de equivalencias y no preferidos
 		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema["id"]);
 		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
-		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos[t_relacion]);
+		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_term,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos[t_relacion]);
 		$referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : ''."\r\n";
 		$txt.="\n".$arrayTema["tema"] . $referencia_mapeo ;
 		$txt.='	'.$acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]."\r\n";
@@ -3888,7 +3888,7 @@ while($arrayTema=$sql->FetchRow()){
 		//Notas
 		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
 			while($arrayNotas=$sqlNotas->FetchRow()){
-				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
+				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
 				if(($arrayNotas["tipo_nota"]!=='NP') && (in_array($arrayNotas["tipo_nota"], $params["includeNote"])))				{
 					$txt.='	'.$arrayNotas["label_tipo_nota"].': '.html2txt($arrayNotas["nota"])."\r\n";
 				}
@@ -3906,22 +3906,22 @@ while($arrayTema=$sql->FetchRow()){
         if($arrayRelaciones["t_relacion"]==4){
             # is UF and not hidden UF
             if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
-				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+				$txt.='	'.UF_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
 
         if($arrayRelaciones["t_relacion"]==3){
             if($arrayRelaciones["bt_tema"]){
-				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+				$txt.='	'.BT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
             }
 
             if($arrayRelaciones["nt_tema"]){
-				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+				$txt.='	'.NT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
                 }
          }
             if($arrayRelaciones["t_relacion"]==2){
             if($arrayRelaciones["rt_tema"]){
-				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+				$txt.='	'.RT_acronym.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
                 }
             }
     }
@@ -3944,7 +3944,7 @@ while($arrayTema=$sql->FetchRow()){
 }
 
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
+$filname=string2url($_SESSION[CFGTitulo].' '.alphabeticlist).'.txt';
 return sendFile("$txt","$filname");
 };
 
@@ -3967,7 +3967,7 @@ $txt.=$arrayTema["tema"]."\r\n";
 //Terminos especificos
 $txt.=TXTverTE($arrayTema["tema_id"],"0");
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
+$filname=string2url($_SESSION[CFGTitulo].' '.systematiclist).'.txt';
 
 return sendFile("$txt","$filname");
 }

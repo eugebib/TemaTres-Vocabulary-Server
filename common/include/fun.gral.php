@@ -1086,9 +1086,9 @@ function LABELrelTypeSYS($r_id)
 	//its wrong storage data in functions.... but this data are fixed data
 	//if(in_array($value_id,array(2,3,4,5,6,7)))
 
-	$arrayLabel[2]=array("r_code"=>TR_acronimo,"r_value"=>TR_termino,"rx_code"=>TR_acronimo,"rx_value"=>TR_termino);
-	$arrayLabel[3]=array("r_code"=>TG_acronimo,"r_value"=>TG_termino,"rx_code"=>TE_acronimo,"rx_value"=>TE_termino);
-	$arrayLabel[4]=array("r_code"=>UP_acronimo,"r_value"=>UP_termino,"rx_code"=>USE_termino,"rx_value"=>USE_termino);
+	$arrayLabel[2]=array("r_code"=>RT_acronym,"r_value"=>RT_term,"rx_code"=>RT_acronym,"rx_value"=>RT_term);
+	$arrayLabel[3]=array("r_code"=>BT_acronym,"r_value"=>BT_term,"rx_code"=>NT_acronym,"rx_value"=>NT_term);
+	$arrayLabel[4]=array("r_code"=>UF_acronym,"r_value"=>UF_term,"rx_code"=>USE_term,"rx_value"=>USE_term);
 	$arrayLabel[5]=array("r_code"=>EQ_acronimo,"r_value"=>LABEL_termino_equivalente);
 	$arrayLabel[6]=array("r_code"=>EQP_acronimo,"r_value"=>LABEL_termino_parcial_equivalente);
 	$arrayLabel[7]=array("r_code"=>NEQ_acronimo,"r_value"=>LABEL_termino_no_equivalente);

@@ -968,7 +968,7 @@ function do_meta_tag($arrayTermino=""){
 	elseif(strlen($letra)>0)
 	{
 		$sub_title='; '.MSG_ResultLetra.' '.xmlentities($letra);
-		$ver_sub_title=' :: '.MENU_ListaAbc.': '.xmlentities($letra);
+		$ver_sub_title=' :: '.alphabeticlist.': '.xmlentities($letra);
 	}
 
 
@@ -1002,8 +1002,8 @@ function do_meta_tag($arrayTermino=""){
 	$meta_tag.='<meta name="DC.Language"     content="'.LANG.'" />';
 
 	$meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index.php" title="'.MENU_Inicio.'" />';
-	$meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.URL_BASE.'index.php" title="'.MENU_ListaSis.'" />';
-	$meta_tag.='<link rel="'.MENU_ListaAbc.'" href="'.URL_BASE.'index.php?letra=?" title="'.MENU_ListaAbc.'" />';
+	$meta_tag.='<link rel="'.systematiclist.'" href="'.URL_BASE.'index.php" title="'.systematiclist.'" />';
+	$meta_tag.='<link rel="'.alphabeticlist.'" href="'.URL_BASE.'index.php?letra=?" title="'.alphabeticlist.'" />';
 	$meta_tag.='<link rel="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php" title="'.MENU_Sobre.'" />';
 	$meta_tag.='<link rel="help" href="'.URL_BASE.'sobre.php" title="'.MENU_Sobre.'" />';
 	$meta_tag.='<link rel="login" href="'.URL_BASE.'login.php" title="'.LABEL_login.'" />';
@@ -1560,7 +1560,7 @@ function do_json($tema_id){
 		//there are note and is not private note
 		if(($datosTermino["notas"][$iNota]["id"]) && ($datosTermino["notas"][$iNota]["tipoNota"]!=='NP')){
 
-			$tipoNota=(in_array($datosTermino["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$datosTermino["notas"][$iNota]["tipoNota_id"]) : $datosTermino["notas"][$iNota]["tipoNotaLabel"];
+			$tipoNota=(in_array($datosTermino["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$datosTermino["notas"][$iNota]["tipoNota_id"]) : $datosTermino["notas"][$iNota]["tipoNotaLabel"];
 
 			$ARRAYterm["notes"][]=array("@type"=>$tipoNota,"@lang"=>$datosTermino[notas][$iNota][lang_nota],"@value"=>html2txt($datosTermino["notas"][$iNota]["nota"]));
 		};

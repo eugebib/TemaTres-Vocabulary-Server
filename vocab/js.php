@@ -15,7 +15,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	?>
 	<!-- Load TinyMCE -->
 	tinymce.init({
-		selector: "textarea#<?php echo LABEL_nota;?>",
+		selector: "textarea#<?= note;?>",
 		theme: "modern",
 		language : "<?php echo LANG;?>",
 		plugins: [
@@ -33,7 +33,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 		height: 200,
 		extended_valid_elements: 'img[class=myclass|!src|border:0|alt|width|height]',
 		invalid_elements: 'style,script,html,body',
-		auto_focus: '<?php echo LABEL_nota;?>'
+		auto_focus: '<?= note;?>'
 	});
 	<!-- /TinyMCE -->
 
@@ -77,9 +77,9 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	  });
 	  <?php
 
-		$arrayCustumRelations["3"]["0"].=TG_acronimo;
-		$arrayCustumRelations["4"]["0"].=UP_acronimo;
-		$arrayCustumRelations["2"]["0"].=TR_acronimo;
+		$arrayCustumRelations["3"]["0"].=BT_acronym;
+		$arrayCustumRelations["4"]["0"].=UF_acronym;
+		$arrayCustumRelations["2"]["0"].=RT_acronym;
 
 		$SQLtypeRelations=SQLtypeRelations();
 		while ($ARRAYtypeRelations=$SQLtypeRelations->FetchRow())
@@ -89,7 +89,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 
 		//add reverse view or BT/NT relation
 		$arrayCustumRelations["TE"]=$arrayCustumRelations["3"];
-		$arrayCustumRelations["TE"]["0"]=TE_acronimo;
+		$arrayCustumRelations["TE"]["0"]=NT_acronym;
 
 		?>
 	  $(".editable_selectTE").editable("searcher.php", {

@@ -45,7 +45,7 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
 			$rows_busca.='</th><th>'.ucfirst(LABEL_Termino).'</th><th>'.ucfirst(LABEL_Fecha).'</th>	</tr></thead>	<tbody class="searchable">';
 			while($resulta_busca=$sql_busca->FetchRow()){
 				$css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+				$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.metaterm.') ' : '';
 			  $rows_busca.= '<tr>';
 				$rows_busca.=  '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
 				$rows_busca.=  '     <td><label  for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label> '.$alert_MT.' </td>';
@@ -67,7 +67,7 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
 			if($cant_result>0)			{
 				$rows_busca.='<div class="form-group"><label for="rel_free_term" accesskey="r">'.ucfirst(LABEL_selectRelation).' ';
 				$rows_busca.='<select class="form-control" id="rel_free_term" name="rel_free_term">';
-				$rows_busca.=doSelectForm(array('2#'.ucfirst(TR_termino),'3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino)),"");
+				$rows_busca.=doSelectForm(array('2#'.ucfirst(RT_term),'3#'.ucfirst(NT_term),'4#'.ucfirst(UF_term)),"");
 				$rows_busca.='</select>';
 				$rows_busca.='  <button type="submit" class="btn btn-primary">'.LABEL_Enviar.'</button>';
 				$rows_busca.='</div>';
@@ -168,7 +168,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
 			<tbody class="searchable">';
 			while($resulta_busca=$sql_busca->FetchRow()){
 				$css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+				$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.metaterm.') ' : '';
 				//prevenir que no seleccione el mismo término que esta mirando
 			if($resulta_busca["tema_id"]!==$ARRAYtermino["idTema"]){
 					if($taskterm=='addBT'){
@@ -503,7 +503,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
 			}
 		};
 		//Configurar opcion búsqueda por código
-		$arrayOptions= array('3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino),'2#'.ucfirst(TR_termino));
+		$arrayOptions= array('3#'.ucfirst(NT_term),'4#'.ucfirst(UF_term),'2#'.ucfirst(RT_term));
 		$string2search = ($_GET[string2search]) ? XSSprevent(trim($_GET[string2search])) : $ARRAYtermino["titTema"];
 		$searchType=(!$_GET["tvocab_id"]) ? 1 : $_GET["searchType"];
 		$rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
@@ -602,14 +602,14 @@ function HTMLformAdvancedSearch($array)
 	GLOBAL $CFG;
 
 	$array           = XSSpreventArray($array);
-	$arrayWS         = array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
+	$arrayWS         = array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(metaterm));
 	$arrayVocabStats = ARRAYresumen($_SESSION["id_tesa"],"G","");
 
 	if($arrayVocabStats["cant_up"]>0){
 		array_push($arrayWS,'uf#'.ucfirst(LABEL_esNoPreferido));
 	}
 	if($arrayVocabStats["cant_notas"]>0){
-		array_push($arrayWS,'n#'.ucfirst(LABEL_nota));
+		array_push($arrayWS,'n#'.ucfirst(note));
 	}
 	if($CFG["_SHOW_CODE"]=='1'){
 		array_push($arrayWS,'c#'.ucfirst(LABEL_CODE));
@@ -657,9 +657,9 @@ function HTMLformAdvancedSearch($array)
 	}
 	//Evaluar si hay notas
 	if (is_array($arrayVocabStats["cant_notas"])){
-		$LabelNB='NB#'.LABEL_NB;
+		$LabelNB = 'NB#' . BibliographicNote;
 		$LabelNH='NH#'.LABEL_NH;
-		$LabelNA='NA#'.LABEL_NA;
+		$LabelNA = 'NA#' . ScopeNote;
 		$LabelNP='NP#'.LABEL_NP;
 		$LabelNC='NC#'.LABEL_NC;
 		$sqlNoteType=SQLcantNotas();
@@ -730,7 +730,7 @@ function HTMLformAdvancedTermReport($array)
 	$LABEL_Termino       = ucfirst(LABEL_Termino);
 	$LABEL_esNoPreferido = ucfirst(LABEL_esNoPreferido);
 	$LABEL_CODE          = ucfirst(LABEL_CODE);
-	$LABEL_NOTE          = ucfirst(LABEL_nota);
+	$LABEL_NOTE          = ucfirst(note);
 	$LABEL_TARGET_TERM   = ucfirst(LABEL_TargetTerm);
 	$LABEL_haveEQ        = LABEL_haveEQ;
 	$LABEL_nohaveEQ      = LABEL_nohaveEQ;
@@ -745,9 +745,9 @@ function HTMLformAdvancedTermReport($array)
 	//Notes
 	if ($arrayVocabStats["cant_notas"]>0) {
 		array_push($arrayWS,"n#$LABEL_NOTE");
-		$LabelNB='NB#'.LABEL_NB;
+		$LabelNB = 'NB#' . BibliographicNote;
 		$LabelNH='NH#'.LABEL_NH;
-		$LabelNA='NA#'.LABEL_NA;
+		$LabelNA = 'NA#' . ScopeNote;
 		$LabelNP='NP#'.LABEL_NP;
 		$LabelNC='NC#'.LABEL_NC;
 		$sqlNoteType=SQLcantNotas();
@@ -762,9 +762,9 @@ function HTMLformAdvancedTermReport($array)
 		//Notes
 		if($arrayVocabStats["cant_notas"]>0)		{
 			array_push($arrayWS,"n#$LABEL_NOTE");
-			$LabelNB='NB#'.LABEL_NB;
+			$LabelNB = 'NB#' . BibliographicNote;
 			$LabelNH='NH#'.LABEL_NH;
-			$LabelNA='NA#'.LABEL_NA;
+			$LabelNA = 'NA#' . ScopeNote;
 			$LabelNP='NP#'.LABEL_NP;
 			$LabelNC='NC#'.LABEL_NC;
 			$sqlNoteType=SQLcantNotas();
@@ -909,7 +909,7 @@ function HTMLformSimpleTermReport($array)
 		'csv4#'.ucfirst(LABEL_poliBT),
 		'csv7#'.ucfirst(LABEL_termsxNTterms),
 		'csv8#'.ucfirst(LABEL_termsXcantWords),
-		'csv9#'.ucfirst(LABEL_meta_terms),
+		'csv9#'.ucfirst(metaterms),
 		'csv13#'.ucfirst(LABEL_preferedTerms),
 		'csv10#'.ucfirst(LABEL_relatedTerms),
 		'csv11#'.ucfirst(LABEL_nonPreferedTerms),
@@ -988,9 +988,9 @@ function HTMLformMappedTermReport($array)
 function HTMLformNullNotesTermReport($array)
 {
 	GLOBAL $CFG;
-	$LabelNB = LABEL_NB;
+	$LabelNB = BibliographicNote;
 	$LabelNH = LABEL_NH;
-	$LabelNA = LABEL_NA;
+	$LabelNA = ScopeNote;
 	$LabelNP = LABEL_NP;
 	$LabelNC = LABEL_NC;
 	$rows = '
@@ -1233,7 +1233,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 	//SEND_KEY to prevent duplicated
 	session_start();
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$label_relation=ucfirst(arrayReplace(array('0','2','3','4'),array(LABEL_Termino,TR_termino,TE_termino,UP_termino),$t_relation));
+	$label_relation=ucfirst(arrayReplace(array('0','2','3','4'),array(LABEL_Termino,RT_term,NT_term,UF_term),$t_relation));
 	$rows.='<h3 id="suggestResult">'.FixEncoding($arrayVocab["tvocab_title"]).' ('.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>';
 	if(count($arrayTterm) > 0)	{
 		$rows.='<form role="form" name="select_multi_term" action="index.php" method="post">';
@@ -1731,7 +1731,7 @@ function HTMLformUpdateEndpoit(){
 	            <div class="panel-body form-horizontal">';
 							$rows.='<div class="form-group">
 													<div class="col-sm-12 text-center">
-													<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_actualizar).'"/>
+													<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(update).'"/>
 													 <a href="'.URL_BASE.'index.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 													</div>
 											</div>';
@@ -1838,7 +1838,7 @@ switch ($taskterm) {
 		</thead>
 		<tbody class="searchable">';
 		while ($array = $sql->FetchRow()){
-			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.metaterm.') ' : '';
 			$rows.= '<tr>';
 			$rows.=  '     	<td align="center"><input type="checkbox" name="deleteFreeTerms_id[]" id="freeTerm_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
 			$rows.=  '     	<td><label class="check_label" value="'.$value["tema_id"].'  title="'.$value["tema"].' " for="freeTerm_'.$array["tema_id"].'">'.HTMLlinkTerm($array).'</label> '.$alert_MT.' </td>';
@@ -1883,7 +1883,7 @@ function HTMLformVerTerminosRepetidos(){
 				}
 				$rows.='<li>'.$array["string_term"].' ('.$array["cant"].')<ul>';
 			}
-			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.metaterm.') ' : '';
 			$rows.='<li>'.HTMLlinkTerm($array).'  '.$alert_MT.' </li>';
 			$string_term=$array["string_term"];
 		}
@@ -1932,7 +1932,7 @@ function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array()){
 		</thead>
 		<tbody class="searchable">';
 		while ($array = $sql->FetchRow()){
-			$alert_MT=($array["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+			$alert_MT=($array["isMetaTerm"]==1) ? ' ('.metaterm.') ' : '';
 			$rows.= '<tr>';
 			$rows.=  '     <td align="center"><input type="checkbox" name="deleteTerms_id[]" id="term_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
 			$rows.=  '     <td><label class="check_label" title="'.$value["tema"].' " for="term_'.$array["tema_id"].'">'.HTMLlinkTerm($array).'</label> '.$alert_MT.' </td>';
@@ -2058,7 +2058,7 @@ function HTMLbulkReplaceResultsTerms($params){
 				</thead><tbody>';
 		while($result=$sql->FetchRow()){
 				$text = (strlen($replace_string)>0) ? preg_replace("|($replace_string)|", "<mark>".$replace_string."</mark>", $result["tema_mod"]) : $result["tema_mod"];
-				$alert_MT=($result["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
+				$alert_MT=($result["isMetaTerm"]==1) ? ' ('.metaterm.') ' : '';
 				$rows.= '<tr>';
 				$rows.=  '     <td align="center"><input type="checkbox" name="blkmod_id[]" id="blkmod_id'.$result["tema_id"].'"  title="'.LABEL_seleccionar.'" value="'.$result["tema_id"].'" checked/></td>';
 				$rows.=  '     <td><label for="blkmod_id'.$result["tema_id"].'" '.$css_class_MT.'>'.$text.'</label> </td>';
@@ -2233,7 +2233,7 @@ function HTMLformExport()
 				<div style="display:none;" id="txt_config2">';
 	//Evaluar si hay notas
 	// if (is_array($arrayVocabStats["cant_notas"])) {
-	// 	$LabelNB       = array('NB',LABEL_NB);
+	// 	$LabelNB       = array('NB',BibliographicNote);
 	// 	$LabelNH       = array('NH',LABEL_NH);
 	// 	$LabelNA       = array('NA',LABEL_NA);
 	// 	$LabelNP       = array('NP',LABEL_NP);
@@ -2260,7 +2260,7 @@ function HTMLformExport()
 	// 	}
 		// $rows.='				<div class="form-group">
 		// 							<div class="col-sm-4">
-		// 								<label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label>
+		// 								<label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terms).'</label>
 		// 							</div>
 		// 							<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />
 		// 						</div>';

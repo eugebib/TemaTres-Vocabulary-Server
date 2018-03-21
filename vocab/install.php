@@ -79,12 +79,12 @@ function checkDataInstall($array=array()){
 		if(strlen($array["name"])>1) {
 				$installData["name"]=$array["name"];
 			}else{
- 				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_nombre.'</strong></p>';
+ 				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.firstname.'</strong></p>';
 			}
 		if(strlen($array["s_name"])>1) {
 				$installData["s_name"]=$array["s_name"];
 			}else{
-				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_apellido.'</strong></p>';
+				$instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.lastname.'</strong></p>';
 			}
 
 		if(filter_var( $array["mail"], FILTER_VALIDATE_EMAIL )) {
@@ -517,17 +517,17 @@ function HTMLformInstall($lang_install)
 		<legend>'.ucfirst(MENU_NuevoUsuario).'</legend>
 		<!-- Text input-->
 		<div class="form-group">
-		  <label class="col-md-4 control-label" for="name">'.ucfirst(LABEL_nombre).'</label>
+		  <label class="col-md-4 control-label" for="name">'.ucfirst(firstname).'</label>
 		  <div class="col-md-4">
-		  <input id="name" name="name" placeholder="'.ucfirst(LABEL_nombre).'" class="form-control input-md" required="" type="text">
+		  <input id="name" name="name" placeholder="'.ucfirst(firstname).'" class="form-control input-md" required="" type="text">
 		  </div>
 		</div>
 
 		<!-- Text input-->
 		<div class="form-group">
-		  <label class="col-md-4 control-label" for="s_name">'.ucfirst(LABEL_apellido).'</label>
+		  <label class="col-md-4 control-label" for="s_name">'.ucfirst(lastname).'</label>
 		  <div class="col-md-4">
-		  <input id="s_name" name="s_name" placeholder="'.ucfirst(LABEL_apellido).'" class="form-control input-md" required="" type="text">
+		  <input id="s_name" name="s_name" placeholder="'.ucfirst(lastname).'" class="form-control input-md" required="" type="text">
 		  </div>
 		</div>
 
