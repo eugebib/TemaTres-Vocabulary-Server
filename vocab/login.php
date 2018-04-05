@@ -103,7 +103,7 @@ function recovery($user_login){
 		$ARRAYuser["user_activation_key"] = wp_generate_password(20, false);
 
 		// Now insert the new md5 key into the db
-		$sql_update_key=SQL("update","$DBCFG[DBprefix]usuario set user_activation_key='$ARRAYuser[user_activation_key]' where id='$ARRAYuser[user_id]'");
+		$sql_update_key=SQL("update","$_SESSION[DBprefix]usuario set user_activation_key='$ARRAYuser[user_activation_key]' where id='$ARRAYuser[user_id]'");
 	}
 
 

@@ -21,7 +21,8 @@ $vocabularies['tesauro'] = array(
     'DBprefix'  => '',
     'logoImg'   => '',
     'logoTitle' => '',
-    'logoLink'  => ''
+    'logoLink'  => '',
+    'style'     => ''
 );
 
 $CFG['URL']              = '';

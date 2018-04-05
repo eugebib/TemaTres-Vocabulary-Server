@@ -541,7 +541,7 @@ if(($evalRecursividad == TRUE) && ($okValues == TRUE)){
 
 		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
 
-		$sql=SQL("insert","into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
+		$sql=SQL("insert","into $_SESSION[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
 			values
 			('$id_mayor','$id_menor','$t_relacion','$rel_rel_id','$userId',now())");
 		//es TG y hay que actualizar el arbol
@@ -590,12 +590,12 @@ GLOBAL $DBCFG;
 
 $id_t=secure_data($id_t,"int");
 
-	$delete=SQL("delete","from $DBCFG[DBprefix]term2tterm where tema_id='$id_t'");
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where '$id_t' in (id_menor,id_mayor)");
-	$delete=SQL("delete","from $DBCFG[DBprefix]indice where tema_id='$id_t'");
-	$delete=SQL("delete","from $DBCFG[DBprefix]notas where id_tema='$id_t'");
-	$delete=SQL("delete","from $DBCFG[DBprefix]uri where tema_id='$id_t'");
-	$delete=SQL("delete","from $DBCFG[DBprefix]tema where tema_id='$id_t'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]term2tterm where tema_id='$id_t'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where '$id_t' in (id_menor,id_mayor)");
+	$delete=SQL("delete","from $_SESSION[DBprefix]indice where tema_id='$id_t'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]notas where id_tema='$id_t'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]uri where tema_id='$id_t'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tema where tema_id='$id_t'");
 };
 
 
@@ -608,55 +608,55 @@ GLOBAL $DBCFG;
 
 $id_r=secure_data($id_r,"int");
 
-$sql_dator=SQL("select","$DBCFG[DBprefix]tabla_rel.id,id_mayor,id_menor,t_relacion from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+$sql_dator=SQL("select","$_SESSION[DBprefix]tabla_rel.id,id_mayor,id_menor,t_relacion from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 
 $dator=$sql_dator->FetchRow();
 
 switch($dator[t_relacion]){
 	case '2':
-	$sql_id_delete=SQL("select","$DBCFG[DBprefix]tabla_rel.id
-		from $DBCFG[DBprefix]tabla_rel
+	$sql_id_delete=SQL("select","$_SESSION[DBprefix]tabla_rel.id
+		from $_SESSION[DBprefix]tabla_rel
 		where
 		id_menor in ('$dator[id_menor]','$dator[id_mayor]')
 		and id_mayor in ('$dator[id_menor]','$dator[id_mayor]')
 		and t_relacion='$dator[t_relacion]'");
 
 	while($id_delete=$sql_id_delete->FetchRow()){
-		$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_delete[0]'");
+		$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_delete[0]'");
 		}
 	break;
 
 	case '3':
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 	actualizaListaArbolAbajo($dator[id_menor]);
 	break;
 
 
 	case '4': //UF
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 	break;
 
 	case '5': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator["id_mayor"]);
 	break;
 
 	case '6': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator["id_mayor"]);
 	break;
 
 	case '7': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator["id_mayor"]);
 	break;
 
 
 	case '8': //EQ
-	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
+	$delete=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id='$id_r'");
 	//Eliminar tambi�n el término
 	borra_t($dator["id_mayor"]);
 	break;
@@ -696,10 +696,10 @@ function actualizaArbolxTema($tema_id){
 	//Saco el ultimo caracter
 	$esteindice=substr($indice[$este_tema_id],1);
 
-	$sql=SQL("insert","into $DBCFG[DBprefix]indice values ('$tema_id','$esteindice')");
+	$sql=SQL("insert","into $_SESSION[DBprefix]indice values ('$tema_id','$esteindice')");
 
 	if(@$sql[error])		{
-		$sql=SQL("update","$DBCFG[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
+		$sql=SQL("update","$_SESSION[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
 		}
 
 return $tema_id;
@@ -720,7 +720,7 @@ $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
+$sql=SQLo("insert","into $_SESSION[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
 			values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id));
 
 return $sql["cant"];
@@ -764,7 +764,7 @@ switch($do){
 		$tema_id=secure_data($tema_id,"int");
 		$titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 
-		$sql=SQLo("update","$DBCFG[DBprefix]tema set
+		$sql=SQLo("update","$_SESSION[DBprefix]tema set
 		tema=$titu_tema ,uid_final= ?,cuando_final=now() where tema_id= ?",
 		array($userId,$tema_id));
 		break;
@@ -784,7 +784,7 @@ function updateTermDate($tema_id)
 
 	GLOBAL $DBCFG;
 
-	$sql=SQL("update","$DBCFG[DBprefix]tema set uid_final='$userId',cuando_final=now() where tema_id='$tema_id' ");
+	$sql=SQL("update","$_SESSION[DBprefix]tema set uid_final='$userId',cuando_final=now() where tema_id='$tema_id' ");
 
 	return $tema_id;
 }
@@ -822,7 +822,7 @@ if(is_array($arrayVocab)){
 
 		$arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string),get_magic_quotes_gpc());
 
-		$sql=SQLo("insert","into $DBCFG[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
+		$sql=SQLo("insert","into $_SESSION[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
 					values (?,?,?,?,$arrayTterm[tterm_string],now(),?)",
 					array($tema_id,$arrayVocab[tvocab_id],$arrayTterm[tterm_url],$arrayTterm[tterm_uri],$userId));
 
@@ -831,7 +831,7 @@ if(is_array($arrayVocab)){
 		break;
 
 		case 'B'://delete
-		$sql=SQLo("delete","from $DBCFG[DBprefix]term2tterm where tterm_id=? and tema_id=? and tvocab_id=? limit 1",array($tterm_id,$tema_id,$tvocab_id));
+		$sql=SQLo("delete","from $_SESSION[DBprefix]term2tterm where tterm_id=? and tema_id=? and tvocab_id=? limit 1",array($tterm_id,$tema_id,$tvocab_id));
 		$target_relation_id="0";
 		break;
 
@@ -846,7 +846,7 @@ if(is_array($arrayVocab)){
 
 		$arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string),get_magic_quotes_gpc());
 
-		$sql=SQLo("update","$DBCFG[DBprefix]term2tterm set
+		$sql=SQLo("update","$_SESSION[DBprefix]term2tterm set
 		tterm_string=$arrayTterm[tterm_string],
 		cuando_last=now(),
 		uid=?
@@ -880,14 +880,14 @@ $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 switch($estado_id)	{
 	case '13'://Aceptado / Aceptado
 	//todos pueden ser aceptados
-	$sql=SQL("update","$DBCFG[DBprefix]tema set estado_id='13' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id' ");
+	$sql=SQL("update","$_SESSION[DBprefix]tema set estado_id='13' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id' ");
 	break;
 
 	default :// '12' Candidato / Candidate o '14'://Rechazado / rejected
 	// s�lo términos libres / only free terms
 	$sqlCtrl=SQLcheckFreeTerm($tema_id);
 	if(SQLcount($sqlCtrl)=='1')		{
-		$sql=SQL("update","$DBCFG[DBprefix]tema set estado_id='$estado_id' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id'");
+		$sql=SQL("update","$_SESSION[DBprefix]tema set estado_id='$estado_id' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id'");
 		}		else		{
 		$msg_error = 	$msg='<p class="error">'.MSG_ERROR_ESTADO.'</p>';
 		}
@@ -919,14 +919,14 @@ $nota=$DB->qstr(trim($nota),get_magic_quotes_gpc());
 
 switch($do){
 	case 'A':
-	$sql=SQL("insert","into $DBCFG[DBprefix]notas
+	$sql=SQL("insert","into $_SESSION[DBprefix]notas
 	(id_tema,tipo_nota,lang_nota,nota,cuando,uid)
 	values ($idTema,$tipoNota,$langNota,$nota,now(),$userId)");
 	break;
 
 	case 'M':
 
-	$sql=SQL("update","$DBCFG[DBprefix]notas
+	$sql=SQL("update","$_SESSION[DBprefix]notas
 	set tipo_nota=$tipoNota,
 	lang_nota=$langNota,
 	nota=$nota,
@@ -937,7 +937,7 @@ switch($do){
 
 	case 'B':
 	$idNota=secure_data($idNota,"int");
-	$sql=SQL("delete","from $DBCFG[DBprefix]notas where id='$idNota'");
+	$sql=SQL("delete","from $_SESSION[DBprefix]notas where id='$idNota'");
 	break;
 	};
 
@@ -965,7 +965,7 @@ switch($do){
 	//check if is a valid URI
 	if(strlen($parse_uri["scheme"])>1)	{
 		$uri=$DB->qstr($array["uri"],get_magic_quotes_gpc());
-		$sql=SQL("insert","into $DBCFG[DBprefix]uri
+		$sql=SQL("insert","into $_SESSION[DBprefix]uri
 			(tema_id,uri_type_id,uri,uid,cuando)
 			values ($tema_id,$uri_type_id,$uri,$userId,now())");
 	}
@@ -973,7 +973,7 @@ switch($do){
 
 	case 'B':
 	$uri_id=secure_data($uri_id,"int");
-	$sql=SQL("delete","from $DBCFG[DBprefix]uri where uri_id='$uri_id'");
+	$sql=SQL("delete","from $_SESSION[DBprefix]uri where uri_id='$uri_id'");
 	break;
 	};
 
@@ -1009,10 +1009,10 @@ function edit_single_code($tema_id,$code)
 		//cambios
 
 		if(strlen($code)<1)		{
-			$sql=SQL("update","$DBCFG[DBprefix]tema set code=NULL where tema_id=$tema_id");
+			$sql=SQL("update","$_SESSION[DBprefix]tema set code=NULL where tema_id=$tema_id");
 		}		else		{
 			$code=$DB->qstr($code,get_magic_quotes_gpc());
-			$sql=SQL("update","$DBCFG[DBprefix]tema set code=$code where tema_id=$tema_id");
+			$sql=SQL("update","$_SESSION[DBprefix]tema set code=$code where tema_id=$tema_id");
 
 		}
 
@@ -1037,7 +1037,7 @@ function admin_users($do,$user_id="")
 
 		if($arrayUserData["nivel"]=='1'){
 			//Cehcquear que sea ADMIN
-			$sqlCheckAdmin=SQL("select","count(*) as cant from $DBCFG[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
+			$sqlCheckAdmin=SQL("select","count(*) as cant from $_SESSION[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
 			$arrayCheckAdmin=$sqlCheckAdmin->FetchRow();
 			}
 	}
@@ -1081,7 +1081,7 @@ function admin_users($do,$user_id="")
 		}
 
 
-		$sql=SQL("update","$DBCFG[DBprefix]usuario
+		$sql=SQL("update","$_SESSION[DBprefix]usuario
 			SET apellido=$POSTarrayUser[apellido],
 			nombres= $POSTarrayUser[nombres],
 			mail=$POSTarrayUser[mail],
@@ -1096,7 +1096,7 @@ function admin_users($do,$user_id="")
 
 		//only admin
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')			{
-				$sql=SQL("update","$DBCFG[DBprefix]usuario
+				$sql=SQL("update","$_SESSION[DBprefix]usuario
 				SET estado='$POSTarrayUser[status]',
 				nivel='$nivel',
 				uid='$userId',
@@ -1118,7 +1118,7 @@ function admin_users($do,$user_id="")
 		}
 
 
-		$sql=SQL("update","$DBCFG[DBprefix]usuario
+		$sql=SQL("update","$_SESSION[DBprefix]usuario
 			SET estado='$new_estado',
 			uid='$userId',
 			hasta=now()
@@ -1148,7 +1148,7 @@ function admin_users($do,$user_id="")
 		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
 		$user_pass=($CFG['hashPass']==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
-		$sql=SQLo("insert","into $DBCFG[DBprefix]usuario
+		$sql=SQLo("insert","into $_SESSION[DBprefix]usuario
 			(apellido, nombres, uid, cuando, mail,  orga, nivel,pass, estado, hasta)
 			VALUES
 			($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?,'$user_pass', 'ACTIVO', now())",
@@ -1208,14 +1208,14 @@ $arrayTesa=doArrayDatosTesauro($_POST);
 switch($do){
 	case 'A':
 	//Alta de vocabulario de referencia
-	$sql=SQL("insert","into $DBCFG[DBprefix]config (titulo,autor,idioma,cobertura,url_base,cuando)
+	$sql=SQL("insert","into $_SESSION[DBprefix]config (titulo,autor,idioma,cobertura,url_base,cuando)
 	values
 	($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura], $arrayTesa[url_base],now())");
 	break;
 
 	case 'M':
 	//Modificacion de vocabulario de referencia y principal
-	$sql=SQL("update","$DBCFG[DBprefix]config SET titulo=$arrayTesa[titulo],
+	$sql=SQL("update","$_SESSION[DBprefix]config SET titulo=$arrayTesa[titulo],
 				autor=$arrayTesa[autor],
 				idioma=$arrayTesa[idioma],
 				cobertura=$arrayTesa[cobertura],
@@ -1229,12 +1229,12 @@ switch($do){
 	//It is the main vocabulary => change config values
 	if($vocabulario_id=='1'){
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
-						from $DBCFG[DBprefix]values v
+						from $_SESSION[DBprefix]values v
 						where v.value_type='config'");
 
 		while ($array=$sql->FetchRow()){
 			$value_code=($_POST[$array["value"]]=='00') ? '0' : secure_data($_POST[$array["value"]],"alnum");
-			$sql_update=SQL("update","$DBCFG[DBprefix]values set value_code='$value_code' where value_type='config' and value='$array[value]'");
+			$sql_update=SQL("update","$_SESSION[DBprefix]values set value_code='$value_code' where value_type='config' and value='$array[value]'");
 		}
 
 		//Update from 1.72=> check if CFG_SUGGESTxWORD is defined
@@ -1248,20 +1248,20 @@ switch($do){
 
 		if(!$ctrl["value_id"])			{
 				$value_code=($_POST["CFG_SUGGESTxWORD"]=='00') ? '0' : secure_data($_POST["CFG_SUGGESTxWORD"],"int");
-				$sql1_6x1_7b=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+				$sql1_6x1_7b=SQL("insert","into `".$_SESSION[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_SUGGESTxWORD', NULL, '$value_code')");
 			}
 
 		//Update to 2.1=> check if CFG_PUBLISH is defined
 		if(!$ctrl20a["value_id"])			{
 				$value_code=($_POST["CFG_PUBLISH"]=='00') ? '0' : secure_data($_POST["CFG_PUBLISH"],"int");
-				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+				$sql20x201a=SQL("insert","into `".$_SESSION[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_PUBLISH', NULL, '$value_code')");
 			}
 
 		if(!$ctrl20b["value_id"])			{
 				$value_code=($_POST["CFG_ALLOW_DUPLICATED"]=='00') ? '0' : secure_data($_POST["CFG_ALLOW_DUPLICATED"],"int");
-				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+				$sql20x201a=SQL("insert","into `".$_SESSION[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_ALLOW_DUPLICATED', NULL, '$value_code')");
 			}
 
@@ -1297,11 +1297,11 @@ switch($do){
 	if($vocabulario_id>1){
 		$SQLlistTerms=SQLreportAllTerms($vocabulario_id);
 		while($listTerms=$SQLlistTerms->FetchRow()){
-				$remRelations=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id_menor=$listTerms[term_id]");
-				$remNotes=SQL("delete","from $DBCFG[DBprefix]notas where id_tema=$listTerms[term_id]");
+				$remRelations=SQL("delete","from $_SESSION[DBprefix]tabla_rel where id_menor=$listTerms[term_id]");
+				$remNotes=SQL("delete","from $_SESSION[DBprefix]notas where id_tema=$listTerms[term_id]");
 		}
-		$sql=SQLo("delete","from $DBCFG[DBprefix]tema where tesauro_id=?",array($vocabulario_id));
-		$sql=SQLo("delete","from $DBCFG[DBprefix]config where id=?",array($vocabulario_id));
+		$sql=SQLo("delete","from $_SESSION[DBprefix]tema where tesauro_id=?",array($vocabulario_id));
+		$sql=SQLo("delete","from $_SESSION[DBprefix]config where id=?",array($vocabulario_id));
 	}
 
 	break;
@@ -1347,7 +1347,7 @@ switch($do){
 				$array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
-				$sql=SQL("insert","into $DBCFG[DBprefix]tvocab (tvocab_label, tvocab_tag,tvocab_lang, tvocab_title, tvocab_url, tvocab_uri_service, tvocab_status, cuando, uid)
+				$sql=SQL("insert","into $_SESSION[DBprefix]tvocab (tvocab_label, tvocab_tag,tvocab_lang, tvocab_title, tvocab_url, tvocab_uri_service, tvocab_status, cuando, uid)
 				VALUES
 				($array[tvocab_label], $array[tvocab_tag], $array[tvocab_lang], $array[tvocab_title], $array[tvocab_uri], $array[tvocab_uri_service], $array[tvocab_status], now(), $user_id)");
 
@@ -1387,7 +1387,7 @@ switch($do){
 		$array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
-		$sql=SQL("update","$DBCFG[DBprefix]tvocab set
+		$sql=SQL("update","$_SESSION[DBprefix]tvocab set
 		tvocab_label=$array[tvocab_label],
 		tvocab_tag=$array[tvocab_tag],
 		tvocab_lang=$array[tvocab_lang],
@@ -1411,7 +1411,7 @@ switch($do){
 		$array[tvocab_status]=$DB->qstr($_POST[tvocab_status],get_magic_quotes_gpc());
 
 
-		$sql=SQL("update","$DBCFG[DBprefix]tvocab set
+		$sql=SQL("update","$_SESSION[DBprefix]tvocab set
 		tvocab_label=$array[tvocab_label],
 		tvocab_tag=$array[tvocab_tag],
 		tvocab_status=$array[tvocab_status],
@@ -1425,10 +1425,10 @@ switch($do){
 	//Eliminacion de un vocabulario de REFERENCIA
 
 	//delete referenced terms from the service
-	$sql=SQLo("delete","from $DBCFG[DBprefix]term2tterm where tvocab_id=?",array($tvocab_id));
+	$sql=SQLo("delete","from $_SESSION[DBprefix]term2tterm where tvocab_id=?",array($tvocab_id));
 
 	//delete referenced service
-	$sql=SQLo("delete","from $DBCFG[DBprefix]tvocab where tvocab_id=?",array($tvocab_id));
+	$sql=SQLo("delete","from $_SESSION[DBprefix]tvocab where tvocab_id=?",array($tvocab_id));
 
 	break;
 	}
@@ -1442,7 +1442,7 @@ return array("tvocab_id"=>$tvocab_id);
 function optimizarTablas(){
 
 	GLOBAL $DBCFG;
-	$sql=SQLoptimizarTablas("`$DBCFG[DBprefix]notas` , `$DBCFG[DBprefix]tabla_rel` , `$DBCFG[DBprefix]tema`,`$DBCFG[DBprefix]indice`,`$DBCFG[DBprefix]term2tterm`,`$DBCFG[DBprefix]tvocab`");
+	$sql=SQLoptimizarTablas("`$_SESSION[DBprefix]notas` , `$_SESSION[DBprefix]tabla_rel` , `$_SESSION[DBprefix]tema`,`$_SESSION[DBprefix]indice`,`$_SESSION[DBprefix]term2tterm`,`$_SESSION[DBprefix]tvocab`");
 
 	$rows.='<div id="NA">';
 	$rows.='<dl>';
@@ -2666,7 +2666,7 @@ function do_mysql_dump($encode="utf8")
 {
 	GLOBAL $DBCFG;
 
-	$tables= $DBCFG[DBprefix].'config,'.$DBCFG[DBprefix].'tema,'.$DBCFG[DBprefix].'tabla_rel,'.$DBCFG[DBprefix].'indice,'.$DBCFG[DBprefix].'usuario,'.$DBCFG[DBprefix].'notas,'.$DBCFG[DBprefix].'values,'.$DBCFG[DBprefix].'tvocab,'.$DBCFG[DBprefix].'term2tterm,'.$DBCFG[DBprefix].'uri';
+	$tables= $_SESSION[DBprefix].'config,'.$_SESSION[DBprefix].'tema,'.$_SESSION[DBprefix].'tabla_rel,'.$_SESSION[DBprefix].'indice,'.$_SESSION[DBprefix].'usuario,'.$_SESSION[DBprefix].'notas,'.$_SESSION[DBprefix].'values,'.$_SESSION[DBprefix].'tvocab,'.$_SESSION[DBprefix].'term2tterm,'.$_SESSION[DBprefix].'uri';
 
 
 	/*
@@ -2740,7 +2740,7 @@ function abm_userNotes($do,$array,$value_id="0")
 			//default order 10
 			$array["orden"]= ($array["orden"]>0) ? $array["orden"] : '10' ;
 
-			$sql=SQL("insert","into $DBCFG[DBprefix]values
+			$sql=SQL("insert","into $_SESSION[DBprefix]values
 				(value_type, value, value_order, value_code)
 				values
 				('t_nota',$array[value],'$array[orden]',$array[alias])
@@ -2764,7 +2764,7 @@ function abm_userNotes($do,$array,$value_id="0")
 			//default order 10
 			$array["orden"]= ($array["orden"]>0) ? $array["orden"] : '10' ;
 
-			$sql=SQL("update"," $DBCFG[DBprefix]values
+			$sql=SQL("update"," $_SESSION[DBprefix]values
 				set value=$array[value],
 				value_order='$array[orden]',
 				value_code=$array[alias]
@@ -2782,7 +2782,7 @@ function abm_userNotes($do,$array,$value_id="0")
 			&& ($value_id>0) // must be int
 			)
 			{
-			$sql=SQL("delete"," from $DBCFG[DBprefix]values
+			$sql=SQL("delete"," from $_SESSION[DBprefix]values
 				where value_id='$value_id'
 				and value_type='t_nota'");
 			$sql=array();
@@ -2834,7 +2834,7 @@ function abm_userRelations($do,$array,$value_id="0")
 		switch ($do)
 		{
 			case 'A':
-				$sql=SQL("insert","into $DBCFG[DBprefix]values
+				$sql=SQL("insert","into $_SESSION[DBprefix]values
 					(value_type, value,value_order, value_code)
 					values
 					('$array[t_relacion]',$array[rr_value],$array[rr_ord],$array[rr_code])
@@ -2844,7 +2844,7 @@ function abm_userRelations($do,$array,$value_id="0")
 
 			case 'M':
 
-			$sql=SQL("update"," $DBCFG[DBprefix]values
+			$sql=SQL("update"," $_SESSION[DBprefix]values
 					set value=$array[rr_value],
 					value_order=$array[rr_ord],
 					value_code=$array[rr_code]
@@ -2856,7 +2856,7 @@ function abm_userRelations($do,$array,$value_id="0")
 			if($arrayDataRelation[cant]==0)
 				{
 
-				$sql=SQL("delete"," from $DBCFG[DBprefix]values
+				$sql=SQL("delete"," from $_SESSION[DBprefix]values
 					where value_id='$arrayDataRelation[rel_rel_id]'");
 				$sql=array();
 				};
@@ -2895,7 +2895,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 
 	switch ($do)	{
 		case 'A':
-			$sql=SQL("insert","into $DBCFG[DBprefix]values
+			$sql=SQL("insert","into $_SESSION[DBprefix]values
 				(value_type, value, value_code)
 				values
 				('URI_TYPE',$array[uri_value],$array[uri_code])
@@ -2905,7 +2905,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 
 		case 'M':
 
-		$sql=SQL("update"," $DBCFG[DBprefix]values
+		$sql=SQL("update"," $_SESSION[DBprefix]values
 				set value=$array[uri_value],
 				value_code=$array[uri_code]
 				where value_id='$arrayURIdefinition[uri_type_id]'");
@@ -2916,7 +2916,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 		if($arrayURIdefinition[cant]==0)
 			{
 
-			$sql=SQL("delete"," from $DBCFG[DBprefix]values
+			$sql=SQL("delete"," from $_SESSION[DBprefix]values
 				where value_id='$arrayURIdefinition[uri_type_id]'");
 			$sql=array();
 			};
@@ -2950,14 +2950,14 @@ function ABM_value($do,$arrayValue)
 
 	switch ($do) {
 		case 'MOD_VALUE':
-		$sql=SQL("update","$DBCFG[DBprefix]values
+		$sql=SQL("update","$_SESSION[DBprefix]values
 				set value=$arrayValue[value]
 				where value_type='$arrayValue[value_type]'
 				and value_code=$arrayValue[value_code]");
 		break;
 
 		case 'MOD_SINGLE_VALUE':
-		$sql=SQL("update","$DBCFG[DBprefix]values
+		$sql=SQL("update","$_SESSION[DBprefix]values
 				set value=$arrayValue[value]
 				where value_type='$arrayValue[value_type]'
 				");
@@ -2965,7 +2965,7 @@ function ABM_value($do,$arrayValue)
 
 		case 'ADD_VALUE':
 
-		$sql=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+		$sql=SQL("insert","into `".$_SESSION[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('$arrayValue[value_type]', $arrayValue[value], NULL, $arrayValue[value_code])");
 
 		break;
@@ -3001,14 +3001,14 @@ function abm_rel_rel($do,$rel_id,$rel_type_id)
 
 			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1'){
 
-				$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
+				$sql=SQL("update"," $_SESSION[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
 			}
 
 		break;
 
 		case 'BAJA':
 
-			$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id=NULL, cuando=now(),uid='$userId' where id='$rel_id'");
+			$sql=SQL("update"," $_SESSION[DBprefix]tabla_rel set rel_rel_id=NULL, cuando=now(),uid='$userId' where id='$rel_id'");
 		break;
 
 		default:
@@ -3315,28 +3315,28 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')
 
 	if($array["massrem_terms"]=='1')
 	{
-		$sql=SQL("truncate","$DBCFG[DBprefix]term2tterm");
-		$sql=SQL("truncate","$DBCFG[DBprefix]uri");
-		$sql=SQL("truncate","$DBCFG[DBprefix]notas");
-		$sql=SQL("truncate","$DBCFG[DBprefix]indice");
-		$sql=SQL("truncate","$DBCFG[DBprefix]tabla_rel");
-		$sql=SQL("truncate","$DBCFG[DBprefix]tema");
+		$sql=SQL("truncate","$_SESSION[DBprefix]term2tterm");
+		$sql=SQL("truncate","$_SESSION[DBprefix]uri");
+		$sql=SQL("truncate","$_SESSION[DBprefix]notas");
+		$sql=SQL("truncate","$_SESSION[DBprefix]indice");
+		$sql=SQL("truncate","$_SESSION[DBprefix]tabla_rel");
+		$sql=SQL("truncate","$_SESSION[DBprefix]tema");
 	return;
 	}
 
 	if($array["massrem_teqterms"]=='1')
 	{
-		$sql=SQL("truncate","$DBCFG[DBprefix]term2tterm");
+		$sql=SQL("truncate","$_SESSION[DBprefix]term2tterm");
 	}
 
 	if($array["massrem_url"]=='1')
 	{
-		$sql=SQL("truncate","$DBCFG[DBprefix]uri");
+		$sql=SQL("truncate","$_SESSION[DBprefix]uri");
 	}
 
 	if($array["massrem_notes"]=='1')
 	{
-		$sql=SQL("truncate","$DBCFG[DBprefix]notas");
+		$sql=SQL("truncate","$_SESSION[DBprefix]notas");
 	}
 
 	return;
@@ -3401,7 +3401,7 @@ function do_target_temaXcode($tema_id,$code,$tvocab_id)
 		$arrayTterm["tterm_string"]=secure_data($tterm_string,"ADOsql");
 
 
-		$sql=SQLo("insert","into $DBCFG[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
+		$sql=SQLo("insert","into $_SESSION[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
 				values (?,?,?,?,$arrayTterm[tterm_string],now(),?)",
 				array($tema_id,$arrayVocab[tvocab_id],$arrayTterm[tterm_url],$arrayTterm[tterm_uri],$userId));
 
@@ -3422,7 +3422,7 @@ function setMetaTerm($term_id,$flag=0)
 	$tema_id=secure_data($tema_id,"int");
 	$flag=(in_array($flag, array(1,0))) ? $flag : 0;
 
-	$sql=SQL("update","$DBCFG[DBprefix]tema set isMetaTerm='$flag', uid_final='$userId',cuando_final=now()
+	$sql=SQL("update","$_SESSION[DBprefix]tema set isMetaTerm='$flag', uid_final='$userId',cuando_final=now()
 						where tema_id='$term_id' and tesauro_id=1");
 
 	return array("tema_id"=>$term_id);
@@ -3498,11 +3498,11 @@ function doSparqlEndpoint()
 
 		if($ARRAYlastUpdateEndpoint["value"])
 			{
-				$sql=SQL("update"," $DBCFG[DBprefix]values set value=now() where  value_type='DATESTAMP' and value_code='ENDPOINT_CHANGE'");
+				$sql=SQL("update"," $_SESSION[DBprefix]values set value=now() where  value_type='DATESTAMP' and value_code='ENDPOINT_CHANGE'");
 			}
 			else
 			{
-				$sql=SQL("insert","into $DBCFG[DBprefix]values (`value_type`, `value`, `value_order`, `value_code`) VALUES
+				$sql=SQL("insert","into $_SESSION[DBprefix]values (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('DATESTAMP', now(), NULL, 'ENDPOINT_CHANGE')");
 			};
 
@@ -3770,7 +3770,7 @@ function SQLbulkReplaceTerm($from,$to,$where,$arrayTerms){
 		$where_in=substr("$where_in",0,-1);
 	}
 
-	return SQL("update","$DBCFG[DBprefix]tema  set tema=replace(tema, $from_string, $to_string),
+	return SQL("update","$_SESSION[DBprefix]tema  set tema=replace(tema, $from_string, $to_string),
 						cuando_final=now(),
 						uid_final=$userId
 						where tema like BINARY $where_string
@@ -3797,7 +3797,7 @@ function SQLbulkReplaceNote($from,$to,$where,$arrayNotes){
 		$where_in=substr("$where_in",0,-1);
 	}
 
-	return SQL("update","$DBCFG[DBprefix]notas  set nota=replace(nota, $from_string, $to_string),
+	return SQL("update","$_SESSION[DBprefix]notas  set nota=replace(nota, $from_string, $to_string),
 						cuando=now(),
 						uid=$userId
 						where nota like BINARY $where_string
@@ -3817,7 +3817,7 @@ function SQLbulkGlossNote($from,$to,$where,$notesType,$term_id,$replaceType=1){
 	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 
-	return SQL("update","$DBCFG[DBprefix]notas set nota=replace(nota, $from_string, $to_string),
+	return SQL("update","$_SESSION[DBprefix]notas set nota=replace(nota, $from_string, $to_string),
 						cuando=now(),
 						uid=$userId
 						where nota like $replaceType $where_string
@@ -3829,7 +3829,7 @@ function SQLbulkGlossNote($from,$to,$where,$notesType,$term_id,$replaceType=1){
 //replace double char in notes
 function SQLfixDobleChar4Notes($notesType,$char,$charX2){
         GLOBAL $DBCFG;
-	return SQL("update","$DBCFG[DBprefix]notas set nota=replace(nota, '$charX2', '$char')
+	return SQL("update","$_SESSION[DBprefix]notas set nota=replace(nota, '$charX2', '$char')
 						where nota like BINARY '$charX2'
 						and tipo_nota='$notesType'");
 
@@ -3841,13 +3841,13 @@ function SQLnoteshtml2chars(){
 
 	GLOBAL $DBCFG;
 
-	$sql=SQL("select","n.id,n.nota from $DBCFG[DBprefix]notas n");
+	$sql=SQL("select","n.id,n.nota from $_SESSION[DBprefix]notas n");
 
 	while($array=$sql->FetchRow()){
 
 		$nota=html_entity_decode($array["nota"]);
 
-		$SQLupdate=SQL("update","$DBCFG[DBprefix]notas set nota='$nota'
+		$SQLupdate=SQL("update","$_SESSION[DBprefix]notas set nota='$nota'
 						where id=$array[id]");
 	};
 

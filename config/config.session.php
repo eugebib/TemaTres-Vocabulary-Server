@@ -30,7 +30,7 @@ ini_set('session.use_only_cookies', 1);
 //ini_set('session.cookie_secure', 1);
 session_start();
 
-$SQL_CFG_LC = SQL("select","id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config where id=1");
+$SQL_CFG_LC = SQL("select","id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $vocabulary[DBprefix]config where id=1");
 
 if ( ! is_object($SQL_CFG_LC)) {
 	header("Location: " . URL_BASE . "install");
@@ -51,6 +51,7 @@ $_SESSION["CFGURL"]           = $CFG_LC[8];
 $_SESSION["CFGPolijerarquia"] = $CFG_LC[9];
 $_SESSION["CFGVersion"]       = $CFG[Version];
 $_SESSION["style"]            = $vocabulary['style'];
+$_SESSION["DBprefix"]		  = $vocabulary['DBprefix'];
 
 //Load config values
 loadConfigValues(1);
