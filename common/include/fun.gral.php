@@ -819,7 +819,7 @@ function DBconnect()
     */
     //	include_once('adodb5/adodb-exceptions.inc.php');
 
-	GLOBAL $DBCFG;
+	GLOBAL $DBCFG, $CFG;
 
 	//default driver
 	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'MySQLi' : $DBCFG["DBdriver"];
@@ -837,7 +837,7 @@ function DBconnect()
 		}
 
 	//Si debug
-	if($DBCFG["debugMode"]=='1'){
+	if($CFG["debugMode"]=='1'){
 		echo $DB->ErrorMsg();
 		};
 
@@ -847,15 +847,14 @@ function DBconnect()
 
 function SQL($todo,$sql)
 {
-    GLOBAL $DB;
-    GLOBAL $DBCFG;
+    GLOBAL $DB, $CFG;
 
     $sql = $todo.' '.$sql;
 
     $rs = $DB->Execute($sql);
 
     //Si debug
-    if($DBCFG["debugMode"]=='1')     echo $DB->ErrorMsg();
+    if($CFG["debugMode"]=='1')     echo $DB->ErrorMsg();
 
     if (!$rs) return array("error"=>$DB->ErrorMsg());
 
@@ -920,7 +919,7 @@ function SQLdatosTesaruo($tesauro_id)
     		tipo,
     		cuando,
     		url_base
-    		from $DBCFG[DBprefix]config as config
+    		from $_SESSION[DBprefix]config as config
     		where id=?",array($tesauro_id));
 }
 
@@ -933,7 +932,7 @@ function SQLAuthUser($mail,$pass)
 			usuario.mail,
 			usuario.nivel,
 			concat(usuario.apellido,', ',usuario.nombres) as nombre
-		from $DBCFG[DBprefix]usuario as usuario
+		from $_SESSION[DBprefix]usuario as usuario
 			 where usuario.mail=?
 			 and usuario.pass=?
 			 and estado=1",array($mail,$pass));
@@ -950,7 +949,7 @@ function ARRAYcheckLogin($mail)
 			u.nivel,
 			concat(u.apellido,', ',u.nombres) as nombre,
 			u.pass
-		from $DBCFG[DBprefix]usuario as u
+		from $_SESSION[DBprefix]usuario as u
 			 where u.mail=?
 			 and u.estado=1",array($mail));
 
@@ -977,7 +976,7 @@ function loadConfigValues($renew="0")
 		GLOBAL $DBCFG;
 
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
-						from $DBCFG[DBprefix]values v where v.value_type='config'");
+						from $_SESSION[DBprefix]values v where v.value_type='config'");
 
 	 if(SQLcount($sql)>0){
     $NEWarrayCFGs=array();
@@ -1047,14 +1046,14 @@ function doLastModified($thes_change=false)
 	$lastTtermMod=ARRAYlastTtermMod();
 	$lastNoteMod=ARRAYlastNoteMod();
 
-	$sqlTerm=SQL("update"," $DBCFG[DBprefix]values set value='$lastTermMod' where value_type='DATESTAMP' and value_code='TERM_CHANGE'");
-	$sqlTterm=SQL("update"," $DBCFG[DBprefix]values set value='$lastTtermMod' where value_type='DATESTAMP' and value_code='TTERM_CHANGE'");
-	$sqlNotes=SQL("update"," $DBCFG[DBprefix]values set value='$lastNoteMod' where value_type='DATESTAMP' and value_code='NOTE_CHANGE'");
+	$sqlTerm=SQL("update"," $_SESSION[DBprefix]values set value='$lastTermMod' where value_type='DATESTAMP' and value_code='TERM_CHANGE'");
+	$sqlTterm=SQL("update"," $_SESSION[DBprefix]values set value='$lastTtermMod' where value_type='DATESTAMP' and value_code='TTERM_CHANGE'");
+	$sqlNotes=SQL("update"," $_SESSION[DBprefix]values set value='$lastNoteMod' where value_type='DATESTAMP' and value_code='NOTE_CHANGE'");
 
 
 	if($thes_change==true)
 	{
-		$sql=SQL("update"," $DBCFG[DBprefix]values set value='now()' where  value_type='DATESTAMP' and value_code='THES_CHANGE'");
+		$sql=SQL("update"," $_SESSION[DBprefix]values set value='now()' where  value_type='DATESTAMP' and value_code='THES_CHANGE'");
 	}
 }
 
@@ -1063,7 +1062,7 @@ function doLastModified($thes_change=false)
 function ARRAYlastTermMod()
 {
 	GLOBAL $DBCFG;
-	$sql=SQL("select","max(t.cuando) as last_create,max(t.cuando_final) as  last_mod,max(t.cuando_estado) as last_status from $DBCFG[DBprefix]tema t");
+	$sql=SQL("select","max(t.cuando) as last_create,max(t.cuando_final) as  last_mod,max(t.cuando_estado) as last_status from $_SESSION[DBprefix]tema t");
 	$array=$sql->FetchRow();
 	return $array;
 }
@@ -1073,7 +1072,7 @@ function ARRAYlastTermMod()
 function ARRAYlastTtermMod()
 {
 	GLOBAL $DBCFG;
-	$sql=SQL("select","max(tt.cuando) last from $DBCFG[DBprefix]term2tterm tt");
+	$sql=SQL("select","max(tt.cuando) last from $_SESSION[DBprefix]term2tterm tt");
 	$array=$sql->FetchRow();
 	return $array[last];
 }
@@ -1083,7 +1082,7 @@ function ARRAYlastTtermMod()
 function ARRAYlastNoteMod()
 {
 	GLOBAL $DBCFG;
-	$sql=SQL("select","max(n.cuando) last from $DBCFG[DBprefix]notas n");
+	$sql=SQL("select","max(n.cuando) last from $_SESSION[DBprefix]notas n");
 	$array=$sql->FetchRow();
 	return $array[last];
 }
@@ -1186,7 +1185,7 @@ function currentBasePage($url)
 
 function sendMail($to_address,$subject,$message,$extra=array())
 {
-    GLOBAL $DBCFG;
+    GLOBAL $CFG;
     require_once("mailer/PHPMailerAutoload.php");
 	$mail = new PHPMailer();
 
@@ -1216,21 +1215,20 @@ function sendMail($to_address,$subject,$message,$extra=array())
     $mail->IsHTML(false);                                  // set email format to HTML
     $mail->Subject = $subject;
     $mail->Body    = $message;
-    $mail->Send();
 
-    if($DBCFG["debugMode"] == "1") {
-      //Enable SMTP debugging
-      // 0 = off (for production use)
-      // 1 = client messages
-      // 2 = client and server messages
-      $mail->SMTPDebug = 2;
-      //Ask for HTML-friendly debug output
-      $mail->Debugoutput = 'html';
+    // if($CFG["debugMode"] == "1") {
+    //   //Enable SMTP debugging
+    //   // 0 = off (for production use)
+    //   // 1 = client messages
+    //   // 2 = client and server messages
+    //   $mail->SMTPDebug = 2;
+    //   //Ask for HTML-friendly debug output
+    //   $mail->Debugoutput = 'html';
 
-      error_reporting(E_ALL);
-      ini_set("display_errors", 1);
-      echo "DEBUG DATA:". $mail->ErrorInfo;
-    }
+    //   error_reporting(E_ALL);
+    //   ini_set("display_errors", 1);
+    //   echo "DEBUG DATA:". $mail->ErrorInfo;
+    // }
 
     return ($mail->Send()) ? true  : false;
 }
@@ -1297,18 +1295,21 @@ function t3_hash_password($password)
  */
 require_once( 'class-phpass.php');
 
+
+
 function check_password($password,$hash)
 {
-	if(CFG_HASH_PASS==1)
-	{
+    GLOBAL $CFG;
+
+	if($CFG['hashPass']==1) {
 		$hasher = new PasswordHash(8, true);
 		return $hasher->CheckPassword($password,$hash);
-	}
-	else
-	{
+	} else {
 		return ($password==$hash);
-	};
+	}
 }
+
+
 
 /*
  *
@@ -1318,7 +1319,7 @@ function setPassword($user_id,$user_pass,$to_hash=0)
 {
 	GLOBAL $DBCFG;
 	$user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
-	$sql_update_pass=SQLo("update","$DBCFG[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
+	$sql_update_pass=SQLo("update","$_SESSION[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
 	return;
 }
 
@@ -1494,7 +1495,7 @@ function ARRAYUserData($user_id)
     GLOBAL $DBCFG;
     $sql=SQL("select","u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel
     from
-    $DBCFG[DBprefix]usuario u
+    $_SESSION[DBprefix]usuario u
     where u.id='$user_id'
     and u.estado=1");
 

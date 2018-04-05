@@ -9,3 +9,12 @@ function dd($data)
     echo '</pre>';
     die();
 }
+
+function requireView($filename)
+{
+    if (file_exists('views/' . $filename . '-' . $_SESSION['style'] . '.view.php')) {
+        require 'views/' . $filename . '-' . $_SESSION['style'] . '.view.php';
+    } else {
+        require 'views/' . $filename . '.view.php';
+    }
+}

@@ -15,12 +15,11 @@ $metadata=do_meta_tag();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
-  </head>
+    <?php requireView('partials/head'); ?>
  <body>
 
-  <?php echo HTMLnavHeader(); ?>
+    <?php requireView('layout/header'); ?>
+    <?php requireView('layout/mainNav'); ?>
 
 <div class="container">
     <?php
@@ -125,35 +124,10 @@ $metadata=do_meta_tag();
 		}
 	};
 	?>
-</div><!-- /.container -->
-<!-- ###### Footer ###### -->
+</div>
 
-<div id="footer" class="footer">
-      <div class="container">
-        <div class="row">
-          <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">
-            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  width="42" alt="TemaTres"/></a>
-            <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">TemaTres</a>
-<p class="navbar-text pull-left">
-        <?php
-        //are enable SPARQL
-        if(CFG_ENABLE_SPARQL==1)        {
-          echo '<a class="label label-info" href="'.URL_BASE.'sparql" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-        }
+<?php requireView('layout/footer'); ?>
+<?php requireView('partials/scripts'); ?>
 
-        if(CFG_SIMPLE_WEB_SERVICE==1)       {
-          echo '  <a class="label label-info" href="'.URL_BASE.'services" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
-        }
-
-          echo '  <a class="label label-info" href="'.URL_BASE.'xml?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-          echo '  <a class="label label-info" href="'.URL_BASE.'index?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
-        ?>
-      </p>
-        <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
-    	</div>
-	</div>
-
-		  </div>
-<?php echo HTMLjsInclude();?>
     </body>
 </html>

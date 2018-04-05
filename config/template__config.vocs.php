@@ -21,10 +21,19 @@ $vocabularies['tesauro'] = array(
     'DBprefix'  => '',
     'logoImg'   => '',
     'logoTitle' => '',
-    'logoLink'  => ''
+    'logoLink'  => '',
+    'style'     => ''
 );
 
 $CFG['URL']              = '';
+
+
+
+
+
+####################################################################
+
+
 
 list($vocabulary, $page) = getVocabulary($vocabularies);
 

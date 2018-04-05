@@ -18,53 +18,20 @@ if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSI
 $search_string ='';
 $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,FORM_LABEL_buscar)) : '';
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
- </head>
- <body>
+    <?php requireView('partials/head'); ?>
+    <body>
+        <?php requireView('layout/header'); ?>
+        <?php requireView('layout/mainNav'); ?>
 
-  <?php echo HTMLnavHeader(); ?>
+        <div id="wrap" class="container">
+            <?php require_once(T3_ABSPATH . 'common/include/inc.inicio.php'); ?>
+        </div>
+        <div class="push"></div>
 
-<div id="wrap" class="container">
-
-<?php
-	require_once(T3_ABSPATH . 'common/include/inc.inicio.php');
-?>
-
-</div><!-- /.container -->
-<div class="push"></div>
-<!-- ###### Footer ###### -->
-<div id="footer" class="footer">
-		  <div class="container">
-		    	<?php
-					 if(!$_GET["letra"])
-					 {
-						 echo HTMLlistaAlfabeticaUnica();
-					 }
-					 ?>
-
-
-				<p class="navbar-text pull-left">
-				<?php
-				//are enable SPARQL
-				if(CFG_ENABLE_SPARQL==1)				{
-					echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-				}
-
-				if(CFG_SIMPLE_WEB_SERVICE==1)				{
-					echo '  <a class="label label-info" href="'.URL_BASE.'services" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
-				}
-
-					echo '  <a class="label label-info" href="'.URL_BASE.'xml?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-					echo '  <a class="label label-info" href="'.URL_BASE.'index?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
-				?>
-				</p>
-				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
-		  </div>
-
-</div>
-<?php echo HTMLjsInclude();?>
+        <?php requireView('layout/footer'); ?>
+        <?php requireView('partials/scripts'); ?>
     </body>
 </html>

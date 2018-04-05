@@ -33,7 +33,7 @@ if($_POST["taskUser"]=='actuaDatos')
 $dato_user=ARRAYdatosUser($user_id);
 
 
-$rows.='<form role="form" name="login" id="form-users" data-toggle="validator" action="login.php" method="post">';
+$rows.='<form role="form" name="login" id="form-users" data-toggle="validator" action="login" method="post">';
 $rows.='	<div class="row">
 		<div class="col-sm-12">';
 		$rows.=$row_log;
