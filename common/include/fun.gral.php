@@ -819,7 +819,7 @@ function DBconnect()
     */
     //	include_once('adodb5/adodb-exceptions.inc.php');
 
-	GLOBAL $DBCFG;
+	GLOBAL $DBCFG, $CFG;
 
 	//default driver
 	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'MySQLi' : $DBCFG["DBdriver"];
@@ -837,7 +837,7 @@ function DBconnect()
 		}
 
 	//Si debug
-	if($DBCFG["debugMode"]=='1'){
+	if($CFG["debugMode"]=='1'){
 		echo $DB->ErrorMsg();
 		};
 
@@ -847,15 +847,14 @@ function DBconnect()
 
 function SQL($todo,$sql)
 {
-    GLOBAL $DB;
-    GLOBAL $DBCFG;
+    GLOBAL $DB, $CFG;
 
     $sql = $todo.' '.$sql;
 
     $rs = $DB->Execute($sql);
 
     //Si debug
-    if($DBCFG["debugMode"]=='1')     echo $DB->ErrorMsg();
+    if($CFG["debugMode"]=='1')     echo $DB->ErrorMsg();
 
     if (!$rs) return array("error"=>$DB->ErrorMsg());
 
@@ -1186,7 +1185,7 @@ function currentBasePage($url)
 
 function sendMail($to_address,$subject,$message,$extra=array())
 {
-    GLOBAL $DBCFG;
+    GLOBAL $CFG;
     require_once("mailer/PHPMailerAutoload.php");
 	$mail = new PHPMailer();
 
@@ -1216,21 +1215,20 @@ function sendMail($to_address,$subject,$message,$extra=array())
     $mail->IsHTML(false);                                  // set email format to HTML
     $mail->Subject = $subject;
     $mail->Body    = $message;
-    $mail->Send();
 
-    if($DBCFG["debugMode"] == "1") {
-      //Enable SMTP debugging
-      // 0 = off (for production use)
-      // 1 = client messages
-      // 2 = client and server messages
-      $mail->SMTPDebug = 2;
-      //Ask for HTML-friendly debug output
-      $mail->Debugoutput = 'html';
+    // if($CFG["debugMode"] == "1") {
+    //   //Enable SMTP debugging
+    //   // 0 = off (for production use)
+    //   // 1 = client messages
+    //   // 2 = client and server messages
+    //   $mail->SMTPDebug = 2;
+    //   //Ask for HTML-friendly debug output
+    //   $mail->Debugoutput = 'html';
 
-      error_reporting(E_ALL);
-      ini_set("display_errors", 1);
-      echo "DEBUG DATA:". $mail->ErrorInfo;
-    }
+    //   error_reporting(E_ALL);
+    //   ini_set("display_errors", 1);
+    //   echo "DEBUG DATA:". $mail->ErrorInfo;
+    // }
 
     return ($mail->Send()) ? true  : false;
 }
@@ -1297,18 +1295,21 @@ function t3_hash_password($password)
  */
 require_once( 'class-phpass.php');
 
+
+
 function check_password($password,$hash)
 {
-	if(CFG_HASH_PASS==1)
-	{
+    GLOBAL $CFG;
+
+	if($CFG['hashPass']==1) {
 		$hasher = new PasswordHash(8, true);
 		return $hasher->CheckPassword($password,$hash);
-	}
-	else
-	{
+	} else {
 		return ($password==$hash);
-	};
+	}
 }
+
+
 
 /*
  *

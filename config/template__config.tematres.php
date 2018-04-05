@@ -1,5 +1,7 @@
 <?php
 
+// rename as config.tematres.php
+
 ####################################################################
 # TemaTres : aplicación para la gestión de lenguajes documentales  #
 #                                                                  #
@@ -15,22 +17,38 @@
 
 if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
 
+$CFG = [
+  "debugMode" => 0,
+  "hashPass"  => 1
+];
+
+
+
+
+
+
+
+
+
+
+####################################################################
+
 if ( ! defined('T3_ABSPATH')) {
-	/** Use this for version of PHP < 5.3 */
-	define('T3_ABSPATH', dirname(dirname(__FILE__)) . '/');
+    /** Use this for version of PHP < 5.3 */
+    define('T3_ABSPATH', dirname(dirname(__FILE__)) . '/');
 
-	/** Use this for version of PHP >= 5.3	*/
-	//~ define('T3_ABSPATH', dirname(__DIR__) . '/');
+    /** Use this for version of PHP >= 5.3  */
+    //~ define('T3_ABSPATH', dirname(__DIR__) . '/');
 
-	/** Use to define specific local path for common/include directory */
-	//~ define('T3_ABSPATH', '/home/my_name/tematres/');
+    /** Use to define specific local path for common/include directory */
+    //~ define('T3_ABSPATH', '/home/my_name/tematres/');
 }
 
-if ($DBCFG["debugMode"]=='1') {
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
+if ($CFG["debugMode"]=='1') {
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL);
 } else {
-	ini_set('display_errors',false);
+    ini_set('display_errors',false);
 }
 
 require_once(T3_ABSPATH . 'common/include/fun.gral.php');
@@ -39,7 +57,7 @@ require_once(T3_ABSPATH . 'common/include/fun.gral.php');
 $DB = DBconnect();
 
 if (!$DB) {
-	loadPage(T3_ABSPATH . 'vocab/install.php');
+    loadPage(T3_ABSPATH . 'vocab/install.php');
 }
 
 //Agregado para la version multi
@@ -86,20 +104,20 @@ $CFG["IMP_TAG_TABULATOR"]  ='===';
 
 /* Config here to publish image and fixed link in header:
 
-	URL_IMG= URL for the image.
-	URL_LINK= link for the image (optional)
+    URL_IMG= URL for the image.
+    URL_LINK= link for the image (optional)
 
  Example
  $CFG["HEADER_EXTRA"] =array(
- 	"LINK_IMG"=>'http://vocabularyserver.com/img/tematres-logo.gif',
-	"LINK_URL"=>'http://vocabularyserver.com/',
-	"LINK_TITLE"=>'TemaTres: open source way to manage formal representations of knowledge'
-	);
+    "LINK_IMG"=>'http://vocabularyserver.com/img/tematres-logo.gif',
+    "LINK_URL"=>'http://vocabularyserver.com/',
+    "LINK_TITLE"=>'TemaTres: open source way to manage formal representations of knowledge'
+    );
  */
 $CFG["HEADER_EXTRA"] =array(
-	"LINK_IMG"=>'',
-	"LINK_URL"=>'',
-	"LINK_TITLE"=>''
+    "LINK_IMG"=>'',
+    "LINK_URL"=>'',
+    "LINK_TITLE"=>''
 );
 
 /*  In almost cases, you don't need to touch nothing here!!
@@ -111,7 +129,7 @@ if (date_default_timezone_get() != ini_get('date.timezone')) {
     date_default_timezone_set('Etc/UTC');
 }
 
-if ( !defined('T3_WEBPATH')) {
+if ( ! defined('T3_WEBPATH')) {
     define('T3_WEBPATH', getURLbase().'../common/');
 }
 

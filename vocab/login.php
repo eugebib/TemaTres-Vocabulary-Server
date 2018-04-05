@@ -23,68 +23,11 @@ if (($_GET["action"]=='rp') && ($_GET["key"])) {
 
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
-    <head>
-        <?php echo HTMLheader($metadata);?>
-        <style type="text/css">
-            .navbar-form {
-                overflow: auto;
-            }
-            .navbar-form .form-control {
-                display: inline-block;
-                width: 80%;
-                vertical-align: middle;
-            }
-            .navbar-form .form-group {
-                display: inline;
-            }
-            .form-signin {
-              max-width: 330px;
-              padding: 15px;
-              margin: 0 auto;
-            }
-            .form-signin .form-signin-heading,
-            .form-signin .checkbox {
-              margin-bottom: 10px;
-            }
-            .form-signin .checkbox {
-              font-weight: normal;
-            }
-            .form-signin .form-control {
-              position: relative;
-              height: auto;
-              -webkit-box-sizing: border-box;
-                 -moz-box-sizing: border-box;
-                      box-sizing: border-box;
-              padding: 10px;
-              font-size: 16px;
-            }
-            .form-signin .form-control:focus {
-              z-index: 2;
-            }
-            .form-signin input[type="email"] {
-              margin-bottom: -1px;
-              border-bottom-right-radius: 0;
-              border-bottom-left-radius: 0;
-            }
-            .form-signin input[type="password"] {
-              margin-bottom: 10px;
-              border-top-left-radius: 0;
-              border-top-right-radius: 0;
-            }
-            .forgot-password {
-            	text-decoration: underline;
-            	color: #888;
-            }
-            .forgot-password:hover,
-            .forgot-password:focus {
-            	text-decoration: underline;
-            	color: #666;
-            }
-        </style>
-    </head>
+    <?php requireView('partials/head'); ?>
 
     <body>
-        <?php echo HTMLnavHeader(); ?>
+        <?php requireView('layout/header'); ?>
+        <?php requireView('layout/mainNav'); ?>
 
         <div class="container">
 
@@ -108,36 +51,8 @@ if (($_GET["action"]=='rp') && ($_GET["key"])) {
 
         </div><!-- /.container -->
 
-        <!-- ###### Footer ###### -->
-        <div id="footer" class="footer">
-        		  <div class="container">
-        		    	<?php
-        					 if(!@$_GET["letra"]) {
-        						 echo HTMLlistaAlfabeticaUnica();
-        					 }
-        					 ?>
-
-        			<p class="navbar-text pull-left">
-        				<?php
-        				//are enable SPARQL
-        				if(CFG_ENABLE_SPARQL==1)				{
-        					echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-        				}
-
-        				if(CFG_SIMPLE_WEB_SERVICE==1)				{
-        					echo '  <a class="label label-info" href="'.URL_BASE.'services" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
-        				}
-
-        					echo '  <a class="label label-info" href="'.URL_BASE.'xml?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-        					echo '  <a class="label label-info" href="'.URL_BASE.'index?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
-        				?>
-        			</p>
-        				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
-        		  </div>
-
-        </div>
-
-        <?php echo HTMLjsInclude();?>
+        <?php requireView('layout/footer'); ?>
+        <?php requireView('partials/scripts'); ?>
 
     </body>
 </html>
@@ -180,7 +95,6 @@ function recovery($user_login){
 	$ARRAYuser=array();
 	$ARRAYuser=ARRAYdatosUserXmail($user_login);
 
-
 	//El usuario no existe
 	if(!$ARRAYuser["user_id"]) return array("result"=>false, "msg"=>t3_messages("no_user"));
 
@@ -202,7 +116,7 @@ function recovery($user_login){
 
 	$title = sprintf('[%s] '.LABEL_mail_recoveryTitle, $_SESSION[CFGTitulo] );
 
-	$sendMail=sendMail($ARRAYuser["mail"], $title, $message);
+	$sendMail = sendMail($ARRAYuser["mail"], $title, $message);
 
 	if ($sendMail){
 		return array("result"=>true, "msg"=>t3_messages("mailOK"));
@@ -215,12 +129,14 @@ function recovery($user_login){
 };
 
 
-function reset_password($ARRAYuser){
+function reset_password($ARRAYuser)
+{
+    GLOBAL $CFG;
 
 	$string_pass = wp_generate_password( 12, false);
 
 	//set password
-	setPassword($ARRAYuser["user_id"],$string_pass,CFG_HASH_PASS);
+	setPassword($ARRAYuser["user_id"],$string_pass,$CFG['hashPass']);
 
 	$message = LABEL_mail_pass1.' '.$ARRAYuser["mail"] . "\r\n\r\n";
 	$message .= LABEL_mail_pass2.' '.$string_pass. "\r\n\r\n";

@@ -6,3 +6,5 @@ config/config\.db\.php
 config/config\.vocs\.php
 
 views/menu-local\.view\.php
+
+config/config\.tematres\.php

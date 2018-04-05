@@ -29,8 +29,6 @@ $lang          = $tematres_lang=(in_array($lang_install,array('ca','de','en','es
 if ( ! file_exists('config/config.db.php')) {
 	return message('<div class="error">Configuration file <code>config.db.php</code> not found!</div><br/>');
 } else {
-	include('config/config.db.php');
-	require_once('config/config.local.php');
 	require_once(T3_ABSPATH . 'common/include/config.tematres.php');
 }
 
@@ -111,7 +109,7 @@ function checkDataInstall($array=array())
 //check install environment
 function checkInstall($lang)
 {
-	GLOBAL $install_message;
+	GLOBAL $install_message, $CFG;
 
 	$conf_file_path =  str_replace("install","config.db.php","http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']) ;
 
@@ -122,7 +120,7 @@ function checkInstall($lang)
 		include('config/config.db.php');
 	}
 
-	if($DBCFG["debugMode"]==0) {
+	if($CFG["debugMode"]==0) {
 		//silent warnings
 		error_reporting(0);
 		$label_login='';
@@ -176,7 +174,7 @@ function checkInstall($lang)
 
 function SQLtematres($DBCFG,$DB,$arrayInstallData=array())
 {
-	GLOBAL $DBCFG;
+	GLOBAL $DBCFG, $CFG;
 
 	// Si se establecio un charset para la conexion
 	if(@$DBCFG["DBcharset"]){
@@ -416,7 +414,7 @@ function SQLtematres($DBCFG,$DB,$arrayInstallData=array())
 
 	   require_once(T3_ABSPATH . 'common/include/fun.gral.php');
 
-		 $admin_pass_hash=(CFG_HASH_PASS==1) ? t3_hash_password($admin_pass) : $admin_pass;
+		 $admin_pass_hash=($CFG['hashPass']==1) ? t3_hash_password($admin_pass) : $admin_pass;
 
 		 $admin_pass_hash=($admin_pass_hash) ? $DB->qstr(trim($admin_pass_hash),get_magic_quotes_gpc()) : "'admin'";
 

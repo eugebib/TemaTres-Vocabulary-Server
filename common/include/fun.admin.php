@@ -1026,11 +1026,9 @@ function edit_single_code($tema_id,$code)
 
 
 
-function admin_users($do,$user_id=""){
-
-	GLOBAL $DBCFG;
-
-	GLOBAL $DB;
+function admin_users($do,$user_id="")
+{
+	GLOBAL $DBCFG, $DB, $CFG;
 
 	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
@@ -1093,7 +1091,7 @@ function admin_users($do,$user_id=""){
 
 			//set password
 			if(strlen($POSTarrayUser[pass])>0)				{
-					setPassword($arrayUserData["user_id"],$POSTarrayUser[pass],CFG_HASH_PASS);
+					setPassword($arrayUserData["user_id"],$POSTarrayUser[pass],$CFG['hashPass']);
 				}
 
 		//only admin
@@ -1148,7 +1146,7 @@ function admin_users($do,$user_id=""){
 		$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
 		$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
 		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-		$user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
+		$user_pass=($CFG['hashPass']==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]usuario
 			(apellido, nombres, uid, cuando, mail,  orga, nivel,pass, estado, hasta)

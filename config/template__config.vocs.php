@@ -26,6 +26,14 @@ $vocabularies['tesauro'] = array(
 
 $CFG['URL']              = '';
 
+
+
+
+
+####################################################################
+
+
+
 list($vocabulary, $page) = getVocabulary($vocabularies);
 
 define('URL_BASE', $CFG['URL'] . $vocabulary['name']. '/');

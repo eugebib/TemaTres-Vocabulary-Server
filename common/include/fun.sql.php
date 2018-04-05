@@ -2481,8 +2481,7 @@ regenerate indice table => only in case of corrupt database or import thesaurus 
 */
 function SQLreCreateTermIndex()
 {
-
-	GLOBAL $DBCFG;
+	GLOBAL $CFG;
 
 	$sqlTerminosValidos=SQLIdTerminosValidos();
 
@@ -2501,7 +2500,7 @@ function SQLreCreateTermIndex()
 			$indice[$este_tema_id].='|'.$tema_id;
 		}
 
-		if ($DBCFG["debugMode"] == "1") echo $indice[$este_tema_id].': '.$este_tema_id.'<br>';
+		if ($CFG["debugMode"] == "1") echo $indice[$este_tema_id].': '.$este_tema_id.'<br>';
 
 		$esteindice=substr($indice[$este_tema_id],1);
 

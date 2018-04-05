@@ -1,0 +1,151 @@
+.navbar
+    min-height: initial
+
+    .container-fluid
+        background-color: $oscuro
+        border: 0
+        border-radius: 0
+        display: flex
+        justify-content: flex-start
+        flex-flow: column
+
+    .toggle
+        display: inline-block
+        color:  white
+        padding: 1em
+        vertical-align: middle
+
+    .link
+        display: block
+        width: 100%
+        padding: 1em
+        text-decoration: none
+        color: white
+
+    .brand
+        display: inline-block
+        width: inherit
+        height: 50px
+        text-align: left
+        padding: 0
+        color: white
+        text-decoration: none
+        display: flex
+        align-items: stretch
+        border-right: 10px solid $oscuro
+        border-left: 10px solid $oscuro
+
+    .brand input,
+    .brand button
+        background-color: #4E87C0
+        border: 0
+        padding: 1em
+        border-radius: 0
+        outline: 0
+        color: white
+
+    .link:hover,
+    .link:active,
+    .brand:hover,
+    .brand:active,
+    .open>.dropdown-toggle.btn-info
+        background: #4E87C0
+
+    .dropdown,
+    .dropdown:visited,
+    .dropdown:hover
+        color:  white
+
+    .dropdown-submenu>.dropdown-menu
+        width: 270px
+
+    .link-dropdown
+        height: 100%
+
+
+    @media (min-width: 871px)
+
+        .container-fluid
+            flex-flow: row
+
+        .section
+            display: flex
+
+        .section-right
+            flex-grow: 1
+            justify-content: flex-end
+
+        .link
+            width: auto
+
+        .link .text,
+        .toggle
+            display: none
+
+        .dropdown-menu-right .dropdown a.dropdown-toggle
+            padding-left: 10px
+
+    & > div > div
+        display: none
+
+        @media (min-width: 871px)
+            display: flex
+
+        .search
+            display: flex
+
+    .dropdown-menu
+        padding: 5px 10px
+        border-radius: 0
+        border: 1px solid rgba(25, 56, 72, .5)
+
+        li a
+            padding: 5px 0px
+            outline: 0
+
+        .dropdown a
+            padding: 5px 10px 5px 0px
+
+    .dropdown-menu-right .dropdown a
+        padding: 5px 0px 5px 0px
+
+
+    @media (max-width: 870px)
+
+        &.active .toggle
+            background: seagreen
+            color: white
+
+        &.active > div > div
+            display: block
+
+        &.active div.section-left
+            margin-top: 10px
+
+        & > div > div.search
+            display: flex
+
+        .search form,
+        .search input
+            flex-grow: 1
+
+        .link-hidden,
+        .link .glyphicon
+            display: none
+
+        .dropdown-menu-change
+            right: 0
+            left: auto
+
+    .dropdown-menu-right .dropdown a
+        padding: 5px 10px 5px 0px
+
+    .dropdown-menu>.dropdown-submenu>.dropdown-menu>li> a
+        padding-left: 0px
+
+    &.navbar-inverse
+        background-color: $oscuro
+        border-radius: 0px
+
+.dropdown-submenu>.dropdown-menu
+    width: 270px
