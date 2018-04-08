@@ -9,9 +9,9 @@
   justify-content: space-between; }
   .boxes .box {
     flex-grow: 1;
-    border: 1px solid #193848;
+    border: 1px solid #09a00c;
     padding: 15px;
-    background-color: #193848;
+    background-color: #09a00c;
     color: white;
     height: 150px;
     font-size: 20px; }
@@ -27,7 +27,7 @@ footer {
     padding-right: 20px; }
   footer a {
     font-weight: 500;
-    color: #4E87C0; }
+    color: #f17d1a; }
   footer img {
     margin-bottom: 20px; }
   footer .leaf form {
@@ -67,14 +67,10 @@ footer {
       text-align: justify; }
     #arg-footer img {
       margin-top: 10px; } }
-html * {
-  font-family: "Work Sans", "Open Sans", sans-serif;
-  box-sizing: border-box; }
-
 .navbar {
   min-height: initial; }
   .navbar .container-fluid {
-    background-color: #193848;
+    background-color: #09a00c;
     border: 0;
     border-radius: 0;
     display: flex;
@@ -101,11 +97,11 @@ html * {
     text-decoration: none;
     display: flex;
     align-items: stretch;
-    border-right: 10px solid #193848;
-    border-left: 10px solid #193848; }
+    border-right: 10px solid #09a00c;
+    border-left: 10px solid #09a00c; }
   .navbar .brand input,
   .navbar .brand button {
-    background-color: #4E87C0;
+    background-color: #f17d1a;
     border: 0;
     padding: 1em;
     border-radius: 0;
@@ -116,7 +112,7 @@ html * {
   .navbar .brand:hover,
   .navbar .brand:active,
   .navbar .open > .dropdown-toggle.btn-info {
-    background: #4E87C0; }
+    background: #f17d1a; }
   .navbar .dropdown,
   .navbar .dropdown:visited,
   .navbar .dropdown:hover {
@@ -182,10 +178,24 @@ html * {
   .navbar .dropdown-menu > .dropdown-submenu > .dropdown-menu > li > a {
     padding-left: 0px; }
   .navbar.navbar-inverse {
-    background-color: #193848;
+    background-color: #09a00c;
     border-radius: 0px; }
 
 .dropdown-submenu > .dropdown-menu {
   width: 270px; }
 
-/*# sourceMappingURL=bnm.css.map */
+* {
+  font-family: "Work Sans", sans-serif; }
+
+a {
+  color: #09a00c; }
+
+.header h1 a {
+  font-family: "Luckiest Guy", cursive;
+  color: #f17d1a; }
+
+.btn-primary {
+  background-color: #f17d1a;
+  border-color: #f17d1a; }
+
+/*# sourceMappingURL=lite.css.map */

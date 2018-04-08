@@ -2,7 +2,7 @@
     <div class="header">
         <h1>
             <a href="<?= URL_BASE ?>index" title="<?= $_SESSION['CFGTitulo'] . ': ' . MENU_ListaSis ?>">
-                <?= $_SESSION['CFGTitulo'] ?>
+                <?= ucfirst($_SESSION['CFGTitulo']) ?>
             </a>
         </h1>
 
