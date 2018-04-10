@@ -2189,8 +2189,8 @@ if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSIO
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>';
 
- if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
- 	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
+ if($_SESSION[$_SESSION["CFGURL"]]["lang"]!=='en')
+ 	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"].'.js" type="text/javascript"></script>';
 
 $rows.='<script type="text/javascript">
 	  	$("#myTermTab").tabCollapse();
