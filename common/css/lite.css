@@ -193,6 +193,8 @@ a {
 .header h1 a {
   font-family: "Luckiest Guy", cursive;
   color: #f17d1a; }
+  .header h1 a:hover {
+    text-decoration: none; }
 
 .btn-primary {
   background-color: #f17d1a;
