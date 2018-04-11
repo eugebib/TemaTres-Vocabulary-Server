@@ -1,19 +1,50 @@
+html {
+  font-family: "Work Sans", sans-serif; }
+
 .boxes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  justify-items: stretch;
+  align-items: stretch; }
 
 .boxes .box {
-    flex-grow: 1;
-    border: 1px solid #193848;
-    padding: 15px;
-    background-color: #193848;
-    color: white;
-    height: 150px;
-    font-size: 20px;
-}
+  background-color: #0695d6;
+  color: white;
+  border: 5px solid #0695d6;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  font-size: 30px;
+  text-decoration: none;
+  text-align: center; }
 
-.boxes .box:not(:first-child) {
-    margin-left: 15px;
-}
+.boxes .box.bnm {
+  background-color: #ff4338;
+  border: 5px solid #ff4338; }
+
+.boxes .box.lite {
+  background-color: #82bc00;
+  border: 5px solid #82bc00; }
+
+.boxes .box:hover {
+  background-color: white;
+  color: #0695d6;
+  border: 5px solid #0695d6; }
+
+.boxes .box.bnm:hover {
+  color: #ff4338;
+  border: 5px solid #ff4338; }
+
+.boxes .box.lite:hover {
+  color: #82bc00;
+  border: 5px solid #82bc00; }
+
+.boxes .box i,
+.boxes .box svg {
+  font-size: 50px; }
+
+/*# sourceMappingURL=local.css.map */

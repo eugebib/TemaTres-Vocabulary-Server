@@ -1,0 +1,55 @@
+$basic:          #0695d6
+$bnm:            #ff4338
+$lite:           #82bc00
+$other:          #873299
+
+html
+    font-family: 'Work Sans', sans-serif
+
+.boxes
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+    grid-column-gap: 15px
+    grid-row-gap: 15px
+    justify-items: stretch
+    align-items: stretch
+
+.boxes .box
+    background-color: $basic
+    color: white
+    border: 5px solid $basic
+    padding: 25px
+
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-flow: column
+
+    font-size: 30px
+    text-decoration: none
+    text-align: center
+
+.boxes .box.bnm
+    background-color: $bnm
+    border: 5px solid $bnm
+
+.boxes .box.lite
+    background-color: $lite
+    border: 5px solid $lite
+
+.boxes .box:hover
+    background-color: white
+    color: $basic
+    border: 5px solid $basic
+
+.boxes .box.bnm:hover
+    color: $bnm
+    border: 5px solid $bnm
+
+.boxes .box.lite:hover
+    color: $lite
+    border: 5px solid $lite
+
+.boxes .box i,
+.boxes .box svg
+    font-size: 50px
