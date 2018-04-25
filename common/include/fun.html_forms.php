@@ -1142,7 +1142,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 		}
 		$arrayOptions    = (strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
 		$display         = (in_array($_GET["search_by"],array('reverse','code'))) ? 'style="display: none;"' : '';
-		$string2search   = ($_GET[string2search]) ? XSSprevent($_GET[string2search]) : $ARRAYtermino["titTema"];
+		$string2search   = ($_GET["string2search"]) ? XSSprevent($_GET["string2search"]) : $ARRAYtermino["titTema"];
 		$titulo_pantalla = sprintf(LABEL_relacionar_vocabulario, HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])));
 
 		$rows .= '
@@ -1176,7 +1176,8 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
 		switch ($_GET["search_by"]) {
 			case 'string':
-				$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
+				$dataTerm = getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode(toASCII($string2search)));
+				$term     = $string2search;
 				break;
 
 			case 'code':
@@ -1184,7 +1185,8 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 				break;
 
 			case 'reverse':
-				$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
+				$dataTerm = getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchSourceTerms&arg='.rawurlencode(toASCII($ARRAYtermino["titTema"])));
+				$term     = $ARRAYtermino["titTema"];
 				break;
 
 			default :
@@ -1192,7 +1194,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 				break;
 		}
 
-		$rows.=HTMLtargetVocabularySearchResult($dataTerm,$_GET[string2search],$arrayVocab,$ARRAYtermino["idTema"]);
+		$rows.=HTMLtargetVocabularySearchResult($dataTerm, $term, $arrayVocab, $ARRAYtermino["idTema"]);
 
 	};//fin de if buscar
 	$rows.='   </div>';
