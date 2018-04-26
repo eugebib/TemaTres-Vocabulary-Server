@@ -1783,15 +1783,11 @@ function paginate_links( $args = '' ) {
 				//is top terms
 				$load_on_demand=($term_id==0) ? true : $load_on_demand;
 
-				if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) && ($CFG["_USE_CODE"]=='1'))				{
-					$pre_link=' '.$array["code"].' ';
-					}
-					elseif($CFG["_SHOW_CODE"]=='1')				{
-						$pre_link=' '.$array["code"].' ';
-					}
-					else				{
-						$pre_link='	';
-					}
+				if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] && $CFG["_USE_CODE"]=='1') || $CFG["_SHOW_CODE"]=='1') {
+					$pre_link='<span class="code">'.$array["code"].'</span>';
+				} else {
+					$pre_link='	';
+				}
 
 				$styleClassLink = ($term_id=='TT') ? 'TT' :'';
 

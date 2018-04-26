@@ -637,11 +637,21 @@ form.editable {
   color: red;
   font-weight: bolder; }
 
+.jqtree-element {
+  display: flex; }
+
+.code {
+  margin-right: 10px; }
+
 [aria-level]:not([aria-level="1"]) .TT {
   display: flex;
   font-size: 17px; }
+  [aria-level]:not([aria-level="1"]) .TT .code {
+    flex-wrap: nowrap;
+    white-space: nowrap; }
   [aria-level]:not([aria-level="1"]) .TT a {
-    margin-left: 10px; }
+    margin-left: 10px;
+    flex-shrink: 1; }
 
 .flex {
   display: flex;

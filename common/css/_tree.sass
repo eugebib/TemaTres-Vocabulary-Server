@@ -1,7 +1,18 @@
+.jqtree-element
+    display: flex
+
+.code
+    margin-right: 10px
+
 [aria-level]:not([aria-level="1"]) .TT
     display: flex
     font-size: 17px
 
+    .code
+        flex-wrap: nowrap
+        white-space: nowrap
+
     a
         margin-left: 10px
+        flex-shrink: 1
 
