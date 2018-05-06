@@ -3842,9 +3842,12 @@ function do_pdfSist($params=array())
 		$i++;
 	}
 
-	$filname=string2url($_SESSION[CFGTitulo].'-sist-'.$topTerm).'.pdf';
+	$topTerm  = explode(",", $topTerm);
+	$topTerm  = explode(" ", $topTerm[0]);
 
-	$pdf->Output('I',$filname);
+	$filename = string2url($_SESSION[CFGTitulo].'-sist-'.$topTerm[0]);
+
+	$pdf->Output('I', $filename.'.pdf');
 }
 
 function do_pdfAlpha($params=array())
@@ -3892,9 +3895,12 @@ function do_pdfAlpha($params=array())
 	    $topTerm = $topTerm['tema'];
 	}
 
-	$filname=string2url($_SESSION[CFGTitulo].'-alf-'.$topTerm).'.pdf';
+	$topTerm  = explode(",", $topTerm);
+	$topTerm  = explode(" ", $topTerm[0]);
 
-	$pdf->Output('I',$filname);
+	$filename = string2url($_SESSION[CFGTitulo].'-alf-'.$topTerm[0]);
+
+	$pdf->Output('I', $filename.'.pdf');
 }
 
 function do_pdfAlpha2($params=array())
@@ -3960,9 +3966,12 @@ function do_pdfAlpha2($params=array())
 	    $topTerm = $topTerm['tema'];
 	}
 
-	$filname = string2url($_SESSION[CFGTitulo].'-alf-'.$topTerm).'.pdf';
+	$topTerm  = explode(",", $topTerm);
+	$topTerm  = explode(" ", $topTerm[0]);
 
-	$pdf->Output('I',$filname);
+	$filename = string2url($_SESSION[CFGTitulo].'-alf-'.$topTerm[0]);
+
+	$pdf->Output('I', $filename.'.pdf');
 }
 
 

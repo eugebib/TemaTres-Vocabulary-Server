@@ -415,7 +415,7 @@ function prepare2sqlregexp($string)
 // string 2 URL legible
 function string2url ( $string ){
 	include_once('URLify.php');
-    return URLify::filter ($string);
+    return URLify::filter($string);
 }
 
 //This function is a part of DAlbum.  Copyright (c) 2003 Alexei Shamov, DeltaX Inc.
