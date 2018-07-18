@@ -1573,42 +1573,60 @@ function SQLlistTermsfromDate($month,$year,$ord=""){
 	$orderBy",array($month,$year));
 
 	return $sql;
-};
-
+}
 
 #
 # lista de términos recientes
 #
 function SQLlastTerms($limit="50")
 {
-
 	GLOBAL $DBCFG;
 	GLOBAL $CFG;
-	$codUP=UP_acronimo;
+
+	$codUP = UP_acronimo;
 
 	#exclude hidden labels
-	$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
-	$hidden_labels='\''.$hidden_labels.'\'';
+	$hidden_labels = implode("','", $CFG["HIDDEN_EQ"]);
+	$hidden_labels = '\''.$hidden_labels.'\'';
 
+	$limit = (secure_data($limit,"int")) ? $limit : "50";
 
-	$limit=(secure_data($limit,"int")) ? $limit : "50";
+	$sql = SQL("select","
+			c.idioma,
+			if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,
+			tema.code,
+			if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
+			tema.cuando,
+			tema.cuando_final,
+			tema.isMetaTerm,
+			if(tema.cuando_final is not null,tema.cuando_final,tema.cuando) as lastdate
+		FROM
+			$DBCFG[DBprefix]config c,
+			$DBCFG[DBprefix]tema as tema
+		LEFT JOIN
+			$DBCFG[DBprefix]tabla_rel as relaciones
+		ON
+			relaciones.id_mayor=tema.tema_id
+		LEFT JOIN
+			$DBCFG[DBprefix]values vrr
+		ON
+			relaciones.rel_rel_id = vrr.value_id AND
+			vrr.value_code in ($hidden_labels)
+		WHERE
+			c.id=tema.tesauro_id AND
+			tema.estado_id='13' AND
+			vrr.value_id is null
+		GROUP BY
+			tema.tema_id
+		ORDER BY
+			lastdate desc
+		LIMIT
+			$limit
+	");
 
-	$sql=SQL("select","c.idioma,if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.code,
-	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
-	tema.cuando,tema.cuando_final,tema.isMetaTerm,
-	if(tema.cuando_final is not null,tema.cuando_final,tema.cuando) as lastdate
-	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]values vrr on relaciones.rel_rel_id = vrr.value_id and vrr.value_code in ($hidden_labels)
-	where c.id=tema.tesauro_id
-	and tema.estado_id='13'
-	and vrr.value_id is null
-	group by tema.tema_id
-	order by lastdate desc
-	limit $limit");
 
 	return $sql;
-};
+}
 
 
 

@@ -434,7 +434,6 @@ function HTMLbodyTermino($array)
 		$body.=HTMLconfirmDeleteTerm($array);
 	}
 
-
 	$cantNotas=count($array["notas"]);
 	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Relaciones).'</a></li>';
 
@@ -1188,7 +1187,6 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
 
 function HTMLlistaTerminosFecha($limite="")
 {
-
 	//Descripcion de estados
 	$arrayEstados=array("12"=>LABEL_Candidatos,"13"=>LABEL_Aceptados,"14"=>LABEL_Rechazados);
 
@@ -1211,10 +1209,9 @@ function HTMLlistaTerminosFecha($limite="")
 			while ($array = $sql->FetchRow()) {
 				$styleTerm    = 'estado_termino'.$array[estado_id];
 				$css_class_MT = ($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$fecha        = (@$array["cuando_final"]) ? $array["cuando_final"] : $array["cuando"];
 				$rows.= '<tr>';
 				$rows.=  '      <td>'.HTMLlinkTerm($array,array("style"=>$styleTerm,"modal"=>1)).'</td>';
-				$rows.=  '      <td>'.$fecha.'</td>';
+				$rows.=  '      <td>'.($array["cuando_final"] ? $array["cuando_final"] : $array["cuando"]).'</td>';
 				$rows.=  ' </tr>';
 
 			};
