@@ -422,13 +422,73 @@ table tr.notEquivalent:hover, table tr.notApplicable:hover, table tr.isMetaterm:
   table tr.notEquivalent:hover a, table tr.notApplicable:hover a, table tr.isMetaterm:hover a, table tr.estado_termino14:hover a {
     color: white; }
 
-#myTermTab .nav-tabs > li > a {
-  border: 1px solid lightgray;
-  border-bottom: 0; }
-#myTermTab .nav-tabs > li.active > a {
-  background-color: #eee; }
-#myTermTab .nav-tabs > li.active {
-  font-weight: bold; }
+#bodyText h1 {
+  margin-bottom: 15px; }
+  #bodyText h1.metaTerm {
+    background: #fff8bf 13px 50% no-repeat;
+    border: 2px solid #ffd324;
+    color: #eb830c;
+    padding: 5px 11px 5px 20px; }
+    #bodyText h1.metaTerm::before {
+      content: ""; }
+    #bodyText h1.metaTerm::after {
+      content: "   (metatérmino)"; }
+
+#myTermTab {
+  margin-top: 20px; }
+  #myTermTab .nav-tabs > li {
+    padding-bottom: 0px; }
+  #myTermTab .nav-tabs > li > a {
+    border: 1px solid lightgray;
+    border-bottom: 0; }
+  #myTermTab .nav-tabs > li.active > a {
+    background-color: #eee; }
+  #myTermTab .nav-tabs > li.active {
+    font-weight: bold; }
+  #myTermTab .nav-tabs > li.active > a,
+  #myTermTab .nav-tabs > li.active > a:focus,
+  #myTermTab .nav-tabs > li.active > a:hover {
+    background-color: #ddd; }
+
+#theTerm h4 {
+  margin-top: 25px; }
+#theTerm li {
+  padding-top: 0;
+  padding-bottom: 12px; }
+  #theTerm li:last-child {
+    padding-bottom: 0px; }
+#theTerm ul {
+  padding-top: 10px; }
+#theTerm a[type="button"] {
+  margin-right: 10px; }
+#theTerm a:nth-child(4) {
+  padding-left: 10px; }
+#theTerm .breadcrumb {
+  background-color: #ddd; }
+  #theTerm .breadcrumb li {
+    padding-bottom: 0; }
+  #theTerm .breadcrumb > li + li:before {
+    color: black;
+    content: " | "; }
+
+.editable_term,
+form.editable {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap; }
+
+.editable_term {
+  font-size: 20px; }
+  .editable_term h3,
+  .editable_term textarea,
+  .editable_term input {
+    flex-grow: 1; }
+
+#TR, #TE {
+  margin-left: 1mm; }
+
+#notas {
+  word-wrap: break-word; }
 
 .flex {
   display: flex;

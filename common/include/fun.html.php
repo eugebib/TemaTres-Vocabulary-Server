@@ -377,81 +377,65 @@ function HTMLbodyTermino($array)
 	GLOBAL $MSG_ERROR_RELACION;
 	GLOBAL $CFG;
 
-	$editFlag=($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? 1 : 0;
+	$editFlag	   = ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? 1 : 0;
 
-	//breadcrumb
-	$BT = SQLverTerminoRelaciones($array["idTema"]);
-	while ($bc = $BT->FetchRow()) {
-		if ($bc[t_relacion] == 3) {
-			$miga[] = $bc[tema_id];
-		}
-	}
-	if (count($miga) > 0) {
-		foreach ($miga as $bt) {
-			$menu_miga = '';
-			$sql = SQLarbolTema($bt);
-			if (SQLcount($sql) > 0) {
-				while ($bc = $sql->FetchRow()) {
-					$menu_miga.='<li><a title="'.LABEL_verDetalle.$bc[tema].'" href="'.URL_BASE.'index.php?tema='.$bc["tema_id"].'&amp;/'.string2url($bc["tema"]).'" >'.$bc["tema"].'</a></li>';
-				}
-			} else {
-				$term = ARRAYverTerminoBasico($bt);
-				$menu_miga.='<li><a title="'.LABEL_verDetalle.$term[tema].'" href="'.URL_BASE.'index.php?tema='.$term["tema_id"].'&amp;/'.string2url($term["tema"]).'" >'.$term["tema"].'</a></li>';
-			}
-			$row_miga.='
-				<ol class="breadcrumb">
-					<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>' .
-					$menu_miga . '
-					<li>' . $array["titTema"] . '</li>
-				</ol>';
-		}
-	};
+	$HTMLterminos  = doContextoTermino($array["idTema"],$i_profundidad);
 
-	$sqlMiga=SQLarbolTema($array["idTema"]);
+	$sqlMiga       = SQLarbolTema($array["idTema"]);
 
-	$cantBT=SQLcount($sqlMiga);
+	$cantBT        = SQLcount($sqlMiga);
 
-	$i_profundidad=($cantBT>0) ? $cantBT : 1;
+	$i_profundidad = ($cantBT>0) ? $cantBT : 1;
 
-	$HTMLterminos=doContextoTermino($array["idTema"],$i_profundidad);
+	$fecha_crea    = do_fecha($array["cuando"]);
 
-	$fecha_crea=do_fecha($array["cuando"]);
-	$fecha_estado=do_fecha($array["cuando_estado"]);
+	$fecha_estado  = do_fecha($array["cuando_estado"]);
 
-	$body='<div class="container" id="bodyText">';
+	$body          = '<div class="container" id="bodyText">';
 
 	//MENSAJE DE ERROR
 	$body.=$MSG_ERROR_RELACION;
 
-	#Div miga de pan
-	$body.='<div id="breadScrumb">';
-	$body.=$row_miga;
-	$body.='</div>';
-	# fin Div miga de pan
+	// el termino editable
+	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"] > 0) {
+		$metaterm = '';
+		if ($array["isMetaTerm"] == 1) {
+			$metaterm = '<span>(metatérmino)</span>';
+			$title = NOTE_isMetaTerm;
+		}
+		if ($array["notEquivalent"] == 1)  {
+			$class = 'notEquivalent';
+			$title = ucfirst(LABEL_NotEquivalent);
+		}
+		if ($array["notApplicable"] == 1)  {
+			$class = 'notApplicable';
+			$title = ucfirst(LABEL_NotApplicable);
+		}
 
-	if ($array["isMetaTerm"]==1)	{
-		$class = 'metaTerm';
-		$title = NOTE_isMetaTerm;
-	}
-	if ($array["notEquivalent"] == 1)  {
-		$class = 'notEquivalent';
-		$title = ucfirst(LABEL_NotEquivalent);
-	}
-	if ($array["notApplicable"] == 1)  {
-		$class = 'notApplicable';
-		$title = ucfirst(LABEL_NotApplicable);
-	}
-	if ($class)  {
-		$body.=' <h1 class="' . $class . '" title="' . $title . '" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>
-		<p><em>' . $title . '</em></p>';
+		$body.='<div class="editable_term estado_termino' . $array['estado_id'] . '">
+					<span>'.HTMLshowCode($array).'</span>
+					<h3 class="term" id="term">
+						<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span>
+					</h3>
+					'.$metaterm.'
+				</div>';
+
+		if ($title) {
+			$body.='<p><em>' . $title . '</em></p>';
+		}
+
 	} else {
-		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
+		if ($array["isMetaTerm"] == 1) {
+			$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
+		} else {
+			$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
+		}
 	}
+
 	//div oculto para eliminar término
 	if ($editFlag==1) {
 		$body.=HTMLconfirmDeleteTerm($array);
 	}
-
 
 	$cantNotas=count($array["notas"]);
 	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Relaciones).'</a></li>';
@@ -477,45 +461,33 @@ function HTMLbodyTermino($array)
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
 
-	// el termino // span editable
-	if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
-		$body.='<div class="editable_term">
-					<span>'.HTMLshowCode($array).'</span>
-					<h3 class="term" id="term">
-						<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.
-							$array["titTema"].'
-						</span>
-					</h3>
-				</div>';
+	if ($HTMLterminos['miga']) {
+		$body.='<h4>'.ucfirst(LABEL_genericTerms).'</h4>';
+		$body.='<div id="breadScrumb">';
+		$body.=$HTMLterminos['miga'];
+		$body.='</div>';
 	}
-
-
 
 	if($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["UP"].'</div>';
 	}
-	if($HTMLterminos["cantRelaciones"]["cantTG"]>0) {
-		$body.='<h4>'.ucfirst(LABEL_broatherTerms).'</h4>';
-		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TG"].'</div>';
-	}
 	//display terms relations
 	$body.=$HTMLterminos["HTMLterminos"]["USE"];
 
-	if($HTMLterminos["cantRelaciones"]["cantNT"]>0) {
+	if ($HTMLterminos["cantRelaciones"]["cantNT"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_narrowerTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TE"].'</div>';
 	}
 
-	if($HTMLterminos["cantRelaciones"]["cantRT"]>0) {
+	if ($HTMLterminos["cantRelaciones"]["cantRT"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_relatedTerms).'</h4>';
 		$body.='<div>'.$HTMLterminos["HTMLterminos"]["TR"].'</div>';
 	}
 
-
-	if($HTMLterminos["cantRelaciones"]["cantEQ"]>0) {
+	if ($HTMLterminos["cantRelaciones"]["cantEQ"]>0) {
 		$body.=$HTMLterminos["HTMLterminos"]["EQ"];
-		}
+	}
 
 	$body.=HTMLtargetTerms($array["tema_id"]);
 
@@ -536,8 +508,7 @@ function HTMLbodyTermino($array)
 	$body.='</div>';	#Fin div bodyText
 
 	return $body;
-};
-
+}
 
 
 function HTMLmainMenu() {
