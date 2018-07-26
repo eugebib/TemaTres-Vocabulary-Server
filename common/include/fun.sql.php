@@ -1560,13 +1560,14 @@ function SQLlistTermsfromDate($month,$year,$ord=""){
 	$orderBy",array($month,$year));
 
 	return $sql;
-};
+}
 
 
 #
 # lista de términos recientes
 #
-function SQLlastTerms($limit="50"){
+function SQLlastTerms($limit="50")
+{
 
 	GLOBAL $DBCFG;
 	GLOBAL $CFG;
@@ -1618,8 +1619,7 @@ function SQLlastTerms($limit="50"){
 	");
 
 	return $sql;
-};
-
+}
 
 
 #
@@ -1765,7 +1765,7 @@ function ARRAYresumen($id_tesa,$tipo,$idUser="")
 	$sqlCantNotas = SQLcantNotas();
 	$cant_notas = array();
 	while ($array = $sqlCantNotas->FetchRow()) {
-		$note_type = in_array($array["value_id"],array(8,9,10,11,15)) ? arrayReplace(array(8,9,10,11,15),array(ScopeNotes, LABEL_NHs, LABEL_NBs, LABEL_NPs, LABEL_NCs),$array["value_id"]) : $array["value"];
+		$note_type = in_array($array["value_id"],array(8,9,10,11,15)) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NAs, LABEL_NHs, LABEL_NBs, LABEL_NPs, LABEL_NCs),$array["value_id"]) : $array["value"];
 
 		$cant_notas[$note_type] = $array["cant"];
 	}

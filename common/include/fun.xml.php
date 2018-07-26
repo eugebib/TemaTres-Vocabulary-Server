@@ -880,7 +880,7 @@ function do_BS8723s($xmlnodos){
 	$xml.='</Thesaurus>';
 
 	return $xml;
-};
+}
 
 
 
@@ -895,11 +895,11 @@ function do_rss($limit="30"){
 
 	while ($array=$sql->FetchRow()){
 		$xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="index.php?tema='.$array[tema_id].'"/>';
-		$xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$arrayTT[tema_id].'">';
+    	$xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$array[tema_id].'">';
 		$xml_item.='<title>'.$array[tema].'</title>';
 		$xml_item.='<link>'.$_SESSION["CFGURL"].'?tema='.$array[tema_id].'</link>';
 		$xml_item.='</item>';
-	};
+	}
 
 	header ('content-type: text/xml');
 	$xml.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'" standalone="yes"?>';
@@ -1560,7 +1560,7 @@ function do_json($tema_id){
 		//there are note and is not private note
 		if(($datosTermino["notas"][$iNota]["id"]) && ($datosTermino["notas"][$iNota]["tipoNota"]!=='NP')){
 
-			$tipoNota=(in_array($datosTermino["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$datosTermino["notas"][$iNota]["tipoNota_id"]) : $datosTermino["notas"][$iNota]["tipoNotaLabel"];
+			$tipoNota=(in_array($datosTermino["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$datosTermino["notas"][$iNota]["tipoNota_id"]) : $datosTermino["notas"][$iNota]["tipoNotaLabel"];
 
 			$ARRAYterm["notes"][]=array("@type"=>$tipoNota,"@lang"=>$datosTermino[notas][$iNota][lang_nota],"@value"=>html2txt($datosTermino["notas"][$iNota]["nota"]));
 		};

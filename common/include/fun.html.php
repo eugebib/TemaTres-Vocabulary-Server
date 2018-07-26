@@ -706,7 +706,7 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 	$row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>';
 	$row.='<ul class="dropdown-menu" id="menu_agregar">';
 
-	$row.='<li><a title="'.ucfirst(note).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(note).'</a></li>';
+	$row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_nota).'</a></li>';
 
 	$row.='<li role="separator" class="divider"></li>';
 
@@ -761,7 +761,7 @@ function HTMLNotasTermino($array, $editFlag=0)
 				$body.='<dl id="notas">';
 				switch($array["notas"][$iNota]["tipoNota"]){
 					case 'NA';
-					$tipoNota=ScopeNote;
+					$tipoNota=LABEL_NA;
 					break;
 
 					case 'NH';
@@ -773,8 +773,8 @@ function HTMLNotasTermino($array, $editFlag=0)
 					break;
 
 					case 'NB';
-						$tipoNota = BibliographicNote;
-						break;
+					$tipoNota=LABEL_NB;
+					break;
 
 					case 'NP';
 					$tipoNota=LABEL_NP;
@@ -782,7 +782,7 @@ function HTMLNotasTermino($array, $editFlag=0)
 
 				}
 
-				$tipoNota=(in_array($array["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(ScopeNote,LABEL_NH,BibliographicNote,LABEL_NP,LABEL_NC),$array[notas][$iNota][tipoNota_id]) : $array[notas][$iNota][tipoNotaLabel];
+				$tipoNota=(in_array($array["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$array[notas][$iNota][tipoNota_id]) : $array[notas][$iNota][tipoNotaLabel];
 				//idioma de la nota
 				//Rellenar si esta vacion
 				$array["notas"][$iNota]["lang_nota"]=(!$array["notas"][$iNota]["lang_nota"]) ? $_SESSION["CFGIdioma"] : $array["notas"][$iNota]["lang_nota"];
@@ -1265,7 +1265,7 @@ function HTMLlistaTerminosFecha($limite = "")
 							<td>
 								<a title="'.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'&tipo=E">'.$array["tema"].'</a>
 							</td>
-							<td>'.$fecha.'</td>
+							<td>'.($array["cuando_final"] ? $array["cuando_final"] : $array["cuando"]).'</td>
 						</tr>';
 		}
 
@@ -2249,8 +2249,8 @@ function HTMLjsInclude(){
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>';
 
-	if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
- 		$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
+	if($_SESSION[$_SESSION["CFGURL"]]["lang"]!=='en')
+ 		$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"].'.js" type="text/javascript"></script>';
 
 	$rows.='<script type="text/javascript">
 	  	$("#myTermTab").tabCollapse();
