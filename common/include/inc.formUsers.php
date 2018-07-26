@@ -10,22 +10,40 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 
 if(is_numeric($_GET["user_id"]))  $dato_user=ARRAYdatosUser($_GET["user_id"]);
 
-if($dato_user["id"]){
+if ($dato_user["id"]) {
+	$resumen = ARRAYresumen($_SESSION["id_tesa"],"U",$dato_user["id"]);
+	$row_resumen.= '
+		<div class="col-lg-5">
+			<h4>'.LABEL_Acciones.'</h4>
+			<dl class="dosCol panel panel-default">';
 
-	$resumen=ARRAYresumen($_SESSION["id_tesa"],"U",$dato_user["id"]);
-	$row_resumen.='<div id="cajaAncha">'."\n\r";
-	$row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
-
-	if($resumen["cant_total"]>0){
-		$row_resumen.='<dt><a href="auditoria.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen[cant_total].'</a>&nbsp;</dd>'."\n\r";
-
-		}else{
-		$row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"]."&nbsp;</dd>\n\r";
+	if ($resumen["cant_total"] > 0) {
+		$row_resumen.='
+				<dt>'.ucfirst(LABEL_Terminos).'</dt>
+				<dd>
+					<a href="auditoria.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.
+						$resumen[cant_total].'
+					</a>
+				</dd>';
+	} else {
+		$row_resumen.= '
+				<dt>'.ucfirst(LABEL_Terminos).'</dt>
+				<dd>'.$resumen["cant_total"].'&nbsp;</dd>';
 	}
-	$row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen["cant_rel"]."&nbsp;</dd>\n\r";
-	$row_resumen.='<dt>'.ucfirst(LABEL_TerminosUP).'</dt><dd>'.$resumen["cant_up"]."&nbsp;</dd>\n\r";
-	$row_resumen.='</dl></div>';
-};
+	$row_resumen.='
+				<dt>'.ucfirst(LABEL_RelTerminos).'</dt>
+				<dd>'.$resumen["cant_rel"].'</dd>
+				<dt>'.ucfirst(LABEL_TerminosUP).'</dt>
+				<dd>'.$resumen["cant_up"].'</dd>';
+
+    foreach ($resumen["cant_notas"] as $key => $value) {
+		$row_resumen.='<dt>'.ucfirst($key).'</dt><dd>'.$value."&nbsp;</dd>\n\r";
+    }
+
+	$row_resumen.='
+			</dl>
+		</div>';
+}
 
 $rows.='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php" method="post">';
 $rows.='	<div class="row">

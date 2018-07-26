@@ -22,12 +22,39 @@ $user_id = $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $resumen=ARRAYresumen($_SESSION["id_tesa"],"U",secure_data($user_id,"sql"));
 
-$row_resumen.='<div id="cajaAncha">'."\n\r";
-$row_resumen.='<strong>'.ucfirst(LABEL_Acciones).'</strong><dl class="dosCol">'."\n\r";
-$row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen[cant_total]."&nbsp;</dd>\n\r";
-$row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen[cant_rel]."&nbsp;</dd>\n\r";
-$row_resumen.='<dt>'.ucfirst(LABEL_TerminosUP).'</dt><dd> '.$resumen[cant_up]."&nbsp;</dd>\n\r";
-$row_resumen.='</dl></div>';
+$row_resumen.= '
+	<div class="col-lg-5">
+		<h4>'.LABEL_Acciones.'</h4>
+		<div class="panel panel-default">
+			<dl class="panel-body form-horizontal">';
+
+if ($resumen["cant_total"] > 0) {
+	$row_resumen.='
+				<dt>'.ucfirst(LABEL_Terminos).'</dt>
+				<dd>
+					<a href="auditoria.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.
+						$resumen[cant_total].'
+					</a>
+				</dd>';
+} else {
+	$row_resumen.= '
+				<dt>'.ucfirst(LABEL_Terminos).'</dt>
+				<dd>'.$resumen["cant_total"].'&nbsp;</dd>';
+}
+$row_resumen.='
+				<dt>'.ucfirst(LABEL_RelTerminos).'</dt>
+				<dd>'.$resumen["cant_rel"].'</dd>
+				<dt>'.ucfirst(LABEL_TerminosUP).'</dt>
+				<dd>'.$resumen["cant_up"].'</dd>';
+
+foreach ($resumen["cant_notas"] as $key => $value) {
+	$row_resumen.='<dt>'.ucfirst($key).'</dt><dd>'.$value."&nbsp;</dd>\n\r";
+}
+
+$row_resumen.='
+			</dl>
+		</div>
+	</div>';
 
 
 if($_POST["taskUser"]=='actuaDatos')
