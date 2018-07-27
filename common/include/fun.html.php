@@ -435,7 +435,13 @@ function HTMLbodyTermino($array)
 	}
 
 	$cantNotas=count($array["notas"]);
-	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Relaciones).'</a></li>';
+	$body.='
+		<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;">
+			<li class="active">
+				<a class="active" href="#theTerm" data-toggle="tab">'.
+					ucfirst(LABEL_Relaciones).'
+				</a>
+			</li>';
 
 	if($cantNotas>0) {
 		$body.='<li><a href="#notesTerm" id="labelNotes" data-toggle="tab">'.ucfirst(LABEL_notes).' <span class="badge">'.$cantNotas.'</span></a></li>';

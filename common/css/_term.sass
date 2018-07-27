@@ -20,23 +20,23 @@
 #myTermTab
     margin-top: 20px
 
-    .nav-tabs>li
+    &.nav-tabs > li
         padding-bottom: 0px
 
-    .nav-tabs > li > a
-        border: 1px solid lightgray
-        border-bottom: 0
+        & > a
+            border: 1px solid lightgray
+            border-bottom: 0
 
-    .nav-tabs > li.active > a
-        background-color: #eee
+        &.active
+            font-weight: bold
 
-    .nav-tabs > li.active
-        font-weight: bold
+            & > a
+                background-color: #eee
 
-    .nav-tabs>li.active>a,
-    .nav-tabs>li.active>a:focus,
-    .nav-tabs>li.active>a:hover
-        background-color: #ddd
+                &,
+                &:focus,
+                &:hover
+                    background-color: #ddd
 
 
 // Pestaña término
