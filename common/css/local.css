@@ -581,19 +581,17 @@ fieldset .btn {
     #bodyText h1.metaTerm::after {
       content: "   (metatérmino)"; }
 
-#myTermTab .nav-tabs > li > a {
-  border: 1px solid lightgray;
-  border-bottom: 0; }
-#myTermTab .nav-tabs > li.active > a {
-  background-color: #eee; }
-#myTermTab .nav-tabs > li.active {
-  font-weight: bold; }
-#myTermTab .nav-tabs > li {
+#myTermTab.nav-tabs > li {
   padding-bottom: 0px; }
-#myTermTab .nav-tabs > li.active > a,
-#myTermTab .nav-tabs > li.active > a:focus,
-#myTermTab .nav-tabs > li.active > a:hover {
-  background-color: #ddd; }
+  #myTermTab.nav-tabs > li > a {
+    border: 1px solid lightgray;
+    border-bottom: 0; }
+  #myTermTab.nav-tabs > li.active {
+    font-weight: bold; }
+    #myTermTab.nav-tabs > li.active > a {
+      background-color: #eee; }
+      #myTermTab.nav-tabs > li.active > a, #myTermTab.nav-tabs > li.active > a:focus, #myTermTab.nav-tabs > li.active > a:hover {
+        background-color: #ddd; }
 
 #theTerm li {
   padding-top: 0;

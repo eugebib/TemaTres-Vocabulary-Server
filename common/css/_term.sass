@@ -19,23 +19,23 @@
 
 #myTermTab
 
-    .nav-tabs > li > a
-        border: 1px solid lightgray
-        border-bottom: 0
-
-    .nav-tabs > li.active > a
-        background-color: #eee
-
-    .nav-tabs > li.active
-        font-weight: bold
-
-    .nav-tabs>li
+    &.nav-tabs > li
         padding-bottom: 0px
 
-    .nav-tabs>li.active>a,
-    .nav-tabs>li.active>a:focus,
-    .nav-tabs>li.active>a:hover
-        background-color: #ddd
+        & > a
+            border: 1px solid lightgray
+            border-bottom: 0
+
+        &.active
+            font-weight: bold
+
+            & > a
+                background-color: #eee
+
+                &,
+                &:focus,
+                &:hover
+                    background-color: #ddd
 
 
 // Pestaña del término
