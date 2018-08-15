@@ -196,7 +196,7 @@ function SQLbuscaSimple($texto)
 
 	$texto = trim($texto);
 	$texto = normaliza($texto);
-	$texto = preg_replace('/[^A-Za-z0-9\-\s]/', '', $texto);
+	$texto = preg_replace('/[^A-Za-z0-9\'\-\s]/', '', $texto);
 	$words = explode(' ', $texto);
 
 	foreach ($words as $key => $word) {
@@ -206,6 +206,9 @@ function SQLbuscaSimple($texto)
 			$text .= ' and tema.tema like "%'.$word.'%"';
 		}
 	}
+	$text = str_replace('\'', '\\\'', $text);
+	$texto = str_replace('\'', '\\\'', $texto);
+
 
 	//Control de estados
 	$where = (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
