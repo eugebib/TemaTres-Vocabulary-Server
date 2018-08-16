@@ -292,5 +292,9 @@ function do_stats($session)
         $resumen['cant_notas'] = null;
     }
 
+    if (! $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+        $resumen['cant_total'] -= $resumen['cant_rechazado'];
+    }
+
     return $resumen;
 }
