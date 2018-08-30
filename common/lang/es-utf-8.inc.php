@@ -87,6 +87,7 @@ define("LABEL_actualizar","Actualizar");
 define("LABEL_terminosLibres","Términos libres");
 define("LABEL_busqueda","Búsqueda");
 define("LABEL_borraRelacion","eliminar relación");
+define("LABEL_Subordinar","subordinar");
 define("MSG_ResultBusca","término/s encontrados para la búsqueda");
 define("MSG_ResultLetra","Letra");
 define("MSG_ResultCambios","Los cambios han sido realizados con &eacute;xito.");

@@ -207,7 +207,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
 					$rows_busca .= '
 						<tr>
 							<td align="center">
-								<input type="checkbox" required name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
+								<input type="checkbox" name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" />
 							</td>
 							<td>
 								<label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'>
